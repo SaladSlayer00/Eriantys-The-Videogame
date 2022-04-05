@@ -6,7 +6,6 @@ public class EasyGame implements Mode {
     private final Gameboard gameBoard;
     private int playing;
     private  int playerNum;
-    private Mode gameMode;
     private final ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> playingList = new ArrayList<Player>();
     private Turn turn;
