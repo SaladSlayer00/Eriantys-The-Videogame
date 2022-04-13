@@ -25,6 +25,11 @@ public class Gameboard{
         }
     }
 
+    //it checks that there is JUST ONE Mother Nature on the Gameboard
+    public void checkMother(){
+
+    }
+
     //it merges two island together
     public void mergeIslands(int one, int two) {
         islands.get(one).changeDimension(islands.get(two).dimension);
@@ -32,15 +37,12 @@ public class Gameboard{
             islands.get(one).addMother;
         }
         for(Color c : islands.get(two).students.keySet()){
-            for(Color k : islands.get(one).students.keySet()){
-                if(k.equals(c)){
                     //how should this thing go on???
                 }
-            }
-        }
         //should be found a smart way to merge the two map together ???
         islands.remove(two);
     }
+
 
     //it calculates the influence of a player on an island
     public int calculateInfluence(Player player, int island){
@@ -106,7 +108,6 @@ public class Gameboard{
         //it returns the influence
         public int getInfluence(Player player){
 
-
         }
 
         //it adds Mother Nature on the island
@@ -130,6 +131,7 @@ public class Gameboard{
     //class Cloud
     private class Cloud{
         //attribute of class Cloud
+        private int index;
         private ArrayList<Student> students;
 
         //methods of cloud
@@ -139,8 +141,10 @@ public class Gameboard{
         }
 
         //it removes a student from the cloud
-        public void removeStduent{
-
+        public void removeStduents(){
+          for(Student s : students){
+              remove.students(s);
+          }
         }
     }
 
@@ -162,7 +166,7 @@ public class Gameboard{
         }
 
         //
-        public int getNum{
+        public int getNum(){
             return students.length;
         }
 
