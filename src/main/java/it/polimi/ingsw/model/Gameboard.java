@@ -27,7 +27,7 @@ public class Gameboard{
 
     //it merges two island together
     public void mergeIslands(int one, int two) {
-        islands.get(one).dimension =+ islands.get(two).dimension;
+        islands.get(one).changeDimension(islands.get(two).dimension);
         if(islands.get(one).motherNature == false){
             islands.get(one).addMother;
         }
@@ -120,8 +120,8 @@ public class Gameboard{
         }
 
         //it changes the dimension of the island
-        public void changeDimension(){
-
+        public void changeDimension(int newDim){
+           this.dimension =+newDim;
         }
 
     }
