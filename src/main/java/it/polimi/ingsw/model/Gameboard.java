@@ -26,8 +26,23 @@ public class Gameboard{
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
-    public void checkMother(){
+    public void checkMother() throws TooManyMotherNatureException {
+          int counter = 0;
+          for(Island i : islands){
+              if(motherNature == true){
+                  counter =+1;
+              }
+          }
+          if(counter > 1) {
+              throw new TooManyMotherNatureException();
+          }
+    }
 
+    //exception that handle the case in which we got more than one boolean of mother nature true
+    public class TooManyMotherNatureException extends Exception(){
+        TooManyMotherNatureException(){
+            super("Something's wrong...There is more than one Mother Nature on the board!");
+        }
     }
 
     //it merges two island together
@@ -143,7 +158,7 @@ public class Gameboard{
         //it removes a student from the cloud
         public void removeStudents(){
           for(Student s : students){
-              remove.students(s);
+              students.remove(s);
           }
         }
     }
@@ -161,13 +176,13 @@ public class Gameboard{
         }
 
         //it draws a student from the sack TO CHECK
-        public Student drawStudent(){
+        public Student drawStudent() throws NoMoreStudentsException{
             if(stdents.isEmpty()){
                 trow new NoMoreStudentsException();
             }
             else {
                 int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
-                Student choosen = students(random);
+                Student choosen = students.get(random);
                 students.remove(random);
                 return choosen;
             }
