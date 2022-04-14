@@ -188,7 +188,7 @@ public class Gameboard{
             }
             else {
                 int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
-                Student choosen = students.get(random);
+                Student chosen = students.get(random);
                 students.remove(random);
                 return choosen;
             }
