@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-public class Student{
+public class Professor{
     private Color color;
 
-    private Student(Color color){
+    private Professor(Color color){
         this.color = color;
     }
 }
