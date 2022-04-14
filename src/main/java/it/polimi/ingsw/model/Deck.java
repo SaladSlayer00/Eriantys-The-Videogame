@@ -11,7 +11,16 @@ public class Deck {
         return numCards;
     }
 
-    public Assistant draw() {
+    public Assistant draw(int indexCard) throws EmptyDecktException{
+        if (numCards > 0 )
+        {
+            Assistant drawnCard = cards.get(indexCard);
+            cards.remove(indexCard);
+            numCards = numCards-1;
+            return drawnCard;
+        }else{
+            throw new EmptyDecktException();
+        }
 
     }
 
@@ -26,4 +35,10 @@ enum Mage {
     FAIRY,
     DRAGON;
 
+}
+
+class EmptyDecktException extends Exception{
+    EmptyDecktException(){
+        super("Your deck is empty. You cannot draw any more cards");
+    }
 }
