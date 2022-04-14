@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.Deck;
+import it.polimi.ingsw.model.Color;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -8,6 +10,8 @@ public class Player {
     private State state;
     private Dashboard dashboard;
     private int coins;
+    private Assistant cardChosen;
+
 
     public String getName() {
         return name;
@@ -49,5 +53,9 @@ public class Player {
 
     public void changeState() {
 
+    }
+
+    public boolean hasProfessor(Color color){
+        return false;
     }
 }

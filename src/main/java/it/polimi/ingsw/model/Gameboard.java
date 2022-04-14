@@ -65,8 +65,23 @@ public class Gameboard{
 
 
     //it calculates the influence of a player on an island
-    public int calculateInfluence(Player player, int island){
+    public boolean calculateInfluence(Player player, int island){
+        int playerInfluence = islands.get(island).calculateInfluence(player);
+        //for(Color c : islands.get(island).students.keySet()){
+            //islands.get(one).students.put(c, islands.get(two).students.get(c));
+            //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
+            //if(player.hasProfessor(c)){
+            //    playerInfluence = playerInfluence + islands.get(island).students.get(c).size();
+            //}
 
+        //}
+
+        if(playerInfluence > islands.get(island).getInfluence()){
+            islands.get(island).setInfluence(playerInfluence);
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -81,6 +96,7 @@ public class Gameboard{
         private Type tower;  // ???
         private int dimension = 1;
         int index;
+        int influence;
 
         //constructor
         Island(){
@@ -96,13 +112,25 @@ public class Gameboard{
 
         }
 
+        public int getInfluence() {
+            return influence;
+        }
+
+        public void setInfluence(int influence) {
+            this.influence = influence;
+        }
+
         //it adds a tower of a specific team to an island
         public void addTower(Type team) throws AlreadyATowerException{
             if(hasTower == true){
-                throw new AlreadyATowerException();
+                if(this.tower.equals(team))
+                    throw new AlreadyATowerException();
+                else
+                    this.tower = team;
             }
             else{
                 hasTower = true;
+                this.tower = team;
             }
         }
 
@@ -113,7 +141,7 @@ public class Gameboard{
             }
         }
 
-        //it returns the color of the tower TO CHECK
+        //it returns the color of the tower TO CHECK //per me inutile 
         public Type getColor() throws NoTowerException{
             if (hasTower == true) {
                 return tower;
@@ -131,7 +159,17 @@ public class Gameboard{
         }
 
         //it returns the influence
-        public int getInfluence(Player player){
+        public int calculateInfluence(Player player){
+            int playerInfluence = 0;
+            for(Color c : this.students.keySet()){
+                //islands.get(one).students.put(c, islands.get(two).students.get(c));
+                //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
+                if(player.hasProfessor(c)){
+                    playerInfluence = playerInfluence + this.students.get(c).size();
+                }
+
+            }
+            return playerInfluence;
 
         }
 
