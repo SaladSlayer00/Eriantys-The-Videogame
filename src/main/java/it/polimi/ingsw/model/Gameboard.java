@@ -10,11 +10,13 @@ public class Gameboard{
     private ArrayList<Professor> professors;
     private int motherNature;
 
+
     //methods of the Gameboard
     //it places Mother Nature on a random island
     public void placeMother(){
         int random = (int)(Math.random() * 11);
         islands.get(random).motherNature = true;
+        motherNature = random;
         if(random < 6) {
             //no students should be on the islands opposite at mn at the start of the match
             islands.get(random + 6)...;
@@ -29,7 +31,7 @@ public class Gameboard{
     public void checkMother() throws TooManyMotherNatureException {
           int counter = 0;
           for(Island i : islands){
-              if(motherNature == true){
+              if(i.motherNature == true){
                   counter =+1;
               }
           }
@@ -51,8 +53,9 @@ public class Gameboard{
         if(islands.get(one).motherNature == false){
             islands.get(one).addMother;
         }
-        for(Color c : islands.get(two).students.keySet()){
-                    //how should this thing go on???
+        //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
+        for(Color c : islands.get(one).students.keySet()){
+            islands(one).students.put(c, islands.get(two).students.get(c));
                 }
         //should be found a smart way to merge the two map together ???
         islands.remove(two);
@@ -77,6 +80,11 @@ public class Gameboard{
         private int dimension = 1;
         int index;
 
+        //constructor
+        Island(){
+
+        }
+
         //methods of the class
         //it adds a student to the island
         public void addStudent(Student student) {
@@ -94,12 +102,9 @@ public class Gameboard{
         }
 
         //exception to handle the moment when a tower is already on an island
-        //!!!
-        //colorToString(tower) may be a method to get the color of the tower we want as a string
-        //!!!
         public class AlreadyATowerException extends Exception{
             AlreadyATowerException(){
-                super("There is already a tower on this island. It's " + colorToString(getColor()) + "!");
+                super("There is already a tower on this island. It's " + tower + "!");
             }
         }
 
