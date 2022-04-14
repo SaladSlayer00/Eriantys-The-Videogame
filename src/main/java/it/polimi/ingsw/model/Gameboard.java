@@ -56,7 +56,8 @@ public class Gameboard{
         }
         //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
         for(Color c : islands.get(one).students.keySet()){
-            islands.get(one).students.put(c, islands.get(two).students.get(c));
+            //islands.get(one).students.put(c, islands.get(two).students.get(c));
+            islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
                 }
         //should be found a smart way to merge the two map together ???
         islands.remove(two);
@@ -89,7 +90,10 @@ public class Gameboard{
         //methods of the class
         //it adds a student to the island
         public void addStudent(Student student) {
-            students.put(student.color, student);
+
+            students.get(student.color).add(student);
+
+
         }
 
         //it adds a tower of a specific team to an island
