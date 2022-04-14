@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public class Student{
-    private Color color;
+    Color color;
 
     private Student(Color color){
         this.color = color;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Gameboard{
 
@@ -41,7 +42,7 @@ public class Gameboard{
     }
 
     //exception that handle the case in which we got more than one boolean of mother nature true
-    public class TooManyMotherNatureException extends Exception(){
+    public class TooManyMotherNatureException() extends Exception{
         TooManyMotherNatureException(){
             super("Something's wrong...There is more than one Mother Nature on the board!");
         }
@@ -51,11 +52,11 @@ public class Gameboard{
     public void mergeIslands(int one, int two) {
         islands.get(one).changeDimension(islands.get(two).dimension);
         if(islands.get(one).motherNature == false){
-            islands.get(one).addMother;
+            islands.get(one).addMother();
         }
         //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
         for(Color c : islands.get(one).students.keySet()){
-            islands(one).students.put(c, islands.get(two).students.get(c));
+            islands.get(one).students.put(c, islands.get(two).students.get(c));
                 }
         //should be found a smart way to merge the two map together ???
         islands.remove(two);
@@ -76,7 +77,7 @@ public class Gameboard{
         private Map<Color, ArrayList<Student>> students; // ??? is this really necessary
         private boolean motherNature;
         private boolean hasTower;
-        private Team tower;  // ???
+        private Type tower;  // ???
         private int dimension = 1;
         int index;
 
@@ -92,9 +93,9 @@ public class Gameboard{
         }
 
         //it adds a tower of a specific team to an island
-        public void addTower(team Team) throws AlreadyATowerException{
+        public void addTower(Type team) throws AlreadyATowerException{
             if(hasTower == true){
-                thorw new AlreadyATowerException();
+                throw new AlreadyATowerException();
             }
             else{
                 hasTower = true;
@@ -109,7 +110,7 @@ public class Gameboard{
         }
 
         //it returns the color of the tower TO CHECK
-        public Team getColor() throws NoTowerException{
+        public Type getColor() throws NoTowerException{
             if (hasTower == true) {
                 return tower;
             } else {
@@ -182,8 +183,8 @@ public class Gameboard{
 
         //it draws a student from the sack TO CHECK
         public Student drawStudent() throws NoMoreStudentsException{
-            if(stdents.isEmpty()){
-                trow new NoMoreStudentsException();
+            if(students.isEmpty()){
+                throw new NoMoreStudentsException();
             }
             else {
                 int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
