@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
-
+//This class represents the player's deck
 public class Deck {
+    //attributes
     private Mage mage;
     private ArrayList<Assistant> cards;
     private int numCards;
 
-
+    //methods
     public int getNumCards() {
         return numCards;
     }

@@ -4,7 +4,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 // Player class represents the user
-public class Player {
+public class Player{
 
     //attributes of the class Player
     private String name;

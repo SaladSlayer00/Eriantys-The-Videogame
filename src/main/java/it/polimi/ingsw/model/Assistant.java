@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 //The following class represent the Assistant
+
 public class Assistant {
     //attributes of the class Assistant
     private int numOrder;

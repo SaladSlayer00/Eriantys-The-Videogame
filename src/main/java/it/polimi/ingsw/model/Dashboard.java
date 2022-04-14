@@ -16,7 +16,6 @@ public class Dashboard {
 
     }
     public Student takeStudent() {
-
     }
 
 
