@@ -5,8 +5,6 @@ public interface Mode {
      public void startGame();
      public void inizializeGameboard();
      public void getNumPlayers(int numPlayers);
-     public void nextState();
      public void createPlayers();
-     public void startTurn();
 
 }
