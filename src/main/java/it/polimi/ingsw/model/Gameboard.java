@@ -55,7 +55,7 @@ public class Gameboard{
     //class Island
     private class Island {
         //attributes of the class Island
-        private Map<Color, ArrayList<Student>> students; // ???
+        private Map<Color, ArrayList<Student>> students; // ??? is this really necessary
         private boolean motherNature;
         private boolean hasTower;
         private Team tower;  // ???
@@ -65,7 +65,7 @@ public class Gameboard{
         //methods of the class
         //it adds a student to the island
         public void addStudent(Student student) {
-
+            students.put(student.color, student);
         }
 
         //it adds a tower of a specific team to an island
@@ -88,7 +88,7 @@ public class Gameboard{
             }
         }
 
-        //it returns the color of the tower TO CHECK!!!!!!
+        //it returns the color of the tower TO CHECK
         public Team getColor() throws NoTowerException{
             if (hasTower == true) {
                 return tower;
@@ -141,7 +141,7 @@ public class Gameboard{
         }
 
         //it removes a student from the cloud
-        public void removeStduents(){
+        public void removeStudents(){
           for(Student s : students){
               remove.students(s);
           }
@@ -151,23 +151,38 @@ public class Gameboard{
 
     //class Sack
     private class Sack{
-        //atributes of class Sack
+        //attributes of class Sack
         private ArrayList<Student> students;
 
         //methods of sack
-        //it puts a student in the sack
+        //it puts a student in the sack TO CHECK
         public void putStudent(Student student){
-            add.students(student);
+            students.add(student);
         }
 
-        //it draws a student from the sack
+        //it draws a student from the sack TO CHECK
         public Student drawStudent(){
-
+            if(stdents.isEmpty()){
+                trow new NoMoreStudentsException();
+            }
+            else {
+                int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
+                Student choosen = students(random);
+                students.remove(random);
+                return choosen;
+            }
         }
 
-        //
+        //exception that handle the emptiness of the sack. Should this method call for the end of the game???
+        public class NoMoreStudentsException extends Exception{
+            NoMoreStudentsException(){
+                super("There are no more students in the sack!");
+            }
+        }
+
+        //it gives the number of students that are still in the sack
         public int getNum(){
-            return students.length;
+            return students.size();
         }
 
 
