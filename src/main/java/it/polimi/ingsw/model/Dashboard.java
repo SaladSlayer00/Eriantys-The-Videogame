@@ -8,21 +8,47 @@ public class Dashboard {
     private int towers;
     private int numTowers;
     private Row[] rows;
-    private Student[] hall;
+    private ArrayList<Student> hall;
     private Type team;
     private static final int NUM_ROWS = 5;
 
     //methods of the class dashboard
     public void addStudent(Student student) throws MaxSizeException {
 
-        for (int i = 0; i < NUM_ROWS; i++)
-        {
-            if(rows[i].name.equals(student.color))
+        for (int i = 0; i < NUM_ROWS; i++) {
+            if (rows[i].name.equals(student.color))
                 rows[i].addStudent(student);
         }
     }
-    public Student takeStudent() {
+
+    public Student takeStudent(Color c) throws noStudentException {
+        for (Student s : this.hall) {
+            if (s.color.equals(c)) {
+                hall.remove(s);
+                return s;
+            }
+        }
+        throw new noStudentException();
     }
+
+    //puts a tower on the dashboard
+    public void putTower() throws fullTowersException {
+        if (towers < numTowers) {
+            towers++;
+        } else {
+            throw new fullTowersException();
+        }
+    }
+
+    public Type getTower() throws noTowersException{
+        if(towers > 0){
+            towers--;
+            return this.team;
+        }
+        throw new noTowersException;
+
+}
+
 
 
     //the following class represents the dashboard rows
@@ -59,13 +85,13 @@ public class Dashboard {
             }
         }
 
-        public void removeProfessor() {
+        public void removeProfessor() throws noProfessorException{
             if (hasProfessor == true)
             {
                 hasProfessor = false;
             }else{
                 //we can replace it with an exception
-                System.out.println("This row does not have a professor");
+                throw new noProfessorException();
             }
         }
 
@@ -78,11 +104,27 @@ public class Dashboard {
 
     }
 
+    public class  noProfessorException extends Exception {
+        noProfessorException(){super("There's no professor to be taken");}
+
+    }
+
     public class  MaxSizeException extends Exception {
         MaxSizeException(){super("You have reached the maximum number of students that can be placed");}
 
     }
 
+    public class  noStudentException extends Exception {
+        noStudentException(){super("No student matches the selected color");}
 
+    }
 
+    public class  fullTowersException extends Exception {
+        fullTowersException(){super("You have reached the maximum number of towers that can be placed");}
+
+    }
+    public class  noTowersException extends Exception {
+        noTowersException(){super("There are no towers left!");}
+
+    }
 }

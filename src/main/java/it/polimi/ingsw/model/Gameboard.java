@@ -92,8 +92,8 @@ public class Gameboard{
         //attributes of the class Island
         private Map<Color, ArrayList<Student>> students; // ??? is this really necessary
         private boolean motherNature;
-        private boolean hasTower;
-        private Type tower;  // ???
+        private boolean hasTower = false;
+        private Type tower = null;  // ???
         private int dimension = 1;
         int index;
         int influence;
@@ -199,18 +199,21 @@ public class Gameboard{
         //attribute of class Cloud
         private int index;
         private ArrayList<Student> students;
+        private int dimension;
 
         //methods of cloud
         //it adds a student on the cloud
         public void addStudent(Student student){
-
+            this.students.add(student);
         }
 
         //it removes a student from the cloud
-        public void removeStudents(){
+        public ArrayList<Student> removeStudents(){
+            ArrayList<Student> temp = new ArrayList<>(this.students);
           for(Student s : students){
               students.remove(s);
           }
+          return temp;
         }
     }
 
