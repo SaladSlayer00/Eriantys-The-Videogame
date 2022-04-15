@@ -10,10 +10,16 @@ public class Dashboard {
     private Row[] rows;
     private Student[] hall;
     private Type team;
+    private static final int NUM_ROWS = 5;
 
     //methods of the class dashboard
-    public void addStudent(Student student){
+    public void addStudent(Student student) throws MaxSizeException {
 
+        for (int i = 0; i < NUM_ROWS; i++)
+        {
+            if(rows[i].name.equals(student.color))
+                rows[i].addStudent(student);
+        }
     }
     public Student takeStudent() {
     }
@@ -80,4 +86,3 @@ public class Dashboard {
 
 
 }
-
