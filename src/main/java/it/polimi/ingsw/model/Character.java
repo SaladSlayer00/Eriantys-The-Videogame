@@ -12,7 +12,7 @@ public class Character{
     public void addCoin() {
         numCoins += numCoins;
     }
-    public void useEffect() {
+    public void useEffect(){
 
     }
 }
