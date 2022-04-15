@@ -8,10 +8,13 @@ public class Player {
     private String name;
     private Deck deck;
     private State state;
-    private Dashboard dashboard;
+    private final Dashboard dashboard = new Dashboard();
     private int coins;
     private Assistant cardChosen;
 
+    public Player(){
+
+    }
 
     public String getName() {
         return name;

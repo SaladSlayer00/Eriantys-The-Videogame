@@ -40,13 +40,18 @@ public class Dashboard {
         }
     }
 
-    public Type getTower() throws noTowersException{
-        if(towers > 0){
+    public Type getTower() throws noTowersException {
+        if (towers > 0) {
             towers--;
             return this.team;
         }
-        throw new noTowersException;
+        throw new noTowersException();
 
+    }
+
+    public void setNumTowers(int numTowers) {
+        this.numTowers = numTowers;
+    }
 }
 
 
