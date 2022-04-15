@@ -15,7 +15,7 @@ public class ExpertGame implements Mode{
     }
 
     @Override
-    public void inizializeGameboard() {
+    public void initializeGameboard() {
 
     }
 

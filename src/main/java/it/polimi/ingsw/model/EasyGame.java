@@ -18,7 +18,7 @@ public class EasyGame implements Mode {
     }
 
     @Override
-    public void inizializeGameboard() {
+    public void initializeGameboard() {
 
     }
 

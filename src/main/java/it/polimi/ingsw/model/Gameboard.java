@@ -19,7 +19,7 @@ public class Gameboard{
         islands.get(random).motherNature = true;
         motherNature = random;
         if(random < 6) {
-            //no students should be on the islands opposite at mn at the start of the match
+            //no students should be on the islands opposite at Mother Nature at the start of the match
             islands.get(random + 6)...;
         }
         else{
@@ -42,7 +42,7 @@ public class Gameboard{
     }
 
     //exception that handle the case in which we got more than one boolean of mother nature true
-    public class TooManyMotherNatureException() extends Exception{
+    public class TooManyMotherNatureException extends Exception{
         TooManyMotherNatureException(){
             super("Something's wrong...There is more than one Mother Nature on the board!");
         }
@@ -106,10 +106,7 @@ public class Gameboard{
         //methods of the class
         //it adds a student to the island
         public void addStudent(Student student) {
-
             students.get(student.color).add(student);
-
-
         }
 
         public int getInfluence() {
