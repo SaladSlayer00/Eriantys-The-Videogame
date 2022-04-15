@@ -104,6 +104,12 @@ public class Gameboard{
         }
 
         //methods of the class
+
+        //sets the index
+        private void setIndex(int index){
+            this.index = index;
+        }
+
         //it adds a student to the island
         public void addStudent(Student student) {
             students.get(student.color).add(student);
@@ -138,7 +144,7 @@ public class Gameboard{
             }
         }
 
-        //it returns the color of the tower TO CHECK //per me inutile 
+        //it returns the color of the tower TO CHECK //
         public Type getColor() throws NoTowerException{
             if (hasTower == true) {
                 return tower;
