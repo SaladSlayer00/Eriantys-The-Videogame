@@ -1,13 +1,18 @@
 package it.polimi.ingsw.model;
+import java.util.ArrayList;
+
 
 public class ExpertGame implements Mode{
-    private final Gameboard gameBoard;
+    private Gameboard gameBoard;
     private int playing;
     private  int playerNum;
     private final ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> playingList = new ArrayList<Player>();
-    private Turn turn;
     private GameState gameState;
+
+    public ExpertGame(int players){
+        this.playerNum = players;
+    }
 
     @Override
     public void startGame() {
@@ -34,8 +39,5 @@ public class ExpertGame implements Mode{
 
     }
 
-    @Override
-    public void startTurn() {
 
-    }
 }

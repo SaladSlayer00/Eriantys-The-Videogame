@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Gameboard{
+public class Gameboard {
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
@@ -10,19 +10,23 @@ public class Gameboard{
     private Cloud[] clouds;
     private ArrayList<Professor> professors;
     private int motherNature;
+    private int numClouds;
 
+    public Gameboard(int numClouds) {
+        this.numClouds = numClouds;
+        clouds = new Cloud[this.numClouds];
+    }
 
     //methods of the Gameboard
     //it places Mother Nature on a random island
-    public void placeMother(){
-        int random = (int)(Math.random() * 11);
+    public void placeMother() {
+        int random = (int) (Math.random() * 11);
         islands.get(random).motherNature = true;
         motherNature = random;
-        if(random < 6) {
+        if (random < 6) {
             //no students should be on the islands opposite at Mother Nature at the start of the match
             islands.get(random + 6)...;
-        }
-        else{
+        } else {
             //ditto
             islands.get(random - 6)...;
         }
@@ -30,20 +34,20 @@ public class Gameboard{
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
     public void checkMother() throws TooManyMotherNatureException {
-          int counter = 0;
-          for(Island i : islands){
-              if(i.motherNature == true){
-                  counter =+1;
-              }
-          }
-          if(counter > 1) {
-              throw new TooManyMotherNatureException();
-          }
+        int counter = 0;
+        for (Island i : islands) {
+            if (i.motherNature == true) {
+                counter = +1;
+            }
+        }
+        if (counter > 1) {
+            throw new TooManyMotherNatureException();
+        }
     }
 
     //exception that handle the case in which we got more than one boolean of mother nature true
-    public class TooManyMotherNatureException extends Exception{
-        TooManyMotherNatureException(){
+    public class TooManyMotherNatureException extends Exception {
+        TooManyMotherNatureException() {
             super("Something's wrong...There is more than one Mother Nature on the board!");
         }
     }
@@ -51,38 +55,43 @@ public class Gameboard{
     //it merges two island together
     public void mergeIslands(int one, int two) {
         islands.get(one).changeDimension(islands.get(two).dimension);
-        if(islands.get(one).motherNature == false){
+        if (islands.get(one).motherNature == false) {
             islands.get(one).addMother();
         }
         //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
-        for(Color c : islands.get(one).students.keySet()){
+        for (Color c : islands.get(one).students.keySet()) {
             //islands.get(one).students.put(c, islands.get(two).students.get(c));
             islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
-                }
+        }
         //should be found a smart way to merge the two map together ???
         islands.remove(two);
     }
 
 
     //it calculates the influence of a player on an island
-    public boolean calculateInfluence(Player player, int island){
+    public boolean calculateInfluence(Player player, int island) {
         int playerInfluence = islands.get(island).calculateInfluence(player);
         //for(Color c : islands.get(island).students.keySet()){
-            //islands.get(one).students.put(c, islands.get(two).students.get(c));
-            //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
-            //if(player.hasProfessor(c)){
-            //    playerInfluence = playerInfluence + islands.get(island).students.get(c).size();
-            //}
+        //islands.get(one).students.put(c, islands.get(two).students.get(c));
+        //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
+        //if(player.hasProfessor(c)){
+        //    playerInfluence = playerInfluence + islands.get(island).students.get(c).size();
+        //}
 
         //}
 
-        if(playerInfluence > islands.get(island).getInfluence()){
+        if (playerInfluence > islands.get(island).getInfluence()) {
             islands.get(island).setInfluence(playerInfluence);
             return true;
         }
 
         return false;
     }
+    public void createClouds() {
+        for(int i=0;i<this.numClouds;i++){
+            this.clouds[i]=new Cloud(this.numClouds);
+    }
+}
 
 
     //classes that are used by the Gameboard
@@ -200,6 +209,15 @@ public class Gameboard{
         private int index;
         private ArrayList<Student> students;
         private int dimension;
+
+        public Cloud(int dimension){
+            if(dimension == 2 || dimension == 4){
+                this.dimension = 3;
+            }
+            else{
+                this.dimension = 4;
+            }
+        }
 
         //methods of cloud
         //it adds a student on the cloud
