@@ -23,13 +23,13 @@ public class Gameboard{
         int random = (int)(Math.random() * 11);
         islands.get(random).motherNature = true;
         motherNature = random;
-        if (random < 6) {
-            //no students should be on the islands opposite at Mother Nature at the start of the match
-            islands.get(random + 6)...;
-        } else {
-            //ditto
-            islands.get(random - 6)...;
-        }
+    }
+
+    //it initializes the gameboard
+    public void initializeIslands(){
+        islands = new ArrayList<Island>();
+
+
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
@@ -108,7 +108,7 @@ public class Gameboard{
         int influence;
 
         //constructor
-        Island(int index){
+        private Island(int index){
             this.index = index;
         }
 
@@ -192,7 +192,7 @@ public class Gameboard{
 
         //it changes the dimension of the island
         public void changeDimension(int newDim){
-           this.dimension =+newDim;
+           this.dimension += newDim;
         }
 
     }
@@ -248,7 +248,7 @@ public class Gameboard{
                 throw new NoMoreStudentsException();
             }
             else {
-                int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
+                int random = (int)(Math.random() * students.size()); //it chooses randomly the type of student to draw
                 Student chosen = students.get(random);
                 students.remove(random);
                 return chosen;
