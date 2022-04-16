@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Gameboard {
+public class Gameboard{
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
@@ -20,7 +20,7 @@ public class Gameboard {
     //methods of the Gameboard
     //it places Mother Nature on a random island
     public void placeMother() {
-        int random = (int) (Math.random() * 11);
+        int random = (int)(Math.random() * 11);
         islands.get(random).motherNature = true;
         motherNature = random;
         if (random < 6) {
@@ -108,16 +108,11 @@ public class Gameboard {
         int influence;
 
         //constructor
-        Island(){
-
+        Island(int index){
+            this.index = index;
         }
 
         //methods of the class
-
-        //sets the index
-        private void setIndex(int index){
-            this.index = index;
-        }
 
         //it adds a student to the island
         public void addStudent(Student student) {
@@ -235,7 +230,7 @@ public class Gameboard {
         }
     }
 
-/*
+
     //class Sack
     private class Sack{
         //attributes of class Sack
@@ -274,6 +269,6 @@ public class Gameboard {
 
 
     }
-*/
+
 
 }
