@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import it.polimi.ingsw.model.Dashboard;
 
 public class Player {
-
+    private int playerID;
     private String name;
     private Deck deck;
     private State state;
@@ -13,9 +13,18 @@ public class Player {
     private int coins;
     private Assistant cardChosen;
     private ArrayList<Color> professors;
+    private int group;
 
     public Player(){
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 
     public String getName() {
@@ -38,7 +47,17 @@ public class Player {
         return state;
     }
 
+    public void setGroup(int group) {
+        this.group = group;
+    }
 
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public int getGroup() {
+        return group;
+    }
 
     //we assume that the card is chosen through the passage of the index of the card inside the deck
     public void drawCard(int cardIndex) throws EmptyDecktException{
