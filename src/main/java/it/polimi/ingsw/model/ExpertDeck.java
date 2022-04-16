@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public class ExpertDeck{
-
+/*
     //this card needs four student that have to be drawn and put here at the start of the match
     public class DrawStudentCard extends Character{
         private Student[] students;
@@ -14,4 +14,6 @@ public class ExpertDeck{
             }
         }
     }
+
+ */
 }
