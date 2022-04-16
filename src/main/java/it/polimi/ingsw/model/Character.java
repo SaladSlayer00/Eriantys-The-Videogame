@@ -4,11 +4,12 @@ public abstract class Character{
     //attributes of the class Character
     private int cost;
     private int numCoins;
+
     //methods of the class Character
     public Character(int cost){
-        this.cost = cost;
-        numCoins = cost;
+       this.cost = cost;
     }
+
     public void addCoin() {
         numCoins += numCoins;
     }

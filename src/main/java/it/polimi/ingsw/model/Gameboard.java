@@ -217,7 +217,7 @@ public class Gameboard{
         }
     }
 
-
+/*
     //class Sack
     private class Sack{
         //attributes of class Sack
@@ -256,6 +256,6 @@ public class Gameboard{
 
 
     }
-
+*/
 
 }
