@@ -45,7 +45,7 @@ public class EasyGame implements Mode {
 
     @Override
     public void createPlayers() {
-        for(int i = 0; i< this.playerNum; i++){
+        for(int i = 0; i < this.playerNum; i++){
             this.players.add(new Player());
         }
     }
@@ -75,7 +75,7 @@ public class EasyGame implements Mode {
     }
 
     public void setTeams(int group, int playerID, int playerID2) throws invalidTeamException {
-        if(group>2||group<1){
+        if(group>2 || group<1){
             throw new invalidTeamException();
         }
         this.teams[group][0] = playerID;
@@ -85,7 +85,7 @@ public class EasyGame implements Mode {
     }
     public void initializeDashboards() throws noMoreStudentsException, maxSizeException {
         for(Player p : this.players){
-            for(int i = 0;i<p.getDashboard().getHallDimension();i++){
+            for(int i = 0; i < p.getDashboard().getHallDimension(); i++){
                 Student s = gameBoard.getSack().drawStudent();
                 p.getDashboard().addStudent(s);
             }
