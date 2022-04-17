@@ -108,7 +108,7 @@ public class Gameboard{
         return false;
     }
     public void createClouds() {
-        for(int i=0;i<this.numClouds;i++){
+        for(int i = 0;i < this.numClouds; i++){
             this.clouds[i]=new Cloud(this.numClouds);
     }
 }
@@ -119,10 +119,10 @@ public class Gameboard{
     //class Island
     private class Island {
         //attributes of the class Island
-        private Map<Color, ArrayList<Student>> students; // ??? is this really necessary
+        private Map<Color, ArrayList<Student>> students;
         private boolean motherNature;
         private boolean hasTower = false;
-        private Type tower = null;  // ???
+        private Type tower = null;
         private int dimension = 1;
         int index;
         int influence;
