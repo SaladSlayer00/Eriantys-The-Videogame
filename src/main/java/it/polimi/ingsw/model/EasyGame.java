@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+import it.polimi.ingsw.exceptions.maxSizeException;
+import it.polimi.ingsw.exceptions.deckUnavailableException;
+import it.polimi.ingsw.exceptions.invalidTeamException;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
 
 public class EasyGame implements Mode {
 
@@ -22,7 +26,7 @@ public class EasyGame implements Mode {
     }
 
     @Override
-    public void initializeGameboard() throws Gameboard.Sack.NoMoreStudentsException {
+    public void initializeGameboard() throws noMoreStudentsException {
         this.gameBoard = new Gameboard(this.playerNum);
         this.gameBoard.initializeIslands();
     }
@@ -61,7 +65,7 @@ public class EasyGame implements Mode {
         }
     }
 
-    public void setDeck(Mage m, int playerID) throws deckUnavailableException{
+    public void setDeck(Mage m, int playerID) throws deckUnavailableException {
         for(Player p : this.players){
             if(p.getDeck().getMage().equals(m)){
                 throw new deckUnavailableException();
@@ -70,7 +74,7 @@ public class EasyGame implements Mode {
         players.get(playerID).setDeck(m);
     }
 
-    public void setTeams(int group, int playerID, int playerID2) throws invalidTeamException{
+    public void setTeams(int group, int playerID, int playerID2) throws invalidTeamException {
         if(group>2||group<1){
             throw new invalidTeamException();
         }
@@ -79,7 +83,7 @@ public class EasyGame implements Mode {
         this.players.get(playerID).getDashboard().setNumTowers(8);
         this.players.get(playerID2).getDashboard().setNumTowers(0);
     }
-    public void initializeDashboards() throws Gameboard.Sack.NoMoreStudentsException, MaxSizeException {
+    public void initializeDashboards() throws noMoreStudentsException, maxSizeException {
         for(Player p : this.players){
             for(int i = 0;i<p.getDashboard().getHallDimension();i++){
                 Student s = gameBoard.getSack().drawStudent();

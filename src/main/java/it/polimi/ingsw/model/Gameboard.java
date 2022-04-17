@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Map;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.exceptions.tooManyMotherNatureException;
+import it.polimi.ingsw.exceptions.alreadyATowerException;
+import it.polimi.ingsw.exceptions.noTowerException;
 
 
 public class Gameboard{
@@ -35,7 +39,7 @@ public class Gameboard{
     }
 
     //it initializes the gameboard TO CHECK
-    public void initializeIslands() throws Sack.NoMoreStudentsException {
+    public void initializeIslands() throws noMoreStudentsException {
         islands = new ArrayList<Island>();
         for(int i = 0; i < 12; i++){
             islands.set(i, new Island(i));
@@ -63,7 +67,7 @@ public class Gameboard{
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
-    public void checkMother() throws TooManyMotherNatureException {
+    public void checkMother() throws tooManyMotherNatureException {
         int counter = 0;
         for (Island i : islands) {
             if (i.motherNature == true) {
@@ -71,14 +75,7 @@ public class Gameboard{
             }
         }
         if (counter > 1) {
-            throw new TooManyMotherNatureException();
-        }
-    }
-
-    //exception that handle the case in which we got more than one boolean of mother nature true
-    public class TooManyMotherNatureException extends Exception {
-        TooManyMotherNatureException() {
-            super("Something's wrong...There is more than one Mother Nature on the board!");
+            throw new tooManyMotherNatureException();
         }
     }
 
@@ -163,10 +160,10 @@ public class Gameboard{
         }
 
         //it adds a tower of a specific team to an island
-        public void addTower(Type team) throws AlreadyATowerException{
+        public void addTower(Type team) throws alreadyATowerException{
             if(hasTower == true){
                 if(this.tower.equals(team))
-                    throw new AlreadyATowerException();
+                    throw new alreadyATowerException(this.tower);
                 else
                     this.tower = team;
             }
@@ -176,28 +173,15 @@ public class Gameboard{
             }
         }
 
-        //exception to handle the moment when a tower is already on an island
-        public class AlreadyATowerException extends Exception{
-            AlreadyATowerException(){
-                super("There is already a tower on this island. It's " + tower + "!");
-            }
-        }
-
         //it returns the color of the tower TO CHECK //
-        public Type getColor() throws NoTowerException{
+        public Type getColor() throws noTowerException{
             if (hasTower == true) {
                 return tower;
             } else {
-                throw new NoTowerException();
+                throw new noTowerException();
             }
         }
 
-        //exception to handle the moment when no tower is found on an island
-        public class NoTowerException extends Exception{
-            NoTowerException(){
-                super("There isn't any tower on this island");
-            }
-        }
 
         //it returns the influence
         public int calculateInfluence(Player player){
@@ -295,9 +279,9 @@ public class Gameboard{
         }
 
         //it draws a student from the sack TO CHECK
-        public Student drawStudent() throws NoMoreStudentsException{
+        public Student drawStudent() throws noMoreStudentsException{
             if(students.isEmpty()){
-                throw new NoMoreStudentsException();
+                throw new noMoreStudentsException();
             }
             else {
                 int random = (int)(Math.random() * students.size()); //it chooses randomly the type of student to draw
@@ -307,12 +291,6 @@ public class Gameboard{
             }
         }
 
-        //exception that handle the emptiness of the sack. Should this method call for the end of the game???
-        public class NoMoreStudentsException extends Exception{
-            NoMoreStudentsException(){
-                super("There are no more students in the sack!");
-            }
-        }
 
         //it gives the number of students that are still in the sack
         public int getNum(){

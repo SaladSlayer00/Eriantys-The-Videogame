@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+import it.polimi.ingsw.exceptions.emptyDecktException;
 //This class represents the player's deck
 public class Deck {
     //attributes
@@ -24,7 +25,7 @@ public class Deck {
         return numCards;
     }
 
-    public Assistant draw(int indexCard) throws EmptyDecktException{
+    public Assistant draw(int indexCard) throws emptyDecktException{
         if (numCards > 0 )
         {
             Assistant drawnCard = cards.get(indexCard);
@@ -32,7 +33,7 @@ public class Deck {
             numCards = numCards-1;
             return drawnCard;
         }else{
-            throw new EmptyDecktException();
+            throw new emptyDecktException();
         }
 
     }
@@ -47,10 +48,4 @@ enum Mage {
     ELF,
     FAIRY,
     DRAGON;
-}
-
-class EmptyDecktException extends Exception{
-    EmptyDecktException(){
-        super("Your deck is empty. You cannot draw any more cards");
-    }
 }

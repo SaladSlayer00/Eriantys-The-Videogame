@@ -3,6 +3,7 @@ import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Color;
 import java.util.ArrayList;
 import it.polimi.ingsw.model.Dashboard;
+import it.polimi.ingsw.exceptions.*;
 
 public class Player {
     private int playerID;
@@ -64,7 +65,7 @@ public class Player {
     }
 
     //we assume that the card is chosen through the passage of the index of the card inside the deck
-    public void drawCard(int cardIndex) throws EmptyDecktException{
+    public void drawCard(int cardIndex) throws emptyDecktException{
         cardChosen = deck.draw(cardIndex);
     }
 
@@ -76,12 +77,12 @@ public class Player {
         coins += coins;
     }
 
-    public void removeCoin() throws LowerLimitException {
+    public void removeCoin() throws lowerLimitException {
         if (coins > 0)
         {
             coins -= coins;
         }else{
-            throw new LowerLimitException();
+            throw new lowerLimitException();
         }
     }
 
@@ -93,7 +94,7 @@ public class Player {
     }
 
     //methods of the class dashboard
-    public void addStudent (Student students) throws MaxSizeException {
+    public void addStudent (Student students) throws maxSizeException {
         dashboard.addStudent(students);
     }
 
@@ -118,12 +119,5 @@ public class Player {
         else
             return false;
     }
-
-    public class  LowerLimitException extends Exception {
-        LowerLimitException(){super("you have reached the minimum number of coins");}
-
-    }
-
-
 
 }

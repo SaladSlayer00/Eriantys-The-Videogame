@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.exceptions;
 
 public class invalidTeamException extends Exception {
-    invalidTeamException() {
+   public invalidTeamException() {
         super("There's no such team");
     }
 }

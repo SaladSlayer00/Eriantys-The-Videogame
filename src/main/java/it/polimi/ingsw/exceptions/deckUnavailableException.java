@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.exceptions;
 
 public class deckUnavailableException extends Exception {
-    deckUnavailableException() {
+   public deckUnavailableException() {
         super("Deck already assigned!");
     }
 

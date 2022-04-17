@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.exceptions;
 
 public class invalidNumberException extends Exception {
-    invalidNumberException() {
+    public invalidNumberException() {
         super("Too many players!");
     }
 }

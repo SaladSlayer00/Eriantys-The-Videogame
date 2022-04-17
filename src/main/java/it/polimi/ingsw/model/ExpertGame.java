@@ -29,13 +29,18 @@ public class ExpertGame implements Mode{
 
     }
 
-    @Override
+
     public void nextState() {
 
     }
 
     @Override
     public void createPlayers() {
+
+    }
+
+    @Override
+    public void initializePlayer(String nickname, int playerID) {
 
     }
 

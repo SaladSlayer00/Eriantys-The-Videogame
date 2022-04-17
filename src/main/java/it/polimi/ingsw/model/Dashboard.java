@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.*;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class Dashboard {
         hall.add(s);
     }
 
-    public void addStudent(Student student) throws MaxSizeException {
+    public void addStudent(Student student) throws maxSizeException {
         /*ALTERNATIVE VERSION
         for (int i = 0; i < NUM_ROWS; i++) {
             if (rows[i].getName().equals(student.color))
@@ -89,19 +90,19 @@ public class Dashboard {
             return name;
         }
 
-        public void addProfessor() throws AlreadyAProfessorException {
+        public void addProfessor() throws alreadyAProfessorException {
             if (hasProfessor == true) {
-                throw new AlreadyAProfessorException();
+                throw new alreadyAProfessorException();
             } else {
                 hasProfessor = true;
             }
         }
 
-        public void addStudent(Student student) throws MaxSizeException {
+        public void addStudent(Student student) throws maxSizeException {
             if (students.size() - 1 < MAX_STUDENTS) {
                 students.add(student);
             } else {
-                throw new MaxSizeException();
+                throw new maxSizeException();
             }
         }
 
@@ -117,32 +118,5 @@ public class Dashboard {
 
     }
 }
-    //exception to manage the existence of the professor
-     class  AlreadyAProfessorException extends Exception {
-        AlreadyAProfessorException(){super("This row already has the professor");}
 
-    }
 
-    class  noProfessorException extends Exception {
-        noProfessorException(){super("There's no professor to be taken");}
-
-    }
-
-    class  MaxSizeException extends Exception {
-        MaxSizeException(){super("You have reached the maximum number of students that can be placed");}
-
-    }
-
-    class  noStudentException extends Exception {
-        noStudentException(){super("No student matches the selected color");}
-
-    }
-
-    class  fullTowersException extends Exception {
-        fullTowersException(){super("You have reached the maximum number of towers that can be placed");}
-
-    }
-    class  noTowersException extends Exception {
-        noTowersException(){super("There are no towers left!");}
-
-    }
