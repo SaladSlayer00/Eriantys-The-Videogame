@@ -2,19 +2,28 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 public class Gameboard{
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
     private Sack sack;
     private Cloud[] clouds;
-    private ArrayList<Professor> professors;
+    private ArrayList<Professor> professors = new ArrayList<>();
     private int motherNature;
     private int numClouds;
 
     public Gameboard(int numClouds) {
         this.numClouds = numClouds;
         clouds = new Cloud[this.numClouds];
+        for(Color c : sack.colors){
+            Professor p = new Professor(c);
+            professors.add(p);
+        }
+    }
+
+    public Sack getSack() {
+        return sack;
     }
 
     //methods of the Gameboard
@@ -32,6 +41,7 @@ public class Gameboard{
             islands.set(i, new Island(i));
           }
         placeMother();
+
 
         //should add the thing that sets the students
         if(this.motherNature < 6){
@@ -259,9 +269,26 @@ public class Gameboard{
     class Sack{
 
         //attributes of class Sack
-        private ArrayList<Student> students;
+        private ArrayList<Student> students = new ArrayList<>();
+        private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
+        public Sack(){
+            for(Color c : this.colors){
+                for(int i = 0; i<2;i++){
+                    Student s = new Student(c);
+                    this.students.add(s);
+                }
+            }
+        }
         //methods of sack
+        public void initializeSack(){
+            for(Color c : this.colors){
+                for(int i=0; i<24;i++){
+                    Student s = new Student(c);
+                    this.students.add(s);
+                }
+            }
+        }
         //it puts a student in the sack TO CHECK
         public void putStudent(Student student){
             students.add(student);

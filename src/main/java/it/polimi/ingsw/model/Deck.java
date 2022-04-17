@@ -7,6 +7,18 @@ public class Deck {
     private ArrayList<Assistant> cards;
     private int numCards;
 
+
+    public Deck(Mage m){
+        this.mage = m;
+        int moves = 1;
+        for(int i = 1;i<11;i++){
+            Assistant a = new Assistant(i, moves);
+            cards.add(a);
+            if(i%2 == 0){
+                moves++;
+            }
+        }
+    }
     //methods
     public int getNumCards() {
         return numCards;
@@ -35,7 +47,6 @@ enum Mage {
     ELF,
     FAIRY,
     DRAGON;
-
 }
 
 class EmptyDecktException extends Exception{

@@ -27,6 +27,10 @@ public class Player {
         this.playerID = playerID;
     }
 
+    public void setDeck(Mage mage){
+        Deck d = new Deck(mage);
+    }
+
     public String getName() {
         return name;
     }

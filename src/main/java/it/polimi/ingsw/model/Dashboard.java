@@ -7,13 +7,25 @@ public class Dashboard {
     //attributes of the class dashboard
     private int towers;
     private int numTowers;
-    private Row[] rows;
-    private ArrayList<Student> hall;
+    private final Row[] rows = new Row[NUM_ROWS];
+    private final ArrayList<Student> hall = new ArrayList<>();
     private Type team;
     private static final int NUM_ROWS = 5;
+    private int hallDimension;
 
+    public void setHallDimension(int hallDimension) {
+        this.hallDimension = hallDimension;
+    }
+
+    public int getHallDimension() {
+        return hallDimension;
+    }
 
     //methods of the class dashboard
+    public void addToHall(Student s){
+        hall.add(s);
+    }
+
     public void addStudent(Student student) throws MaxSizeException {
         /*ALTERNATIVE VERSION
         for (int i = 0; i < NUM_ROWS; i++) {

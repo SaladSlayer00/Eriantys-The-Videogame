@@ -47,15 +47,27 @@ public class EasyGame implements Mode {
     }
 
     @Override
+    //setter rimpiazzabili con un costruttore per dashboard
     public void initializePlayer(String nickname, int playerID) {
         this.players.get(playerID).setName(nickname);
         this.players.get(playerID).setPlayerID(playerID);
         if(this.playerNum == 2){
             this.players.get(playerID).getDashboard().setNumTowers(8);
+            this.players.get(playerID).getDashboard().setHallDimension(7);
         }
         else if(this.playerNum == 3){
             this.players.get(playerID).getDashboard().setNumTowers(6);
+            this.players.get(playerID).getDashboard().setHallDimension(9);
         }
+    }
+
+    public void setDeck(Mage m, int playerID) throws deckUnavailableException{
+        for(Player p : this.players){
+            if(p.getDeck().getMage().equals(m)){
+                throw new deckUnavailableException();
+            }
+        }
+        players.get(playerID).setDeck(m);
     }
 
     public void setTeams(int group, int playerID, int playerID2) throws invalidTeamException{
@@ -67,6 +79,13 @@ public class EasyGame implements Mode {
         this.players.get(playerID).getDashboard().setNumTowers(8);
         this.players.get(playerID2).getDashboard().setNumTowers(0);
     }
-
+    public void initializeDashboards() throws Gameboard.Sack.NoMoreStudentsException, MaxSizeException {
+        for(Player p : this.players){
+            for(int i = 0;i<p.getDashboard().getHallDimension();i++){
+                Student s = gameBoard.getSack().drawStudent();
+                p.getDashboard().addStudent(s);
+            }
+        }
+    }
 }
 
