@@ -12,6 +12,7 @@ public class Dashboard {
     private Type team;
     private static final int NUM_ROWS = 5;
 
+
     //methods of the class dashboard
     public void addStudent(Student student) throws MaxSizeException {
         /*ALTERNATIVE VERSION
