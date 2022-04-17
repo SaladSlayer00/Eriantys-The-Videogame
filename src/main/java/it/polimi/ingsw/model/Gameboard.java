@@ -6,7 +6,7 @@ public class Gameboard{
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
-    private boolean sack;
+    private Sack sack;
     private Cloud[] clouds;
     private ArrayList<Professor> professors;
     private int motherNature;
@@ -26,12 +26,13 @@ public class Gameboard{
     }
 
     //it initializes the gameboard TO CHECK
-    public void initializeIslands(){
+    public void initializeIslands() throws Sack.NoMoreStudentsException {
         islands = new ArrayList<Island>();
         for(int i = 0; i < 12; i++){
             islands.set(i, new Island(i));
           }
         placeMother();
+
         //should add the thing that sets the students
         if(this.motherNature < 6){
             for(Island i : islands){
@@ -178,7 +179,6 @@ public class Gameboard{
                 return tower;
             } else {
                 throw new NoTowerException();
-                getInfluence(player);
             }
         }
 
@@ -256,7 +256,8 @@ public class Gameboard{
 
 
     //class Sack
-    private class Sack{
+    class Sack{
+
         //attributes of class Sack
         private ArrayList<Student> students;
 

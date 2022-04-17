@@ -107,7 +107,12 @@ public class Player {
     }
 
     public boolean hasProfessor(Color color){
-        return false;
+
+        if(this.professors.contains(color)){
+            return true;
+        }
+        else
+            return false;
     }
 
     public class  LowerLimitException extends Exception {

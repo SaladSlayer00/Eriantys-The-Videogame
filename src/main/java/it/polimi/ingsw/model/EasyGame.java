@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
-import java.util.Vector;
-import it.polimi.ingsw.model.Gameboard;
 
 public class EasyGame implements Mode {
 
@@ -10,7 +8,7 @@ public class EasyGame implements Mode {
     private  int playerNum;
     private final ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> playingList = new ArrayList<Player>();
-    private GameState gameState;
+    //private GameState gameState; secondo me non necessario
     private int[][] teams = null;
 
 
@@ -24,19 +22,22 @@ public class EasyGame implements Mode {
     }
 
     @Override
-    public void initializeGameboard() {
+    public void initializeGameboard() throws Gameboard.Sack.NoMoreStudentsException {
         this.gameBoard = new Gameboard(this.playerNum);
+        this.gameBoard.initializeIslands();
     }
 
     @Override
+    //lasciato in caso di disconnessione, non necessario per inizializzazione visto che si usa il costruttore
     public void getNumPlayers(int numPlayers) {
         this.playerNum = numPlayers;
     }
 
-    @Override
-    public void nextState() {
-
-    }
+//    @Override
+//    public void nextState() {
+//        this.gameState
+//
+//    }
 
     @Override
     public void createPlayers() {
