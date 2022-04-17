@@ -25,11 +25,30 @@ public class Gameboard{
         motherNature = random;
     }
 
-    //it initializes the gameboard
+    //it initializes the gameboard TO CHECK
     public void initializeIslands(){
         islands = new ArrayList<Island>();
-
-
+        for(int i = 0; i < 12; i++){
+            islands.set(i, new Island(i));
+          }
+        placeMother();
+        //should add the thing that sets the students
+        if(this.motherNature < 6){
+            for(Island i : islands){
+                if(i.index != motherNature + 6){
+                    Student s = sack.drawStudent();
+                    i.addStudent(s);
+                }
+            }
+        }
+        else if(this.motherNature >= 6){
+            for(Island i : islands){
+                if(i.index != motherNature - 6){
+                    Student s = sack.drawStudent();
+                    i.addStudent(s);
+                }
+            }
+        }
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
@@ -113,6 +132,11 @@ public class Gameboard{
         }
 
         //methods of the class
+
+        //it returns the index of the island
+        public int getIndex(){
+            return index;
+        }
 
         //it adds a student to the island
         public void addStudent(Student student) {
