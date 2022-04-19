@@ -11,10 +11,10 @@ public class Player {
     private Deck deck;
     private State state;
     private final Dashboard dashboard = new Dashboard();
-    private int coins;
+    private int coins = 0;
     private Assistant cardChosen;
     private ArrayList<Color> professors;
-    private int group;
+    private int group = 0;
 
     public Player(String name, int playerID){
         this.name = name;
@@ -23,7 +23,7 @@ public class Player {
 
 
     public void setDeck(Mage mage){
-        Deck d = new Deck(mage);
+        deck = new Deck(mage);
     }
 
     public String getName() {
@@ -67,6 +67,7 @@ public class Player {
 
     }
 
+    //should be a good idea to add an exception in case of wrong game mode??
     public void addCoin() {
         coins += coins;
     }
