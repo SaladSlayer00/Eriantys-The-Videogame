@@ -40,7 +40,7 @@ public class ExpertGame implements Mode{
     }
 
     @Override
-    public void initializePlayer(String nickname, int playerID) {
+    public void initializePlayer(Player p) {
 
     }
 

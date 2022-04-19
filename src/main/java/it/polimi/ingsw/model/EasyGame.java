@@ -43,25 +43,25 @@ public class EasyGame implements Mode {
 //
 //    }
 
-    @Override
-    public void createPlayers() {
-        for(int i = 0; i < this.playerNum; i++){
-            this.players.add(new Player());
-        }
-    }
+//    @Override
+//    public void createPlayers() {
+//        for(int i = 0; i < this.playerNum; i++){
+//            this.players.add(new Player());
+//        }
+//    }
 
     @Override
     //setter rimpiazzabili con un costruttore per dashboard
-    public void initializePlayer(String nickname, int playerID) {
-        this.players.get(playerID).setName(nickname);
-        this.players.get(playerID).setPlayerID(playerID);
+    public void initializePlayer(Player p) {
+        this.players.add(p);
+        this.playingList.add(p);
         if(this.playerNum == 2){
-            this.players.get(playerID).getDashboard().setNumTowers(8);
-            this.players.get(playerID).getDashboard().setHallDimension(7);
+            p.getDashboard().setNumTowers(8);
+            p.getDashboard().setHallDimension(7);
         }
         else if(this.playerNum == 3){
-            this.players.get(playerID).getDashboard().setNumTowers(6);
-            this.players.get(playerID).getDashboard().setHallDimension(9);
+            p.getDashboard().setNumTowers(6);
+            p.getDashboard().setHallDimension(9);
         }
     }
 

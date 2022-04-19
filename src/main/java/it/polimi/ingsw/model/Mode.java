@@ -7,5 +7,5 @@ public interface Mode {
      public void initializeGameboard() throws noMoreStudentsException;
      public void getNumPlayers(int numPlayers);
      public void createPlayers();
-     void initializePlayer(String nickname, int playerID);
+     void initializePlayer(Player p);
 }

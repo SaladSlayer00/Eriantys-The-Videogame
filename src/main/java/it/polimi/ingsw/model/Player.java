@@ -16,17 +16,11 @@ public class Player {
     private ArrayList<Color> professors;
     private int group;
 
-    public Player(){
-
-    }
-
-    public void setName(String name) {
+    public Player(String name, int playerID){
         this.name = name;
-    }
-
-    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
+
 
     public void setDeck(Mage mage){
         Deck d = new Deck(mage);
