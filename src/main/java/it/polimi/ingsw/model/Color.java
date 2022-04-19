@@ -12,7 +12,7 @@ public enum Color{
     private String color;
 
     //constructor that initializes the enum of the wanted color
-    private Color(String color){
+    Color(String color){
         this.color = color;
     }
 }
