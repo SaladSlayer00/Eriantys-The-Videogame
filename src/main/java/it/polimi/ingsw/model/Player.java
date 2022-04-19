@@ -16,16 +16,8 @@ public class Player {
     private ArrayList<Color> professors;
     private int group = 0;
 
-    public Player(){
-
-    }
-
-    //may be an idea to replace all these setters with the constructor???
-    public void setName(String name) {
+    public Player(String name, int playerID){
         this.name = name;
-    }
-
-    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 
