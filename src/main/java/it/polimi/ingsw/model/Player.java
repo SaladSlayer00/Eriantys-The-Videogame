@@ -11,10 +11,10 @@ public class Player {
     private Deck deck;
     private State state;
     private final Dashboard dashboard = new Dashboard();
-    private int coins;
+    private int coins = 0;
     private Assistant cardChosen;
     private ArrayList<Color> professors;
-    private int group;
+    private int group = 0;
 
     public Player(){
 

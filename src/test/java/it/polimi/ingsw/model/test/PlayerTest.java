@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.test;
 
+import it.polimi.ingsw.exceptions.lowerLimitException;
 import it.polimi.ingsw.model.Mage;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,7 @@ class PlayerTest {
     //set up for the Player
     @BeforeEach
     void stratingsetup(){
-        playerT = new Player();
-        playerT.setPlayerID(playerID);
-        playerT.setName(name);
+        playerT = new Player(name, playerID);
         playerT.setDeck(Mage.valueOf("fairy"));
     }
 
@@ -50,29 +49,25 @@ class PlayerTest {
     //it resturns the number of coins
     @Test
     @DisplayName("Player's coins setter and getter test")
-    void getCoinsTest(){
+    void CoinsTest() throws lowerLimitException {
         playerT.addCoin();
         assertEquals(1, playerT.getCoins());
+        playerT.removeCoin();
+        assertEquals(0, playerT.getCoins());
     }
 
+    /* dunno if this could be tested here...
     @Test
-    void getState() {
+    void getStateTest() {
     }
+    */
 
+    //tests the getter and setter of the player's group
     @Test
-    void getPlayerID() {
-    }
-
-    @Test
-    void getGroup() {
-    }
-
-    @Test
-    void addCoin() {
-    }
-
-    @Test
-    void removeCoin() {
+    @DisplayName("Setter and getter of the player's group")
+    void groupTest(){
+        playerT.setGroup(1);
+        assertEquals(1, playerT.getGroup());
     }
 
     @Test
