@@ -83,12 +83,10 @@ public class GameControllerTest {
     private void connectAndSetUpTestMatch(String player1, String player2) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         GameModeReply gameModeReply= new GameModeReply(player1, modeEnum.EASY);
         gameController.onMessageReceived(gameModeReply);
-        LoginRequest loginRequest = new LoginRequest(player1);
-        gameController.onMessageReceived(loginRequest);
+        //LoginRequest loginRequest = new LoginRequest(player1);
         PlayerNumberReply pnr = new PlayerNumberReply(player1, 2);
         gameController.onMessageReceived(pnr);
-        LoginRequest secondLoginRequest = new LoginRequest(player2);
-        gameController.onMessageReceived(secondLoginRequest);
+        //gameController.onMessageReceived(secondLoginRequest);
         gameController.getGame().initializeGameboard();
         Server server = new Server(gameController);
         server.addClient(player1, id1, clientHandler);
