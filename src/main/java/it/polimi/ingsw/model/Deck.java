@@ -4,7 +4,7 @@ import it.polimi.ingsw.exceptions.emptyDecktException;
 //This class represents the player's deck
 public class Deck {
     //attributes
-    private Mage mage;
+    private final Mage mage;
     private ArrayList<Assistant> cards;
     private int numCards;
 
@@ -43,17 +43,3 @@ public class Deck {
     }
 }
 
-enum Mage {
-    MAGE("mage"),
-    ELF("elf"),
-    FAIRY("fairy"),
-    DRAGON("dragon");
-
-    //string that specifies the type of the mage
-    private String mageType;
-
-    //contructor
-     Mage(String mage){
-        this.mageType = mage;
-    }
-}
