@@ -9,7 +9,7 @@ public enum Mage {
     //string that specifies the type of the mage
     private String mageType;
 
-    //contructor
+    //constructor
     Mage(String mage){
         this.mageType = mage;
     }

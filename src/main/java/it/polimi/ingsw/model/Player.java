@@ -20,6 +20,7 @@ public class Player {
 
     }
 
+    //may be an idea to replace all these setters with the constructor???
     public void setName(String name) {
         this.name = name;
     }
@@ -29,7 +30,7 @@ public class Player {
     }
 
     public void setDeck(Mage mage){
-        Deck d = new Deck(mage);
+        deck = new Deck(mage);
     }
 
     public String getName() {
@@ -73,6 +74,7 @@ public class Player {
 
     }
 
+    //should be a good idea to add an exception in case of wrong game mode??
     public void addCoin() {
         coins += coins;
     }

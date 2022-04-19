@@ -2,31 +2,84 @@ package it.polimi.ingsw.model.test;
 
 import it.polimi.ingsw.model.Mage;
 import it.polimi.ingsw.model.Player;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 
-//this should be the class that allows to test the class Player
-public class PlayerTest{
+import static org.junit.jupiter.api.Assertions.*;
 
-    Player playert;
-    private static final int playerID = 0;
-    private static final String name = "ptest";
-    String chosenMage = "fairy";
+class PlayerTest {
 
-    //initial set up
+    //things that will be quite essential for the tests
+    Player playerT;
+    private final int playerID = 0;
+    private final String name = "nikeTest";
+    private String chosenMage = "fairy";
+
+    //set up for the Player
     @BeforeEach
-    void startingsetup(){
-        playert = new Player();
-        playert.setPlayerID(playerID);
-        playert.setName(name);
-
+    void stratingsetup(){
+        playerT = new Player();
+        playerT.setPlayerID(playerID);
+        playerT.setName(name);
+        playerT.setDeck(Mage.valueOf("fairy"));
     }
 
+    //tests the getter of the name
+    @Test
+    @DisplayName("Name getter and ID getter test")
+    void getNameTest() {
+        assertEquals(name, playerT.getName());
+        assertEquals(playerID, playerT.getPlayerID());
+    }
 
+    //tests the getter of the deck
+    @Test
+    void getDeckTest() {
+    }
 
+    //it returns the player's dashboard
+    @Test
+    @DisplayName("Player's dashboard test")
+    void getDashboardTets() {
+       //should find a way to test this because in this way it's impossible...
+    }
 
+    //it resturns the number of coins
+    @Test
+    @DisplayName("Player's coins setter and getter test")
+    void getCoinsTest(){
+        playerT.addCoin();
+        assertEquals(1, playerT.getCoins());
+    }
+
+    @Test
+    void getState() {
+    }
+
+    @Test
+    void getPlayerID() {
+    }
+
+    @Test
+    void getGroup() {
+    }
+
+    @Test
+    void addCoin() {
+    }
+
+    @Test
+    void removeCoin() {
+    }
+
+    @Test
+    void takeStudent() {
+    }
+
+    @Test
+    void hasProfessor() {
+    }
 }
