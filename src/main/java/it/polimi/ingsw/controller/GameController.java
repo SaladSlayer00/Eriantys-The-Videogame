@@ -32,7 +32,9 @@ public class GameController implements PropertyChangeListener {
         this.gameMode = gameMode;
     }
 
-
+    public void setDeck(int playerID, Mage deck){
+        game.getPlayerByID(playerID).setDeck(deck);
+    }
 
     public void
 

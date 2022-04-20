@@ -41,6 +41,15 @@ public class EasyGame implements Mode {
         return gameBoard;
     }
 
+    public Player getPlayerByID(int playerID){
+        for (Player player : playingList) {
+            if (player.getPlayerID() == playerID) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     //    @Override
 //    public void nextState() {
 //        this.gameState
@@ -59,14 +68,14 @@ public class EasyGame implements Mode {
     public void initializePlayer(Player p) {
         this.players.add(p);
         this.playingList.add(p);
-        if(this.playerNum == 2){
-            p.getDashboard().setNumTowers(8);
-            p.getDashboard().setHallDimension(7);
-        }
-        else if(this.playerNum == 3){
-            p.getDashboard().setNumTowers(6);
-            p.getDashboard().setHallDimension(9);
-        }
+//        if(this.playerNum == 2){
+//            p.getDashboard().setNumTowers(8);
+//            p.getDashboard().setHallDimension(7);
+//        }
+//        else if(this.playerNum == 3){
+//            p.getDashboard().setNumTowers(6);
+//            p.getDashboard().setHallDimension(9);
+//        }
     }
 
     public void setDeck(Mage m, int playerID) throws deckUnavailableException {

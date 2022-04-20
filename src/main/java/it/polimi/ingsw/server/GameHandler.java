@@ -55,6 +55,43 @@ public class GameHandler {
         game.initializePlayer(new Player(nickname, playerID));
     }
 
+    public void setup() {
+        if(started==0) started=1;
+        DeckTypeRequest req = new DeckMessage("Please choose your Deck.");
+        req.addRemaining(PlayerColors.notChosen());
+        if(playersNumber==2 && PlayerColors.notChosen().size()>1) {
+            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size() + 1).
+                    getNickname();
+            singleSend(req, server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                    server.getIDByNickname(nickname));
+            return;
+        }
+        else if(playersNumber==3 && !PlayerColors.notChosen().isEmpty()) {
+            String nickname = game.getActivePlayers().get(playersNumber - PlayerColors.notChosen().size()).
+                    getNickname();
+            if(PlayerColors.notChosen().size()==1) {
+                game.getPlayerByNickname(nickname).setColor(PlayerColors.notChosen().get(0));
+                singleSend(new CustomMessage("\nThe society decides for you! You have the " +
+                        PlayerColors.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
+                singleSend(new ColorMessage(null, PlayerColors.notChosen().get(0).toString()),
+                        server.getIDByNickname(nickname));
+                PlayerColors.choose(PlayerColors.notChosen().get(0));
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    Thread.currentThread().interrupt();
+                }
+            }
+            else {
+                server.getClientByID(server.getIDByNickname(nickname)).send(req);
+                sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                        server.getIDByNickname(nickname));
+                return;
+            }
+        }
+
 
 
 
