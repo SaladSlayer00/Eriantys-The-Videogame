@@ -4,6 +4,8 @@ import it.polimi.ingsw.exceptions.invalidNumberException;
 public class GameFactory {
     public GameFactory(){};
 
+
+    //eccezione nel factory non necessaria, si fa nel controller al massimo
     public Mode getMode (modeEnum type, int players) throws invalidNumberException {
         Mode retval = null;
         if(players > 4 || players < 2){

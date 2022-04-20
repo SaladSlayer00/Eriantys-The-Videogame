@@ -37,7 +37,11 @@ public class EasyGame implements Mode {
         this.playerNum = numPlayers;
     }
 
-//    @Override
+    public Gameboard getGameBoard() {
+        return gameBoard;
+    }
+
+    //    @Override
 //    public void nextState() {
 //        this.gameState
 //
