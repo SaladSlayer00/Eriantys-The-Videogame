@@ -63,7 +63,7 @@ public class Player {
         cardChosen = deck.draw(cardIndex);
     }
 
-    public void chooseCloud( ) {
+    public void chooseCloud(){
 
     }
 

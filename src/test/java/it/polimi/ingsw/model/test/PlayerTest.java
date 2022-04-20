@@ -70,11 +70,14 @@ class PlayerTest {
         assertEquals(1, playerT.getGroup());
     }
 
+    /* this method uses dashboard so probably not very useful to test it here ???
     @Test
     void takeStudent() {
     }
+    */
 
+    //returns a boolean true if the player has the professor of the color's parameter
     @Test
-    void hasProfessor() {
+    void hasProfessorTets() {
     }
 }
