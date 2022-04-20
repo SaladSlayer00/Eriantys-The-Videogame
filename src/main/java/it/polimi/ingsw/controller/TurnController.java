@@ -1,40 +1,24 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.GameHandler;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-public class TurnController {
+public class TurnController implements PropertyChangeListener {
     private final NamePhase[] phases = {NamePhase.INITIALIZING, NamePhase.PLANNING, NamePhase.ACTION, NamePhase.ENDING};
     private ArrayList<Player> playerOrder;
     private Player activePlayer;
     int activePhase = 0;
+    public TurnController(GameController controller, GameHandler gameHandler, ActionController actionController){}
 
-    public void switchPhase(){
-        switch (activePhase){
-            case 0:
-                handleInit();
-                break;
-            case 1:
-                handlePlanning();
-                break;
-            case 2:
-                handleAction();
-                break;
-            case 3:
-                handleEnding();
-                break;
-        }
+
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
-    public void handleInit(){
-        Phase initialization = new Phase();
-    }
-
-    public void handlePlanning(){}
-
-    public void handleAction(){}
-
-    public void handleEnding(){}
-
-
 }
