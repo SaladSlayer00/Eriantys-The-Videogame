@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+import java.util.List;
+
 import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.deckUnavailableException;
 import it.polimi.ingsw.exceptions.invalidTeamException;
@@ -41,6 +43,28 @@ public class EasyGame implements Mode {
         return gameBoard;
     }
 
+    public List<Player> getActivePlayers() {
+        return playingList;
+    }
+
+    public Player getPlayerByID(int playerID){
+        for (Player player : playingList) {
+            if (player.getPlayerID() == playerID) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public Player getPlayerByNickname(String name){
+        for (Player player : playingList) {
+            if (player.getName().equalsIgnoreCase(name)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     //    @Override
 //    public void nextState() {
 //        this.gameState
@@ -59,14 +83,14 @@ public class EasyGame implements Mode {
     public void initializePlayer(Player p) {
         this.players.add(p);
         this.playingList.add(p);
-        if(this.playerNum == 2){
-            p.getDashboard().setNumTowers(8);
-            p.getDashboard().setHallDimension(7);
-        }
-        else if(this.playerNum == 3){
-            p.getDashboard().setNumTowers(6);
-            p.getDashboard().setHallDimension(9);
-        }
+//        if(this.playerNum == 2){
+//            p.getDashboard().setNumTowers(8);
+//            p.getDashboard().setHallDimension(7);
+//        }
+//        else if(this.playerNum == 3){
+//            p.getDashboard().setNumTowers(6);
+//            p.getDashboard().setHallDimension(9);
+//        }
     }
 
     public void setDeck(Mage m, int playerID) throws deckUnavailableException {
