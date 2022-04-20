@@ -36,6 +36,10 @@ public class GameController implements PropertyChangeListener {
         game.getPlayerByID(playerID).setDeck(deck);
     }
 
+    public void setTeam(int playerID, Type team){
+        game.getPlayerByID(playerID).getDashboard().setTeam(team);
+    }
+
     public void
 
     @Override

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+
 
 public interface Mode {
      public void startGame();
@@ -10,4 +13,6 @@ public interface Mode {
      public void initializePlayer(Player p);
      public Gameboard getGameBoard();
      public Player getPlayerByID(int playerID);
+     public Player getPlayerByNickname(String nickname);
+     public List<Player> getActivePlayers();
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+import java.util.List;
+
 import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.deckUnavailableException;
 import it.polimi.ingsw.exceptions.invalidTeamException;
@@ -41,9 +43,22 @@ public class EasyGame implements Mode {
         return gameBoard;
     }
 
+    public List<Player> getActivePlayers() {
+        return playingList;
+    }
+
     public Player getPlayerByID(int playerID){
         for (Player player : playingList) {
             if (player.getPlayerID() == playerID) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public Player getPlayerByNickname(String name){
+        for (Player player : playingList) {
+            if (player.getName().equalsIgnoreCase(name)) {
                 return player;
             }
         }

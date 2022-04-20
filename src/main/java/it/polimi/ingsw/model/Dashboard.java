@@ -23,7 +23,7 @@ public class Dashboard {
     }
 
     //methods of the class dashboard
-    public void addToHall(Student s){
+    public void addToHall(Student s) {
         hall.add(s);
     }
 
@@ -72,6 +72,11 @@ public class Dashboard {
     public void setNumTowers(int numTowers) {
         this.numTowers = numTowers;
     }
+
+    public void setTeam(Type team) {
+        this.team = team;
+    }
+}
 
 
     //the following class represents the dashboard rows
