@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.test;
 
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Dashboard;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.Student;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

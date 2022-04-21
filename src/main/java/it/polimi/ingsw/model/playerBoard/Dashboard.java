@@ -1,5 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.playerBoard;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.Type;
+
 
 import java.util.ArrayList;
 
@@ -35,7 +39,7 @@ public class Dashboard {
         }
         */
         for (Row r : this.rows) {
-            if (r.getName().equals(student.color)) {
+            if (r.getName().equals(student.getColor())) {
                 r.addStudent(student);
             }
         }
@@ -43,7 +47,7 @@ public class Dashboard {
 
     public Student takeStudent(Color c) throws noStudentException {
         for (Student s : this.hall) {
-            if (s.color.equals(c)) {
+            if (s.getColor().equals(c)) {
                 hall.remove(s);
                 return s;
             }
@@ -76,52 +80,8 @@ public class Dashboard {
     public void setTeam(Type team) {
         this.team = team;
     }
+
+
+
+
 }
-
-
-    //the following class represents the dashboard rows
-    private class Row {
-        //attributes of the class Row
-        private Color name;
-        private ArrayList<Student> students;
-        private boolean hasProfessor;
-        private Professor professor; //Can we eliminate it ?
-        public static final int MAX_STUDENTS = 10;
-
-        //methods of the class Row
-
-
-        public Color getName() {
-            return name;
-        }
-
-        public void addProfessor() throws alreadyAProfessorException {
-            if (hasProfessor == true) {
-                throw new alreadyAProfessorException();
-            } else {
-                hasProfessor = true;
-            }
-        }
-
-        public void addStudent(Student student) throws maxSizeException {
-            if (students.size() - 1 < MAX_STUDENTS) {
-                students.add(student);
-            } else {
-                throw new maxSizeException();
-            }
-        }
-
-        public void removeProfessor() throws noProfessorException {
-            if (hasProfessor == true) {
-                hasProfessor = false;
-            } else {
-                //we can replace it with an exception
-                throw new noProfessorException();
-            }
-        }
-
-
-    }
-}
-
-

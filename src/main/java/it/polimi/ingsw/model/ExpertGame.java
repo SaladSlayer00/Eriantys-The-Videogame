@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.model.board.Gameboard;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ExpertGame implements Mode{
@@ -33,15 +36,37 @@ public class ExpertGame implements Mode{
     public void nextState() {
 
     }
-
+/*
     @Override
     public void createPlayers() {
 
     }
 
+ */
+
     @Override
     public void initializePlayer(Player p) {
 
+    }
+
+    @Override
+    public Gameboard getGameBoard() {
+        return null;
+    }
+
+    @Override
+    public Player getPlayerByID(int playerID) {
+        return null;
+    }
+
+    @Override
+    public Player getPlayerByNickname(String nickname) {
+        return null;
+    }
+
+    @Override
+    public List<Player> getActivePlayers() {
+        return null;
     }
 
 

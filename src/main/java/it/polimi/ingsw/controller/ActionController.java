@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Gameboard;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.Player;
 
 public class ActionController {
