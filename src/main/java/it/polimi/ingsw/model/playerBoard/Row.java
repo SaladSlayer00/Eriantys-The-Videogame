@@ -19,7 +19,6 @@ public class Row {
 
     //methods of the class Row
 
-
     public Color getName() {
         return name;
     }
