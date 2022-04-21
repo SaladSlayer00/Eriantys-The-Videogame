@@ -6,4 +6,8 @@ public class Student{
     public Student(Color color){
         this.color = color;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

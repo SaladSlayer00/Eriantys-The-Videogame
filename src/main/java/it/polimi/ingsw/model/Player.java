@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.Color;
 import java.util.ArrayList;
-import it.polimi.ingsw.model.Dashboard;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.exceptions.*;
 
 public class Player {
