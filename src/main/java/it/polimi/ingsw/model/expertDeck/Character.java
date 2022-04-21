@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.expertDeck;
 //class representing the character cards of the expert game mode
 public abstract class Character{
     //attributes of the class Character
@@ -8,6 +8,10 @@ public abstract class Character{
     //methods of the class Character
     public Character(int cost){
        this.cost = cost;
+    }
+
+    public int getCost(){
+        return cost;
     }
 
     public void addCoin() {
