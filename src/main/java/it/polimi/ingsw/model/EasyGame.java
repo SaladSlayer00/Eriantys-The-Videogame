@@ -6,6 +6,8 @@ import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.deckUnavailableException;
 import it.polimi.ingsw.exceptions.invalidTeamException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.model.board.Gameboard;
+
 
 public class EasyGame implements Mode {
 

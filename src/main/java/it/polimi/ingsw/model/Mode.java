@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.model.board.Gameboard;
 
 import java.nio.ByteBuffer;
 import java.util.List;
