@@ -16,4 +16,6 @@ public interface Mode {
      public Player getPlayerByID(int playerID);
      public Player getPlayerByNickname(String nickname);
      public List<Player> getActivePlayers();
+     public List<Player> getPlayers();
+
 }

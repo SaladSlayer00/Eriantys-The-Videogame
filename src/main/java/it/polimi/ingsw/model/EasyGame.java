@@ -49,6 +49,10 @@ public class EasyGame implements Mode {
         return playingList;
     }
 
+    public List<Player> getPlayers(){
+        return players;
+    }
+
     public Player getPlayerByID(int playerID){
         for (Player player : playingList) {
             if (player.getPlayerID() == playerID) {

@@ -81,7 +81,7 @@ public class Dashboard {
         this.team = team;
     }
 
-
-
-
+    public int getNumTowers() {
+        return numTowers;
+    }
 }

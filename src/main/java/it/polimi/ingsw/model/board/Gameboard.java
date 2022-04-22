@@ -25,6 +25,8 @@ public class Gameboard {
             Professor p = new Professor(c);
             professors.add(p);
         }
+        this.sack = new Sack();
+
     }
 
     public Sack getSack() {
@@ -63,6 +65,7 @@ public class Gameboard {
                 }
             }
         }
+        sack.initializeSack();
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard

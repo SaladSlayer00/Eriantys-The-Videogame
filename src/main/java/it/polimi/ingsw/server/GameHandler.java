@@ -3,6 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.invalidNumberException;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.answers.DeckMessage;
+import it.polimi.ingsw.server.answers.TeamMessage;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Random;
@@ -40,26 +42,29 @@ public class GameHandler {
         this.gameMode = gameMode;
     }
 
+    //factory che crea la modalità giusta di gioco, poi secondo me serve una roba tipo 2 costruttori
+    //per l'effettiva gestione della cosa
     public void createGame() throws invalidNumberException {
         game = gameFactory.getMode(this.gameMode, this.playersNumber);
     }
 
-    public void createGameController(){
+    public void createGameController() {
         controller.setGame(this.game, this.gameMode);
     }
 
-    public void createPlayer(String nickname, int playerID){
+    public void createPlayer(String nickname, int playerID) {
         game.initializePlayer(new Player(nickname, playerID));
     }
+
 
     //loro accedevano tramite nich
     public void deckSetup() {
         if (started == 0) started = 1;
-        DeckTypeRequest req = new DeckMessage("Please choose your Deck.");
+        DeckMessage req = new DeckMessage("Please choose your Deck.");
         req.addRemaining(Mage.notChosen());
         if (playersNumber == 2 && Mage.notChosen().size() > 1) {
             String nickname = game.getActivePlayers().get(playersNumber - Mage.notChosen().size() + 1).
-                    getNickname();
+                    getName();
             singleSend(req, server.getIDByNickname(nickname));
             sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
                     server.getIDByNickname(nickname));
@@ -89,46 +94,49 @@ public class GameHandler {
         }
     }
 
-        public void teamSetup() {
-            if(started==0) started=1;
-            TeamTypeRequest req = new TeamMessage("Please choose your Team.");
-            req.addRemaining(Type.notChosen());
-            if(playersNumber==2 && Type.notChosen().size()>1) {
-                String nickname = game.getActivePlayers().get(playersNumber - Type.notChosen().size() + 1).
-                        getName();
-                singleSend(req, server.getIDByNickname(nickname));
+    public void teamSetup() {
+        if (started == 0) started = 1;
+        TeamMessage req = new TeamMessage("Please choose your Team.");
+        req.addRemaining(Type.notChosen());
+        if (playersNumber == 2 && Type.notChosen().size() > 1) {
+            String nickname = game.getActivePlayers().get(playersNumber - Type.notChosen().size() + 1).
+                    getName();
+            singleSend(req, server.getIDByNickname(nickname));
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                    server.getIDByNickname(nickname));
+            return;
+        } else if (playersNumber == 3 && !Type.notChosen().isEmpty()) {
+            String nickname = game.getActivePlayers().get(playersNumber - Type.notChosen().size()).
+                    getName();
+            if (Type.notChosen().size() == 1) {
+                game.getPlayerByNickname(nickname).setColor(Type.notChosen().get(0));
+                singleSend(new CustomMessage("\nThe society decides for you! You have the " +
+                        Type.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
+                singleSend(new TeamMessage(null, Type.notChosen().get(0).toString()),
+                        server.getIDByNickname(nickname));
+                Type.choose(Type.notChosen().get(0));
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    Thread.currentThread().interrupt();
+                }
+            } else {
+                server.getClientByID(server.getIDByNickname(nickname)).send(req);
                 sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
                         server.getIDByNickname(nickname));
                 return;
             }
-            else if(playersNumber==3 && !Type.notChosen().isEmpty()) {
-                String nickname = game.getActivePlayers().get(playersNumber - Type.notChosen().size()).
-                        getName();
-                if(Type.notChosen().size()==1) {
-                    game.getPlayerByNickname(nickname).setColor(Type.notChosen().get(0));
-                    singleSend(new CustomMessage("\nThe society decides for you! You have the " +
-                            Type.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
-                    singleSend(new TeamMessage(null, Type.notChosen().get(0).toString()),
-                            server.getIDByNickname(nickname));
-                    Type.choose(Type.notChosen().get(0));
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        logger.log(Level.SEVERE, e.getMessage(), e);
-                        Thread.currentThread().interrupt();
-                    }
-                }
-                else {
-                    server.getClientByID(server.getIDByNickname(nickname)).send(req);
-                    sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
-                            server.getIDByNickname(nickname));
-                    return;
-                }
-            }
+        }
 
 
+    }
 
+    public GameController getController() {
+        return controller;
+    }
 
-
-
+    public Server getServer() {
+        return server;
+    }
 }

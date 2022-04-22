@@ -1,4 +1,6 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.exceptions.fullTowersException;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.GameHandler;
 
@@ -40,11 +42,25 @@ public class GameController implements PropertyChangeListener {
         game.getPlayerByID(playerID).getDashboard().setTeam(team);
     }
 
-    public void
+    public void initializeGameboard() throws noMoreStudentsException {
+        game.initializeGameboard();
+    }
+
+
+    //mette il numero di torri giosto in base al numero che sarà assegnato in fase di inizializzazione
+    public void initializeDashboards() throws fullTowersException {
+        for(Player p : game.getPlayers()){
+            for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){
+                p.getDashboard().putTower();
+            }
+        }
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        switch(evt.getPropertyName()){
+            case "gameboardSetup" ->
+        }
 
     }
 }
