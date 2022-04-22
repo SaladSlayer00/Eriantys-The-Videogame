@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
 
+import javax.naming.ContextNotEmptyException;
+
 /* At the beginning of a match four students should be drawn from the sack and put on this card
 * When a player uses this card, they can choose one of the student and put it on an island (anyone)
 * Then they have to draw a student from the sack to replace the one they have chosen
@@ -41,15 +43,13 @@ public class OneMoreStudentCard extends Character{
 
     //this is the method that handle the effect of the card
     //should there be also the island's index and the part where the student is put o the island of choice???
-    public Student useEffect(Player p, int i) throws notEnoughMoneyException, studentUnavailableException, noMoreStudentsException {
-        if(p.getCoins() < this.getCost()){
-            throw new notEnoughMoneyException();
-        }
-        else{
+    public Student useEffect(Player p, int i) throws notEnoughMoneyException, studentUnavailableException, noMoreStudentsException{
+        if(checkMoney(p) == true){
             Student s = pickUpStudent(i);
             students[i] = sack.drawStudent();
             addCoin();
             return s;
         }
+        else throw new notEnoughMoneyException();
     }
 }
