@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.exceptions.fullTowersException;
 import it.polimi.ingsw.exceptions.invalidNumberException;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.answers.DeckMessage;
 import it.polimi.ingsw.server.answers.TeamMessage;
@@ -56,8 +58,16 @@ public class GameHandler {
         game.initializePlayer(new Player(nickname, playerID));
     }
 
-
-    //loro accedevano tramite nich
+    //metodo chiamato dal srver dopo che nella lobby sono stati stabiliti il numero di giocatori
+    //e la modalità, cose decise in fase di socketConnection, quindi già disponibili quando si
+    //richiama questo metodo per costruire la Gameboard e setuppare i parametri del gioco
+    public void setup() throws noMoreStudentsException, fullTowersException {
+        deckSetup();
+        teamSetup();
+        controller.initializeGameboard();
+        controller.initializeDashboards();
+    }
+    //attrubuti setuppati dal scc quando riceve il messaggio giusto e richiama il metodo del controller
     public void deckSetup() {
         if (started == 0) started = 1;
         DeckMessage req = new DeckMessage("Please choose your Deck.");

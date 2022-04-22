@@ -59,7 +59,8 @@ public class GameController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()){
-            case "gameboardSetup" ->
+            case TURN_CONTROLLER :
+                controllerListeners.firePropertyChange(TURN_CONTROLLER, null, evt.getNewValue());
         }
 
     }

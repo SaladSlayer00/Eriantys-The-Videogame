@@ -16,7 +16,8 @@ public class EasyGame implements Mode {
     private  int playerNum;
     private final ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> playingList = new ArrayList<Player>();
-    //private GameState gameState; secondo me non necessario
+    private Player currentPLayer;
+
     private int[][] teams = null;
 
 
@@ -124,6 +125,10 @@ public class EasyGame implements Mode {
                 p.getDashboard().addStudent(s);
             }
         }
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPLayer;
     }
 }
 

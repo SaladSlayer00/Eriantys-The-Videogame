@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.exceptions.fullTowersException;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +18,7 @@ public class Server {
 
 
 
-    public synchronized void lobby(SocketClientConnection c) throws InterruptedException {
+    public synchronized void lobby(SocketClientConnection c) throws InterruptedException, noMoreStudentsException, fullTowersException {
         waiting.add(c);
         if (waiting.size() == 1) {
             c.setMode(new RequestMode(
