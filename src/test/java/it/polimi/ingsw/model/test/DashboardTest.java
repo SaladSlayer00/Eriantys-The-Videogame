@@ -45,15 +45,11 @@ class DashboardTest {
         dTest.addToHall(s);
     }
 
+    //this is for the towers
     @Test
-    void putTower() {
-    }
-
-    @Test
-    void getTower() {
-    }
-
-    @Test
-    void setNumTowers() {
+    @DisplayName("getter, setter and these things for the towers")
+    void towerTest(){
+        dTest.setNumTowers(7);
+        //TODO
     }
 }
