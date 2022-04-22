@@ -20,6 +20,8 @@ public abstract class Character{
     public void addCoin() {
         numCoins += numCoins;
     }
+
+    //this method is completely useless!!!
     public void useEffect(){
 
     }
