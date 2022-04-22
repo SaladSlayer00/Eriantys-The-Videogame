@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.expertDeck;
 
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.notEnoughMoneyException;
 import it.polimi.ingsw.exceptions.studentUnavailableException;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Sack;
 import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.board.Sack;
 
 /* At the beginning of a match four students should be drawn from the sack and put on this card
 * When a player uses this card, they can choose one of the student and put it on an island (anyone)
@@ -16,7 +17,7 @@ public class OneMoreStudentCard extends Character{
     private Sack sack;
 
     //initialization of the card: the initial cost is 1 PLUS the four students are added randomly
-    public OneMoreStudentCard(){
+    public OneMoreStudentCard() throws noMoreStudentsException {
         super(1);
         for(Student s : students){
             s = sack.drawStudent();
@@ -39,13 +40,13 @@ public class OneMoreStudentCard extends Character{
     }
 
     //this is the method that handle the effect of the card
-    public Student useEffect(Player p, int i) throws notEnoughMoneyException, studentUnavailableException {
+    //should there be also the island's index and the part where the student is put o the island of choice???
+    public Student useEffect(Player p, int i) throws notEnoughMoneyException, studentUnavailableException, noMoreStudentsException {
         if(p.getCoins() < this.getCost()){
             throw new notEnoughMoneyException();
         }
         else{
             Student s = pickUpStudent(i);
-            //don't know if it has to be set null before fill it again (???)
             students[i] = sack.drawStudent();
             addCoin();
             return s;

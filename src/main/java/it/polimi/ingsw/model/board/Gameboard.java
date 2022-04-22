@@ -48,7 +48,6 @@ public class Gameboard {
         }
         placeMother();
 
-        //should add the thing that sets the students
         if (this.motherNature < 6) {
             for (Island i : islands) {
                 if (i.index != motherNature + 6) {
