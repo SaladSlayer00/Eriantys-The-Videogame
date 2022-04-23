@@ -32,4 +32,11 @@ public class Cloud{
         }
         return temp;
     }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+    public boolean emptyCloud() {
+       return students.isEmpty();
+    }
 }

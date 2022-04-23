@@ -10,8 +10,8 @@ import it.polimi.ingsw.exceptions.emptyDecktException;
 import it.polimi.ingsw.model.Assistant;
 class DeckTest {
 
-    Deck dTest;
-    Mage mTest;
+     Deck dTest;
+     Mage mTest;
     //initial set up of the deck
     @BeforeEach
     void startingSetup() {
