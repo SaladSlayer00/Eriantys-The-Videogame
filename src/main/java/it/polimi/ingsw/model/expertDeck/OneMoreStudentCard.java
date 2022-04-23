@@ -27,7 +27,7 @@ public class OneMoreStudentCard extends Character{
     }
 
     //this is needed for the association sack and proper sack of the game
-    public void getSack(Sack sack){
+    public void setSack(Sack sack){
         this.sack = sack;
     }
 
