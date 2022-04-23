@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.test;
 
+import it.polimi.ingsw.exceptions.noStudentException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.Student;
@@ -15,7 +16,7 @@ class DashboardTest {
 
     //initial set up of the dashboard
     @BeforeEach
-    void startingsetup(){
+    void startingSetUp(){
         dTest = new Dashboard();
     }
 
@@ -39,10 +40,13 @@ class DashboardTest {
     //this is for the method that take the students form the hall
     @Test
     @DisplayName("Tests the method that have to do with the hall and the students")
-    void StudentsInTheHallTest(){
+    void StudentsInTheHallTest() throws noStudentException {
         dTest.setHallDimension(7);
         Student s = new Student(Color.valueOf("green"));
         dTest.addToHall(s);
+        //should add a way to check the number of students in the hall!!! TODO
+        dTest.takeStudent(Color.valueOf("green"));
+        //should add a way to check the number of students again!!!
     }
 
     //this is for the towers

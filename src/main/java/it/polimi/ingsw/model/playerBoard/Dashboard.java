@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.playerBoard;
+
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Student;

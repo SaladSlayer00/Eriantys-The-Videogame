@@ -13,10 +13,15 @@ public class Row {
     //attributes of the class Row
     private Color name;
     private ArrayList<Student> students;
-    private boolean hasProfessor;
+    private boolean hasProfessor = false;
     private Professor professor; //Can we eliminate it ?
     public static final int MAX_STUDENTS = 10;
 
+    //constructor of the row
+    //IS THIS METHOD ALREADY IMPLEMENTED???????
+    public Row(Color c){
+        name = c;
+    }
     //methods of the class Row
 
     public Color getName() {
@@ -31,12 +36,23 @@ public class Row {
         }
     }
 
+    public boolean checkProfessor(){
+        if(hasProfessor == true){
+            return true;
+        }
+        return false;
+    }
+
     public void addStudent(Student student) throws maxSizeException {
         if (students.size() - 1 < MAX_STUDENTS) {
             students.add(student);
         } else {
             throw new maxSizeException();
         }
+    }
+
+    public int getNumOfStudents(){
+        return students.size();
     }
 
     public void removeProfessor() throws noProfessorException {

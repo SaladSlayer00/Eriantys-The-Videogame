@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PlayerTest {
 
     //things that will be quite essential for the tests
@@ -21,7 +19,7 @@ class PlayerTest {
 
     //set up for the Player
     @BeforeEach
-    void stratingsetup(){
+    void startingSetUp(){
         playerT = new Player(name, playerID);
         playerT.setDeck(Mage.valueOf("fairy"));
     }
@@ -79,5 +77,24 @@ class PlayerTest {
     //returns a boolean true if the player has the professor of the color's parameter
     @Test
     void hasProfessorTets() {
+    }
+
+    static class RowTest {
+
+        @Test
+        void getName() {
+        }
+
+        @Test
+        void addProfessor() {
+        }
+
+        @Test
+        void addStudent() {
+        }
+
+        @Test
+        void removeProfessor() {
+        }
     }
 }
