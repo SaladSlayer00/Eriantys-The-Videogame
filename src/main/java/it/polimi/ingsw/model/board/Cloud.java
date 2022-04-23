@@ -17,7 +17,6 @@ public class Cloud{
             this.dimension = 4;
         }
     }
-
     //methods of cloud
     //it adds a student on the cloud
     public void addStudent(Student student){

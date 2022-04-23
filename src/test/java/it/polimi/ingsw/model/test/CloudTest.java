@@ -82,7 +82,6 @@ class CloudTest {
         for(Student s : s2Test){
             c2Test.addStudent(s);
         }
-
         ArrayList<Student> a1  = new ArrayList<>(c1Test.removeStudents());
         ArrayList<Student> a2  = new ArrayList<>(c2Test.removeStudents());
         assertTrue(c1Test.removeStudents().containsAll(a1));
