@@ -14,7 +14,7 @@ public class Sack{
 
     public Sack(){
         for(Color c : this.colors){
-            for(int i = 0; i<2;i++){
+            for(int i = 0; i < 2; i++){
                 Student s = new Student(c);
                 this.students.add(s);
             }
@@ -23,7 +23,7 @@ public class Sack{
     //methods of sack
     public void initializeSack(){
         for(Color c : this.colors){
-            for(int i=0; i<24;i++){
+            for(int i = 0; i < 24; i++){
                 Student s = new Student(c);
                 this.students.add(s);
             }

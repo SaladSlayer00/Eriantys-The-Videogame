@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.exceptions.notPresentStudentException;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
@@ -29,7 +30,20 @@ public class ExchangeStudentsCard extends Character{
     }
 
     //this is the method that replaces the students
-    public void replace(Color wanted, Student playerChoice){
-
+    public Student swap(Color wanted, Student playerChoice) throws notPresentStudentException {
+        for(Student s : students){
+            if(s.getColor().equals(wanted)){
+                Student temp = new Student(s.getColor());
+                s = playerChoice;
+                return temp;
+            }
+        }
+        throw new notPresentStudentException();
     }
+
+    /* is useEffect() really necessary???
+    * an idea may be to pass the student that has been swapped to the controller and then
+    * it becomes a controller's problem
+    * TODO (added this only to remember to discuss it next time)
+     */
 }
