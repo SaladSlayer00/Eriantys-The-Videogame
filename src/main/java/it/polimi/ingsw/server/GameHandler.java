@@ -53,7 +53,7 @@ public class GameHandler {
     public void createGameController() {
         controller.setGame(this.game, this.gameMode);
     }
-
+    //lo fa il socket tramite il server
     public void createPlayer(String nickname, int playerID) {
         game.initializePlayer(new Player(nickname, playerID));
     }
@@ -76,7 +76,7 @@ public class GameHandler {
             String nickname = game.getActivePlayers().get(playersNumber - Mage.notChosen().size() + 1).
                     getName();
             singleSend(req, server.getIDByNickname(nickname));
-            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing their deck!", false),
                     server.getIDByNickname(nickname));
             return;
         } else if (playersNumber == 3 && !Mage.notChosen().isEmpty()) {
@@ -84,8 +84,8 @@ public class GameHandler {
                     getName();
             if (Mage.notChosen().size() == 1) {
                 game.getPlayerByNickname(nickname).setDeck(Mage.notChosen().get(0));
-                singleSend(new CustomMessage("\nThe society decides for you! You have the " +
-                        Mage.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
+                singleSend(new CustomMessage("\nYour mage chooses you! You have the " +
+                        Mage.notChosen().get(0) + " deck!\n", false), server.getIDByNickname(nickname));
                 singleSend(new DeckMessage(null, Mage.notChosen().get(0).toString()),
                         server.getIDByNickname(nickname));
                 Mage.choose(Mage.notChosen().get(0));
@@ -97,7 +97,7 @@ public class GameHandler {
                 }
             } else {
                 server.getClientByID(server.getIDByNickname(nickname)).send(req);
-                sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+                sendAllExcept(new CustomMessage("User " + nickname + " is choosing their deck!", false),
                         server.getIDByNickname(nickname));
                 return;
             }
@@ -112,7 +112,7 @@ public class GameHandler {
             String nickname = game.getActivePlayers().get(playersNumber - Type.notChosen().size() + 1).
                     getName();
             singleSend(req, server.getIDByNickname(nickname));
-            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his color!", false),
+            sendAllExcept(new CustomMessage("User " + nickname + " is choosing his team!", false),
                     server.getIDByNickname(nickname));
             return;
         } else if (playersNumber == 3 && !Type.notChosen().isEmpty()) {
@@ -120,8 +120,8 @@ public class GameHandler {
                     getName();
             if (Type.notChosen().size() == 1) {
                 game.getPlayerByNickname(nickname).setColor(Type.notChosen().get(0));
-                singleSend(new CustomMessage("\nThe society decides for you! You have the " +
-                        Type.notChosen().get(0) + " color!\n", false), server.getIDByNickname(nickname));
+                singleSend(new CustomMessage("\nThe towers choose you! You're the master of the  " +
+                        Type.notChosen().get(0) + " towers!\n", false), server.getIDByNickname(nickname));
                 singleSend(new TeamMessage(null, Type.notChosen().get(0).toString()),
                         server.getIDByNickname(nickname));
                 Type.choose(Type.notChosen().get(0));
@@ -142,6 +142,8 @@ public class GameHandler {
 
     }
 
+
+
     public GameController getController() {
         return controller;
     }
@@ -149,4 +151,6 @@ public class GameHandler {
     public Server getServer() {
         return server;
     }
+
+
 }
