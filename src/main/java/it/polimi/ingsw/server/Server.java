@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.exceptions.InvalidPlayersException;
 import it.polimi.ingsw.exceptions.fullTowersException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.model.Mage;
+import it.polimi.ingsw.model.Type;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -10,19 +13,22 @@ import java.util.concurrent.TimeUnit;
 public class Server {
     private final SocketServer socketServer;
     private final Map<Integer, VirtualClient> idMapClient;
-    private final Map<VirtualClient, SocketClientConnection> clientToConnection;
+    private final Map<VirtualClient, SocketInstance> clientToConnection;
+    private final Map<String, Integer> nameMapId;
     private int nextClientID;
     private GameHandler currentGame;
-    private final List<SocketClientConnection> waiting = new ArrayList<>();
+    private final List<SocketInstance> waiting = new ArrayList<>();
     private int totalPlayers;
 
 
 
-    public synchronized void lobby(SocketClientConnection c) throws InterruptedException, noMoreStudentsException, fullTowersException {
+
+    //da sincronizzare
+    public void lobby(SocketInstance c) throws InterruptedException, noMoreStudentsException, fullTowersException {
         waiting.add(c);
         if (waiting.size() == 1) {
             c.setMode(new RequestMode(
-                    idMapClient.get(c.getClietID()).getNickname()
+                    idMapClient.get(c.getClientID()).getNickname()
                             + ", you are"
                     + "the lobby host. \nChoose the game mode! [EASY/EXPERT]", false));
 
@@ -42,7 +48,8 @@ public class Server {
             }
             currentGame.sendAll(new CustomMessage("The match has started!", false));
             waiting.clear();
-            PlayerColors.reset();
+            Mage.reset();
+            Type.reset();
             currentGame.setup();
         } else {
             currentGame.sendAll(
@@ -50,8 +57,17 @@ public class Server {
         }
     }
 
+    public void setTotalPlayers(int totalPlayers) throws InvalidPlayersException {
+        if (totalPlayers < 2 || totalPlayers > 4) {
+            throw new InvalidPlayersException();
+        } else {
+            this.totalPlayers = totalPlayers;
+        }
+    }
 
-
-
+    public int getIDByNickname(String nickname) {
+        return nameMapId.get(nickname);
+    }
 
 }
+

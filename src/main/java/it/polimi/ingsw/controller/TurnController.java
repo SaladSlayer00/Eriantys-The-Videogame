@@ -8,8 +8,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import it.polimi.ingsw.controller.ActionController;
 
+//si occupa della fase iniziale per settare l'ordine e richiama le azioni per la
+//fase azione
+
 public class TurnController implements PropertyChangeListener {
-//    private final NamePhase[] phases = {NamePhase.INITIALIZING, NamePhase.PLANNING, NamePhase.ACTION, NamePhase.ENDING};
+    private final NamePhase[] phases = {NamePhase.INITIALIZING, NamePhase.PLANNING, NamePhase.ACTION, NamePhase.ENDING};
 //    private ArrayList<Player> playerOrder;
 //    private Player activePlayer;
     private final GameController controller;
