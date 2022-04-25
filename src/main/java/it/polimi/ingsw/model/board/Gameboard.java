@@ -123,4 +123,12 @@ public class Gameboard {
         }
     }
 
+    public Cloud[] getClouds() {
+        return clouds;
+    }
+
+    public ArrayList<Island> getIslands() {
+        return islands;
+    }
+
 }

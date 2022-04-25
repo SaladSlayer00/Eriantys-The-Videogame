@@ -17,6 +17,7 @@ public class EasyGame implements Mode {
     private final ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> playingList = new ArrayList<Player>();
     private Player currentPLayer;
+    private int currentPlayerN;
 
     private int[][] teams = null;
 
@@ -129,6 +130,19 @@ public class EasyGame implements Mode {
 
     public Player getCurrentPlayer() {
         return currentPLayer;
+    }
+
+    public void setCurrentPLayer(Player player){
+        this.currentPLayer = player;
+        this.currentPlayerN = playingList.indexOf(player);
+
+    }
+
+    public void nextPlayer() {
+        currentPlayerN = (currentPlayerN == playingList.size()-1 ||  currentPlayerN == playingList.size())
+                ? 0
+                : currentPlayerN+1; //Clockwise rotation
+        setCurrentPLayer(playingList.get(currentPlayerN));
     }
 }
 

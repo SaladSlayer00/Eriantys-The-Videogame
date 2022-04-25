@@ -10,4 +10,12 @@ public class Assistant {
         this.numOrder = numOrder;
         this.move = move;
     }
+
+    public int getMove() {
+        return move;
+    }
+
+    public int getNumOrder() {
+        return numOrder;
+    }
 }

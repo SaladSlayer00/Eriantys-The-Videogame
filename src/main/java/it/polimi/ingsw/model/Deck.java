@@ -41,5 +41,10 @@ public class Deck {
     public Mage getMage() {
         return mage;
     }
+
+    public ArrayList<Assistant> getCards() {
+        ArrayList<Assistant> copiedCards = new ArrayList<Assistant>(cards);
+        return cards;
+    }
 }
 

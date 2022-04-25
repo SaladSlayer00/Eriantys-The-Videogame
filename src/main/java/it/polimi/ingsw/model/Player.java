@@ -91,9 +91,8 @@ public class Player {
         dashboard.addStudent(students);
     }
 
-    public void takeStudent (Color c) throws noStudentException {
-        dashboard.takeStudent(c);
-
+    public Student takeStudent (Color c) throws noStudentException {
+        return dashboard.takeStudent(c);
     }
     public void putTower () throws fullTowersException {
         dashboard.putTower();
