@@ -34,6 +34,7 @@ public class GameController implements PropertyChangeListener {
         this.gameMode = gameMode;
     }
 
+    //richiamati dal scc
     public void setDeck(int playerID, Mage deck){
         game.getPlayerByID(playerID).setDeck(deck);
     }
