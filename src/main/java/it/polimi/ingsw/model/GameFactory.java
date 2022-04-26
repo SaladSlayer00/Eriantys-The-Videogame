@@ -2,8 +2,16 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.invalidNumberException;
 
 public class GameFactory {
+    private modeEnum type;
     public GameFactory(){};
 
+    public void setType(modeEnum type) {
+        this.type = type;
+    }
+
+    public modeEnum getType() {
+        return type;
+    }
 
     //eccezione nel factory non necessaria, si fa nel controller al massimo
     public Mode getMode (modeEnum type, int players) throws invalidNumberException {
