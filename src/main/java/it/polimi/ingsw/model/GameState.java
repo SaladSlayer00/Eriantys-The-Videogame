@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 public enum GameState {
-    SETUP ,
-    PLAYING ,
-    INTERRUPTED ,
+    LOGIN ,
+    INIT,
+    IN_GAME ,
     END;
 }
