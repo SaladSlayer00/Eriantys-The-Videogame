@@ -9,13 +9,14 @@ import it.polimi.ingsw.exceptions.deckUnavailableException;
 import it.polimi.ingsw.exceptions.invalidTeamException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 
 
 public class EasyGame extends Oservable implements Serializable{
     private static final long serialVersioneUID =  4405183481677036856L; //da cambiare
     private static EasyGame instance;
     private static final String SERVER_NICKNAME = "server";
-    private final Gameboard gameBoard;
+    private  Gameboard gameBoard;
     private List<Player> players;
     private List<Player> activeplayers;
     private int chosenPlayerNumber;
@@ -24,12 +25,36 @@ public class EasyGame extends Oservable implements Serializable{
 
     public EasyGame(int numPlayers) {
         this.chosenPlayerNumber = numPlayers;
-        this.gameBoard = new Gameboard(numPlayers);
         this.players = new ArrayList<>();
         this.activeplayers = new ArrayList<>();
     }
-    public void initIslands() throws noMoreStudentsException {
+
+    public void initializeGameboard() throws noMoreStudentsException {
+        this.gameBoard = new Gameboard(this.chosenPlayerNumber);
         this.gameBoard.initializeIslands();
+
+    }
+
+    public void initializePlayer(Player p) {
+        this.players.add(p);
+        this.activeplayers.add(p);
+        p.setDashboard(new Dashboard(this.chosenPlayerNumber));
+    }
+
+    public void initializeDashnoards() throws noMoreStudentsException, maxSizeException {
+        for(Player p : this.players){
+            for(int i = 0; i < p.getDashboard().getHallDimension(); i++){
+                Student s = gameBoard.getSack().drawStudent();
+                p.getDashboard().addStudent(s);
+            }
+        }
+    }
+    public void setDeck(Mage m , int playerID) throws deckUnavailableException{
+        for(Player p : this.players){
+            if(p.getDeck().getMage().equals(m));
+            throw new deckUnavailableException();
+        }
+        players.get(playerID).setDeck(m);
     }
 
     public int getChosenPlayersNumber() {
@@ -71,10 +96,15 @@ public class EasyGame extends Oservable implements Serializable{
     public List<String> getPlayersNicknames() {
         List<String> nicknames = new ArrayList<>();
         for (Player p : players) {
-            nicknames.add(p.getNickname());
+            nicknames.add(p.getName());
         }
         return nicknames;
     }
+
+
+
+
+
 
 }
 
