@@ -1,16 +1,15 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.fullTowersException;
+import it.polimi.ingsw.exceptions.invalidNumberException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.message.MessageType;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.observer.Observer;
-import it.polimi.ingsw.server.answers.DeckMessage;
+import it.polimi.ingsw.server.Server;
+
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Logger;
 
 import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
 import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
@@ -43,7 +42,7 @@ public class GameController implements Observer, Serializable {
         this.gameState = gameState;
     }
 
-    public void onMessageReceived(Message receivedMessage) {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
@@ -73,6 +72,7 @@ public class GameController implements Observer, Serializable {
          if (receivedMessage.getMessageType() == GAMEMODE_REPLY) {
             if(inputController.verifyReceivedData(receivedMessage)){
                 gameFactory.setType(((GameModeReply) receivedMessage).getGameMode());
+                this.setModeState((GameModeReply) receivedMessage.getGameMode());
                 broadcastGenericMessage("Waiting for other Players. . .");
             }
         }
@@ -81,7 +81,7 @@ public class GameController implements Observer, Serializable {
          }
     }
 
-    private void loginState(Message receivedMessage) {
+    private void loginState(Message receivedMessage) throws invalidNumberException {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
             if (inputController.verifyReceivedData(receivedMessage)) {
                 this.game = gameFactory.getMode(gameFactory.getType(), ((PlayerNumberReply) receivedMessage).getPlayerNumber());
@@ -109,7 +109,7 @@ public class GameController implements Observer, Serializable {
             game.getPlayers().add(new Player(nickname, ID));
             virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
 
-            if (game.getNumCurrentPlayers() == game.getChosenPlayersNumber()) { // If all players logged
+            if (game.getNumCurrentActivePlayers() == game.getChosenPlayersNumber()) { // If all players logged
 
                 // check saved matches.
                 StorageData storageData = new StorageData();
@@ -137,7 +137,7 @@ public class GameController implements Observer, Serializable {
                 + " is choosing their deck. . .");
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.askDeck(Mage.notChosen(), game.getChosenPlayersNumber());
+        virtualView.askInitDeck(Mage.notChosen(), game.getChosenPlayersNumber());
     }
 
 
@@ -205,6 +205,7 @@ public class GameController implements Observer, Serializable {
             askDeckToNextPlayer();
             //posso mandare un messaggio di conferma
         }
+        //controllo che non sia già preso, potrebbe farlo nell'input controller
 
 
 
@@ -225,11 +226,17 @@ public class GameController implements Observer, Serializable {
     }
 
     private void towerHandler(TowerMessage receivedMessage) {
-    //if.....
-        Player player = game.getPlayerByNickname(receivedMessage.getNickname());
-        player.setGroup(receivedMessage.getType());
-        Type.choose(receivedMessage.getType());
-        //askWorkersPositions(receivedMessage.getNickname());
+        if(Type.notChosen().size() > 1){
+            Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+            player.getDashboard().setTeam(receivedMessage.getType());
+            Type.choose(receivedMessage.getType());
+            broadcastGenericMessage("Deck set for player " + turnController.getActivePlayer()
+                    + ". Waiting for other players to pick...");
+
+            askTowerToNextPlayer();
+            //askWorkersPositions(receivedMessage.getNickname());
+        }
+
 
     }
 

@@ -21,6 +21,7 @@ public class EasyGame extends Oservable implements Serializable{
     private int chosenPlayerNumber;
 
 
+
     public EasyGame(int numPlayers) {
         this.chosenPlayerNumber = numPlayers;
         this.gameBoard = new Gameboard(numPlayers);

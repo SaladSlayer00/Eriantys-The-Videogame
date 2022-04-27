@@ -9,7 +9,6 @@ import java.util.List;
 public interface Mode {
      public void startGame();
      public void initializeGameboard() throws noMoreStudentsException;
-     public void getNumPlayers(int numPlayers);
      //public void createPlayers();
      public void initializePlayer(Player p);
      public Gameboard getGameBoard();
@@ -19,6 +18,6 @@ public interface Mode {
      public List<Player> getPlayers();
      public int getChosenPlayersNumber();
      public List<String> getPlayersNicknames();
-
+     public int getNumCurrentActivePlayers();
 
      }
