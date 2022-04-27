@@ -7,9 +7,8 @@ import java.util.List;
 
 
 public interface Mode {
-     public void startGame();
      public void initializeGameboard() throws noMoreStudentsException;
-     //public void createPlayers();
+     public void getNumCurrentPlayers();
      public void initializePlayer(Player p);
      public Gameboard getGameBoard();
      public Player getPlayerByID(int playerID);
