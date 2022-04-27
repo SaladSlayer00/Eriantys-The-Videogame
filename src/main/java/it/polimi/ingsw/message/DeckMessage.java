@@ -18,7 +18,7 @@ public class DeckMessage extends Message{
                 '}';
     }
 
-    public Mage getDeck() {
+    public Mage getMage() {
         return this.deck;
     }
 }
