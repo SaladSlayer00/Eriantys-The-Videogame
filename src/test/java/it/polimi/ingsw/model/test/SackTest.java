@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.board;
+package it.polimi.ingsw.model.test;
 
 /* TODO
 * SHOULDN'T WE ADD A SORT OF THING TO CHECK THAT THERE ARE STILL STUDENT OF A CERTAIN COLOR???
@@ -6,6 +6,7 @@ package it.polimi.ingsw.model.board;
 * maybe this should be done in the controller???
  */
 
+import it.polimi.ingsw.model.board.Sack;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
