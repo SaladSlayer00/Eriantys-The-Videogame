@@ -42,4 +42,8 @@ public enum Mage {
     public static Mage parseInput(String input) {
         return Enum.valueOf(Mage.class, input.toUpperCase());
     }
+
+    public static boolean isEmpty(){
+        return(available.size()==0);
+    }
 }

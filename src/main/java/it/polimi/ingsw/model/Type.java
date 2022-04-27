@@ -42,4 +42,7 @@ public enum Type{
         return Enum.valueOf(Type.class, input.toUpperCase());
     }
 
+    public static boolean isEmpty(){
+        return(available.size()==0);
+    }
 }

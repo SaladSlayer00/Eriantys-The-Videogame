@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
 
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -72,7 +71,7 @@ public class GameController implements Observer, Serializable {
          if (receivedMessage.getMessageType() == GAMEMODE_REPLY) {
             if(inputController.verifyReceivedData(receivedMessage)){
                 gameFactory.setType(((GameModeReply) receivedMessage).getGameMode());
-                this.setModeState((GameModeReply) receivedMessage.getGameMode());
+                this.setGameMode(((GameModeReply) receivedMessage).getGameMode());
                 broadcastGenericMessage("Waiting for other Players. . .");
             }
         }
@@ -132,7 +131,7 @@ public class GameController implements Observer, Serializable {
     private void initGame() {
         setGameState(GameState.INIT);
 
-        turnController = new TurnController(virtualViewMap, this);
+        turnController = new TurnController(virtualViewMap, this, this.game);
         broadcastGenericMessage("All Players are connected. " + turnController.getActivePlayer()
                 + " is choosing their deck. . .");
 
@@ -154,11 +153,6 @@ public class GameController implements Observer, Serializable {
                     deckHandler((DeckMessage) receivedMessage);
                 }
                 break;
-
-            case ASK_TEAM:
-                if(inputController.verifyReceivedData(receivedMessage)){
-                    pickTeamHandler(((MatchInfoMessage) receivedMessage).getActivePlayerNickname());
-                }
 
             case INIT_TOWERS:
                 if(inputController.verifyReceivedData(receivedMessage)){
@@ -186,42 +180,42 @@ public class GameController implements Observer, Serializable {
         virtualView.askInitDeck(Mage.notChosen());
     }
 
-    private void pickTeamHandler(String firstPlayerNick){
-
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
-        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.showGenericMessage("It's your turn. Please pick your team.");
-        virtualView.askInitType(Type.notChosen());
-    }
-
     private void deckHandler(DeckMessage receivedMessage) {
+        Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         if (Mage.notChosen().size() > 1){
-            Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
-            broadcastGenericMessage("Deck set for player " + turnController.getActivePlayer()
-                    + ". Waiting for other players to pick...");
-
-            askDeckToNextPlayer();
-            //posso mandare un messaggio di conferma
         }
         //controllo che non sia già preso, potrebbe farlo nell'input controller
+        if (!Mage.isEmpty()) {
+            virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
+            askDeckToNextPlayer();
 
-
+        }
+        else{
+            pickTeamHandler(player.getName());
+        }
 
     }
 
     private void askDeckToNextPlayer() {
-        // ask deck to the next player
         turnController.next();
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.askInitDeck(Mage.notChosen()); // Only 1 god requested to client.
+        virtualView.showGenericMessage("It's your turn. Please pick your team.");
+        virtualView.askInitDeck(Mage.notChosen());
+
     }
 
     private void askTowerToNextPlayer(){
-            turnController.next();
-            VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-            virtualView.askInitType(Type.notChosen()); // Only 1 god requested to client.
+
+        turnController.next();
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        virtualView.showGenericMessage("It's your turn. Please pick your team.");
+        virtualView.askInitType(Type.notChosen());
 
     }
 
@@ -230,11 +224,13 @@ public class GameController implements Observer, Serializable {
             Player player = game.getPlayerByNickname(receivedMessage.getNickname());
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
-            broadcastGenericMessage("Deck set for player " + turnController.getActivePlayer()
-                    + ". Waiting for other players to pick...");
 
+        }
+        if (!Type.isEmpty()) {
+            virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             askTowerToNextPlayer();
-            //askWorkersPositions(receivedMessage.getNickname());
+
         }
 
 
@@ -268,6 +264,10 @@ public class GameController implements Observer, Serializable {
             }
         }
 
+    }
+
+    public void setGameMode(modeEnum gameMode) {
+        this.gameMode = gameMode;
     }
 
     private void startGame() {
