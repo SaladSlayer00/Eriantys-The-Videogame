@@ -7,5 +7,10 @@ public class Professor{
         this.color = color;
     }
 
+    //getter for the professor's color
+    public Color getColor(){
+        return color;
+    }
+
 
 }
