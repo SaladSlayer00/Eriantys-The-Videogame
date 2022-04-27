@@ -1,39 +1,31 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.GameHandler;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.io.Serial;
 import java.util.ArrayList;
-import it.polimi.ingsw.controller.ActionController;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 //si occupa della fase iniziale per settare l'ordine e richiama le azioni per la
 //fase azione
 
-public class TurnController implements PropertyChangeListener {
-    private final NamePhase[] phases = {NamePhase.INITIALIZING, NamePhase.PLANNING, NamePhase.ACTION, NamePhase.ENDING};
-//    private ArrayList<Player> playerOrder;
-//    private Player activePlayer;
-    private final GameController controller;
+public class TurnController implements Serializable {
+    private static final long serialVersionUID = -5987205913389392005L; //non so che cazzo è
+    private final Mode game;
+    private final List<String> nicknameQueue;
+    private String activePlayer;
+    transient Map<String, VirtualView> virtualViewMap;
+    private PhaseType phaseType;
+    private final GameController gameController;
 
-    private final ActionController actionController;
-
-    private final GameHandler gameHandler;
-
-    public TurnController(GameController controller, GameHandler gameHandler, ActionController actionController){
+    public TurnController(GameController controller, GameHandler gameHandler, ActionController actionController) {
         this.controller = controller;
         this.actionController = actionController;
         this.gameHandler = gameHandler;
-    }
-
-
-    private boolean isPhaseCorrect(Action action) {
-        //da implementare in modo che non so ancora
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
     }
 }

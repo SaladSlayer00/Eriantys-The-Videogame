@@ -11,7 +11,7 @@ import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Gameboard;
 
 
-public class EasyGame extends Oservable implements Serializable , {
+public class EasyGame extends Oservable implements Serializable{
     private static final long serialVersioneUID =  4405183481677036856L; //da cambiare
     private static EasyGame instance;
     private static final String SERVER_NICKNAME = "server";
@@ -67,7 +67,13 @@ public class EasyGame extends Oservable implements Serializable , {
         return activeplayers;
     }
 
-
+    public List<String> getPlayersNicknames() {
+        List<String> nicknames = new ArrayList<>();
+        for (Player p : players) {
+            nicknames.add(p.getNickname());
+        }
+        return nicknames;
+    }
 
 }
 
