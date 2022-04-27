@@ -41,7 +41,7 @@ public class EasyGame extends Oservable implements Serializable{
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
     }
 
-    public void initializeDashnoards() throws noMoreStudentsException, maxSizeException {
+    public void initializeDashboards() throws noMoreStudentsException, maxSizeException {
         for(Player p : this.players){
             for(int i = 0; i < p.getDashboard().getHallDimension(); i++){
                 Student s = gameBoard.getSack().drawStudent();
@@ -89,7 +89,7 @@ public class EasyGame extends Oservable implements Serializable{
     public List<Player> getPlayers() {
         return players;
     }
-    public List<Player> getActiveplayers() {
+    public List<Player> getActivePlayers() {
         return activeplayers;
     }
 
@@ -100,11 +100,14 @@ public class EasyGame extends Oservable implements Serializable{
         }
         return nicknames;
     }
-
-
-
-
-
+    public Player getPlayerByID(int playerID){
+        for(Player player : activeplayers) {
+            if(player.getPlayerID() == playerID){
+                return player;
+            }
+        }
+        return null;
+    }
 
 }
 
