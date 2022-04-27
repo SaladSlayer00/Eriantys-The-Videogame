@@ -19,8 +19,14 @@ public class Dashboard {
     private static final int NUM_ROWS = 5;
     private int hallDimension;
 
-    public void setHallDimension(int hallDimension) {
-        this.hallDimension = hallDimension;
+    public Dashboard(int numPlayers){
+        if(numPlayers == 2){
+            this.numTowers = 8;
+            this.hallDimension = 7;
+        }else if(numPlayers == 3){
+            this.numTowers = 6;
+            this.hallDimension = 9;
+        }
     }
 
     public int getHallDimension() {
@@ -74,9 +80,6 @@ public class Dashboard {
 
     }
 
-    public void setNumTowers(int numTowers) {
-        this.numTowers = numTowers;
-    }
 
     public void setTeam(Type team) {
         this.team = team;

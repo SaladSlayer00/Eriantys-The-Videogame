@@ -8,7 +8,7 @@ public class Player {
     private String name;
     private Deck deck;
     private State state;
-    private final Dashboard dashboard = new Dashboard();
+    private Dashboard dashboard;
     private int coins = 0;
     private Assistant cardChosen;
     private ArrayList<Color> professors;
@@ -19,7 +19,9 @@ public class Player {
         this.playerID = playerID;
     }
 
-
+    public void setDashboard(Dashboard playerDashboard){
+        dashboard = playerDashboard;
+    }
     public void setDeck(Mage mage){
         deck = new Deck(mage);
     }
