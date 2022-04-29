@@ -30,5 +30,5 @@ public enum MessageType {
         ENABLE_EFFECT,
         APPLY_EFFECT,
         PERSISTENCE
-    }
+
 }
