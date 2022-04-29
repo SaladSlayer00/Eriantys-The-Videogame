@@ -85,7 +85,15 @@ public class Dashboard {
         this.team = team;
     }
 
+    public Type getTeam() {
+        return team;
+    }
+
     public int getNumTowers() {
         return numTowers;
+    }
+
+    public ArrayList<Student> getHall() {
+        return hall;
     }
 }
