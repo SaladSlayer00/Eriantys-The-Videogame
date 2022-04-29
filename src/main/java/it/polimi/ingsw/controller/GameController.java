@@ -302,7 +302,7 @@ public class GameController implements Observer, Serializable {
         switch(receivedMessage.getMessageType()){
             case PICK_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    pickCloudHandler(((PickCloudMessage)receivedMessage);
+                    pickCloudHandler(((PickCloudMessage)receivedMessage));
                 }
                 break;
             case DRAW_ASSISTANT:

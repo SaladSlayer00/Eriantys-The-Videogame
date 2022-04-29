@@ -20,7 +20,7 @@ public class ProfessorControllerCard extends Character{
 
     /* auxiliary method used to check if the summoner has the actual same number of students of the
      player who has the professor
-     */
+
     public boolean sameNumberAs(Player summoner, Player professorOwner, Color professorC){
         Dashboard summonerD = summoner.getDashboard();
         Dashboard profOwnD = professorOwner.getDashboard();
@@ -31,6 +31,7 @@ public class ProfessorControllerCard extends Character{
         else
             return false;
     }
+     */
 
     //effect of the card
     public void useEffect(Player summoner, ExpertGame g, Gameboard gb, int index) throws notEnoughMoneyException {
