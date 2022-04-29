@@ -1,14 +1,16 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public interface Mode {
 
-     public void intializeGameboard() throws noMoreStudentsException;
+     public void initializeGameboard() throws noMoreStudentsException;
      public void initializePlayer(Player p);
      public void initializeDashboards();
      public void setDeck(Mage m , int playerID);
@@ -21,5 +23,8 @@ public interface Mode {
      public List<Player> getActivePlayers();
      public List<String> getPlayersNicknames();
      public Player getPlayerByID(int playerID);
+     public Player getPlayerByNickname(String name);
+     public ArrayList<Cloud> getEmptyClouds();
+
 
      }

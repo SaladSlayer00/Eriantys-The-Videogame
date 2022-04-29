@@ -142,12 +142,6 @@ public class GameController implements Observer, Serializable {
 
     private void initState(Message receivedMessage, VirtualView virtualView) {
         switch (receivedMessage.getMessageType()) {
-            case PICK_FIRST_PLAYER:
-                if (inputController.checkFirstPlayerHandler(receivedMessage)) {
-                    pickFirstPlayerHandler(((MatchInfoMessage) receivedMessage).getActivePlayerNickname());
-                }
-                break;
-
             case INIT_DECK:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     deckHandler((DeckMessage) receivedMessage);
@@ -170,15 +164,7 @@ public class GameController implements Observer, Serializable {
                 break;
         }
     }
-    private void pickFirstPlayerHandler(String firstPlayerNick) {
 
-        turnController.setActivePlayer(firstPlayerNick);
-
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his deck...", turnController.getActivePlayer());
-        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.showGenericMessage("It's your turn. Please pick your deck.");
-        virtualView.askInitDeck(Mage.notChosen());
-    }
 
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
@@ -186,6 +172,10 @@ public class GameController implements Observer, Serializable {
 
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
+        }
+        else if(Mage.notChosen().size()==1){
+            virtualView.showGenericMessage("Your mage calls you! You have the " + Mage.notChosen().get(0) + " deck!");
+            player.setDeck(Mage.notChosen().get(0));
         }
         //controllo che non sia già preso, potrebbe farlo nell'input controller
         if (!Mage.isEmpty()) {
@@ -195,7 +185,8 @@ public class GameController implements Observer, Serializable {
 
         }
         else{
-            pickTeamHandler(player.getName());
+            virtualView.showGenericMessage("It's your turn now. Please pick your team.");
+            virtualView.askInitTeam(Type.notChosen());
         }
 
     }
@@ -204,7 +195,7 @@ public class GameController implements Observer, Serializable {
         turnController.next();
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.showGenericMessage("It's your turn. Please pick your team.");
+        virtualView.showGenericMessage("It's your turn. Please pick your deck.");
         virtualView.askInitDeck(Mage.notChosen());
 
     }
@@ -226,19 +217,29 @@ public class GameController implements Observer, Serializable {
             Type.choose(receivedMessage.getType());
 
         }
+        else if(Type.notChosen().size()==1){
+            virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
+            player.setDeck(Type.notChosen().get(0));
+        }
         if (!Type.isEmpty()) {
             virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             askTowerToNextPlayer();
 
         }
+        else{
+            broadcastGenericMessage("All decks and teams are set! The mode of the game is " + gameMode +
+                    " and the number of players is "+ this.game.getChosenPlayerNumber() + ".");
+            virtualView.showGenericMessage("Are you sure you want to start the game with these settings?");
+            //yes or no
+            virtualView.askStart();
+        }
 
 
     }
 
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException {
-        game.initializeGameboard();
-        initializeDashboards();
+
         if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayersNumber()) {
             turnController.next();
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
@@ -249,10 +250,14 @@ public class GameController implements Observer, Serializable {
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
             vv.askInitType(Type.notChosen());
         }
+        else if(receivedMessage.getAnswer().toUppercase().equals("NO")){
+            //chiedi al player cosa vuole editare
+        }
         else {
             turnController.next();
+            game.initializeGameboard();
+            initializeDashboards();
             startGame();
-
         }
 
     }
@@ -275,6 +280,48 @@ public class GameController implements Observer, Serializable {
         broadcastGenericMessage("Game Started!");
         turnController.broadcastMatchInfo();
         turnController.newTurn();
+    }
+
+    private void inGameState(Message receivedMessage){
+        switch (turnController.getMainPhase()){
+            case PLANNING:
+                planningState(receivedMessage);
+                break;
+            case ACTION:
+                actionState(receivedMessage);
+                break;
+
+        }
+    }
+
+//gli handler della azione richiamano il turnController
+    private void ActionState(Message receivedMessage) {
+        switch (receivedMessage.getMessageType()) {
+            case PICK_MOVING_WORKER:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    pickWorkerHandler(receivedMessage);
+                }
+                break;
+            case MOVE:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    moveHandler((PositionMessage) receivedMessage);
+                }
+                break;
+            case BUILD:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    buildHandler((PositionMessage) receivedMessage);
+                }
+                break;
+            case ENABLE_EFFECT:
+                prepareEffect((PrepareEffectMessage) receivedMessage);
+                break;
+            case APPLY_EFFECT:
+                applyEffect((PositionMessage) receivedMessage);
+                break;
+            default:
+                Server.LOGGER.warning(STR_INVALID_STATE);
+                break;
+        }
     }
 
 }

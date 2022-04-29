@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.deckUnavailableException;
 import it.polimi.ingsw.exceptions.invalidTeamException;
@@ -107,6 +107,16 @@ public class EasyGame extends Oservable implements Serializable{
             }
         }
         return null;
+    }
+
+    public ArrayList<Cloud> getEmptyClouds(){
+        ArrayList<Cloud> result = new ArrayList<Cloud>();
+        for(Cloud c : this.getGameBoard().getClouds()){
+            if(c.emptyCloud()){
+                result.add(c);
+            }
+        }
+        return result;
     }
 
 }
