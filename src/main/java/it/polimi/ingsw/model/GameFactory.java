@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.invalidNumberException;
+import it.polimi.ingsw.model.enums.modeEnum;
 
 public class GameFactory {
     private modeEnum type;

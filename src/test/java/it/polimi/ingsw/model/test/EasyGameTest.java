@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model.test;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.EasyGame;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.Cloud;
-import it.polimi.ingsw.model.playerBoard.Row;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;

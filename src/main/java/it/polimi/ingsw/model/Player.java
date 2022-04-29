@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 import java.util.ArrayList;
+
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.State;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.exceptions.*;
 

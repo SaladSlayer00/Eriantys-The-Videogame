@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.playerBoard;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.Type;
+import it.polimi.ingsw.model.enums.Type;
 
 
 import java.util.ArrayList;

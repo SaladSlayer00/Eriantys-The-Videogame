@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.notPresentStudentException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
 import java.util.ArrayList;

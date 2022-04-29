@@ -1,7 +1,7 @@
 package it.polimi.ingsw.message;
 
 
-import it.polimi.ingsw.model.Type;
+import it.polimi.ingsw.model.enums.Type;
 
 public class TowerMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;

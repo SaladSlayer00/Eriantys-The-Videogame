@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import com.sun.tools.javac.Main;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
+import it.polimi.ingsw.model.enums.MainPhase;
+import it.polimi.ingsw.model.enums.PhaseType;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.test;
 
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

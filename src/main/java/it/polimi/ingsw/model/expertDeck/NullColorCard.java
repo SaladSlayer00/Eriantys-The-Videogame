@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.expertDeck;
 
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.board.Island;
 
 //TODO

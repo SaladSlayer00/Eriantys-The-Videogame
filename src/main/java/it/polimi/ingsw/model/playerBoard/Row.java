@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.playerBoard;
 import it.polimi.ingsw.exceptions.alreadyAProfessorException;
 import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.noProfessorException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
 import java.util.ArrayList;

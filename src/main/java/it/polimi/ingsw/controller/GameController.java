@@ -4,6 +4,10 @@ import it.polimi.ingsw.exceptions.invalidNumberException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.enums.GameState;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
 

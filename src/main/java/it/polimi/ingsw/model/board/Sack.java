@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
 import java.util.Arrays;
 import java.util.ArrayList;

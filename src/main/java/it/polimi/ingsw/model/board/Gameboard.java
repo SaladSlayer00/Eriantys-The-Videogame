@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.board;
 import java.util.ArrayList;
-import java.util.Map;
+
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.tooManyMotherNatureException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;

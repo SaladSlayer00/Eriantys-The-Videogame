@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.enums.GameState;
 
 import java.util.ArrayList;
 import java.util.List;

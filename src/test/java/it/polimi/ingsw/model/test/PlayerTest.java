@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.test;
 
 import it.polimi.ingsw.exceptions.lowerLimitException;
-import it.polimi.ingsw.model.Mage;
+import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

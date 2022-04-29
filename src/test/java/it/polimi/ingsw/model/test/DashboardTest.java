@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.test;
 
 import it.polimi.ingsw.exceptions.noStudentException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.Student;
 import org.junit.jupiter.api.Test;

@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.test;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.board.Cloud;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 class CloudTest {

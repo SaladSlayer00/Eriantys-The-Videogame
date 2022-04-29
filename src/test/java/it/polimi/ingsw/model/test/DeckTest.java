@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.test;
-import it.polimi.ingsw.model.Mage;
+import it.polimi.ingsw.model.enums.Mage;
 import org.junit.jupiter.api.Test;
 import it.polimi.ingsw.model.Deck;
 import org.junit.jupiter.api.BeforeEach;

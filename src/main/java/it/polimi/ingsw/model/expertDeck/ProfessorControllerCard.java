@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.exceptions.notEnoughMoneyException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.ExpertGame;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
-import it.polimi.ingsw.model.playerBoard.Row;
 
 /* This card allows the player who summons it to control the professor even if they have the same number
 * students of the player who has it in that very moment

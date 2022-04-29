@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.board;
 
 import it.polimi.ingsw.exceptions.alreadyATowerException;
 import it.polimi.ingsw.exceptions.noTowerException;
-import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.Type;
+import it.polimi.ingsw.model.enums.Type;
 
 import java.util.ArrayList;
 import java.util.Map;
