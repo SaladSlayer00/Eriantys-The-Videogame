@@ -49,13 +49,13 @@ public class EasyGame extends Oservable implements Serializable{
             }
         }
     }
-    public void setDeck(Mage m , int playerID) throws deckUnavailableException{
-        for(Player p : this.players){
-            if(p.getDeck().getMage().equals(m));
-            throw new deckUnavailableException();
-        }
-        players.get(playerID).setDeck(m);
-    }
+//    public void setDeck(Mage m , int playerID) throws deckUnavailableException{
+//        for(Player p : this.players){
+//            if(p.getDeck().getMage().equals(m));
+//            throw new deckUnavailableException();
+//        }
+//        players.get(playerID).setDeck(m);
+//    }
 
     public int getChosenPlayersNumber() {
         return this.chosenPlayerNumber;

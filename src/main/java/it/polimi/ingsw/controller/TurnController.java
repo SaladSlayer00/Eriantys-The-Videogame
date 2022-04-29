@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import com.sun.tools.javac.Main;
+import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.*;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -89,7 +90,7 @@ public class TurnController implements Serializable {
         setActivePlayer(nicknameQueue.get(0));
         turnControllerNotify("Turn of " + activePlayer, activePlayer);
         VirtualView vv = virtualViewMap.get(getActivePlayer());
-        vv.showGenericMessage("Initiate the game!");
+        vv.showGenericMessage("Initiate the game! Pick your clouds. . .");
 
         StorageData storageData = new StorageData();
         storageData.store(gameController);
@@ -100,19 +101,40 @@ public class TurnController implements Serializable {
     }
 
 
-    //il player
+    //il player SCEGLIE LE CAZZO DI NUVOLE era pickpositions mi pare
+    //i controlli sul valore valido penso li farà inputController...???
     public void pickCloud(){
         ArrayList<Cloud> cloudList;
         Player player = game.getPlayerByNickname(getActivePlayer());
         //lista che si passava come parametro per fare scegliere il player
         cloudList = game.getEmptyClouds();
-        VirtualView virtualView = virtualViewMap.get(getActivePlayer());
+        VirtualView virtualView = virtualViewMap.get(player);
+        virtualView.askCloud(cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
+        //manderà un messaggio al player con la lista di disponibili booh poi vedremo
+    }
 
-        if (cloudList.size()==0) {
-            //gioco finisce lose()??
-        } else {
-            virtualView.askCloud(cloudList); //da chiedere sugli indici spacchettando???
+    public void cloudInitializer(int cloudIndex) throws noMoreStudentsException {
+        Cloud cloud = game.getGameBoard().getClouds()[cloudIndex];
+        Sack sack = game.getGameBoard().getSack();
+        int var;
+        if(game.getChosenPlayerNumber()==2 || game.getChosenPlayerNumber() == 4){
+            var = 3;
         }
+        else{
+            var = 4;
+        }
+        for(int i = 0; i < var; var++){
+            cloud.addStudent(sack.drawStudent());
+        }
+    }
+    public void pickDeck(){
+        ArrayList<Cloud> cloudList;
+        Player player = game.getPlayerByNickname(getActivePlayer());
+        //lista che si passava come parametro per fare scegliere il player
+        cloudList = game.getEmptyClouds();
+        VirtualView virtualView = virtualViewMap.get(player);
+        virtualView.askCloud(cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
+        //manderà un messaggio al player con la lista di disponibili booh poi vedremo
     }
 
 }

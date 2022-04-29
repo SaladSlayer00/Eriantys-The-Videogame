@@ -294,6 +294,22 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    private void planningState(Message receivedMessage){
+        switch(receivedMessage.getMessageType()){
+            case PICK_CLOUD:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    pickCloudHandler(((PickCloudMessage)receivedMessage);
+                }
+                break;
+            case DRAW_ASSISTANT:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    drawAssistantHandler((drawAssistantMessage)receivedMessage);
+                }
+                break;
+
+        }
+    }
+
 //gli handler della azione richiamano il turnController
     private void ActionState(Message receivedMessage) {
         switch (receivedMessage.getMessageType()) {
@@ -322,6 +338,27 @@ public class GameController implements Observer, Serializable {
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
         }
+    }
+
+    //la prima volta è richiamato nello startTurn, questo è quando arriva l'altro messaggio
+    private void pickCloudHandler(PickCloudMessage receivedMessage) {
+        //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+        //quello che manda deve essere activeplayer dove lo controlla??
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio
+        //sarà da scrivere il messaggio col giusto formato
+        if(game.getEmptyClouds().size() > 1){
+            virtualView.showGenericMessage("Please pick the cloud you want to setup. ");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is picking the clouds.", turnController.getActivePlayer());
+            turnController.pickCloud();
+        }
+
+        else if (game.getEmptyClouds().size() == 0) {
+            virtualView.showGenericMessage("You chose every cloud!");
+            broadcastGenericMessage("All clouds are set! Ready to initiate drawing phase!");
+            turnController.pickDeck();
+        }
+
     }
 
 }
