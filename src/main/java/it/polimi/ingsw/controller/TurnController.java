@@ -3,13 +3,13 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
+import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.MainPhase;
 import it.polimi.ingsw.model.enums.PhaseType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 //si occupa della fase iniziale per settare l'ordine e richiama le azioni per la
 //fase azione
@@ -23,6 +23,7 @@ public class TurnController implements Serializable {
     private MainPhase mainPhase;
     private PhaseType phaseType;
     private final GameController gameController;
+    private ArrayList<Assistant> chosen;
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
@@ -31,6 +32,7 @@ public class TurnController implements Serializable {
         this.activePlayer = nicknameQueue.get(0); // set first active player
         this.virtualViewMap = virtualViewMap;
         this.gameController = gameController;
+        this.mainPhase = MainPhase.PLANNING;
     }
 
     public String getActivePlayer() {
@@ -45,6 +47,16 @@ public class TurnController implements Serializable {
     public void setActivePlayer(String activePlayer) {
         this.activePlayer = activePlayer;
     }
+
+
+    public void resetChosen(){
+        chosen = new ArrayList<Assistant>;
+    }
+
+    public ArrayList<Assistant> getChosen() {
+        return chosen;
+    }
+
 
     /**
      * Set next active player.
@@ -127,14 +139,32 @@ public class TurnController implements Serializable {
             cloud.addStudent(sack.drawStudent());
         }
     }
-    public void pickDeck(){
-        ArrayList<Cloud> cloudList;
+    //passa quelle da non mettere
+    public void drawAssistant(){
+        VirtualView vv = virtualViewMap.get(getActivePlayer());
+        vv.showGenericMessage("Please choose which card to draw!");
         Player player = game.getPlayerByNickname(getActivePlayer());
         //lista che si passava come parametro per fare scegliere il player
-        cloudList = game.getEmptyClouds();
-        VirtualView virtualView = virtualViewMap.get(player);
-        virtualView.askCloud(cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
-        //manderà un messaggio al player con la lista di disponibili booh poi vedremo
+        vv.askAssistant(chosen);
+    }
+
+    public void determineOrder(){
+        Vector<Integer> order = new Vector<Integer>;
+        int i = 0;
+        for(Assistant a : chosen){
+            order.set(i, a.getNumOrder());
+            i++;
+        }
+        Collections.sort(order);
+        for(Player p : game.getActivePlayers()){
+            for(i=0;i< game.getNumCurrentActivePlayers(); i++){
+                if(p.getCardChosen().getNumOrder()==order.get(i)){
+                    this.nicknameQueue.set(i, p.getName());
+                }
+            }
+        }
+        mainPhase = MainPhase.ACTION;
+
     }
 
 }

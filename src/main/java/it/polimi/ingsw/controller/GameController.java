@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.exceptions.emptyDecktException;
 import it.polimi.ingsw.exceptions.fullTowersException;
 import it.polimi.ingsw.exceptions.invalidNumberException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
@@ -358,10 +359,33 @@ public class GameController implements Observer, Serializable {
         }
 
         else if (game.getEmptyClouds().size() == 0) {
-            virtualView.showGenericMessage("You chose every cloud!");
+            virtualView.showGenericMessage("You chose every cloud! Get ready to choose your assistant");
             broadcastGenericMessage("All clouds are set! Ready to initiate drawing phase!");
-            turnController.pickDeck();
+            turnController.resetChosen();
+            turnController.drawAssistant();
         }
+
+    }
+    private void drawAssistantHandler(AssistantMessage receivedMessage) throws emptyDecktException {
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
+        Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+        Assistant card = player.getDeck().draw(receivedMessage.getIndex());
+        player.setCard(card);
+        turnController.getChosen().add(card);
+
+        //check sulla carta uguale la facciamo nell'input controller
+        if(turnController.getChosen().size() < game.getNumCurrentActivePlayers()){
+            virtualView.showGenericMessage("You chose your assistant. Please wait for the other players to pick!");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
+            turnController.next();
+            turnController.drawAssistant();
+        }
+        else{
+            broadcastGenericMessage("All assistants are set! Please wait for the game to decide the turn order!");
+            //yes or no
+            turnController.determineOrder();
+        }
+
 
     }
 

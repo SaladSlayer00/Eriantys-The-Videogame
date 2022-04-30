@@ -63,12 +63,12 @@ public class Player {
     }
 
     //we assume that the card is chosen through the passage of the index of the card inside the deck
-    public void drawCard(int cardIndex) throws emptyDecktException{
-        cardChosen = deck.draw(cardIndex);
+    public void setCard(Assistant card) throws emptyDecktException{
+        cardChosen = card;
     }
 
-    public void chooseCloud(){
-
+    public Assistant getCardChosen() {
+        return cardChosen;
     }
 
     //should be a good idea to add an exception in case of wrong game mode??
