@@ -50,7 +50,7 @@ public class TurnController implements Serializable {
 
 
     public void resetChosen(){
-        chosen = new ArrayList<Assistant>;
+        chosen = new ArrayList<Assistant>();
     }
 
     public ArrayList<Assistant> getChosen() {
@@ -149,7 +149,7 @@ public class TurnController implements Serializable {
     }
 
     public void determineOrder(){
-        Vector<Integer> order = new Vector<Integer>;
+        Vector<Integer> order = new Vector<Integer>();
         int i = 0;
         for(Assistant a : chosen){
             order.set(i, a.getNumOrder());
