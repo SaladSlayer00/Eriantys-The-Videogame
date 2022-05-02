@@ -11,7 +11,7 @@ public class NoTowerCard extends Character{
     }
 
     //the effect is a modified version of the calculation of the influence...
-    @Override
+
     public void useEffect(){
 
     }

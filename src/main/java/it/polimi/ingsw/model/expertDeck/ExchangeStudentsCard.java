@@ -41,9 +41,17 @@ public class ExchangeStudentsCard extends Character{
         throw new notPresentStudentException();
     }
 
-    /* is useEffect() really necessary???
-    * an idea may be to pass the student that has been swapped to the controller and then
+    /* an idea may be to pass the student that has been swapped to the controller and then
     * it becomes a controller's problem
     * TODO (added this only to remember to discuss it next time)
      */
+
+    //check that the player hasn't asked for more than three swaps. might be useful for the controller
+    //i don't really know if it might be useful tbh
+    public boolean checkValidSwapNumber(int swaps){
+        if(swaps > 0 && swaps < 4){
+            return true;
+        }
+        else return false;
+    }
 }

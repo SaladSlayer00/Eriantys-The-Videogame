@@ -13,10 +13,15 @@ import java.util.ArrayList;
 * when Mother Nature ends her journey on that island, the paw is put again on the card and
 * the influence IT IS NOT CALCULATED
  */
+
+/* we have two choice here:
+* - ONE -> we create an arraylist of proper islands
+* - TWO -> we create an arraylist that contains the index of the islands. maybe it's easier in this way... (?)
+ */
 public class InfluenceBansCard extends Character{
 
     private int banPaws = 4;
-    private ArrayList<Island> bannedIslands;
+    private ArrayList<Integer> bannedIslands;
     private Gameboard g;
 
     //constructor
@@ -24,19 +29,31 @@ public class InfluenceBansCard extends Character{
         super(2);
     }
 
+    //is this useful??
     //getter for the gameboard
     public void getGameboard(Gameboard g){
         this.g = g;
     }
 
-    public void effect(Player p, int index) throws impossibleBanException {
+    /* this is the method that put the ban on the island.
+    * the island chosen by the player is added to an arraylist that contains all the banned islands
+    * (of course the number of banned islands must go from 0 to 4!)
+    * the real talk here is: how do we handle this thing during the game???
+    * the controller may check if an island is banned before calculate the influence???
+     */
+    public void banIsland(Player p, int index) throws impossibleBanException {
         if(banPaws == 0)
             throw new impossibleBanException();
         else{
-            bannedIslands.add(g.getIslands().get(index));
+            bannedIslands.add(index);
             banPaws--;
-            //TODO
-            //how the heck should be brought on from this point???
         }
+    }
+
+    //method that check if an island is banned
+    public boolean checkBan(Island i){
+        if(bannedIslands.contains(i.getIndex()))
+            return true;
+        else return false;
     }
 }

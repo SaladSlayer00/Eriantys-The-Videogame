@@ -16,6 +16,10 @@ public class ImproperInfluenceCard extends Character{
         super(3);
     }
 
+    /* this method modifies the game pattern but it doesn't fully replace the normal game logic!!
+    * note that the controller must call the calculation of the influence on the right island anyway!!!
+    * this is just the ""extra"" part caused by the summoning of the expert card...
+     */
     public int useEffect(Player p, Island chosenIsland) throws notEnoughMoneyException {
         if(checkMoney(p) == false){
             throw new notEnoughMoneyException();

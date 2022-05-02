@@ -21,10 +21,6 @@ public abstract class Character{
         numCoins += numCoins;
     }
 
-    //this method is completely useless!!!
-    public void useEffect(){
-
-    }
 
     public boolean checkMoney(Player p){
         if(p.getCoins() < getCost()){
