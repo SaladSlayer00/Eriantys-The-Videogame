@@ -23,4 +23,8 @@ public class TowerMessage extends Message{
     public Type getType() {
         return this.tower;
     }
+
+    public void useEffect(){
+        getType();
+    }
 }

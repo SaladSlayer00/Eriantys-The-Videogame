@@ -46,7 +46,7 @@ public class GameController implements Observer, Serializable {
         this.gameState = gameState;
     }
 
-    public void onMessageReceived(Message receivedMessage) throws invalidNumberException {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
@@ -145,7 +145,7 @@ public class GameController implements Observer, Serializable {
     }
 
 
-    private void initState(Message receivedMessage, VirtualView virtualView) {
+    private void initState(Message receivedMessage, VirtualView virtualView) throws noMoreStudentsException, fullTowersException {
         switch (receivedMessage.getMessageType()) {
             case INIT_DECK:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -216,15 +216,17 @@ public class GameController implements Observer, Serializable {
     }
 
     private void towerHandler(TowerMessage receivedMessage) {
+        Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+
         if(Type.notChosen().size() > 1){
-            Player player = game.getPlayerByNickname(receivedMessage.getNickname());
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
 
         }
         else if(Type.notChosen().size()==1){
             virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
-            player.setDeck(Type.notChosen().get(0));
+            player.getDashboard().setTeam(Type.notChosen().get(0));
         }
         if (!Type.isEmpty()) {
             virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
@@ -255,7 +257,7 @@ public class GameController implements Observer, Serializable {
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
             vv.askInitType(Type.notChosen());
         }
-        else if(receivedMessage.getAnswer().toUppercase().equals("NO")){
+        else if(receivedMessage.getAnswer().equalsIgnoreCase("NO")){
             //chiedi al player cosa vuole editare
         }
         else {
@@ -287,7 +289,7 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
-    private void inGameState(Message receivedMessage){
+    private void inGameState(Message receivedMessage) throws noMoreStudentsException {
         switch (turnController.getMainPhase()){
             case PLANNING:
                 planningState(receivedMessage);
@@ -299,7 +301,7 @@ public class GameController implements Observer, Serializable {
         }
     }
 
-    private void planningState(Message receivedMessage){
+    private void planningState(Message receivedMessage) throws noMoreStudentsException {
         switch(receivedMessage.getMessageType()){
             case PICK_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -311,7 +313,6 @@ public class GameController implements Observer, Serializable {
                     drawAssistantHandler((drawAssistantMessage)receivedMessage);
                 }
                 break;
-
         }
     }
 
@@ -346,7 +347,7 @@ public class GameController implements Observer, Serializable {
     }
 
     //la prima volta è richiamato nello startTurn, questo è quando arriva l'altro messaggio
-    private void pickCloudHandler(PickCloudMessage receivedMessage) {
+    private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
         //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         //quello che manda deve essere activeplayer dove lo controlla??
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.observer;
 //import message
+import it.polimi.ingsw.message.Message;
+
 import java.util.ArrayList;
 import java.util.List;
 
