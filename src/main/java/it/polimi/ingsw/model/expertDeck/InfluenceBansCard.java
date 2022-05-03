@@ -17,6 +17,7 @@ import java.util.ArrayList;
 /* we have two choice here:
 * - ONE -> we create an arraylist of proper islands
 * - TWO -> we create an arraylist that contains the index of the islands. maybe it's easier in this way... (?)
+*          THIS METHOD SEEMS MORE LOGICAL TO ME TBH
  */
 public class InfluenceBansCard extends Character{
 
@@ -29,11 +30,12 @@ public class InfluenceBansCard extends Character{
         super(2);
     }
 
-    //is this useful??
-    //getter for the gameboard
-    public void getGameboard(Gameboard g){
-        this.g = g;
-    }
+    /* is this useful??
+    * getter for the gameboard
+    * public void getGameboard(Gameboard g){
+    *    this.g = g;
+    * }
+    */
 
     /* this is the method that put the ban on the island.
     * the island chosen by the player is added to an arraylist that contains all the banned islands

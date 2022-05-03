@@ -78,11 +78,18 @@ public class Island {
 
     //it returns the color of the tower TO CHECK //
     public Type getColor() throws noTowerException {
-        if (hasTower == true) {
+        if (getTower() == true) {
             return tower;
         } else {
             throw new noTowerException();
         }
+    }
+
+    //boolean getter for hasTower
+    public boolean getTower(){
+        if(hasTower == true)
+            return true;
+        else return false;
     }
 
 

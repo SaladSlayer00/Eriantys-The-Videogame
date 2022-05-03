@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.expertDeck;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.board.Island;
 
-//TODO
 /* when a player summons this card they can choose a color that will have no influence in the calculation
 * of the influence
  */
@@ -19,5 +18,6 @@ public class NullColorCard extends Character{
         //HOW THE HECK DO WE DO THIS THINNNNG
         //the idea of the calculation of the influence as a subtraction may be a cool idea
         //BUT maybe we should discuss this stuff cuz I'm not sure how to implement it...
+        //TODO
     }
 }

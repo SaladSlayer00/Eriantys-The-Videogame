@@ -6,8 +6,10 @@ import it.polimi.ingsw.exceptions.studentUnavailableException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
+import it.polimi.ingsw.model.enums.Color;
 
 import javax.naming.ContextNotEmptyException;
+import java.util.ArrayList;
 
 /* At the beginning of a match four students should be drawn from the sack and put on this card
 * When a player uses this card, they can choose one of the student and put it on an island (anyone)
@@ -15,7 +17,7 @@ import javax.naming.ContextNotEmptyException;
  */
 public class OneMoreStudentCard extends Character{
     //this card has an array as attribute for the four students
-    private Student[] students = new Student[3];
+    private ArrayList<Student> students = new ArrayList<Student>(3);
     private Sack sack;
 
     //initialization of the card: the initial cost is 1 PLUS the four students are added randomly
@@ -32,21 +34,22 @@ public class OneMoreStudentCard extends Character{
     }
 
     //need this for picking up one of the student when the player summons the card
-    public Student pickUpStudent(int i) throws studentUnavailableException {
-        if(i < 0 || i > 3){
+    public Student pickUpStudent(Color c) throws studentUnavailableException {
+        for(Student s : students){
+            if(s.getColor().equals(c)){
+                return s;
+            }
+        }
             throw new studentUnavailableException();
         }
-        else{
-            return students[i];
-        }
-    }
+
 
     //this is the method that handle the effect of the card
     //should there be also the island's index and the part where the student is put o the island of choice???
-    public Student useEffect(Player p, int i) throws notEnoughMoneyException, studentUnavailableException, noMoreStudentsException{
+    public Student useEffect(Player p, Color c) throws notEnoughMoneyException, studentUnavailableException, noMoreStudentsException{
         if(checkMoney(p) == true){
-            Student s = pickUpStudent(i);
-            students[i] = sack.drawStudent();
+            Student s = pickUpStudent(c);
+            students.add(sack.drawStudent());
             addCoin();
             return s;
         }
