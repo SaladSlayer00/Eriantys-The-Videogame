@@ -29,3 +29,4 @@ public abstract class Character{
         else return true;
     }
 }
+
