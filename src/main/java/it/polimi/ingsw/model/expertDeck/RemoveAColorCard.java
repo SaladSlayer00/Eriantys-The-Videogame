@@ -18,11 +18,10 @@ public class RemoveAColorCard extends Character{
     public void removeStudents(Dashboard d){
         /* I still think that honestly handling the rows with an array is a very silly idea
         * i mean literally: how someone is supposed to understand some basic things without
-        * passing the entire array???
          */
     }
 }
 /* BIG QUESTION!!!!!
-* all the studetns means all the students of that color or ALL the students???
+* all the students means all the students of that color or ALL the students???
 * i think the latter but who knows...
  */
