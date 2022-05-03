@@ -319,27 +319,41 @@ public class GameController implements Observer, Serializable {
 //gli handler della azione richiamano il turnController
     private void ActionState(Message receivedMessage) {
         switch (receivedMessage.getMessageType()) {
-            case PICK_MOVING_WORKER:
+            case MOVE_ON_ISLAND:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    pickWorkerHandler(receivedMessage);
+                    moveHandler((MoveOnIslandMessage) receivedMessage);
                 }
                 break;
-            case MOVE:
+            case MOVE_ON_BOARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    moveHandler((PositionMessage) receivedMessage);
+                    moveHandler((MoveOnBoardMessage) receivedMessage);
                 }
                 break;
-            case BUILD:
+            case MOVE_MOTHER:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    buildHandler((PositionMessage) receivedMessage);
+                    motherHandler((MoveMotherMessage) receivedMessage);
                 }
                 break;
+
+            case GET_FROM_CLOUD:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    getFromCloudHandler((GetFromCloudMessage) receivedMessage);
+                }
+                break;
+
             case ENABLE_EFFECT:
                 prepareEffect((PrepareEffectMessage) receivedMessage);
                 break;
             case APPLY_EFFECT:
                 applyEffect((PositionMessage) receivedMessage);
                 break;
+
+            case USE_EXPERT:
+                if (inputController.verifyReceivedData(receivedMessage)) {
+                    expertHandler((UseExpertMessage) receivedMessage);
+                }
+                break;
+
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;

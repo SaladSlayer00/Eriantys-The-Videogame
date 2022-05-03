@@ -10,6 +10,13 @@ public class PickCloudMessage extends Message{
         this.index = index;
     }
 
+    public String toString() {
+        return "PickCloudMessage{" +
+                "nickname=" + getNickname() +
+                ", Cloud=" + this.getCloudIndex() +
+                '}';
+    }
+
     public int getCloudIndex(){
         return this.index;
     }

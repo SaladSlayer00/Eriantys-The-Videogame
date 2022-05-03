@@ -11,6 +11,7 @@ public enum MessageType {
         INIT_GAMEBOARD,
         PICK_CLOUD,
         DRAW_ASSISTANT,
+        MOVE,
         MOVE_ON_ISLAND,
         MOVE_ON_BOARD,
         MOVE_MOTHER,

@@ -7,8 +7,15 @@ public class AssistantMessage extends Message{
     private final Assistant assistant;
 
     public AssistantMessage(String nickname, Assistant assistant) {
-        super(nickname, MessageType.INIT_GAMEBOARD);
+        super(nickname, MessageType.DRAW_ASSISTANT);
         this.assistant = assistant;
+    }
+
+    public String toString() {
+        return "AssistantMessage{" +
+                "nickname=" + getNickname() +
+                ", Assistant Index=" + this.getIndex() +
+                '}';
     }
 
     public int getIndex(){

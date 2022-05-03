@@ -8,7 +8,7 @@ public class TowerMessage extends Message{
     private final Type tower;
 
     public TowerMessage(String nickname,Type tower) {
-        super(nickname, MessageType.INIT_DECK);
+        super(nickname, MessageType.INIT_TOWERS);
         this.tower = tower;
     }
 
@@ -24,7 +24,4 @@ public class TowerMessage extends Message{
         return this.tower;
     }
 
-    public void useEffect(){
-        getType();
-    }
 }

@@ -11,6 +11,13 @@ public class StartMessage extends Message{
         this.answer = answer;
     }
 
+    public String toString() {
+        return "StartMessage{" +
+                "nickname=" + getNickname() +
+                ", Answer=" + this.answer +
+                '}';
+    }
+
     public String getAnswer(){
         return this.answer;
     }
