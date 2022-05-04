@@ -8,6 +8,11 @@ import it.polimi.ingsw.model.board.Cloud;
 import javax.swing.text.Position;
 import java.util.List;
 
+/* this is the general view interface that contains (it should at least) all the methods that are going to
+* be used by the various view types (such as cli and friends)
+* in general these are all the various stuffs needed for user/game communications (kinda)
+ */
+
 public interface View {
 
     //asks the player to choose a nickname
