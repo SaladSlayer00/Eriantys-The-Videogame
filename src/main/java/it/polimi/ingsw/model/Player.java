@@ -118,4 +118,8 @@ public class Player {
             return false;
     }
 
+    //no oggetti solo colori ????
+    public ArrayList<Color> getProfessors() {
+        return professors;
+    }
 }

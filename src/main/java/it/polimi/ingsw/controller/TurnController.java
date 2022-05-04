@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.exceptions.noStudentException;
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.MainPhase;
-import it.polimi.ingsw.model.enums.PhaseType;
+import it.polimi.ingsw.model.enums.*;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -24,6 +25,7 @@ public class TurnController implements Serializable {
     private PhaseType phaseType;
     private final GameController gameController;
     private ArrayList<Assistant> chosen;
+    private int moved = 0;
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
@@ -57,6 +59,13 @@ public class TurnController implements Serializable {
         return chosen;
     }
 
+    public int getMoved() {
+        return moved;
+    }
+
+    public void setMoved(int moved) {
+        this.moved = moved;
+    }
 
     /**
      * Set next active player.
@@ -163,8 +172,64 @@ public class TurnController implements Serializable {
                 }
             }
         }
+        this.resetChosen();
         mainPhase = MainPhase.ACTION;
 
+    }
+
+    public void moveMaker(){
+        VirtualView vv = virtualViewMap.get(getActivePlayer());
+        vv.showGenericMessage("You have moved "+ moved + " students!");
+        vv.showGenericMessage("Please choose a student and where do you want to move it!");
+        //lista che si passava come parametro per fare scegliere il player
+        vv.askMoves();
+    }
+
+    //in effetti non ha senso il colore è lo stesso
+    public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException {
+        Player player = game.getPlayerByNickname(getActivePlayer());
+        VirtualView vv = virtualViewMap.get(player);
+        player.getDashboard().getRow(row).addStudent(player.getDashboard().takeStudent(color));
+        moved++;
+
+    }
+
+    public void moveOnIsland(Color color, int index) throws noStudentException {
+        Player player = game.getPlayerByNickname(getActivePlayer());
+        VirtualView vv = virtualViewMap.get(player);
+        game.getGameBoard().placeStudent(color, player.getDashboard().takeStudent(color), index);
+        moved++;
+    }
+
+    public void moveMother(int moves){
+        int actual = game.getGameBoard().getMotherNature();
+        for(int i = 0; i < moves; i++){
+            if(i+actual == game.getGameBoard().getIslands().size()-1){
+                actual = 0;
+            }
+            else {
+                actual=actual+i;
+            }
+        }
+        game.getGameBoard().setMotherNature(actual);
+        checkInfluence(actual);
+    }
+
+    private void checkInfluence(int actual) throws noTowerException {
+        Player player = game.getPlayerByNickname(activePlayer);
+        Type team = player.getDashboard().getTeam();
+        Island active = game.getGameBoard().getIslands().get(actual);
+        int influence = 0;
+        for(Color c : player.getProfessors()){
+            influence = influence + active.getStudents().get(c).size();
+        }
+        //non mi ricordo come funziona il numero di torri
+        if(active.getTeam().equals(team)){
+            influence = influence + active.getDimension();
+        }
+        if(influence > active.getInfluence()){
+            active.setInfluence(influence);
+        }
     }
 
 }

@@ -131,4 +131,15 @@ public class Gameboard {
         return islands;
     }
 
+    public void placeStudent(Color c, Student s, int island){
+        islands.get(island).addStudentOnIsland(c, s);
+    }
+
+    public int getMotherNature() {
+        return motherNature;
+    }
+
+    public void setMotherNature(int motherNature) {
+        this.motherNature = motherNature;
+    }
 }

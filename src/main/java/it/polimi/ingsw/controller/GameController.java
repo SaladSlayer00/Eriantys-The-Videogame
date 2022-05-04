@@ -1,8 +1,5 @@
 package it.polimi.ingsw.controller;
-import it.polimi.ingsw.exceptions.emptyDecktException;
-import it.polimi.ingsw.exceptions.fullTowersException;
-import it.polimi.ingsw.exceptions.invalidNumberException;
-import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.GameState;
@@ -321,12 +318,12 @@ public class GameController implements Observer, Serializable {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    moveHandler((MoveOnIslandMessage) receivedMessage);
+                    moveHandler((MoveMessage) receivedMessage);
                 }
                 break;
             case MOVE_ON_BOARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    moveHandler((MoveOnBoardMessage) receivedMessage);
+                    moveHandler((MoveMessage) receivedMessage);
                 }
                 break;
             case MOVE_MOTHER:
@@ -399,9 +396,44 @@ public class GameController implements Observer, Serializable {
             broadcastGenericMessage("All assistants are set! Please wait for the game to decide the turn order!");
             //yes or no
             turnController.determineOrder();
+            initiateAction();
         }
 
 
+    }
+
+    public void initiateAction(){
+        broadcastGenericMessage("Turns are set! Now playing "+ turnController.getActivePlayer());
+        turnController.moveMaker();
+    }
+
+
+    public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException {
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
+        if (moveMessage.getMessageType() == MessageType.MOVE_ON_BOARD) {
+            turnController.moveOnBoard(moveMessage.getColor(), moveMessage.getRow());
+        }
+        else if(moveMessage.getMessageType() == MessageType.MOVE_ON_ISLAND){
+            turnController.moveOnIsland(moveMessage.getColor(), moveMessage.getIndex());
+        }
+        if(turnController.getMoved()<3){
+            turnController.moveMaker();
+        }
+        else{
+            VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+            virtualView.showGenericMessage("You've chosen all your students!");
+            virtualView.showGenericMessage("Please choose the number of moves of mother nature");
+            virtualView.askMotherMoves();
+//            turnController.next();
+//            turnController.setMoved(0);
+//            turnController.moveMaker();
+        }
+    }
+
+    //bisogna fare un controllo su
+    public void motherHandler(MoveMotherMessage message){
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
+        turnController.moveMother(message.getMoves());
     }
 
 }

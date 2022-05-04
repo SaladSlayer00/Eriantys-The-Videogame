@@ -4,22 +4,21 @@ import it.polimi.ingsw.model.enums.Color;
 
 public class MoveMotherMessage extends Message{
 
-    private final int index;
+    private final int moves;
 
-    public MoveMotherMessage(String nickname, Color color, int index) {
+    public MoveMotherMessage(String nickname, int moves) {
         super(nickname, MessageType.MOVE_MOTHER);
-        this.index = index;
+        this.moves = moves;
     }
 
     public String toString() {
-        return "MoveOnIslandMessage{" +
+        return "MoveMotherMessage{" +
                 "nickname=" + getNickname() +
-                ", Color of Student=" + this.getColor() +
-                "index of Island=" + this.getIndex() +'}';
+                "moves=" + this.getMoves() +'}';
     }
 
-    public int getIndex(){
-        return this.index;
+    public int getMoves(){
+        return this.moves;
     }
 
 }

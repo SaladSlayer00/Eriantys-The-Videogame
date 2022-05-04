@@ -13,10 +13,10 @@ public class Dashboard {
     //attributes of the class dashboard
     private int towers;
     private int numTowers;
-    private final Row[] rows = new Row[NUM_ROWS];
-    private final ArrayList<Student> hall = new ArrayList<>();
+    private final ArrayList<Row> rows = new ArrayList<>();
+    private final ArrayList<Student> hall = {new Row(Color.BLUE), new Row(Color.GREEN), new Row(Color.RED), new Row(Color.PINK), new Row(Color.YELLOW)};
     private Type team;
-    private static final int NUM_ROWS = 5;
+    //private static final int NUM_ROWS = 5;
     private int hallDimension;
 
     public Dashboard(int numPlayers){
@@ -27,6 +27,7 @@ public class Dashboard {
             this.numTowers = 6;
             this.hallDimension = 9;
         }
+        this.rows = {};
     }
 
     public int getHallDimension() {
@@ -39,12 +40,7 @@ public class Dashboard {
     }
 
     public void addStudent(Student student) throws maxSizeException {
-        /*ALTERNATIVE VERSION
-        for (int i = 0; i < NUM_ROWS; i++) {
-            if (rows[i].getName().equals(student.color))
-                rows[i].addStudent(student);
-        }
-        */
+
         for (Row r : this.rows) {
             if (r.getName().equals(student.getColor())) {
                 r.addStudent(student);
@@ -96,4 +92,11 @@ public class Dashboard {
     public ArrayList<Student> getHall() {
         return hall;
     }
+
+    public Row getRow(Color color){
+        return this.rows
+    }
+
+
+
 }

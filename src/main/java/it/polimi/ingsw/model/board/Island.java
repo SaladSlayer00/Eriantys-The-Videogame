@@ -77,7 +77,7 @@ public class Island {
     }
 
     //it returns the color of the tower TO CHECK //
-    public Type getColor() throws noTowerException {
+    public Type getTeam() throws noTowerException {
         if (getTower() == true) {
             return tower;
         } else {
@@ -122,6 +122,14 @@ public class Island {
     //it changes the dimension of the island
     public void changeDimension(int newDim){
         this.dimension += newDim;
+    }
+
+    public void addStudentOnIsland(Color c, Student s){
+        for(Color color : students.keySet()){
+            if(color.equals(c)){
+                students.get(c).add(s);
+            }
+        }
     }
 
 }
