@@ -5,8 +5,8 @@ import it.polimi.ingsw.message.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Observable class that can be observed by implementing the {@link Observer} interface and registering as listener.
- */
+//Observable class that can be observed by implementing the {@link Observer} interface and registering as listener
+
 public class Observable {
 
     private final List<Observer> observers = new ArrayList<>();
