@@ -431,7 +431,7 @@ public class GameController implements Observer, Serializable {
     }
 
     //bisogna fare un controllo su
-    public void motherHandler(MoveMotherMessage message){
+    public void motherHandler(MoveMotherMessage message) throws noTowerException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         turnController.moveMother(message.getMoves());
     }

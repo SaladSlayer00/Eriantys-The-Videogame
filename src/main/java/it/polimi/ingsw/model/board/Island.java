@@ -132,4 +132,9 @@ public class Island {
         }
     }
 
+    public void setTower(Type tower) {
+        this.tower = tower;
+    }
+
+
 }

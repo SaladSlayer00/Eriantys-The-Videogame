@@ -201,8 +201,9 @@ public class TurnController implements Serializable {
         moved++;
     }
 
-    public void moveMother(int moves){
+    public void moveMother(int moves) throws noTowerException {
         int actual = game.getGameBoard().getMotherNature();
+        game.getGameBoard().getIslands().get(actual).removeMother();
         for(int i = 0; i < moves; i++){
             if(i+actual == game.getGameBoard().getIslands().size()-1){
                 actual = 0;
@@ -211,6 +212,7 @@ public class TurnController implements Serializable {
                 actual=actual+i;
             }
         }
+
         game.getGameBoard().setMotherNature(actual);
         checkInfluence(actual);
     }
@@ -224,12 +226,56 @@ public class TurnController implements Serializable {
             influence = influence + active.getStudents().get(c).size();
         }
         //non mi ricordo come funziona il numero di torri
-        if(active.getTeam().equals(team)){
-            influence = influence + active.getDimension();
+        if(active.getTower()) {
+            if (active.getTeam().equals(team)) {
+                influence = influence + active.getDimension();
+            }
         }
         if(influence > active.getInfluence()){
             active.setInfluence(influence);
+            active.setTower(team);
+            vv.showGenericMessage("The island is yours!");
+            islandMerger(active);
         }
+
     }
+
+    public void islandMerger(Island active) throws noTowerException {
+        ArrayList<Island> islands = game.getGameBoard().getIslands();
+        Island before;
+        Island after;
+        if(active.getIndex()==0){
+            before=islands.get(islands.size()-1);
+            after = islands.get(1);
+        }else if(active.getIndex()==islands.size()-1){
+            after=islands.get(0);
+            before = islands.get(active.getIndex()-1);
+        }
+        else{
+            before = islands.get(active.getIndex()-1);
+            after= islands.get(active.getIndex()+1);
+        }
+        if(before.getTower()) {
+            if (before.getTeam().equals(active.getTeam())) {
+                active.changeDimension(before.getDimension());
+                for(Color c : before.getStudents().keySet()){
+                    active.getStudents().get(c).addAll(before.getStudents().get(c));
+                }
+                islands.remove(before);
+            }
+        }
+        if(after.getTower()) {
+            if (after.getTeam().equals(active.getTeam())) {
+                active.changeDimension(after.getDimension());
+                for(Color c : after.getStudents().keySet()){
+                    active.getStudents().get(c).addAll(after.getStudents().get(c));
+                }
+                islands.remove(after);
+            }
+        }
+
+    }
+
+
 
 }
