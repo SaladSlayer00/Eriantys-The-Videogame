@@ -19,7 +19,7 @@ public class NoTowerCard extends Character{
 
     public void useEffect(Player p, Island i) throws noTowerException {
          if(i.getTower() == true){
-             /* i don't really know right now how to do it right now
+             /* i don't really know right now how to do it
              * but we should find a way to check the color of the player
              * if the player passed as a variable in the method actually has a tower on the island
              * then we should subtract minus one to the influence of that player on that island

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Student;
@@ -48,16 +49,53 @@ public interface View {
     //asks for the game mode
     void askGameMode();
 
-    /* then we should implement all the various things that have to do with the exceptions, connections and these
+    /* THESE THINGS NEED TO BE DISCUSS A BIT I THINK!!!
+    * TODO
+    * then we should implement all the various things that have to do with the exceptions, connections and these
     * stuffs.
     * These stuffs include
-    *  - generic messages
-    *  - successful login
-    *  - disconnection message
-    *  - error and exit
-    *  - lobby (?)
-    *  - enable effects (for the expert mode????)
-    *  - match infos
-    *  - win message
+    *  - generic messages                                            ((okay???))
+    *  - successful login                                            ((okay???))
+    *  - disconnection message                                       ((okay???))
+    *  - error and exit                                              TO BE CHECKED
+    *  - lobby (?)                                                   TO BE WRITTEN
+    *  - enable effects (for the expert mode????)                    TO BE DISCUSSED
+    *  - match infos                                                 TO BE CHECKED
+    *  - win message                                                 TO BE CHECKED
      */
+
+    // here the beginning of the implementation of the methods listed above
+    //sends a generic message
+    void genericMessage(Message genericMessage);
+
+    //communicates the successful login of the player
+    //the parameters are two boolean and the nickname of the player
+    void successfulLogin(boolean successfulConnection, boolean nicknameAccepted, String nickname);
+
+    //TODO
+    //communicates the disconnection of the player
+    //the parameters are the nickname of the player who has been disconnected and a boolean (???)
+    void disconnectionMessage(String playerDisconnected);
+
+    //TODO
+    //communicates that an error has occurred and exits form the game
+    //the parameter is the nick of the player who's going to be kicked out (???)
+    void errorCommunicationAndExit(String nickname);
+
+    //TODO
+    //communicates that the wanted effect has been activated
+    //tbh i'm not 100% sure of this method because i don't really know if this is going to work out for our code...
+    //also a thing to pass the card that has been summoned???????????
+    void effectEnabled(String summoner);
+
+    //TODO
+    //shows the information of the match played
+    //the parameters should be a list of players and things like these... i think???
+    void showMatchInfo();
+
+    //TODO
+    //communicates to the winner they have won
+    //should we pass the nick of the player or the REAL player???
+    void winCommunication(Message winMessage, String winner);
+
 }
