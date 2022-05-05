@@ -262,6 +262,11 @@ public class TurnController implements Serializable {
                     active.getStudents().get(c).addAll(before.getStudents().get(c));
                 }
                 islands.remove(before);
+                if(active.getIndex()!=0) {
+                    for (int i = active.getIndex(); i < islands.size(); i++) {
+                        islands.get(i).setIndex(i - 1);
+                    }
+                }
             }
         }
         if(after.getTower()) {
@@ -271,11 +276,30 @@ public class TurnController implements Serializable {
                     active.getStudents().get(c).addAll(after.getStudents().get(c));
                 }
                 islands.remove(after);
+                if(active.getIndex()==islands.size()-1){
+                    for(int i = 1;i<islands.size();i++){
+                        //secondo me gli indici non servono
+                    }
+                }
+                for(int i = active.getIndex()+1;i < islands.size()-1;i++){
+                    if(i==0){
+                        active.setIndex(islands.size()-1);
+                    }
+                    else {
+                        islands.get(i).setIndex(i - 1);
+                    }
+                }
             }
         }
 
     }
 
-
+    public void getFromCloud(int index){
+        Player p = game.getPlayerByNickname(activePlayer);
+        ArrayList<Student> students = game.getGameBoard().getClouds()[index].removeStudents();
+        for(Student s : students){
+            p.getDashboard().addToHall(s);
+        }
+    }
 
 }

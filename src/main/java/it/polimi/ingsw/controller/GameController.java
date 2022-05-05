@@ -286,7 +286,7 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
-    private void inGameState(Message receivedMessage) throws noMoreStudentsException {
+    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException {
         switch (turnController.getMainPhase()){
             case PLANNING:
                 planningState(receivedMessage);
@@ -314,7 +314,7 @@ public class GameController implements Observer, Serializable {
     }
 
 //gli handler della azione richiamano il turnController
-    private void ActionState(Message receivedMessage) {
+    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -334,7 +334,7 @@ public class GameController implements Observer, Serializable {
 
             case GET_FROM_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    getFromCloudHandler((GetFromCloudMessage) receivedMessage);
+                    getFromCloudHandler((PickCloudMessage) receivedMessage);
                 }
                 break;
 
@@ -403,7 +403,7 @@ public class GameController implements Observer, Serializable {
     }
 
     public void initiateAction(){
-        broadcastGenericMessage("Turns are set! Now playing "+ turnController.getActivePlayer());
+        broadcastGenericMessage("Now playing "+ turnController.getActivePlayer());
         turnController.moveMaker();
     }
 
@@ -425,7 +425,7 @@ public class GameController implements Observer, Serializable {
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
             virtualView.askMotherMoves();
 //            turnController.next();
-//            turnController.setMoved(0);
+            turnController.setMoved(0);
 //            turnController.moveMaker();
         }
     }
@@ -434,6 +434,27 @@ public class GameController implements Observer, Serializable {
     public void motherHandler(MoveMotherMessage message) throws noTowerException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         turnController.moveMother(message.getMoves());
+        broadcastGenericMessage("Mother Nature concluded her journey.");
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        virtualView.showGenericMessage("Please choose the cloud you want to take!");
+        virtualView.askStudentsCloud(game.getEmptyClouds());
+        //passo le vuote poi la gestisco
+
+    }
+
+    public void getFromCloudHandler(PickCloudMessage message){
+        broadcastGenericMessage("Active player picking their cloud");
+        turnController.getFromCloud(message.getCloudIndex());
+        if(game.getEmptyClouds().size()==game.getChosenPlayerNumber()){
+            broadcastGenericMessage("All players have moved! Starting a new turn");
+            turnController.newTurn();
+
+        }
+        else{
+            broadcastGenericMessage("Player finished their turn!");
+            turnController.next();
+            initiateAction();
+        }
     }
 
 }

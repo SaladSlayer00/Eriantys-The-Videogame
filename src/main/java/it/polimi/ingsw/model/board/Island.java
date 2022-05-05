@@ -136,5 +136,7 @@ public class Island {
         this.tower = tower;
     }
 
-
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }
