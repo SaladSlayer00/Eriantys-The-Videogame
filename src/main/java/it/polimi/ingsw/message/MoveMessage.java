@@ -16,7 +16,7 @@ public class MoveMessage extends Message{
     }
 
     public MoveMessage(String nickname, Color color, Color row) {
-        super(nickname, MessageType.MOVE_ON_ISLAND);
+        super(nickname, MessageType.MOVE_ON_BOARD);
         this.row = row;
         this.color = color;
 

@@ -15,7 +15,7 @@ import it.polimi.ingsw.model.playerBoard.Dashboard;
 public class EasyGame extends Oservable implements Serializable{
     private static final long serialVersioneUID =  4405183481677036856L; //da cambiare
     private static EasyGame instance;
-    private static final String SERVER_NICKNAME = "server";
+    public static final String SERVER_NICKNAME = "server";
     private  Gameboard gameBoard;
     private List<Player> players;
     private List<Player> activeplayers;
@@ -118,6 +118,7 @@ public class EasyGame extends Oservable implements Serializable{
         }
         return result;
     }
+
 
 }
 

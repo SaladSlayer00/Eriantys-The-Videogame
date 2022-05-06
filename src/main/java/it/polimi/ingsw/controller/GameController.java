@@ -501,5 +501,7 @@ public class GameController implements Observer, Serializable {
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
 
-
+    public TurnController getTurnController() {
+        return turnController;
+    }
 }
