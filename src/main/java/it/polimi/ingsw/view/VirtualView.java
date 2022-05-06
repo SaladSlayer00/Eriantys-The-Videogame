@@ -85,7 +85,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void disconnectionMessage(String playerDisconnected) {
+    public void showDisconnectionMessage(String playerDisconnected) {
 
     }
 

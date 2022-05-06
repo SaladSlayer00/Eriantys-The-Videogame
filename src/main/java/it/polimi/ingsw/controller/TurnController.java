@@ -224,6 +224,7 @@ public class TurnController implements Serializable {
             influence = influence + active.getStudents().get(c).size();
         }
         //non mi ricordo come funziona il numero di torri
+        //TODO
         if(active.getTower()) {
             if (active.getTeam().equals(team)) {
                 influence = influence + active.getDimension();
