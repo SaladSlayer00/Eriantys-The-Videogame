@@ -74,12 +74,13 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void genericMessage(Message genericMessage) {
-
+    //TODO
+    public void showGenericMessage(String genericMessage) {
+           System.out.println(genericMessage);
     }
 
     @Override
-    public void successfulLogin(boolean successfulConnection, boolean nicknameAccepted, String nickname) {
+    public void showLoginResult(boolean connectionResult, boolean nicknameAccepted, String nickname) {
 
     }
 

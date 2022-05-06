@@ -38,7 +38,7 @@ public interface View {
 
     //asks where the player wants to move the paw they have chosen
     //the parameter is the list of admitted positions
-    void askPawMove(List<Position> availablePosition);
+    void askMoves(List<Position> availablePosition);
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)
@@ -73,11 +73,11 @@ public interface View {
 
     // here the beginning of the implementation of the methods listed above
     //sends a generic message
-    void genericMessage(Message genericMessage);
+    void showGenericMessage(String genericMessage);
 
-    //communicates the successful login of the player
+    //communicates the successful login of the player (should check the order of the parameters!!!)
     //the parameters are two boolean and the nickname of the player
-    void successfulLogin(boolean successfulConnection, boolean nicknameAccepted, String nickname);
+    void showLoginResult(boolean connectionResult, boolean nicknameAccepted, String nickname);
 
     //TODO
     //communicates the disconnection of the player

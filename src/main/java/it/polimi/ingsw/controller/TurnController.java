@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;

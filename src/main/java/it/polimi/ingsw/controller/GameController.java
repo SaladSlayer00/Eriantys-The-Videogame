@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.io.Serializable;
 import java.util.*;
