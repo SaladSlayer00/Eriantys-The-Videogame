@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.maxSizeException;
-import it.polimi.ingsw.exceptions.noMoreStudentsException;
-import it.polimi.ingsw.exceptions.noStudentException;
-import it.polimi.ingsw.exceptions.noTowerException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
@@ -201,7 +198,7 @@ public class TurnController implements Serializable {
         moved++;
     }
 
-    public void moveMother(int moves) throws noTowerException {
+    public boolean moveMother(int moves) throws noTowerException, noTowersException {
         int actual = game.getGameBoard().getMotherNature();
         game.getGameBoard().getIslands().get(actual).removeMother();
         for(int i = 0; i < moves; i++){
@@ -214,10 +211,10 @@ public class TurnController implements Serializable {
         }
 
         game.getGameBoard().setMotherNature(actual);
-        checkInfluence(actual);
+        return checkInfluence(actual);
     }
 
-    private void checkInfluence(int actual) throws noTowerException {
+    private boolean checkInfluence(int actual) throws noTowerException, noTowersException {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
         Island active = game.getGameBoard().getIslands().get(actual);
@@ -233,11 +230,21 @@ public class TurnController implements Serializable {
         }
         if(influence > active.getInfluence()){
             active.setInfluence(influence);
-            active.setTower(team);
+            active.setTower(player.getDashboard().getTower());
             vv.showGenericMessage("The island is yours!");
-            islandMerger(active);
+            return towerChecker();
+            //islandMerger(active);
         }
+        return false;
 
+    }
+
+    public boolean towerChecker(){
+        Player p = game.getPlayerByNickname(activePlayer);
+        if(p.getDashboard().getNumTowers()==0){
+            return true;
+        }
+        return false;
     }
 
     public void islandMerger(Island active) throws noTowerException {

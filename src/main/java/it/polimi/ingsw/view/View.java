@@ -5,8 +5,11 @@ import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
 
 import javax.swing.text.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 /* this is the general view interface that contains (it should at least) all the methods that are going to
@@ -19,13 +22,15 @@ public interface View {
     //asks the player to choose a nickname
     void askNickname();
 
+    void askStart();
+
     //asks the player to choose a deck from the ones available
     //the parameter of the method is the list of the deck which the player can choose from
-    void askDeck(List<Deck> availableDecks);
+    void askInitDeck(ArrayList<Mage> availableDecks);
 
     //asks the player to choose an assistant's card from the ones that are still in the deck
     //the parameter of the method is the list of the cards in the deck which the player can choose from
-    void askAssistantCard(List<Assistant> availableAssistants);
+    void askAssistant(List<Assistant> availableAssistants);
 
     //asks the player which paw (student) they want to move
     //the parameter of the method is the list of the students that the player can actually move
@@ -37,7 +42,7 @@ public interface View {
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)
-    void askMotherNatureMove(int possibleSteps);
+    void askMotherMoves(int possibleSteps);
 
     //asks the player which cloud they want to pick the students from
     //the parameter of the method is the list of the remaining cloud
@@ -48,6 +53,8 @@ public interface View {
 
     //asks for the game mode
     void askGameMode();
+
+    void askInitType(ArrayList<Type> teams);
 
     /* THESE THINGS NEED TO BE DISCUSS A BIT I THINK!!!
     * TODO

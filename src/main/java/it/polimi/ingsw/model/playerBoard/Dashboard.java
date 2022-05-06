@@ -94,7 +94,13 @@ public class Dashboard {
     }
 
     public Row getRow(Color color){
-        return this.rows
+        for (Row r : rows){
+            if(r.getName()==color){
+                return r;
+            }
+        }
+        //errore
+        return null;
     }
 
 
