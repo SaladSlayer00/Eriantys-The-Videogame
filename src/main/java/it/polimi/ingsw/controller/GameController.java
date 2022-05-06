@@ -1,3 +1,6 @@
+//serve n try catch dove c'è la no more students exception
+
+
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
@@ -43,7 +46,7 @@ public class GameController implements Observer, Serializable {
         this.gameState = gameState;
     }
 
-    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
@@ -138,7 +141,7 @@ public class GameController implements Observer, Serializable {
                 + " is choosing their deck. . .");
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.askInitDeck(Mage.notChosen(), game.getChosenPlayersNumber());
+        virtualView.askInitDeck(Mage.notChosen());
     }
 
 
@@ -188,7 +191,7 @@ public class GameController implements Observer, Serializable {
         }
         else{
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
-            virtualView.askInitTeam(Type.notChosen());
+            virtualView.askInitType(Type.notChosen());
         }
 
     }
@@ -286,7 +289,7 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
-    private void inGameState(Message receivedMessage) throws noMoreStudentsException {
+    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException {
         switch (turnController.getMainPhase()){
             case PLANNING:
                 planningState(receivedMessage);
@@ -314,7 +317,7 @@ public class GameController implements Observer, Serializable {
     }
 
 //gli handler della azione richiamano il turnController
-    private void ActionState(Message receivedMessage) {
+    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -334,7 +337,7 @@ public class GameController implements Observer, Serializable {
 
             case GET_FROM_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    getFromCloudHandler((GetFromCloudMessage) receivedMessage);
+                    getFromCloudHandler((PickCloudMessage) receivedMessage);
                 }
                 break;
 
@@ -384,6 +387,9 @@ public class GameController implements Observer, Serializable {
         Assistant card = player.getDeck().draw(receivedMessage.getIndex());
         player.setCard(card);
         turnController.getChosen().add(card);
+        if(player.getDeck().getNumCards()==0){
+            broadcastDrawMessage();
+        }
 
         //check sulla carta uguale la facciamo nell'input controller
         if(turnController.getChosen().size() < game.getNumCurrentActivePlayers()){
@@ -403,7 +409,7 @@ public class GameController implements Observer, Serializable {
     }
 
     public void initiateAction(){
-        broadcastGenericMessage("Turns are set! Now playing "+ turnController.getActivePlayer());
+        broadcastGenericMessage("Now playing "+ turnController.getActivePlayer());
         turnController.moveMaker();
     }
 
@@ -425,15 +431,74 @@ public class GameController implements Observer, Serializable {
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
             virtualView.askMotherMoves();
 //            turnController.next();
-//            turnController.setMoved(0);
+            turnController.setMoved(0);
 //            turnController.moveMaker();
         }
     }
 
     //bisogna fare un controllo su
-    public void motherHandler(MoveMotherMessage message) throws noTowerException {
+    public void motherHandler(MoveMotherMessage message) throws noTowerException, noTowersException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
-        turnController.moveMother(message.getMoves());
+        boolean result = turnController.moveMother(message.getMoves());
+        broadcastGenericMessage("Mother Nature concluded her journey.");
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+
+        if(result){
+
+            virtualView.showGenericMessage("You've placed the last tower! You're the winner");
+            win();
+
+        }
+        else{
+            turnController.islandMerger(game.getGameBoard().getIslands().get(game.getGameBoard().getMotherNature()));
+        }
+        if(game.getGameBoard().getIslands().size()==3){
+            broadcastDrawMessage();
+            endGame();
+        }
+        virtualView.showGenericMessage("Please choose the cloud you want to take!");
+        virtualView.askCloud(game.getEmptyClouds());
+        //passo le vuote poi la gestisco
+
     }
+
+
+    public void getFromCloudHandler(PickCloudMessage message){
+        broadcastGenericMessage("Active player picking their cloud");
+        turnController.getFromCloud(message.getCloudIndex());
+        if(game.getEmptyClouds().size()==game.getChosenPlayerNumber()){
+            broadcastGenericMessage("All players have moved! Starting a new turn");
+            turnController.newTurn();
+
+        }
+        else{
+            broadcastGenericMessage("Player finished their turn!");
+            turnController.next();
+            initiateAction();
+        }
+    }
+    public void win(){
+        broadcastWinMessage(turnController.getActivePlayer());
+        endGame();
+
+    }
+
+    public void lose(){
+        broadcastLoseMessage(turnController.getActivePlayer());
+        endGame();
+    }
+
+
+
+    public void endGame() {
+        game.resetInstance();
+
+        StorageData storageData = new StorageData();
+        storageData.delete();
+
+        initGameController();
+        Server.LOGGER.info("Game finished. Server ready for a new Game.");
+    }
+
 
 }
