@@ -44,7 +44,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askPawMove(List<Position> availablePosition) {
+    public void askMoves(List<Position> availablePosition) {
 
     }
 
