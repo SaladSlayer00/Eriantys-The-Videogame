@@ -44,7 +44,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askPawMove(List<Position> availablePosition) {
+    public void askMoves(List<Position> availablePosition) {
 
     }
 
@@ -85,7 +85,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void disconnectionMessage(String playerDisconnected) {
+    public void showDisconnectionMessage(String playerDisconnected) {
 
     }
 

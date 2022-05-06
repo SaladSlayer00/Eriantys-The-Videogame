@@ -82,7 +82,7 @@ public interface View {
     //TODO
     //communicates the disconnection of the player
     //the parameters are the nickname of the player who has been disconnected and a boolean (???)
-    void disconnectionMessage(String playerDisconnected);
+    void showDisconnectionMessage(String playerDisconnected);
 
     //TODO
     //communicates that an error has occurred and exits form the game
