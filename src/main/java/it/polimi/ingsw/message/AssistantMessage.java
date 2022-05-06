@@ -21,4 +21,8 @@ public class AssistantMessage extends Message{
     public int getIndex(){
         return this.assistant.getNumOrder();
     }
+    //forse sarebbe utile anche un mettere un metodo getter che ritorna direttamente l'assistente ?
+    public Assistant getAssistant(){
+        return this.assistant;
+    }
 }

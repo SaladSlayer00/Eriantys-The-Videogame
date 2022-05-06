@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.view.View;
@@ -49,11 +52,15 @@ public class InputController {
             case MOVE_ON_ISLAND:
                 return moveOnIsland(message);
             case MOVE_MOTHER:
-                return false;
+                return moveMotherCheck(message);
             case GAMEMODE_REPLY:
                 return gameModeReplyCheck(message);
             case PICK_CLOUD:
                 return pickCloudCheck(message);
+            case DRAW_ASSISTANT:
+                return drawAssistantCheck(message);
+            case INIT_TOWERS:
+                return false;
             default:
                 return false;
 
@@ -79,8 +86,8 @@ public class InputController {
         if (playerNumberReply.getPlayerNumber() < 3 && playerNumberReply.getPlayerNumber() > 1){
             return true;
         }else{
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
-            virtualView.askPlayerNumber();
+            VirtualView virtualView = virtualViewMap.get(message.getNickname());
+            virtualView.askPlayersNumber();
             return false;
         }
     }
@@ -92,12 +99,12 @@ public class InputController {
         String activePlayerNickname = gameController.getTurnController().getActivePlayer();
         Dashboard activePlayerDashboard = game.getPlayerByNickname(activePlayerNickname).getDashboard();
         if(!(activePlayerDashboard.getHall().contains(new Student(chosenColor)))){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("There are no" +chosenColor+"in the hall");
+            virtualView.askMovingPaw(activePlayerDashboard.getHall());
             return false;
         } else if(activePlayerDashboard.getRow(chosenColor).getNumOfStudents() == 10){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("The chosen row is full");
+            virtualView.askMovingPaw(activePlayerDashboard.getHall());
             return false;
         }else{
             return true;
@@ -112,12 +119,12 @@ public class InputController {
         Dashboard activePlayerDashboard = game.getPlayerByNickname(activePlayerNickname).getDashboard();
         int chosenIndex = moveMessage.getIndex();
         if(!(activePlayerDashboard.getHall().contains(new Student(chosenColor)))){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("There are no" +chosenColor+"in the hall");
+            virtualView.askMovingPaw(activePlayerDashboard.getHall());
             return false;
         }else if(chosenIndex > (game.getGameBoard().getIslands().size()-1) || chosenIndex < 0 ){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("Index out Bound ");
+            virtualView.askMovingPaw(activePlayerDashboard.getHall());//non sono sicuro di questo metodo in questa posizione
             return false;
         }else {
             return true;
@@ -129,8 +136,8 @@ public class InputController {
         GameModeReply gameModeReply = ((GameModeReply) message);
         modeEnum mode = gameModeReply.getGameMode();
         if(!gameModeReply.equals(modeEnum.EASY) && !gameModeReply.equals(modeEnum.EXPERT)){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("Wrong mode");
+            virtualView.askGameMode();
             return false;
         }else{
             return true;
@@ -143,12 +150,47 @@ public class InputController {
         PickCloudMessage pickCloudMessage = ((PickCloudMessage) message);
         int chosenIndex = pickCloudMessage.getCloudIndex();
         if(chosenIndex<0 || chosenIndex>game.getChosenPlayersNumber()){
-            virtualView virtualView = virtualViewMap.get(message.getNickname());
             virtualView.showGenericMessage("Index out Bound ");
+            virtualView.askCloud(game.getGameBoard().getClouds());
             return false;
         }else{
             return true;
         }
     }
+
+    public boolean drawAssistantCheck(Message message){
+        VirtualView virtualView = virtualViewMap.get(message.getNickname());
+        AssistantMessage assistantMessage = ((AssistantMessage) message);
+        Assistant chosenAssistant = assistantMessage.getAssistant();
+        String activePlayerNickname = gameController.getTurnController().getActivePlayer();
+        Deck activePlayerDeck = game.getPlayerByNickname(activePlayerNickname).getDeck();
+        if(activePlayerDeck.getCards().contains(chosenAssistant)){
+            return true;
+        }else{
+            virtualView.showGenericMessage("The chosen card is not present in the deck");
+            virtualView.askAssistant(activePlayerDeck.getCards());
+            return false;
+        }
+    }
+
+    public boolean moveMotherCheck(Message message){
+        VirtualView virtualView = virtualViewMap.get(message.getNickname());
+        MoveMotherMessage moveMotherMessage = ((MoveMotherMessage) message);
+        int chosenMoves = moveMotherMessage.getMoves();
+        Assistant chosenAssistant = moveMotherMessage.getChosenAssistant();
+        if(chosenMoves > 0 && chosenMoves <= chosenAssistant.getMove()){
+            return true;
+        }else{
+            virtualView.showGenericMessage("move not allowed");
+            virtualView.askMotherMoves(chosenAssistant.getMove());
+            return false;
+        }
+
+    }
+    public boolean checkUser(Message receivedMessage) {
+        return receivedMessage.getNickname().equals(gameController.getTurnController().getActivePlayer());
+    }
+
+
 
 }

@@ -46,7 +46,7 @@ public class Deck {
 
     public ArrayList<Assistant> getCards() {
         ArrayList<Assistant> copiedCards = new ArrayList<Assistant>(cards);
-        return cards;
+        return copiedCards;
     }
 }
 
