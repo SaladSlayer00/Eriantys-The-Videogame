@@ -269,7 +269,7 @@ public class GameController implements Observer, Serializable {
         }
 
     }
-    //mette il numero di torri giosto in base al numero che sarà assegnato in fase di inizializzazione
+    //mette il numero di torri giusto in base al numero che sarà assegnato in fase di inizializzazione
     public void initializeDashboards() throws fullTowersException {
         for(Player p : game.getPlayers()){
             for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){

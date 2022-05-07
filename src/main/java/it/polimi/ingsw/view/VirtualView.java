@@ -29,7 +29,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askInitDeck(ArrayList<Mage> availableDecks) {
+    public void askInitDeck(List<Mage> availableDecks) {
 
     }
 
@@ -69,7 +69,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askInitType(ArrayList<Type> teams) {
+    public void askInitType(List<Type> teams) {
 
     }
 

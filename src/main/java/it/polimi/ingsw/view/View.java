@@ -26,7 +26,7 @@ public interface View {
 
     //asks the player to choose a deck from the ones available
     //the parameter of the method is the list of the deck which the player can choose from
-    void askInitDeck(ArrayList<Mage> availableDecks);
+    void askInitDeck(List<Mage> availableDecks);
 
     //asks the player to choose an assistant's card from the ones that are still in the deck
     //the parameter of the method is the list of the cards in the deck which the player can choose from
@@ -54,7 +54,7 @@ public interface View {
     //asks for the game mode
     void askGameMode();
 
-    void askInitType(ArrayList<Type> teams);
+    void askInitType(List<Type> teams);
 
     /* THESE THINGS NEED TO BE DISCUSS A BIT I THINK!!!
     * TODO
