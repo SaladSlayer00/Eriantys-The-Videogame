@@ -143,4 +143,8 @@ public class Gameboard {
     public void setMotherNature(int motherNature) {
         this.motherNature = motherNature;
     }
+
+    public Cloud chooseCloud(int index){
+        return clouds.remove(index);
+    }
 }
