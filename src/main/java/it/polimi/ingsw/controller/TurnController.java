@@ -133,7 +133,7 @@ public class TurnController implements Serializable {
     }
 
     public void cloudInitializer(int cloudIndex) throws noMoreStudentsException {
-        Cloud cloud = game.getGameBoard().getClouds()[cloudIndex];
+        Cloud cloud = game.getGameBoard().getClouds().get(cloudIndex);
         Sack sack = game.getGameBoard().getSack();
         int var;
         if(game.getChosenPlayerNumber()==2 || game.getChosenPlayerNumber() == 4){
@@ -304,7 +304,7 @@ public class TurnController implements Serializable {
 
     public void getFromCloud(int index){
         Player p = game.getPlayerByNickname(activePlayer);
-        ArrayList<Student> students = game.getGameBoard().getClouds()[index].removeStudents();
+        ArrayList<Student> students = game.getGameBoard().getClouds().get(index).removeStudents();
         for(Student s : students){
             p.getDashboard().addToHall(s);
         }

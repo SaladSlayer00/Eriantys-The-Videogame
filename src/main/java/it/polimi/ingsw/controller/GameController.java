@@ -504,4 +504,6 @@ public class GameController implements Observer, Serializable {
     public TurnController getTurnController() {
         return turnController;
     }
+
+
 }

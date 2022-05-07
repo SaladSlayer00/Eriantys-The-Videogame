@@ -13,14 +13,14 @@ public class Gameboard {
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
     private Sack sack;
-    private Cloud[] clouds;
+    private ArrayList<Cloud> clouds;
     private ArrayList<Professor> professors = new ArrayList<>();
     private int motherNature;
     private int numClouds;
 
     public Gameboard(int numClouds) {
         this.numClouds = numClouds;
-        clouds = new Cloud[this.numClouds];
+        clouds = new ArrayList<>();
         for (Color c : sack.getColors()) {
             Professor p = new Professor(c);
             professors.add(p);
@@ -119,11 +119,12 @@ public class Gameboard {
 
     public void createClouds() {
         for (int i = 0; i < this.numClouds; i++) {
-            this.clouds[i] = new Cloud(this.numClouds);
+           // this.clouds[i] = new Cloud(this.numClouds);
+            clouds.add(new Cloud(numClouds));
         }
     }
 
-    public Cloud[] getClouds() {
+    public ArrayList<Cloud> getClouds() {
         return clouds;
     }
 
