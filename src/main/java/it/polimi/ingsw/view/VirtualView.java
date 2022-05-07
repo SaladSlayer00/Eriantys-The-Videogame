@@ -80,7 +80,7 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void showLoginResult(boolean connectionResult, boolean nicknameAccepted, String nickname) {
+    public void showLoginResult(boolean nicknameAccepted, boolean connectionResult, String nickname) {
 
     }
 

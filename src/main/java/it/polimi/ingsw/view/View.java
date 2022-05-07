@@ -61,7 +61,6 @@ public interface View {
     * then we should implement all the various things that have to do with the exceptions, connections and these
     * stuffs.
     * These stuffs include
-    *  - generic messages                                            ((okay???))
     *  - successful login                                            ((okay???))
     *  - disconnection message                                       ((okay???))
     *  - error and exit                                              TO BE CHECKED
@@ -77,7 +76,7 @@ public interface View {
 
     //communicates the successful login of the player (should check the order of the parameters!!!)
     //the parameters are two boolean and the nickname of the player
-    void showLoginResult(boolean connectionResult, boolean nicknameAccepted, String nickname);
+    void showLoginResult(boolean nicknameAccepter, boolean connectionResult, String nickname);
 
     //TODO
     //communicates the disconnection of the player

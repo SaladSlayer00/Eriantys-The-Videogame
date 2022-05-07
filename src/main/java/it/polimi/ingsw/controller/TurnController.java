@@ -223,8 +223,7 @@ public class TurnController implements Serializable {
         for(Color c : player.getProfessors()){
             influence = influence + active.getStudents().get(c).size();
         }
-        //non mi ricordo come funziona il numero di torri
-        //TODO
+
         if(active.getTower()) {
             if (active.getTeam().equals(team)) {
                 influence = influence + active.getDimension();
