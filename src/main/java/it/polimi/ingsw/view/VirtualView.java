@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -28,19 +28,21 @@ public class VirtualView implements View{
 
     }
 
+    //this is for the choice of the deck at the beginning of the game
+    //JUST A QUESTION what should go instead of gamefactory??? I'm a bit lost...
     @Override
     public void askInitDeck(List<Mage> availableDecks) {
-
+        clientHandler.sendMessage(new DeckMessage(GameFactory.SERVER_NICKNAME, MessageType.INIT_DECK, availableDecks));
     }
 
     @Override
-    public void askAssistant(List<Assistant> availableAssistants) {
-
+    public void askAssistant(List<Assistant> availableAssistants){
+        clientHandler.sendMessage(new AssistantMessage(GameFactory.SERVER_NICKNAME, MessageType.DRAW_ASSISTANT, availableAssistants));
     }
 
     @Override
     public void askMovingPaw(List<Student> availableStudents) {
-
+        clientHandler.sendMessage(new MoveMessage(GameFactory.SERVER_NICKNAME, MessageType.MOVE, availableStudents));
     }
 
     @Override
