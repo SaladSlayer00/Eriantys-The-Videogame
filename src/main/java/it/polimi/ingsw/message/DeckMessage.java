@@ -14,7 +14,7 @@ public class DeckMessage extends Message{
     public String toString() {
         return "ColorsMessage{" +
                 "nickname=" + getNickname() +
-                ", Deck=" + this.deck +
+                ", Deck=" + getMage() +
                 '}';
     }
 

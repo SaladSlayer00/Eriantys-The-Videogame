@@ -6,6 +6,7 @@ public enum MessageType {
         GAMEMODE_REPLY, GAMEMODE_REQUEST,
         LOBBY,
         INIT_DECK,
+        ASK_DECK,
         ASK_TEAM, //BOH
         INIT_TOWERS,
         INIT_GAMEBOARD,

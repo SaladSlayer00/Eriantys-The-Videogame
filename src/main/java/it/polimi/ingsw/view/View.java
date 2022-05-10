@@ -26,7 +26,7 @@ public interface View {
 
     //asks the player to choose a deck from the ones available
     //the parameter of the method is the list of the deck which the player can choose from
-    void askInitDeck(List<Mage> availableDecks);
+    void askInitDeck(String nickname, List<Mage> availableDecks);
 
     //asks the player to choose an assistant's card from the ones that are still in the deck
     //the parameter of the method is the list of the cards in the deck which the player can choose from

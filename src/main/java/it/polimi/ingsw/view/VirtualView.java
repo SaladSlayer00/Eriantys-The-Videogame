@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.enums.Mage;
@@ -35,7 +37,8 @@ public class VirtualView implements View{
     //this is for the choice of the deck at the beginning of the game
     //JUST A QUESTION what should go instead of gamefactory??? I'm a bit lost...
     @Override
-    public void askInitDeck(List<Mage> availableDecks) {
+    public void askInitDeck(String nickname, List<Mage> availableDecks) {
+        clientHandler.sendMessage(new DeckMessageRequest(nickname, availableDecks));
     }
 
     @Override
@@ -73,7 +76,7 @@ public class VirtualView implements View{
 
     //TODO
     @Override
-    public void askInitType(List<Type> teams) {
+    public void askInitType(List<Type> teams){
     }
 
     @Override
