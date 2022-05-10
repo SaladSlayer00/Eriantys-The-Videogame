@@ -61,11 +61,11 @@ public interface View {
     * then we should implement all the various things that have to do with the exceptions, connections and these
     * stuffs.
     * These stuffs include
-    *  - successful login                                            ((okay???))
-    *  - disconnection message                                       ((okay???))
+    *  - successful login                                            TO BE CHECKED ((okay???))
+    *  - disconnection message                                       TO BE CHECKED ((okay???))
     *  - error and exit                                              TO BE CHECKED
     *  - lobby (?)                                                   TO BE WRITTEN
-    *  - enable effects (for the expert mode????)                    TO BE DISCUSSED
+    *  - enable effects (for the expert mode????)                    TO BE DISCUSSED THIS THINGGGGG
     *  - match infos                                                 TO BE CHECKED
     *  - win message                                                 TO BE CHECKED
     *
