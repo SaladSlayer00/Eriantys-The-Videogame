@@ -99,7 +99,7 @@ public class VirtualView implements View{
 
     //TODO
     @Override
-    public void showDisconnectionMessage(String playerDisconnected) {
+    public void showDisconnectionMessage(String playerDisconnected, String text) {
     }
 
     @Override

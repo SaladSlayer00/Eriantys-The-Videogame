@@ -88,7 +88,7 @@ public interface View {
     //communicates the disconnection of the player
     //the parameters are the nicknames of the player who has been disconnected and a boolean (???)
     //maybe it needs another parameter???
-    default void showDisconnectionMessage(String playerDisconnected) {
+    default void showDisconnectionMessage(String playerDisconnected, String text) {
     }
 
     //TODO

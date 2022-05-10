@@ -467,7 +467,7 @@ public class GameController implements Observer, Serializable {
             endGame();
         }
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
-        virtualView.askCloud(game.getEmptyClouds());
+        virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         //passo le vuote poi la gestisco
 
     }
