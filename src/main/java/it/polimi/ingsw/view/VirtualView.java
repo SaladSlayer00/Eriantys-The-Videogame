@@ -18,6 +18,10 @@ public class VirtualView implements View{
         this.clientHandler = clientHandler;
     }
 
+    public ClientHandler getClientHandler(){
+        return clientHandler;
+    }
+
     @Override
     public void askNickname() {
         clientHandler.sendMessage(new LoginReply(false, true));
@@ -32,17 +36,14 @@ public class VirtualView implements View{
     //JUST A QUESTION what should go instead of gamefactory??? I'm a bit lost...
     @Override
     public void askInitDeck(List<Mage> availableDecks) {
-        clientHandler.sendMessage(new DeckMessage(GameFactory.SERVER_NICKNAME, MessageType.INIT_DECK, availableDecks));
     }
 
     @Override
     public void askAssistant(List<Assistant> availableAssistants){
-        clientHandler.sendMessage(new AssistantMessage(GameFactory.SERVER_NICKNAME, MessageType.DRAW_ASSISTANT, availableAssistants));
     }
 
     @Override
     public void askMovingPaw(List<Student> availableStudents) {
-        clientHandler.sendMessage(new MoveMessage(GameFactory.SERVER_NICKNAME, MessageType.MOVE, availableStudents));
     }
 
     //guys i think we should have TWO METHODS for moving the students around
@@ -50,35 +51,29 @@ public class VirtualView implements View{
     //TODO
     @Override
     public void askMoves(List<Position> availablePosition) {
-        clientHandler.sendMessage(new MoveMessage(GameFactory.SERVER_NICKNAME, MessageType.MOVE_ON_BOARD, availablePosition));
     }
 
     @Override
     public void askMotherMoves(int possibleSteps) {
-        clientHandler.sendMessage(new MoveMotherMessage(GameFactory.SERVER_NICKNAME, MessageType.MOVE_MOTHER, possibleSteps));
     }
 
     @Override
     public void askCloud(List<Cloud> availableClouds) {
-        clientHandler.sendMessage(new PickCloudMessage(GameFactory.SERVER_NICKNAME, MessageType.GET_FROM_CLOUD, availableClouds));
     }
 
     //TODO
     @Override
     public void askPlayersNumber() {
-        clientHandler.sendMessage(new PlayerNumberReply(GameFactory.SERVER_NICKNAME, MessageType.PLAYERNUMBER_REPLY, ???));
     }
 
     //TODO
     @Override
     public void askGameMode() {
-        clientHandler.sendMessage(new GameModeReply(GameFactory.SERVER_NICKNAME, MessageType.GAMEMODE_REPLY, ???));
     }
 
     //TODO
     @Override
     public void askInitType(List<Type> teams) {
-        clientHandler.sendMessage()
     }
 
     @Override

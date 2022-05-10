@@ -47,7 +47,7 @@ public class GameController implements Observer, Serializable {
         this.gameState = gameState;
     }
 
-    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException, noTowersException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
