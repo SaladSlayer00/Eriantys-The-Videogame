@@ -69,6 +69,8 @@ public interface View {
     *  - match infos                                                 TO BE CHECKED
     *  - win message                                                 TO BE CHECKED
     *
+    * we should also consider the idea to do two different methods for the action of moving the students
+    * one method for moving the students on an island and another one for moving the students in the right row!!!
     *
     * the main problem in these methods are the parameter 'cuz I don't know if they are right!!!!!
      */
