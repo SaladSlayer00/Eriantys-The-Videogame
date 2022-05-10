@@ -68,6 +68,9 @@ public interface View {
     *  - enable effects (for the expert mode????)                    TO BE DISCUSSED
     *  - match infos                                                 TO BE CHECKED
     *  - win message                                                 TO BE CHECKED
+    *
+    *
+    * the main problem in these methods are the parameter 'cuz I don't know if they are right!!!!!
      */
 
     // here the beginning of the implementation of the methods listed above
@@ -80,18 +83,22 @@ public interface View {
 
     //TODO
     //communicates the disconnection of the player
-    //the parameters are the nickname of the player who has been disconnected and a boolean (???)
-    void showDisconnectionMessage(String playerDisconnected);
+    //the parameters are the nicknames of the player who has been disconnected and a boolean (???)
+    //maybe it needs another parameter???
+    default void showDisconnectionMessage(String playerDisconnected) {
+    }
 
     //TODO
     //communicates that an error has occurred and exits form the game
     //the parameter is the nick of the player who's going to be kicked out (???)
+    //same thing here as for showDisconnectionMessage: should we add a parameter?????
     void errorCommunicationAndExit(String nickname);
 
     //TODO
     //communicates that the wanted effect has been activated
     //tbh i'm not 100% sure of this method because i don't really know if this is going to work out for our code...
     //also a thing to pass the card that has been summoned???????????
+    //should we add a parameter here too????????
     void effectEnabled(String summoner);
 
     //TODO
@@ -102,6 +109,7 @@ public interface View {
     //TODO
     //communicates to the winner they have won
     //should we pass the nick of the player or the REAL player???
+    //this should be right (((i think)))
     void winCommunication(Message winMessage, String winner);
 
 }
