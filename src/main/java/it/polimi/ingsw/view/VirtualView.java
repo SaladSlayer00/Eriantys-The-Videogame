@@ -50,7 +50,7 @@ public class VirtualView implements View{
     //one for moving the students on the islands and the other one to move the students on the proper row
     //TODO
     @Override
-    public void askMoves(List<Position> availablePosition) {
+    public void askMoves(List<Student> students) {
     }
 
     @Override

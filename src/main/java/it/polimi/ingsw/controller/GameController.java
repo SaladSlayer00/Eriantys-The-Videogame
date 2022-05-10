@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.Serializable;
@@ -37,17 +38,20 @@ public class GameController implements Observer, Serializable {
     public GameController() {
         this.gameFactory = new GameFactory();
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
-        this.inputController = new InputController(virtualViewMap, this);
-        setGameState(GameState.LOGIN);
+        this.inputController = new InputController(virtualViewMap, this, null);
+        setGameState(GameState.SET_MODE);
 
     }
 
+    public boolean isGameStarted() {
+        return gameState.equals(GameState.IN_GAME);
+    }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
-    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException, noTowersException {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
@@ -84,12 +88,14 @@ public class GameController implements Observer, Serializable {
          else{
              Server.LOGGER.warning("Wrong message received from client");
          }
+         setGameState(GameState.LOGIN);
     }
 
     private void loginState(Message receivedMessage) throws invalidNumberException {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
             if (inputController.verifyReceivedData(receivedMessage)) {
                 this.game = gameFactory.getMode(gameFactory.getType(), ((PlayerNumberReply) receivedMessage).getPlayerNumber());
+                this.inputController.setGame(game);
                 broadcastGenericMessage("Waiting for other Players . . .");
             }
         }
@@ -109,12 +115,12 @@ public class GameController implements Observer, Serializable {
             virtualView.showLoginResult(true, true, "server");
             virtualView.askPlayersNumber();
 
-        } else if (virtualViewMap.size() < game.getChosenPlayersNumber()) {
+        } else if (virtualViewMap.size() < game.getChosenPlayerNumber()) {
             addVirtualView(nickname, virtualView);
             game.getPlayers().add(new Player(nickname, ID));
-            virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
+            virtualView.showLoginResult(true, true, "server");
 
-            if (game.getNumCurrentActivePlayers() == game.getChosenPlayersNumber()) { // If all players logged
+            if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged
 
                 // check saved matches.
                 StorageData storageData = new StorageData();
@@ -174,6 +180,7 @@ public class GameController implements Observer, Serializable {
 
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if (Mage.notChosen().size() > 1){
 
             player.setDeck(receivedMessage.getMage());
@@ -248,12 +255,12 @@ public class GameController implements Observer, Serializable {
 
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException {
 
-        if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayersNumber()) {
+        if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
             turnController.next();
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
             vv.askInitDeck(Mage.notChosen());
         }
-        else if (Type.notChosen().size() != MAX_PLAYERS - game.getChosenPlayersNumber()) {
+        else if (Type.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
             turnController.next();
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
             vv.askInitType(Type.notChosen());
@@ -290,7 +297,7 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
-    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException {
+    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
         switch (turnController.getMainPhase()){
             case PLANNING:
                 planningState(receivedMessage);
@@ -302,7 +309,7 @@ public class GameController implements Observer, Serializable {
         }
     }
 
-    private void planningState(Message receivedMessage) throws noMoreStudentsException {
+    private void planningState(Message receivedMessage) throws noMoreStudentsException, emptyDecktException {
         switch(receivedMessage.getMessageType()){
             case PICK_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -311,7 +318,7 @@ public class GameController implements Observer, Serializable {
                 break;
             case DRAW_ASSISTANT:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    drawAssistantHandler((drawAssistantMessage)receivedMessage);
+                    drawAssistantHandler((AssistantMessage)receivedMessage);
                 }
                 break;
         }
@@ -386,6 +393,7 @@ public class GameController implements Observer, Serializable {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         Assistant card = player.getDeck().draw(receivedMessage.getIndex());
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         player.setCard(card);
         turnController.getChosen().add(card);
         if(player.getDeck().getNumCards()==0){
@@ -430,7 +438,7 @@ public class GameController implements Observer, Serializable {
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
             virtualView.showGenericMessage("You've chosen all your students!");
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
-            virtualView.askMotherMoves();
+            virtualView.askMotherMoves(game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
 //            turnController.next();
             turnController.setMoved(0);
 //            turnController.moveMaker();
@@ -478,16 +486,14 @@ public class GameController implements Observer, Serializable {
             initiateAction();
         }
     }
+
     public void win(){
         broadcastWinMessage(turnController.getActivePlayer());
         endGame();
 
     }
 
-    public void lose(){
-        broadcastLoseMessage(turnController.getActivePlayer());
-        endGame();
-    }
+
 
 
 
@@ -504,6 +510,63 @@ public class GameController implements Observer, Serializable {
     public TurnController getTurnController() {
         return turnController;
     }
+
+    public boolean checkLoginNickname(String nickname, View view) {
+        return inputController.checkLoginNickname(nickname, view);
+    }
+
+    public void broadcastGenericMessage(String messageToNotify, String excludeNickname) {
+        virtualViewMap.entrySet().stream()
+                .filter(entry -> !excludeNickname.equals(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .forEach(vv -> vv.showGenericMessage(messageToNotify));
+    }
+
+    public void broadcastGenericMessage(String messageToNotify) {
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showGenericMessage(messageToNotify);
+        }
+    }
+
+
+
+    //METODI VV
+    //TODO aggiungere observer alla gameboard
+    public void removeVirtualView(String nickname, boolean notifyEnabled) {
+        VirtualView vv = virtualViewMap.remove(nickname);
+
+        game.removeObserver(vv);
+        game.getGameBoard().removeObserver(vv);
+        game.removePlayerByNickname(nickname, notifyEnabled);
+    }
+
+    public void addVirtualView(String nickname, VirtualView virtualView) {
+        virtualViewMap.put(nickname, virtualView);
+        game.addObserver(virtualView);
+        game.getGameBoard().addObserver(virtualView);
+    }
+
+    public Map<String, VirtualView> getVirtualViewMap() {
+        return virtualViewMap;
+    }
+
+    public void broadcastDisconnectionMessage(String nicknameDisconnected, String text) {
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showDisconnectionMessage(nicknameDisconnected, text);
+        }
+    }
+    private void broadcastWinMessage(String winningPlayer) {
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showWinMessage(winningPlayer);
+        }
+    }
+    private void broadcastDrawMessage() {
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showDrawMessage();
+        }
+    }
+
+
 
 
 }
