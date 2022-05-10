@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.Serializable;
@@ -65,6 +66,16 @@ public class TurnController implements Serializable {
         this.moved = moved;
     }
 
+
+    //TODO implementare correttamente lo show match info
+    public void broadcastMatchInfo() {
+
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showMatchInfo(nicknameQueue,  activePlayer);
+        }
+    }
+
+
     /**
      * Set next active player.
      */
@@ -118,6 +129,16 @@ public class TurnController implements Serializable {
         setPhaseType(PhaseType.ADD_ON_CLOUD);
         pickCloud();
     }
+
+
+    public void turnControllerNotify(String messageToNotify, String excludeNickname) {
+        virtualViewMap.values().forEach(vv -> vv.showMatchInfo(null,  activePlayer));
+        virtualViewMap.entrySet().stream()
+                .filter(entry -> !excludeNickname.equals(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .forEach(vv -> vv.showGenericMessage(messageToNotify));
+    }
+
 
 
     //il player SCEGLIE LE CAZZO DI NUVOLE era pickpositions mi pare
@@ -180,7 +201,7 @@ public class TurnController implements Serializable {
         vv.showGenericMessage("You have moved "+ moved + " students!");
         vv.showGenericMessage("Please choose a student and where do you want to move it!");
         //lista che si passava come parametro per fare scegliere il player
-        vv.askMoves();
+        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall());
     }
 
     //in effetti non ha senso il colore è lo stesso
@@ -194,7 +215,6 @@ public class TurnController implements Serializable {
 
     public void moveOnIsland(Color color, int index) throws noStudentException {
         Player player = game.getPlayerByNickname(getActivePlayer());
-        VirtualView vv = virtualViewMap.get(player);
         game.getGameBoard().placeStudent(color, player.getDashboard().takeStudent(color), index);
         moved++;
     }
@@ -232,6 +252,7 @@ public class TurnController implements Serializable {
         if(influence > active.getInfluence()){
             active.setInfluence(influence);
             active.setTower(player.getDashboard().getTower());
+            Virtual View vv =
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
             //islandMerger(active);
@@ -311,4 +332,7 @@ public class TurnController implements Serializable {
     }
 
 
+    public List<String> getNicknameQueue() {
+        return nicknameQueue;
+    }
 }

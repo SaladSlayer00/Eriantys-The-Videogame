@@ -38,7 +38,7 @@ public interface View {
 
     //asks where the player wants to move the paw they have chosen
     //the parameter is the list of admitted positions
-    void askMoves(List<Position> availablePosition);
+    void askMoves(List<Student> students);
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)

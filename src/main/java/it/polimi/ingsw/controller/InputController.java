@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.message.*;
-import it.polimi.ingsw.model.Assistant;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.EasyGame;
-import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
@@ -22,7 +19,7 @@ import java.util.Map;
 //This class verifies that all messages sent by client contain valid information
 public class InputController {
     private static final long serialVersionUID = 1L;
-    private EasyGame game;
+    private Mode game;
     private transient Map<String, VirtualView> virtualViewMap;
     private GameController gameController;
 
@@ -32,10 +29,14 @@ public class InputController {
      * @param virtualViewMap Virtual View Map.
      * @param gameController Game Controller.
      */
-    public InputController(Map<String, VirtualView> virtualViewMap, GameController gameController, EasyGame game) {
+    public InputController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
         this.virtualViewMap = virtualViewMap;
         this.gameController = gameController;
+    }
+
+    public void setGame(Mode game) {
+        this.game = game;
     }
 
     /**
@@ -156,7 +157,7 @@ public class InputController {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         PickCloudMessage pickCloudMessage = ((PickCloudMessage) message);
         int chosenIndex = pickCloudMessage.getCloudIndex();
-        if (chosenIndex < 0 || chosenIndex > game.getChosenPlayersNumber()) {
+        if (chosenIndex < 0 || chosenIndex > game.getChosenPlayerNumber()) {
             virtualView.showGenericMessage("Index out Bound ");
             virtualView.askCloud(game.getGameBoard().getClouds());
             return false;

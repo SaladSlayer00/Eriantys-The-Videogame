@@ -1,11 +1,14 @@
 package it.polimi.ingsw.observer;
 //import message
 import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.model.Mode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //Observable class that can be observed by implementing the {@link Observer} interface and registering as listener
+
+//TODO gestire la cosa del game come observable perchè non si può se è già interfaccia
 
 public class Observable {
 

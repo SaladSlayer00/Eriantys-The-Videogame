@@ -1,6 +1,10 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.model.enums.GameState;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -17,7 +21,7 @@ public class Server {
 
     public Server(GameController gameController) {
         this.gameController = gameController;
-        this.clientHandlerMap = Collections.synchronizedMap(new HashMap<>());
+        this.clientHandlerMap = Collections.synchronizedMap(new HashMap<String, ClientHandler>());
         this.lock = new Object();
     }
 
@@ -27,13 +31,15 @@ public class Server {
      * @param nickname      the nickname associated with the client.
      * @param clientHandler the ClientHandler associated with the client.
      */
-    public void addClient(String nickname, ClientHandler clientHandler) {
+
+    //gestire assegnamento id
+    public void addClient(String nickname, int id, ClientHandler clientHandler) {
         VirtualView vv = new VirtualView(clientHandler);
 
         if (!gameController.isGameStarted()) {
             if (gameController.checkLoginNickname(nickname, vv)) {
                 clientHandlerMap.put(nickname, clientHandler);
-                gameController.loginHandler(nickname, vv);
+                gameController.loginHandler(nickname, id, vv);
             }
         } else {
             vv.showLoginResult(true, false, null);
@@ -59,7 +65,7 @@ public class Server {
      *
      * @param message the message to be forwarded.
      */
-    public void onMessageReceived(Message message) {
+    public void onMessageReceived(Message message) throws noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException, emptyDecktException {
         gameController.onMessageReceived(message);
     }
 
@@ -109,6 +115,8 @@ public class Server {
                 .findFirst()
                 .orElse(null);
     }
+
+
 }
 
 

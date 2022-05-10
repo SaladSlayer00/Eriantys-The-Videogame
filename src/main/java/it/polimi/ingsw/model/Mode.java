@@ -26,6 +26,5 @@ public interface Mode {
      public Player getPlayerByNickname(String name);
      public ArrayList<Cloud> getEmptyClouds();
      public void resetInstance();
-
-
-     }
+     public void removePlayerByNickname(String nickname, boolean notifyEnabled);
+}
