@@ -3,10 +3,8 @@ package it.polimi.ingsw.utils;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.server.Server;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.Files;
 
 public class StorageData {
     /**

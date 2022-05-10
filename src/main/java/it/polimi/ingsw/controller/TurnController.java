@@ -71,7 +71,7 @@ public class TurnController implements Serializable {
     public void broadcastMatchInfo() {
 
         for (VirtualView vv : virtualViewMap.values()) {
-            vv.showMatchInfo(nicknameQueue,  activePlayer);
+            vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentActivePlayers());
         }
     }
 
@@ -132,7 +132,7 @@ public class TurnController implements Serializable {
 
 
     public void turnControllerNotify(String messageToNotify, String excludeNickname) {
-        virtualViewMap.values().forEach(vv -> vv.showMatchInfo(null,  activePlayer));
+        virtualViewMap.values().forEach(vv -> vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentPlayers()));
         virtualViewMap.entrySet().stream()
                 .filter(entry -> !excludeNickname.equals(entry.getKey()))
                 .map(Map.Entry::getValue)
@@ -149,7 +149,7 @@ public class TurnController implements Serializable {
         //lista che si passava come parametro per fare scegliere il player
         cloudList = game.getEmptyClouds();
         VirtualView virtualView = virtualViewMap.get(player);
-        virtualView.askCloud(cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
+        virtualView.askCloud(activePlayer,cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
         //manderà un messaggio al player con la lista di disponibili booh poi vedremo
     }
 
@@ -173,7 +173,7 @@ public class TurnController implements Serializable {
         vv.showGenericMessage("Please choose which card to draw!");
         Player player = game.getPlayerByNickname(getActivePlayer());
         //lista che si passava come parametro per fare scegliere il player
-        vv.askAssistant(chosen);
+        vv.askAssistant(activePlayer,chosen);
     }
 
     public void determineOrder(){
@@ -252,7 +252,7 @@ public class TurnController implements Serializable {
         if(influence > active.getInfluence()){
             active.setInfluence(influence);
             active.setTower(player.getDashboard().getTower());
-            Virtual View vv =
+            VirtualView vv = virtualViewMap.get(player);
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
             //islandMerger(active);

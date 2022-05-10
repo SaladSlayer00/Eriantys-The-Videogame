@@ -107,7 +107,7 @@ public interface View {
     //TODO
     //shows the information of the match played
     //the parameters should be a list of players and things like these... i think???
-    void showMatchInfo();
+    void showMatchInfo(int chosen, int actual);
 
     //TODO
     //communicates to the winner they have won

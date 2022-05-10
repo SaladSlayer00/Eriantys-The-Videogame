@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -148,7 +149,7 @@ public class GameController implements Observer, Serializable {
                 + " is choosing their deck. . .");
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.askInitDeck(Mage.notChosen());
+        virtualView.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
     }
 
 
@@ -199,7 +200,7 @@ public class GameController implements Observer, Serializable {
         }
         else{
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
-            virtualView.askInitType(Type.notChosen());
+            virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
 
     }
@@ -209,7 +210,7 @@ public class GameController implements Observer, Serializable {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.showGenericMessage("It's your turn. Please pick your deck.");
-        virtualView.askInitDeck(Mage.notChosen());
+        virtualView.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
 
     }
 
@@ -219,7 +220,7 @@ public class GameController implements Observer, Serializable {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.showGenericMessage("It's your turn. Please pick your team.");
-        virtualView.askInitType(Type.notChosen());
+        virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
 
     }
 
@@ -258,12 +259,12 @@ public class GameController implements Observer, Serializable {
         if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
             turnController.next();
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-            vv.askInitDeck(Mage.notChosen());
+            vv.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
         }
         else if (Type.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
             turnController.next();
             VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-            vv.askInitType(Type.notChosen());
+            vv.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
         else if(receivedMessage.getAnswer().equalsIgnoreCase("NO")){
             //chiedi al player cosa vuole editare

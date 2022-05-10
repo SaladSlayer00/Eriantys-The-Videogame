@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.server.ClientHandler;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
@@ -64,24 +65,25 @@ public class VirtualView implements View{
 
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds) {
-        clientHanlder.sendMessage(new PickCloudMessageRequest(String nickname, availableClouds));
+        clientHandler.sendMessage(new PickCloudMessageRequest(nickname, availableClouds));
     }
 
     //TODO
     @Override
     public void askPlayersNumber() {
+        clientHandler.sendMessage(new PlayerNumberRequest());
     }
 
     //TODO
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameModes) {
-        clientHanlder.sendMessage(new GameModeRequest(nickname, gameModes));
+        clientHandler.sendMessage(new GameModeRequest(nickname, gameModes));
     }
 
     //TODO
     @Override
     public void askInitType(String nickname, List<Type> teams){
-        clientHanlder.sendMessage(new TowerMessageRequest(nickname, teams));
+        clientHandler.sendMessage(new TowerMessageRequest(nickname, teams));
     }
 
     @Override
@@ -111,8 +113,8 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void showMatchInfo() {
-
+    public void showMatchInfo(int chosen, int actual) {
+        clientHandler.sendMessage(new MatchInfoMessage(chosen,actual));
     }
 
     @Override
