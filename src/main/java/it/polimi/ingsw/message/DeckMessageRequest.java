@@ -14,10 +14,15 @@ public class DeckMessageRequest extends Message{
         availableDecks = gameDecks;
     }
 
+    public List<Mage> getDecks(){
+        return availableDecks;
+    }
+
     @Override
     public String toString(){
         return "ColorsMessage{" +
                 "nickname = " + getNickname() +
+                "availableDecks = " + getDecks() +
                 "}";
 
     }

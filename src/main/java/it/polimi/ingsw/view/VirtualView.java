@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class VirtualView implements View{
 
     //TODO
     @Override
-    public void askGameMode() {
+    public void askGameMode(String nickname, List<modeEnum> gameModes) {
+        clientHanlder.sendMessage(new GameModeRequest(nickname, gameModes));
     }
 
     //TODO

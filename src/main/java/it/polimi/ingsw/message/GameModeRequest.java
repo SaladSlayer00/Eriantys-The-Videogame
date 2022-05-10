@@ -14,10 +14,15 @@ public class GameModeRequest extends Message{
         this.modes = modes;
     }
 
+    public List<modeEnum> getModes(){
+        return modes;
+    }
+
     @Override
     public String toString(){
         return "GameModeRequest{" +
                 "nickname = " + getNickname() +
+                "modes = " + getModes() +
                 "}";
     }
 }

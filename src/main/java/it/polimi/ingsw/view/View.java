@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public interface View {
     void askPlayersNumber();
 
     //asks for the game mode
-    void askGameMode();
+    void askGameMode(String nickname, List<modeEnum> gameModes);
 
     void askInitType(List<Type> teams);
 

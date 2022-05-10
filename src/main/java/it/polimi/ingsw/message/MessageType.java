@@ -9,6 +9,7 @@ public enum MessageType {
         ASK_DECK,
         ASK_TEAM, //BOH
         INIT_TOWERS,
+        ASK_TOWER, //???
         INIT_GAMEBOARD,
         PICK_CLOUD,
         DRAW_ASSISTANT,
