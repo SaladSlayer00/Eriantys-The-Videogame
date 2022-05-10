@@ -19,7 +19,7 @@ public class GameModeReply extends Message{
     public String toString() {
         return "GameModeReply{" +
                 "nickname=" + getNickname() +
-                ", Mode=" + mode +
+                ", Mode=" + getGameMode() +
                 '}';
     }
 }
