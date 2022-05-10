@@ -43,7 +43,8 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askAssistant(List<Assistant> availableAssistants){
+    public void askAssistant(String nickname, List<Assistant> availableAssistants){
+        clientHandler.sendMessage(new AssistantMessageRequest(nickname, availableAssistants));
     }
 
     @Override
@@ -62,7 +63,8 @@ public class VirtualView implements View{
     }
 
     @Override
-    public void askCloud(List<Cloud> availableClouds) {
+    public void askCloud(String nickname, List<Cloud> availableClouds) {
+        clientHanlder.sendMessage(new PickCloudMessageRequest(String nickname, availableClouds));
     }
 
     //TODO
@@ -78,7 +80,8 @@ public class VirtualView implements View{
 
     //TODO
     @Override
-    public void askInitType(List<Type> teams){
+    public void askInitType(String nickname, List<Type> teams){
+        clientHanlder.sendMessage(new TowerMessageRequest(nickname, teams));
     }
 
     @Override

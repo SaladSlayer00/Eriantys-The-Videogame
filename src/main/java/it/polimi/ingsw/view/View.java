@@ -31,7 +31,7 @@ public interface View {
 
     //asks the player to choose an assistant's card from the ones that are still in the deck
     //the parameter of the method is the list of the cards in the deck which the player can choose from
-    void askAssistant(List<Assistant> availableAssistants);
+    void askAssistant(String nickname, List<Assistant> availableAssistants);
 
     //asks the player which paw (student) they want to move
     //the parameter of the method is the list of the students that the player can actually move
@@ -47,7 +47,7 @@ public interface View {
 
     //asks the player which cloud they want to pick the students from
     //the parameter of the method is the list of the remaining cloud
-    void askCloud(List<Cloud> availableClouds);
+    void askCloud(String nickname, List<Cloud> availableClouds);
 
     //asks for the number of players that are going to play
     void askPlayersNumber();
@@ -55,7 +55,7 @@ public interface View {
     //asks for the game mode
     void askGameMode(String nickname, List<modeEnum> gameModes);
 
-    void askInitType(List<Type> teams);
+    void askInitType(String nickname, List<Type> teams);
 
     /* THESE THINGS NEED TO BE DISCUSS A BIT I THINK!!!
     * TODO

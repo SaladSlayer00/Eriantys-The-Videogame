@@ -12,7 +12,9 @@ public enum MessageType {
         ASK_TOWER, //???
         INIT_GAMEBOARD,
         PICK_CLOUD,
+        PICKCLOUD_REQUEST, //???
         DRAW_ASSISTANT,
+        ASSISTANT_REQUEST, //???
         MOVE,
         MOVE_ON_ISLAND,
         MOVE_ON_BOARD,
