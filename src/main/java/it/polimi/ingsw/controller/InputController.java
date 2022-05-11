@@ -145,7 +145,7 @@ public class InputController {
         modeEnum mode = gameModeReply.getGameMode();
         if (!gameModeReply.equals(modeEnum.EASY) && !gameModeReply.equals(modeEnum.EXPERT)) {
             virtualView.showGenericMessage("Wrong mode");
-            virtualView.askGameMode();
+            virtualView.askGameMode(message.getNickname() , modeEnum.availableGameModes());
             return false;
         } else {
             return true;
@@ -159,7 +159,7 @@ public class InputController {
         int chosenIndex = pickCloudMessage.getCloudIndex();
         if (chosenIndex < 0 || chosenIndex > game.getChosenPlayerNumber()) {
             virtualView.showGenericMessage("Index out Bound ");
-            virtualView.askCloud(game.getGameBoard().getClouds());
+            virtualView.askCloud(message.getNickname(), game.getGameBoard().getClouds());
             return false;
         } else {
             return true;
@@ -176,7 +176,7 @@ public class InputController {
             return true;
         } else {
             virtualView.showGenericMessage("The chosen card is not present in the deck");
-            virtualView.askAssistant(activePlayerDeck.getCards());
+            virtualView.askAssistant(message.getNickname() ,activePlayerDeck.getCards());
             return false;
         }
     }
@@ -209,12 +209,12 @@ public class InputController {
                 return true;
             } else {
                 virtualView.showGenericMessage("Tower not available");
-                virtualView.askInitType(Type.notChosen());
+                virtualView.askInitType(message.getNickname() , Type.notChosen());
                 return false;
             }
         } else {
             virtualView.showGenericMessage("There's no such tower");
-            virtualView.askInitType(Type.notChosen());
+            virtualView.askInitType(message.getNickname() , Type.notChosen());
             return false;
         }
 
@@ -229,13 +229,13 @@ public class InputController {
                 return true;
             }else{
                 virtualView.showGenericMessage(("Deck not available"));
-                virtualView.askInitDeck(Mage.notChosen());
+                virtualView.askInitDeck(message.getNickname() ,Mage.notChosen());
                 return false;
             }
 
             }else{
             virtualView.showGenericMessage("There's no such deck");
-            virtualView.askInitDeck(Mage.notChosen());
+            virtualView.askInitDeck(message.getNickname() ,Mage.notChosen());
             return false;
         }
 
