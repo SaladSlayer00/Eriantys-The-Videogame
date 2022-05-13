@@ -27,7 +27,7 @@ public class Dashboard {
             this.numTowers = 6;
             this.hallDimension = 9;
         }
-        this.rows = {};
+        //this.rows = {};
     }
 
     public int getHallDimension() {
