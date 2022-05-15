@@ -76,6 +76,8 @@ public class GameControllerTest {
     }
 
     @Test
-    //TODO
+    public void onMessageReceived_MatchOne(){
+        //the first player choose a
+    }
 
 }
