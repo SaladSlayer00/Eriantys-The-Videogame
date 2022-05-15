@@ -1,15 +1,19 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.DeckMessage;
 import it.polimi.ingsw.message.LoginRequest;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.EasyGame;
+import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+
 
 /**
  * This class tests the {@link GameController} behaviour by simulating more matches with different status.
@@ -76,8 +80,18 @@ public class GameControllerTest {
     }
 
     @Test
-    public void onMessageReceived_MatchOne(){
-        //the first player choose a
+    public void onMessageReceived_MatchOne() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+        //the first player choose a deck (???)
+        //TODO
+        /* okay i might have some problem with the creation of the setting of the game
+        * i mean... how it is possible to call the damn method for choosing this deck?!?!
+        * other thing: method deckHandler is private??? how can it be used here?
+        * I SWEAR I CAN'T UNDERSTAND THIS THINNNNNNNNNNNNNNNGG
+         */
+        DeckMessage playerOneDeck = new DeckMessage(player1, Mage.valueOf("mage"));
+        gameController.onMessageReceived(playerOneDeck); //???
+        DeckMessage playerTwoDeck = new DeckMessage(player2, Mage.valueOf("fairy"));
+        gameController.onMessageReceived(playerTwoDeck); //dunno if this is right tbh i think is super wrong...
     }
 
 }
