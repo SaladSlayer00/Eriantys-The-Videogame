@@ -128,6 +128,29 @@ public class ClientController implements ViewObserver, Observer {
                 LoginReply loginReply = (LoginReply) message;
                 taskQueue.execute(() -> view.showLoginResult(loginReply.isNicknameAccepted(), loginReply.isConnectionSuccessful(), this.nickname));
                 break;
+            case PLAYERNUMBER_REQUEST:
+                taskQueue.execute(view::askPlayersNumber);
+                break;
+            case MOVE_MOTHER:
+                taskQueue.execute(()->view.askMotherMoves(((MoveMotherMessage)message).getChosenAssistant().getMove()));
+                //I'm not sure about that
+                break;
+            case PICKCLOUD_REQUEST:
+                PickCloudMessageRequest pickCloudMessageRequest = (PickCloudMessageRequest) message;
+                taskQueue.execute(()->view.askCloud(this.nickname ,(pickCloudMessageRequest).getClouds()));
+                break;
+            case ASSISTANT_REQUEST:
+                AssistantMessageRequest assistantMessageRequest = (AssistantMessageRequest) message;
+                taskQueue.execute(()->view.askAssistant(this.nickname ,assistantMessageRequest.getAssistants()));
+                break;
+            case GAMEMODE_REQUEST:
+                GameModeRequest gameModeRequest = (GameModeRequest) message;
+                taskQueue.execute(()->view.askGameMode(this.nickname,gameModeRequest.getModes()));
+                break;
+            case MATCH_INFO:
+                MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
+                //taskQueue.execute(() -> view.showMatchInfo());
+                break;
             default:
                 break;
             //TODO DEVO TERMINARE AGGIUNGENDO ALTRI CASI . DEVO GUARDARE MEGLIO I MESSAGGI CHE ARRIVANO AL CLIENT DA PARTE DEL SERVER
