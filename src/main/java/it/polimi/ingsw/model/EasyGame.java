@@ -119,6 +119,11 @@ public class EasyGame extends Oservable implements Serializable{
         return result;
     }
 
-
+    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {
+        this.getGameBoard().restoreBoard(board.getSpaces());
+        this.players = players;
+        this.gods = gods;
+        this.chosenPlayerNumber = chosenPlayersNumber;
+    }
 }
 

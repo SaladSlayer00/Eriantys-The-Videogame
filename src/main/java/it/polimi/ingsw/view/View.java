@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
@@ -122,4 +123,8 @@ public interface View {
     //TODO
     //tells the players that the match's a draw
     void showDrawMessage();
+
+    //TODO
+    //shows the current state of gameboard
+    void showBoard(Gameboard gameboard);
 }
