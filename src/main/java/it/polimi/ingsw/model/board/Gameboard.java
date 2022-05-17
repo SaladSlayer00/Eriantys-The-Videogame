@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.board;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
@@ -7,8 +8,9 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.observer.Observable;
 
-public class Gameboard {
+public class Gameboard extends Observable implements Serializable {
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
@@ -82,40 +84,40 @@ public class Gameboard {
     }
 
     //it merges two island together
-    public void mergeIslands(int one, int two) {
-        islands.get(one).changeDimension(islands.get(two).getDimension());
-        if (islands.get(one).isMotherNature() == false) {
-            islands.get(one).addMother();
-        }
-        //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
-        for (Color c : islands.get(one).getStudents().keySet()) {
-            //islands.get(one).students.put(c, islands.get(two).students.get(c));
-            islands.get(one).getStudents().get(c).addAll(islands.get(two).getStudents().get(c));
-        }
-        //should be found a smart way to merge the two map together ???
-        islands.remove(two);
-    }
+//    public void mergeIslands(int one, int two) {
+//        islands.get(one).changeDimension(islands.get(two).getDimension());
+//        if (islands.get(one).isMotherNature() == false) {
+//            islands.get(one).addMother();
+//        }
+//        //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
+//        for (Color c : islands.get(one).getStudents().keySet()) {
+//            //islands.get(one).students.put(c, islands.get(two).students.get(c));
+//            islands.get(one).getStudents().get(c).addAll(islands.get(two).getStudents().get(c));
+//        }
+//        //should be found a smart way to merge the two map together ???
+//        islands.remove(two);
+//    }
 
 
-    //it calculates the influence of a player on an island
-    public boolean calculateInfluence(Player player, int island) {
-        int playerInfluence = islands.get(island).calculateInfluence(player);
-        //for(Color c : islands.get(island).students.keySet()){
-        //islands.get(one).students.put(c, islands.get(two).students.get(c));
-        //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
-        //if(player.hasProfessor(c)){
-        //    playerInfluence = playerInfluence + islands.get(island).students.get(c).size();
-        //}
-
-        //}
-
-        if (playerInfluence > islands.get(island).getInfluence()) {
-            islands.get(island).setInfluence(playerInfluence);
-            return true;
-        }
-
-        return false;
-    }
+//    //it calculates the influence of a player on an island
+//    public boolean calculateInfluence(Player player, int island) {
+//        int playerInfluence = islands.get(island).calculateInfluence(player);
+//        //for(Color c : islands.get(island).students.keySet()){
+//        //islands.get(one).students.put(c, islands.get(two).students.get(c));
+//        //islands.get(one).students.get(c).addAll(islands.get(two).students.get(c));
+//        //if(player.hasProfessor(c)){
+//        //    playerInfluence = playerInfluence + islands.get(island).students.get(c).size();
+//        //}
+//
+//        //}
+//
+//        if (playerInfluence > islands.get(island).getInfluence()) {
+//            islands.get(island).setInfluence(playerInfluence);
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     public void createClouds() {
         for (int i = 0; i < this.numClouds; i++) {
@@ -147,4 +149,6 @@ public class Gameboard {
     public Cloud chooseCloud(int index){
         return clouds.remove(index);
     }
+
+
 }

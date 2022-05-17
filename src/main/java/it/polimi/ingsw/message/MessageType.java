@@ -23,6 +23,7 @@ public enum MessageType {
         USE_EXPERT,
         WIN,
         WIN_FX,
+        DRAW,
         LOSE,
 
         //utility:

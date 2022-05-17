@@ -115,4 +115,11 @@ public interface View {
     //this should be right (((i think)))
     void winCommunication(Message winMessage, String winner);
 
+    //TODO
+    //tells the player which player has won
+    void showWinMessage(String winner);
+
+    //TODO
+    //tells the players that the match's a draw
+    void showDrawMessage();
 }

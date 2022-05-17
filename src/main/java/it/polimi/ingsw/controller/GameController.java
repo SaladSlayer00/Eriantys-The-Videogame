@@ -532,7 +532,7 @@ public class GameController implements Observer, Serializable {
 
 
     //METODI VV
-    //TODO aggiungere observer alla gameboard
+    //TODO aggiungere observer alla gameboard e trovare il modo x farlo...
     public void removeVirtualView(String nickname, boolean notifyEnabled) {
         VirtualView vv = virtualViewMap.remove(nickname);
 
