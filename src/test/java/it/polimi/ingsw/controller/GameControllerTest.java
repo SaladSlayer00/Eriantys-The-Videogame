@@ -117,6 +117,12 @@ public class GameControllerTest {
         //testing
         assertEquals(easyGame.getPlayerByNickname(player2), Type.valueOf("white"));
         assertFalse(Type.notChosen().contains("white"));
+
+        //this is the proper start of the game
+        StartMessage readyPlayerOne = new StartMessage(player1, "YES");
+        gameController.onMessageReceived(readyPlayerOne);
+        StartMessage readyPlayerTwo = new StartMessage(player2, "YES");
+        gameController.onMessageReceived(readyPlayerTwo);
     }
 
 }
