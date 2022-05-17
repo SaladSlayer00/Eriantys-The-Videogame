@@ -149,7 +149,15 @@ public class ClientController implements ViewObserver, Observer {
                 break;
             case MATCH_INFO:
                 MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
-                //taskQueue.execute(() -> view.showMatchInfo());
+                taskQueue.execute(() -> view.showMatchInfo(
+                        matchInfoMessage.getActivePlayers(),
+                        matchInfoMessage.getActivePlayerNickname()));
+                break;
+
+            case DISCONNECTION:
+                DisconnectionMessage disconnectionMessage = (DisconnectionMessage) message;
+                client.disconnect();
+                view.showDisconnectionMessage(disconnectionMessage.getNicknameDisconnected() , disconnectionMessage.getMessageStr());
                 break;
             default:
                 break;

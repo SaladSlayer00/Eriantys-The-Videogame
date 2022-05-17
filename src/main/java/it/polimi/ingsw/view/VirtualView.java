@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -116,6 +117,11 @@ public class VirtualView implements View, Observer {
     @Override
     public void showMatchInfo(int chosen, int actual) {
         clientHandler.sendMessage(new MatchInfoMessage(chosen,actual));
+    }
+
+    public void showMatchInfo(List<String> activePlayers , String activePlayerNickname) {
+        clientHandler.sendMessage(new MatchInfoMessage(EasyGame.SERVER_NICKNAME , MessageType.MATCH_INFO,activePlayers , activePlayerNickname));
+
     }
 
     @Override

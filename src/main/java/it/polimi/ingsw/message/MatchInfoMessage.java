@@ -1,16 +1,34 @@
 package it.polimi.ingsw.message;
 
 
+import java.util.List;
 
-    public class MatchInfoMessage extends Message{
+public class MatchInfoMessage extends Message{
         //ID?
+        private static final long serialVersionUID = 1L;
+        private  List<String> activePlayers;
+        private  String activePlayerNickname;
         int chosen;
         int actual;
+
+        public MatchInfoMessage(String senderNickname , MessageType messageType , List<String> activePlayers , String activePlayerNickname) {
+            super(senderNickname ,messageType);
+            this.activePlayerNickname = activePlayerNickname;
+            this.activePlayers = activePlayers;
+        }
 
         public MatchInfoMessage(int chosen, int actual){
             super("all",MessageType.MATCH_INFO);
             this.chosen = chosen;
             this.actual = actual;
+        }
+
+        public String getActivePlayerNickname(){
+            return activePlayerNickname;
+        }
+
+        public List<String> getActivePlayers(){
+            return activePlayers;
         }
 
 

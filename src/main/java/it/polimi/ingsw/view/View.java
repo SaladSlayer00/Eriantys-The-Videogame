@@ -109,6 +109,8 @@ public interface View {
     //the parameters should be a list of players and things like these... i think???
     void showMatchInfo(int chosen, int actual);
 
+    void showMatchInfo(List<String> activePlayers , String activePlayerNickname);
+
     //TODO
     //communicates to the winner they have won
     //should we pass the nick of the player or the REAL player???
