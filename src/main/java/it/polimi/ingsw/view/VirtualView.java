@@ -2,11 +2,13 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
@@ -141,5 +143,10 @@ public class VirtualView implements View, Observer {
     @Override
     public void showDrawMessage(){
         clientHandler.sendMessage(new DrawMessage());
+    }
+
+    @Override
+    public void showBoard(Gameboard gameBoard){
+        clientHandler.sendMessage(new BoardMessage(gameBoard));
     }
 }

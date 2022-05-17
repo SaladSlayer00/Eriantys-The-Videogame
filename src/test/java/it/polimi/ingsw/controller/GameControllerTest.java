@@ -1,18 +1,19 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.message.DeckMessage;
-import it.polimi.ingsw.message.LoginRequest;
-import it.polimi.ingsw.message.Message;
-import it.polimi.ingsw.message.PlayerNumberReply;
+import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.AssertFalse.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
@@ -77,21 +78,51 @@ public class GameControllerTest {
         server.addClient(player1, id1, clientHandler);
         server.addClient(player2, id2, clientHandler);
 
+        assertEquals(easyGame.getNumCurrentPlayers(), 2);
+
     }
 
     @Test
     public void onMessageReceived_MatchOne() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
-        //the first player choose a deck (???)
         //TODO
-        /* okay i might have some problem with the creation of the setting of the game
-        * i mean... how it is possible to call the damn method for choosing this deck?!?!
-        * other thing: method deckHandler is private??? how can it be used here?
-        * I SWEAR I CAN'T UNDERSTAND THIS THINNNNNNNNNNNNNNNGG
+        /* okay i might have some problems with the creation of the setting of the game
          */
         DeckMessage playerOneDeck = new DeckMessage(player1, Mage.valueOf("mage"));
-        gameController.onMessageReceived(playerOneDeck); //???
+        gameController.onMessageReceived(playerOneDeck); //??? i think this is super wrong
+
+        /* best way to do now to test the correspondence between the value chosen and the real value
+        * is to check the parameter with an assertEqual on the set variable
+        * if the variable match with the one chosen by the player that we can say that the test is passed i guess
+        * DOUBLE CHECK ON THE PLAYER ATTRIBUTE AND ON THE LIST OF NOT CHOSEN DECKS
+         */
+        assertEquals(easyGame.getPlayerByNickname(player1).getDeck(), Mage.valueOf("mage"));
+        assertFalse(Mage.notChosen().contains(Mage.valueOf("mage")));
+
+        //same thing for the other player
         DeckMessage playerTwoDeck = new DeckMessage(player2, Mage.valueOf("fairy"));
-        gameController.onMessageReceived(playerTwoDeck); //dunno if this is right tbh i think is super wrong...
+        gameController.onMessageReceived(playerTwoDeck);
+        //same test as the one done on the first player
+        assertEquals(easyGame.getPlayerByNickname(player2).getDeck(), Mage.valueOf("fairy"));
+        assertFalse(Mage.notChosen().contains(Mage.valueOf("fairy")));
+
+        //now the players choose their teams (the towers' color)
+        TowerMessage playerOneTower = new TowerMessage(player1, Type.valueOf("black"));
+        gameController.onMessageReceived(playerOneTower);
+        //testing
+        assertEquals(easyGame.getPlayerByNickname(player1), Type.valueOf("black"));
+        assertFalse(Type.notChosen().contains("black"));
+
+        TowerMessage playerTwoTower = new TowerMessage(player2, Type.valueOf("white"));
+        gameController.onMessageReceived(playerTwoTower);
+        //testing
+        assertEquals(easyGame.getPlayerByNickname(player2), Type.valueOf("white"));
+        assertFalse(Type.notChosen().contains("white"));
+
+        //this is the proper start of the game
+        StartMessage readyPlayerOne = new StartMessage(player1, "YES");
+        gameController.onMessageReceived(readyPlayerOne);
+        StartMessage readyPlayerTwo = new StartMessage(player2, "YES");
+        gameController.onMessageReceived(readyPlayerTwo);
     }
 
 }
