@@ -1,14 +1,17 @@
 package it.polimi.ingsw.model.board;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.exceptions.tooManyMotherNatureException;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.observer.Observable;
 
-public class Gameboard {
+public class Gameboard extends Observable implements Serializable {
 
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
@@ -82,18 +85,57 @@ public class Gameboard {
     }
 
     //it merges two island together
-    public void mergeIslands(int one, int two) {
-        islands.get(one).changeDimension(islands.get(two).getDimension());
-        if (islands.get(one).isMotherNature() == false) {
-            islands.get(one).addMother();
+    public void mergeIslands(Island active) throws noTowerException {
+        Island before;
+        Island after;
+        if(active.getIndex()==0){
+            before=islands.get(islands.size()-1);
+            after = islands.get(1);
+        }else if(active.getIndex()==islands.size()-1){
+            after=islands.get(0);
+            before = islands.get(active.getIndex()-1);
         }
-        //this should add the students that were on the island that we are deleting on the one we are keeping for the merge
-        for (Color c : islands.get(one).getStudents().keySet()) {
-            //islands.get(one).students.put(c, islands.get(two).students.get(c));
-            islands.get(one).getStudents().get(c).addAll(islands.get(two).getStudents().get(c));
+        else{
+            before = islands.get(active.getIndex()-1);
+            after= islands.get(active.getIndex()+1);
         }
-        //should be found a smart way to merge the two map together ???
-        islands.remove(two);
+        if(before.getTower()) {
+            if (before.getTeam().equals(active.getTeam())) {
+                active.changeDimension(before.getDimension());
+                for(Color c : before.getStudents().keySet()){
+                    active.getStudents().get(c).addAll(before.getStudents().get(c));
+                }
+                islands.remove(before);
+                if(active.getIndex()!=0) {
+                    for (int i = active.getIndex(); i < islands.size(); i++) {
+                        islands.get(i).setIndex(i - 1);
+                    }
+                }
+            }
+        }
+        if(after.getTower()) {
+            if (after.getTeam().equals(active.getTeam())) {
+                active.changeDimension(after.getDimension());
+                for(Color c : after.getStudents().keySet()){
+                    active.getStudents().get(c).addAll(after.getStudents().get(c));
+                }
+                islands.remove(after);
+                if(active.getIndex()==islands.size()-1){
+                    for(int i = 1;i<islands.size();i++){
+                        //secondo me gli indici non servono
+                    }
+                }
+                for(int i = active.getIndex()+1;i < islands.size()-1;i++){
+                    if(i==0){
+                        active.setIndex(islands.size()-1);
+                    }
+                    else {
+                        islands.get(i).setIndex(i - 1);
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -147,4 +189,6 @@ public class Gameboard {
     public Cloud chooseCloud(int index){
         return clouds.remove(index);
     }
+
+
 }

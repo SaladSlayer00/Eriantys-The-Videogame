@@ -21,8 +21,11 @@ public enum MessageType {
         MOVE_MOTHER,
         GET_FROM_CLOUD,
         USE_EXPERT,
+        BOARD,
         WIN,
         WIN_FX,
+        DRAW,
+        MOTHER_POSITION,
         LOSE,
 
         //utility:

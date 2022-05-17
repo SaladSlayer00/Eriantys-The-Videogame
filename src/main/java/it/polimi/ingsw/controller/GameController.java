@@ -5,6 +5,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.GameState;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
@@ -21,6 +22,8 @@ import java.util.*;
 import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
 import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 
+//TODO gestire la logica di fare agire solamente il player attivo
+
 
 //il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
 public class GameController implements Observer, Serializable {
@@ -35,8 +38,12 @@ public class GameController implements Observer, Serializable {
     public static final String SAVED_GAME_FILE = "match.bless";
     public static final int MAX_PLAYERS = 4;
 
+    public GameController(){
+        initGameController();
+    }
 
-    public GameController() {
+
+    public void initGameController() {
         this.gameFactory = new GameFactory();
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.inputController = new InputController(virtualViewMap, this, null);
@@ -138,6 +145,17 @@ public class GameController implements Observer, Serializable {
             }
         } else {
             virtualView.showLoginResult(true, false, "server");
+        }
+    }
+
+    private void broadcastRestoreMessages() {
+        for (VirtualView vv : virtualViewMap.values()) {
+            vv.showBoard(game.getGameBoard());
+        }
+
+        for (VirtualView vv : virtualViewMap.values()) {
+
+            vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentActivePlayers());
         }
     }
 
@@ -350,13 +368,6 @@ public class GameController implements Observer, Serializable {
                 }
                 break;
 
-            case ENABLE_EFFECT:
-                prepareEffect((PrepareEffectMessage) receivedMessage);
-                break;
-            case APPLY_EFFECT:
-                applyEffect((PositionMessage) receivedMessage);
-                break;
-
             case USE_EXPERT:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     expertHandler((UseExpertMessage) receivedMessage);
@@ -532,18 +543,18 @@ public class GameController implements Observer, Serializable {
 
 
     //METODI VV
-    //TODO aggiungere observer alla gameboard
+    //TODO aggiungere observer alla gameboard e player e cloud....
     public void removeVirtualView(String nickname, boolean notifyEnabled) {
         VirtualView vv = virtualViewMap.remove(nickname);
-
-        game.removeObserver(vv);
+        //non mettiamo observer sul game ma sulla gameboard e sul player e sul cloud.....
+        //game.removeObserver(vv);
         game.getGameBoard().removeObserver(vv);
         game.removePlayerByNickname(nickname, notifyEnabled);
     }
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
-        game.addObserver(virtualView);
+        //game.addObserver(virtualView);
         game.getGameBoard().addObserver(virtualView);
     }
 
@@ -567,7 +578,24 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    private void restoreControllers(GameController savedGameController) {
+        Gameboard restoredBoard = savedGameController.game.getGameBoard();
+        List<Player> restoredPlayers = savedGameController.game.getPlayers();
+        List<Character> restoredExperts = savedGameController.game.getExperts();
+        int restoredChoosenPlayerNumber = savedGameController.game.getChosenPlayerNumber();
+        this.game.restoreGame(restoredBoard, restoredPlayers, restoredExperts, restoredChoosenPlayerNumber);
 
+        this.turnController = savedGameController.turnController;
+        this.gameState = savedGameController.gameState;
+
+        // set this gameController as Observer of all effects of all gods of all players.
+        //for (int i = 0; i < game.getNumCurrentPlayers(); i++) {
+          //  game.getPlayerByNickname(turnController.getNicknameQueue().get(i)).getGod().addObserverToAllEffects(this);
+        //}
+
+        inputController = new InputController(this.virtualViewMap, this, this.game);
+        turnController.setVirtualViewMap(this.virtualViewMap);
+    }
 
 
 }

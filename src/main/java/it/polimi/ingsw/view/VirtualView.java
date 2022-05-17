@@ -2,20 +2,23 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientHandler;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VirtualView implements View{
+public class VirtualView implements View, Observer {
     private final ClientHandler clientHandler;
 
     public VirtualView(ClientHandler clientHandler){
@@ -120,5 +123,24 @@ public class VirtualView implements View{
     @Override
     public void winCommunication(Message winMessage, String winner) {
 
+    }
+    @Override
+    public void update(Message message){
+        clientHandler.sendMessage(message);
+    }
+
+    @Override
+    public void showWinMessage(String winner) {
+        clientHandler.sendMessage(new WinMessage(winner));
+    }
+
+    @Override
+    public void showDrawMessage(){
+        clientHandler.sendMessage(new DrawMessage());
+    }
+
+    @Override
+    public void showBoard(Gameboard gameBoard){
+        clientHandler.sendMessage(new BoardMessage(gameBoard));
     }
 }
