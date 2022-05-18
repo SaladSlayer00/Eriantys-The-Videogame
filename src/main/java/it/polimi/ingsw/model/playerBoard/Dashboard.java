@@ -4,12 +4,13 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.observer.Observable;
 
 
 import java.util.ArrayList;
 
 //The following class represents the player's dashboard
-public class Dashboard {
+public class Dashboard extends Observable {
     //attributes of the class dashboard
     private int towers;
     private int numTowers;

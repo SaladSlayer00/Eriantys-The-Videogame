@@ -23,7 +23,7 @@ import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
 import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 
 //TODO gestire la logica di fare agire solamente il player attivo
-
+//TODO observer update o si leva o si ricicla x esperti
 
 //il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
 public class GameController implements Observer, Serializable {
