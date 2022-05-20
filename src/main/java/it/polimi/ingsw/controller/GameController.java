@@ -256,8 +256,8 @@ public class GameController implements Observer, Serializable {
             player.getDashboard().setTeam(Type.notChosen().get(0));
         }
         if (!Type.isEmpty()) {
-            virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
+            virtualView.showGenericMessage("You chose your team. Please wait for the other players to pick!");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their team.", turnController.getActivePlayer());
             askTowerToNextPlayer();
 
         }
