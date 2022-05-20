@@ -128,6 +128,10 @@ public class ClientController implements ViewObserver, Observer {
                 LoginReply loginReply = (LoginReply) message;
                 taskQueue.execute(() -> view.showLoginResult(loginReply.isNicknameAccepted(), loginReply.isConnectionSuccessful(), this.nickname));
                 break;
+            case GAMEMODE_REQUEST:
+                GameModeRequest gameModeRequest = (GameModeRequest) message;
+                taskQueue.execute(()->view.askGameMode(gameModeRequest.getNickname(), gameModeRequest.getModes()));
+                break;
             case PLAYERNUMBER_REQUEST:
                 taskQueue.execute(view::askPlayersNumber);
                 break;

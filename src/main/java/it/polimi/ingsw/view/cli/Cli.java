@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 
@@ -16,8 +19,8 @@ public class Cli extends ViewObservable implements View {
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
 
-    public Cli(){
-        out =System.out;
+    public Cli() {
+        out = System.out;
     }
 
     /**
@@ -51,10 +54,10 @@ public class Cli extends ViewObservable implements View {
                 " _______  _______ _________ _______  _       _________          _______ \n" +
                 "(  ____ \\(  ____ )\\__   __/(  ___  )( (    /|\\__   __/|\\     /|(  ____ \\\n" +
                 "| (    \\/| (    )|   ) (   | (   ) ||  \\  ( |   ) (   ( \\   / )| (    \\/\n" +
-                "| (__    | (____)|   | |   | (___) ||   \\ | |   | |    \\ (_) / | (_____ \n" +
-                "|  __)   |     __)   | |   |  ___  || (\\ \\) |   | |     \\   /  (_____  )\n" +
+                "| (__    | (____)|    | |   | (___) ||   \\ | |   | |    \\ (_) / | (_____ \n" +
+                "|  __)   |     __)    | |   |  ___  || (\\ \\) |   | |     \\   /  (_____  )\n" +
                 "| (      | (\\ (      | |   | (   ) || | \\   |   | |      ) (         ) |\n" +
-                "| (____/\\| ) \\ \\_____) (___| )   ( || )  \\  |   | |      | |   /\\____) |\n" +
+                "| (___/\\| ) \\ \\____) (___| )   ( || )  \\  |   | |      | |   /\\____) |\n" +
                 "(_______/|/   \\__/\\_______/|/     \\||/    )_)   )_(      \\_/   \\_______)\n" +
                 "                                                                        \n");
 
@@ -131,12 +134,27 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askGameMode() {
-        int playerNumber;
-        String question = "How many players are going to play? (You can choose between 2 or 3 players): ";
+    public void askGameMode(String nickname, List<modeEnum> gameModes) {
+        modeEnum game;
+        String question = "Please " + nickname + " choose the game mode (You can choose between EASY and EXPERT): ";
 
         try {
-            playerNumber = numberInput(2, 3, null, question);
+            game = modeInput(gameModes, null, question);
+            notifyObserver(obs -> obs.OnUpdateGameMode(game));
+        } catch (ExecutionException e) {
+            out.println(STR_INPUT_CANCELED);
+        }
+    }
+
+
+    //metodo chiamato quando il gamecontroller richiede dichiedere il numero di players
+    @Override
+    public void askPlayersNumber() {
+        int playerNumber;
+        String question = "How many players are going to play? (You can choose between 2, 3 or 4 players): ";
+
+        try {
+            playerNumber = numberInput(2, 3, 4, null, question);
             notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
         } catch (ExecutionException e) {
             out.println(STR_INPUT_CANCELED);
@@ -144,16 +162,63 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askPlayersNumber() {
-        int playerNumber;
-        String question = "How many players are going to play? (You can choose between 2 or 3 players): ";
+    public void askInitDeck(String nickname, List<Mage> availableDecks) {
+        clearCli();
+        Mage mage;
+        if (availableDecks.size() > 1) {
+            out.println("Select a mage from the list!");
+            printMagesAvailable(availableDecks);
+            out.println("Please, enter the name in CAPS and confirm with ENTER.");
+            try {
+                mage = mageInput(availableDecks);
+                Mage.choose(mage);
 
-        try {
-            playerNumber = numberInput(2, 3, null, question);
-            notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_CANCELED);
+                notifyObserver(obs -> obs.OnUpdateInitDeck(mage));
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
         }
+        else if(availableDecks.size() ==1){
+            out.println("You're the last player, your mage is: ");
+            printMagesAvailable(availableDecks);
+            notifyObserver(obs -> obs.OnUpdateInitDeck(availableDecks.get(0)));
+        }
+        else{
+            showErrorAndExit("no mages found in the request.");
+        }
+
+
     }
+
+    @Override
+    public void askInitType(String nickname, List<Type> availableTeams) {
+        clearCli();
+        Type team;
+        if (availableTeams.size() > 1) {
+            out.println("Select a team from the list!");
+            printTeamsAvailable(availableTeams);
+            out.println("Please, enter the name in CAPS and confirm with ENTER.");
+            try {
+                team = teamInput(availableTeams);
+                Type.choose(team);
+
+                notifyObserver(obs -> obs.OnUpdateInitTower(team));
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+        }
+        else if(availableTeams.size() ==1){
+            out.println("You're the last player, your team is: ");
+            printTeamsAvailable(availableTeams);
+            notifyObserver(obs -> obs.OnUpdateInitTower(availableTeams.get(0)));
+        }
+        else{
+            showErrorAndExit("no teams found in the request.");
+        }
+
+
+    }
+
+    
 
 }
