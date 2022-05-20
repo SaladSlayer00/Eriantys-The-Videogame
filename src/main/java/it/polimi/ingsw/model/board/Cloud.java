@@ -38,4 +38,8 @@ public class Cloud{
     public boolean emptyCloud() {
        return students.isEmpty();
     }
+
+    public int getIndex() {
+        return index;
+    }
 }

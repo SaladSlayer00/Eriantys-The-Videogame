@@ -36,8 +36,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void askStart() {
-
+    public void askStart(String nickname, String answer) {
+        clientHandler.sendMessage(new StartMessage(nickname, answer));
     }
 
     //this is for the choice of the deck at the beginning of the game
@@ -56,13 +56,14 @@ public class VirtualView implements View, Observer {
     public void askMovingPaw(List<Student> availableStudents) {
     }
 
-    //guys i think we should have TWO METHODS for moving the students around
-    //one for moving the students on the islands and the other one to move the students on the proper row
-    //TODO
     @Override
     public void askMoves(List<Student> students) {
     }
 
+    @Override
+    public void askIslandMoves(Student student){}
+    @Override
+    public void askRowMoves(Student student){}
     @Override
     public void askMotherMoves(int possibleSteps) {
     }

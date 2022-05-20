@@ -266,7 +266,8 @@ public class GameController implements Observer, Serializable {
                     " and the number of players is "+ this.game.getChosenPlayerNumber() + ".");
             virtualView.showGenericMessage("Are you sure you want to start the game with these settings?");
             //yes or no
-            virtualView.askStart();
+            virtualView.askStart(turnController.getActivePlayer(), null);
+
         }
 
 

@@ -24,7 +24,9 @@ public interface View {
     //asks the player to choose a nickname
     void askNickname();
 
-    void askStart();
+
+    //player reply and request from server to start game
+    void askStart(String nickname, String answer);
 
     //asks the player to choose a deck from the ones available
     //the parameter of the method is the list of the deck which the player can choose from
@@ -41,6 +43,12 @@ public interface View {
     //asks where the player wants to move the paw they have chosen
     //the parameter is the list of admitted positions
     void askMoves(List<Student> students);
+
+    //asks the player where on the islands they want to move the students
+    void askIslandMoves(Student student);
+
+    //asks the player where they want to move the students on a row
+    void askRowMoves(Student student);
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)
@@ -129,4 +137,6 @@ public interface View {
     //TODO
     //shows the current state of gameboard
     void showBoard(Gameboard gameboard);
+
+    void AskAssistant(String nickname, List<Assistant> availableAssistants);
 }
