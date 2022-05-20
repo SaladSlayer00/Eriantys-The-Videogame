@@ -48,5 +48,6 @@ public class Deck {
         ArrayList<Assistant> copiedCards = new ArrayList<Assistant>(cards);
         return copiedCards;
     }
+
 }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
@@ -123,6 +124,38 @@ public class GameControllerTest {
         gameController.onMessageReceived(readyPlayerOne);
         StartMessage readyPlayerTwo = new StartMessage(player2, "YES");
         gameController.onMessageReceived(readyPlayerTwo);
+
+        //this should be the thing that return the actual first player???
+        /* THERE ARE TWO (2) CONTRUCTOR????? I CHOOSE THE SECOND ONE SINCE IT'S THE ONE CREATE
+        * BY @SALAD_SLAYER BUT DUNNO IF IT'S RIGHT
+        * TO CHECK
+        * TODO
+         */
+        MatchInfoMessage firstPlayerToChoose = new MatchInfoMessage(1, 2);
+        gameController.onMessageReceived(firstPlayerToChoose);
+
+        //actual choice of the assistant's card
+        /* WHAT'S TESTED HERE?
+        * here the testing check that:
+        *  - the card is the actual card chosen
+        *  - the card chosen ISN'T in the deck anymore
+        *  - the number of cards in the deck is 9 since the card chosen has been removed
+         */
+        Assistant assistantOne = easyGame.getPlayerByNickname(player1).getDeck().draw(2);
+        AssistantMessage playerOneChoice = new AssistantMessage(player1, assistantOne);
+        gameController.onMessageReceived(playerOneChoice);
+        assertEquals(easyGame.getPlayerByNickname(player1).getCardChosen(), assistantOne);
+        assertFalse(easyGame.getPlayerByNickname(player1).getDeck().getCards().contains(assistantOne));
+        assertEquals(easyGame.getPlayerByNickname(player1).getDeck().getNumCards(), 9);
+
+        //now it's the turn of the second player
+        Assistant assistantTwo = easyGame.getPlayerByNickname(player2).getDeck().draw(3);
+        AssistantMessage playerTwoChoice = new AssistantMessage(player2, assistantTwo);
+        gameController.onMessageReceived(playerTwoChoice);
+        assertEquals(easyGame.getPlayerByNickname(player2).getCardChosen(), assistantTwo);
+        assertFalse(easyGame.getPlayerByNickname(player2).getDeck().getCards().contains(assistantTwo));
+        assertEquals(easyGame.getPlayerByNickname(player2).getDeck().getNumCards(), 9);
+
     }
 
 }
