@@ -12,7 +12,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.AssertFalse.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -33,7 +32,7 @@ public class GameControllerTest {
 
     //is this a @BeforeAll or a @BeforeEach??? quite sure a @BeforeEach tho
     @BeforeAll
-    void startingSetUp(){
+    void startingSetUp() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         gameController = new GameController();
         easyGame = new EasyGame(2);
 

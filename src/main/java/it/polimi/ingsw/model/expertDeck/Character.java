@@ -14,6 +14,7 @@ public abstract class Character{
     //attributes of the class Character
     private int cost;
     private int numCoins;
+    private boolean isCalled;
 
     //methods of the class Character
     public Character(int cost){
@@ -24,8 +25,14 @@ public abstract class Character{
         return cost;
     }
 
+    public boolean getUsage(){
+        return isCalled;
+    }
+
     public void addCoin() {
-        numCoins += numCoins;
+        if(getUsage() == false){
+            cost += cost;
+        }
     }
 
 
