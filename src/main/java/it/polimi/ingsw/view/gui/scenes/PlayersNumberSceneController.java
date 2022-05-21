@@ -2,7 +2,13 @@ package it.polimi.ingsw.view.gui.scenes;
 
 
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.gui.SceneController;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 import java.awt.event.MouseEvent;
 
@@ -45,8 +51,8 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
         backToMainButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackToMainButtonClick);
     }
 
-    //this is to handle the click on the confirm button
-    //the parameter of the method is the event of the clicked mouse
+    //this is to handle the clicks on the confirm button
+    //the parameter of the method is the event of the click with the mouse
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
@@ -55,6 +61,20 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
         new Thread(() -> notifyObserver(observer -> observer.onUpdatePlayersNumber(playersNum))).start();
     }
 
+    //this is to handle the clicks on the back to menu button
+    //the parameter of the method is the event of the click with the mouse
+    private void onBackToMainButtonClick(Event event){
+        backToMainButton.setDisable(true);
+        new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
+        SceneController.changeRootPane(observers, event, "menu_scene.fxml");
+    }
 
+    //initialization of the radiobuttons
+    //minimumPlayers is the minimum number of players
+    //maximumPlayers is the maximum number of players
+    public void setRangForPlayers(int minimumPlayers, int maximumPlayers){
+        this.minimumPlayers = minimumPlayers;
+        this.maximumPlayers = maximumPlayers;
+    }
 
 }
