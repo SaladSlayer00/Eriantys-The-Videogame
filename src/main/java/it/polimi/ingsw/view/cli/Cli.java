@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
 
@@ -139,13 +140,12 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameModes) {
         modeEnum game;
-        String question = "Please " + nickname + " choose the game mode (You can choose between EASY and EXPERT): ";
-
+        String question = "Please " + nickname + " choose the game mode: ";
         try {
-            game = modeInput(gameModes, null, question);
+            game = modeInput(gameModes, question);
             notifyObserver(obs -> obs.OnUpdateGameMode(game));
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_CANCELED);
+        }catch(ExecutionException e){
+        out.println(STR_INPUT_CANCELED);
         }
     }
 
@@ -157,7 +157,7 @@ public class Cli extends ViewObservable implements View {
         String question = "How many players are going to play? (You can choose between 2, 3 or 4 players): ";
 
         try {
-            playerNumber = numberInput(2, 3, 4, null, question);
+            playerNumber = numberInput(question);
             notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
         } catch (ExecutionException e) {
             out.println(STR_INPUT_CANCELED);
@@ -169,11 +169,11 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         Mage mage;
         if (availableDecks.size() > 1) {
-            out.println("Please "+ nickname+", select a mage from the list!");
-            printMagesAvailable(availableDecks);
-            out.println("Please, enter the name in CAPS and confirm with ENTER.");
+            String question = "Please "+ nickname+", select a mage from the list!";
+
+            out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
             try {
-                mage = mageInput(availableDecks);
+                mage = mageInput(availableDecks, question);
                 //Mage.choose(mage);
 
                 notifyObserver(obs -> obs.OnUpdateInitDeck(mage));
@@ -198,11 +198,10 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         Type team;
         if (availableTeams.size() > 1) {
-            out.println("Please "+ nickname + ", select a team from the list!");
-            printTeamsAvailable(availableTeams);
-            out.println("Please, enter the name in CAPS and confirm with ENTER.");
+            String question = "Please "+ nickname + ", select a team from the list!";
+            out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
             try {
-                team = teamInput(availableTeams);
+                team = teamInput(availableTeams, question);
                 //Type.choose(team);
 
                 notifyObserver(obs -> obs.OnUpdateInitTower(team));
@@ -222,14 +221,16 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+
+    //@TODO riguardare un attimo come funziona sto metodo
     @Override
     public void askStart(String nickname, String answer){
         clearCli();
         String input;
         if(answer.equals(null)) {
             try {
-                out.println("Please "+ nickname + ", select a team from the list!");
-                input = answerInput();
+                String question = "Please "+ nickname + ", select a team from the list!";
+                input = answerInput(question);
                 notifyObserver(obs -> obs.OnStartAnswer(input));
             } catch (ExecutionException e) {
                 out.println(STR_INPUT_CANCELED);
@@ -246,13 +247,10 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         int index;
         if (availableClouds.size() > 1) {
-            out.println("Please "+ nickname + ", select a cloud from the list!");
-            printCloudsAvailable(availableClouds);
+            String question = "Please "+ nickname + ", select a cloud from the list!";
             out.println("Please, enter the cloud's index and press ENTER.");
             try {
-                index = cloudInput(availableClouds);
-
-
+                index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
             }catch(ExecutionException e) {
                 out.println(STR_INPUT_CANCELED);
@@ -273,11 +271,11 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         Assistant assistant;
         if (!availableAssistants.equals(null)) {
-            out.println("Please "+ nickname + ", select an assistant from the list!");
-            printAssistantsAvailable(availableAssistants);
+            String question = "Please "+ nickname + ", select an assistant from the list!";
+            printAssistantsAvailable(availableAssistants, question);
             out.println("Please, enter the assistant's index and press ENTER.");
             try {
-                assistant = assistantInput(availableAssistants);
+                assistant = assistantInput(availableAssistants, question);
                 notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
             }catch(ExecutionException e) {
                 out.println(STR_INPUT_CANCELED);
@@ -347,5 +345,194 @@ public class Cli extends ViewObservable implements View {
             out.println(STR_INPUT_CANCELED);
         }
     }
+
+
+    public void clearCli() {
+        out.print(ColorCli.CLEAR);
+        out.flush();
+    }
+
+    //INPUT METHODS
+
+    public modeEnum modeInput(List<modeEnum> modeEnums, String question){
+        modeEnum mode = null;
+        String in;
+        String modeStr = modeEnums.stream()
+                .map(modeEnum::getText)
+                .collect(Collectors.joining(", "));
+
+        do {
+            out.print(question);
+            out.print("Choose between " + modeStr + ": ");
+
+            try {
+                in = readLine();
+                mode = modeEnum.valueOf(in.toLowerCase());
+
+                if (!modeEnums.contains(mode)) {
+                    out.println("Invalid mode! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (!modeEnums.contains(mode));
+
+        return mode;
+    }
+
+    public int numberInput(String question){
+
+        int number = 0;
+        do{
+
+            try {
+                out.print(question);
+                number = Integer.parseInt(readLine());
+
+                if (number < 2 || number > 4) {
+                    out.println("Invalid number! Please try again.\n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (number < 2 || number > 4);
+
+        return number;
+
+    }
+
+
+    //@TODO
+    public void printMagesAvailable(List<Mage> available){
+        for(Mage m : available){
+
+        }
+
+    }
+    public Mage mageInput(List<Mage> available, String question){
+        Mage mage = null;
+        String in;
+        String modeStr = available.stream()
+                .map(Mage::getText)
+                .collect(Collectors.joining(", "));
+
+        do {
+            out.print(question);
+            printMagesAvailable(available);
+
+            try {
+                in = readLine();
+                mage = Mage.valueOf(in.toLowerCase());
+
+                if (!available.contains(mage)) {
+                    out.println("Invalid mage! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mage! Please try again.");
+            }
+        } while (!available.contains(mage));
+
+        return mage;
+
+    }
+
+    public Type teamInput(List<Type> available, String question){
+        Type team = null;
+        String in;
+        String modeStr = available.stream()
+                .map(Type::getText)
+                .collect(Collectors.joining(", "));
+
+        do {
+            out.print(question);
+            printTeamsAvailable(available);
+            try {
+                in = readLine();
+                team = Type.valueOf(in.toLowerCase());
+
+                if (!available.contains(team)) {
+                    out.println("Invalid mage! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mage! Please try again.");
+            }
+        } while (!available.contains(team));
+
+        return team;
+
+    }
+
+    public String answerInput(String question){
+        String answer = null;
+        do{
+
+            try {
+                out.print(question);
+                answer = readLine();
+
+                if (answer.toUpperCase().equals("NO")) {
+                    out.println("Ok! You can type YES when you're ready! \n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid argument! Please try again.");
+            }
+        } while (answer.equals(null) || answer.equals("NO"));
+
+        return answer;
+    }
+
+    public int cloudInput(List<Cloud> available, String question){
+        int number = -1;
+        do{
+
+            try {
+                out.print(question);
+                printCloudsAvailable(availableClouds);
+                number = Integer.parseInt(readLine());
+
+                if (number < 0 || number > available.size()) {
+                    out.println("Invalid number! Please try again.\n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (number < 0 || number > available.size());
+
+        return number;
+    }
+
+    public Assistant assistantInput(List<Assistant> available, String question){
+        int index;
+        Assistant assistant = null;
+
+        do{
+
+            try {
+                out.print(question);
+                printAssistantsAvailable(available);
+                index = Integer.parseInt(readLine());
+                assistant = new Assistant(index);
+                if (!available.contains(assistant)) {
+                    out.println("Invalid assitant! Please try again.\n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (!available.contains(assistant));
+
+        return assistant;
+    }
+
+
+
+    public void showErrorAndExit(String error) {
+        inputThread.interrupt();
+
+        out.println("\nERROR: " + error);
+        out.println("EXIT.");
+
+        System.exit(1);
+    }
+
 
 }

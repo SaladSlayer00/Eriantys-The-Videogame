@@ -46,4 +46,8 @@ public enum Mage {
     public static boolean isEmpty(){
         return(available.size()==0);
     }
+
+    public String getText(){
+        return mageType;
+    }
 }
