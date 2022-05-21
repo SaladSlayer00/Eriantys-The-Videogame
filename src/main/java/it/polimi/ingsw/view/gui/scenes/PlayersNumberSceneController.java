@@ -72,7 +72,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     //initialization of the radiobuttons
     //minimumPlayers is the minimum number of players
     //maximumPlayers is the maximum number of players
-    public void setRangForPlayers(int minimumPlayers, int maximumPlayers){
+    public void setRangeForPlayers(int minimumPlayers, int maximumPlayers){
         this.minimumPlayers = minimumPlayers;
         this.maximumPlayers = maximumPlayers;
     }

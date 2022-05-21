@@ -1,7 +1,13 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scenes.GameModeSceneController;
+import it.polimi.ingsw.view.gui.scenes.PlayersNumberSceneController;
+import javafx.application.Platform;
+
+import java.util.List;
 
 public class Gui extends ViewObservable implements View {
 
@@ -14,7 +20,17 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void askPlayerNumber(){
-        //TODO
+    public void askPlayersNumber(){
+        PlayersNumberSceneController playersNumSC = new PlayersNumberSceneController();
+        playersNumSC.addAllObservers(observers);
+        playersNumSC.setRangeForPlayers(2, 4); //here is kept the possibility to play in 4 players
+        Platform.runLater(() -> SceneController.changeRootPlane(playersNumSC, "players_number_scene.fxml"));
+    }
+
+    @Override
+    public void askGameMode(String nickname, List<modeEnum> gameMode){
+        GameModeSceneController gameModeSC = new GameModeSceneController();
+        gameModeSC.addAllObservers(observers);
+
     }
 }
