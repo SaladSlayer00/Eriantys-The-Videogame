@@ -109,13 +109,13 @@ public class GameControllerTest {
         TowerMessage playerOneTower = new TowerMessage(player1, Type.valueOf("black"));
         gameController.onMessageReceived(playerOneTower);
         //testing
-        assertEquals(easyGame.getPlayerByNickname(player1), Type.valueOf("black"));
+        assertEquals(easyGame.getPlayerByNickname(player1).getDashboard().getTeam(), Type.valueOf("black"));
         assertFalse(Type.notChosen().contains("black"));
 
         TowerMessage playerTwoTower = new TowerMessage(player2, Type.valueOf("white"));
         gameController.onMessageReceived(playerTwoTower);
         //testing
-        assertEquals(easyGame.getPlayerByNickname(player2), Type.valueOf("white"));
+        assertEquals(easyGame.getPlayerByNickname(player2).getDashboard().getTeam(), Type.valueOf("white"));
         assertFalse(Type.notChosen().contains("white"));
 
         //this is the proper start of the game
