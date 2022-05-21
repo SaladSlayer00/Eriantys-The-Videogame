@@ -75,6 +75,8 @@ public class ClientController implements ViewObserver, Observer {
         client.sendMessage(new GameModeReply(this.nickname, gameMode));
     }
 
+
+
     @Override
     public void OnUpdateAssistant(Assistant assistant) {
         client.sendMessage(new AssistantMessage(this.nickname, assistant));
@@ -105,6 +107,10 @@ public class ClientController implements ViewObserver, Observer {
         client.sendMessage(new PickCloudMessage(this.nickname, index));
     }
 
+    @Override
+    public void OnStartAnswer(String answer){
+        client.sendMessage(new StartMessage(this.nickname, answer));
+    }
 
     @Override
     public void onDisconnection() {
@@ -132,6 +138,9 @@ public class ClientController implements ViewObserver, Observer {
                 GameModeRequest gameModeRequest = (GameModeRequest) message;
                 taskQueue.execute(()->view.askGameMode(gameModeRequest.getNickname(), gameModeRequest.getModes()));
                 break;
+            case INIT_GAMEBOARD:
+                StartMessage startMessage = (StartMessage) message;
+                taskQueue.execute(()->view.askStart(message.getNickname(), null));
             case PLAYERNUMBER_REQUEST:
                 taskQueue.execute(view::askPlayersNumber);
                 break;

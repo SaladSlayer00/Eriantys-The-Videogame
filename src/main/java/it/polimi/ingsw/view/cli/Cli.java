@@ -1,6 +1,10 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
@@ -11,7 +15,6 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
 
@@ -166,12 +169,12 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         Mage mage;
         if (availableDecks.size() > 1) {
-            out.println("Select a mage from the list!");
+            out.println("Please "+ nickname+", select a mage from the list!");
             printMagesAvailable(availableDecks);
             out.println("Please, enter the name in CAPS and confirm with ENTER.");
             try {
                 mage = mageInput(availableDecks);
-                Mage.choose(mage);
+                //Mage.choose(mage);
 
                 notifyObserver(obs -> obs.OnUpdateInitDeck(mage));
             }catch(ExecutionException e) {
@@ -179,7 +182,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableDecks.size() ==1){
-            out.println("You're the last player, your mage is: ");
+            out.println(nickname + ", you're the last player, your mage is: ");
             printMagesAvailable(availableDecks);
             notifyObserver(obs -> obs.OnUpdateInitDeck(availableDecks.get(0)));
         }
@@ -195,12 +198,12 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         Type team;
         if (availableTeams.size() > 1) {
-            out.println("Select a team from the list!");
+            out.println("Please "+ nickname + ", select a team from the list!");
             printTeamsAvailable(availableTeams);
             out.println("Please, enter the name in CAPS and confirm with ENTER.");
             try {
                 team = teamInput(availableTeams);
-                Type.choose(team);
+                //Type.choose(team);
 
                 notifyObserver(obs -> obs.OnUpdateInitTower(team));
             }catch(ExecutionException e) {
@@ -208,7 +211,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableTeams.size() ==1){
-            out.println("You're the last player, your team is: ");
+            out.println(nickname + ", you're the last player, your team is: ");
             printTeamsAvailable(availableTeams);
             notifyObserver(obs -> obs.OnUpdateInitTower(availableTeams.get(0)));
         }
@@ -219,6 +222,130 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    
+    @Override
+    public void askStart(String nickname, String answer){
+        clearCli();
+        String input;
+        if(answer.equals(null)) {
+            try {
+                out.println("Please "+ nickname + ", select a team from the list!");
+                input = answerInput();
+                notifyObserver(obs -> obs.OnStartAnswer(input));
+            } catch (ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+        }
+        else{
+            showErrorAndExit("wrong message format.");
+        }
+
+    }
+
+    @Override
+    public void askCloud(String nickname, List<Cloud> availableClouds){
+        clearCli();
+        int index;
+        if (availableClouds.size() > 1) {
+            out.println("Please "+ nickname + ", select a cloud from the list!");
+            printCloudsAvailable(availableClouds);
+            out.println("Please, enter the cloud's index and press ENTER.");
+            try {
+                index = cloudInput(availableClouds);
+
+
+                notifyObserver(obs -> obs.OnUpdatePickCloud(index));
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+        }
+        else if(availableClouds.size() ==1){
+            out.println(nickname + ", you're the last player, your cloud is: ");
+            printCloudsAvailable(availableClouds);
+            notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
+        }
+        else{
+            showErrorAndExit("no clouds found in the request.");
+        }
+    }
+
+    @Override
+    public void AskAssistant(String nickname, List<Assistant> availableAssistants){
+        clearCli();
+        Assistant assistant;
+        if (!availableAssistants.equals(null)) {
+            out.println("Please "+ nickname + ", select an assistant from the list!");
+            printAssistantsAvailable(availableAssistants);
+            out.println("Please, enter the assistant's index and press ENTER.");
+            try {
+                assistant = assistantInput(availableAssistants);
+                notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+        }
+        else{
+            showErrorAndExit("no assistants found in the request.");
+        }
+
+    }
+
+    @Override
+    public void askMoves(List<Student> students){
+        clearCli();
+        Student student;
+        String location;
+        if (!(students.size()==0)) {
+            out.println("Please, choose a student to move!");
+            printStudents(students);
+            try {
+                student = studentInput();
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+            out.println("Please, choose where do you want to move your students!");
+            out.println("Please, enter the ISLAND or ROW and press ENTER.");
+            try {
+                location = locationInput();
+                if("ISLAND".equals(location.toUpperCase())){
+                    askIslandMoves(student);
+                }
+                else if("ROW".equals(location.toUpperCase())){
+                    askRowMoves(student);
+                }
+            }catch(ExecutionException e) {
+                out.println(STR_INPUT_CANCELED);
+            }
+        }
+        else{
+            showErrorAndExit("no students found in the hall.");
+        }
+    }
+
+    @Override
+    public void askIslandMoves(Student student){
+        out.println("Please, choose where do you want to move your student!");
+        printStudents(student);
+        int location;
+        try {
+            location = islandInput();
+            notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student.getColor(),location));
+        }catch(ExecutionException e) {
+            out.println(STR_INPUT_CANCELED);
+        }
+
+    }
+
+    @Override
+    public void askRowMoves(Student student){
+        out.println("Please, choose where do you want to move your student!");
+        printStudents(student);
+        Color location;
+        try {
+            location = rowInput();
+            notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student.getColor(),location));
+        }catch(ExecutionException e) {
+            out.println(STR_INPUT_CANCELED);
+        }
+    }
 
 }

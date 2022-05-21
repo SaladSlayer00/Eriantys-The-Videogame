@@ -105,4 +105,6 @@ public interface ViewObserver {
      * (e.g. a click on the back button into the GUI).
      */
     void onDisconnection();
+
+    void OnStartAnswer(String answer);
 }
