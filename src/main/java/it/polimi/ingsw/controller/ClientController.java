@@ -156,10 +156,6 @@ public class ClientController implements ViewObserver, Observer {
                 AssistantMessageRequest assistantMessageRequest = (AssistantMessageRequest) message;
                 taskQueue.execute(()->view.askAssistant(this.nickname ,assistantMessageRequest.getAssistants()));
                 break;
-            case GAMEMODE_REQUEST:
-                GameModeRequest gameModeRequest = (GameModeRequest) message;
-                taskQueue.execute(()->view.askGameMode(this.nickname,gameModeRequest.getModes()));
-                break;
             case MATCH_INFO:
                 MatchInfoMessage matchInfoMessage = (MatchInfoMessage) message;
                 taskQueue.execute(() -> view.showMatchInfo(
