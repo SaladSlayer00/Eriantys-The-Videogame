@@ -219,7 +219,7 @@ public class GameControllerTest {
         easyGame.initializeDashboards();
         easyGame.getGameBoard().placeMother();
         //Turno del primo giocatore
-        //Il giocatore sceglie 3 studenti da spostare su una isola oppure sulla sua sala
+        //Il giocatore  sceglie 3 studenti da spostare su una isola oppure sulla sua sala
         Student chosenStudent1 = ettore.getDashboard().getHall().remove(3);
         int previousLength1 = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1.getColor()).size();
         //Questa azione deve essere fatta tre volte (isola oppure sala)
