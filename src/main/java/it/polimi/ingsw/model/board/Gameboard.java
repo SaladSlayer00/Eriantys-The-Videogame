@@ -190,5 +190,7 @@ public class Gameboard extends Observable implements Serializable {
         return clouds.remove(index);
     }
 
+    public Cloud getCloud(int index) {return clouds.get(index);}
+
 
 }

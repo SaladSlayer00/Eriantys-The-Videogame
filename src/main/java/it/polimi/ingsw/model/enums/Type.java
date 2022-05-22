@@ -45,4 +45,8 @@ public enum Type{
     public static boolean isEmpty(){
         return(available.size()==0);
     }
+
+    public String getText(){
+        return this.color;
+    }
 }

@@ -16,6 +16,9 @@ public enum modeEnum {
         return Enum.valueOf(Type.class, input.toUpperCase());
     }
 
+    public String getText() {
+        return this.mode;
+    }
 }
 
 
