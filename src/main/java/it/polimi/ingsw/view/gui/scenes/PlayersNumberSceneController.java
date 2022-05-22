@@ -9,8 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-
-import java.awt.event.MouseEvent;
+import javafx.scene.input.MouseEvent;
 
 
 /* here the first player logged chooses the number of players that are going to play the match
@@ -52,7 +51,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     }
 
     //this is to handle the clicks on the confirm button
-    //the parameter of the method is the event of the click with the mouse
+    //the parameter of the method is the event of the button clicked on by the mouse
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
@@ -62,7 +61,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     }
 
     //this is to handle the clicks on the back to menu button
-    //the parameter of the method is the event of the click with the mouse
+    //the parameter of the method is the event of the button clicked on by the mouse
     private void onBackToMainButtonClick(Event event){
         backToMainButton.setDisable(true);
         new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
