@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,5 +49,23 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
         //tbh i don't really know what to put here...
+        //also not quite sure this is the right way to use the modeEnum...seems quite redundant (???)
+        if(selectedRadioButton.equals(radioButtonEasyMode)){
+           modeEnum selectedMode = modeEnum.valueOf("easy");
+            new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
+        }
+        else if(selectedRadioButton.equals(radioButtonExpertMode)){
+            modeEnum selectedMode = modeEnum.valueOf("expert");
+            new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
+        }
     }
+
+    //this is to handle the event of clicking on the back to menu button with the mouse
+    //parameter is the mouse click itself
+    private void onBackToMainButtonClick(Event event){
+        backToMainButton.setDisable(true);
+        new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
+        SceneController.changeRootPane(observers, event, "menu_scene.fxml");
+    }
+
 }

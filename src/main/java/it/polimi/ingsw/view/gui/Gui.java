@@ -27,10 +27,12 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.changeRootPlane(playersNumSC, "players_number_scene.fxml"));
     }
 
+    //is this thing right???????
+    //TODO (but it's actually a TO CHECK)
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameMode){
         GameModeSceneController gameModeSC = new GameModeSceneController();
         gameModeSC.addAllObservers(observers);
-
+        Platform.runLater(() -> SceneController.changeRootPane(gameModeSC, "game_mode_scene.fxml"));
     }
 }
