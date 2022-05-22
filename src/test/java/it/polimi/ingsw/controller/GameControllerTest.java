@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.view.VirtualView;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -271,6 +274,29 @@ public class GameControllerTest {
 
 
 
+    }
+
+    @Test
+    public void addVirtualView(){
+        VirtualView virtualView = new VirtualView(clientHandler);
+        gameController.addVirtualView("testNickname",virtualView);
+        assertNotNull(gameController.getVirtualViewMap().get("testNickname"));
+
+    }
+
+    @Test
+    public void removeVirtualView(){
+        VirtualView virtualView = new VirtualView(clientHandler);
+        gameController.addVirtualView("testNickname",virtualView);
+        gameController.removeVirtualView("testNickname",true);
+        assertNull(gameController.getVirtualViewMap().get("testNickname"));
+    }
+
+    @Test
+    public void getVirtualViewMap() {
+        VirtualView virtualView = new VirtualView(clientHandler);
+        gameController.addVirtualView("testNickname",virtualView);
+        assertNotNull(gameController.getVirtualViewMap());
     }
 
 
