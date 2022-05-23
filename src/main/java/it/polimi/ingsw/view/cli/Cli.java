@@ -4,11 +4,13 @@ import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
 
+    private Gameboard gameboard;
+    private List<Dashboard> dashboards;
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
@@ -183,8 +187,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableDecks.size() ==1){
-            out.println(nickname + ", you're the last player, your mage is: ");
-            printMagesAvailable(availableDecks);
+            out.println(nickname + ", you're the last player, your mage is: " + availableDecks.get(0).getText());
             notifyObserver(obs -> obs.OnUpdateInitDeck(availableDecks.get(0)));
         }
         else{
@@ -211,8 +214,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableTeams.size() ==1){
-            out.println(nickname + ", you're the last player, your team is: ");
-            printTeamsAvailable(availableTeams);
+            out.println(nickname + ", you're the last player, your team is: "+ availableTeams.get(0).getText());
             notifyObserver(obs -> obs.OnUpdateInitTower(availableTeams.get(0)));
         }
         else{
@@ -258,8 +260,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableClouds.size() ==1){
-            out.println(nickname + ", you're the last player, your cloud is: ");
-            printCloudsAvailable(availableClouds);
+            out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
         }
         else{
@@ -273,7 +274,6 @@ public class Cli extends ViewObservable implements View {
         Assistant assistant;
         if (!availableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
-            printAssistantsAvailable(availableAssistants, question);
             out.println("Please, enter the assistant's index and press ENTER.");
             try {
                 assistant = assistantInput(availableAssistants, question);
@@ -462,6 +462,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int cloudInput(List<Cloud> available, String question){
+
         int number = -1;
         do{
 
@@ -485,6 +486,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public Assistant assistantInput(List<Assistant> available, String question){
+        printBoard();
         int index;
         Assistant assistant = null;
 
@@ -510,6 +512,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public Color studentInput(String question, List<Student> students){
+        printBoard();
         Color color = null;
         String in;
         List<Color> colors = new ArrayList<Color>();
@@ -598,5 +601,50 @@ public class Cli extends ViewObservable implements View {
         System.exit(1);
     }
 
+    @Override
+    public void showTable(Gameboard gameboard, List<Dashboard> dashboards ){
+        clearCli();
+        showDashboards(dashboards);
+        out.print("\n");
+        out.print("\n");
+        showBoard(gameboard);
+
+    }
+
+    //TODO vedere come è inizializzato quell'array
+    public void showDashboards(List<Dashboard> dashboards){
+        String leftAlignFormat = "| %-10s | %-4d |%n";
+        for(int i = 0; i< dashboards.size();i++) {
+            System.out.format("+-----------------+------+%n");
+            System.out.format("| Column name     | ID   |%n");
+            System.out.format("+-----------------+------+%n");
+            System.out.format(leftAlignFormat, "HALL", dashboards.get(i).getHall().size());
+            System.out.format(leftAlignFormat, "RED", dashboards.get(i).getRow("red").getNumOfStudents());
+            System.out.format(leftAlignFormat, "GREEN", dashboards.get(i).getRow("green").getNumOfStudents());
+            System.out.format(leftAlignFormat, "PINK", dashboards.get(i).getRow("pink").getNumOfStudents());
+            System.out.format(leftAlignFormat, "YELLOW", dashboards.get(i).getRow("yellow").getNumOfStudents());
+            System.out.format(leftAlignFormat, "BLUE", dashboards.get(i).getRow("blue").getNumOfStudents());
+            System.out.format("+-----------------+------+%n");
+        }
+    }
+
+    public void showBoard(Gameboard gameboard) {
+        StringBuilder strBoardBld = new StringBuilder();
+        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
+        for (int i = 0; i < 3; i++) {
+                if (i == 0) {
+                    printFirstRow(spaces, strBoardBld, i, j);
+                } else if(i==1) {
+                    printCenterRow(spaces, strBoardBld, i, j);
+                }
+                else{
+                    printLastRow();
+            }
+        }
+        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
+        out.println(strBoardBld.toString());
+    }
+
+//TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board
 
 }

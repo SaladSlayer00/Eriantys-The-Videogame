@@ -15,7 +15,8 @@ public class Dashboard extends Observable {
     private int towers;
     private int numTowers;
     private final ArrayList<Row> rows = new ArrayList<>();
-    private final ArrayList<Student> hall = {new Row(Color.BLUE), new Row(Color.GREEN), new Row(Color.RED), new Row(Color.PINK), new Row(Color.YELLOW)};
+    //sbagliato
+    private final ArrayList<Student> hall = new ArrayList<>();
     private Type team;
     //private static final int NUM_ROWS = 5;
     private int hallDimension;
@@ -28,7 +29,13 @@ public class Dashboard extends Observable {
             this.numTowers = 6;
             this.hallDimension = 9;
         }
-        //this.rows = {};
+        rows.add(new Row(Color.RED));
+        rows.add(new Row(Color.GREEN));
+        rows.add(new Row(Color.PINK));
+        rows.add(new Row(Color.YELLOW));
+        rows.add(new Row(Color.BLUE));
+
+
     }
 
     public int getHallDimension() {
@@ -104,6 +111,13 @@ public class Dashboard extends Observable {
         return null;
     }
 
-
+    public Row getRow(String s){
+        for(Row r:rows){
+            if(r.getName().getText().equals(s)){
+                return r;
+            }
+        }
+        return null;
+    }
 
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.enums.GameState;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -150,7 +151,11 @@ public class GameController implements Observer, Serializable {
 
     private void broadcastRestoreMessages() {
         for (VirtualView vv : virtualViewMap.values()) {
-            vv.showBoard(game.getGameBoard());
+            ArrayList<Dashboard> dashboards = new ArrayList<Dashboard>();
+            for(Player p: game.getPlayers()){
+                dashboards.add(p.getDashboard());
+            }
+            vv.showTable(game.getGameBoard(), dashboards);
         }
 
         for (VirtualView vv : virtualViewMap.values()) {

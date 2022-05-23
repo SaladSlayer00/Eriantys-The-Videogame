@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
@@ -136,6 +137,6 @@ public interface View {
 
     //TODO
     //shows the current state of gameboard
-    void showBoard(Gameboard gameboard);
+    void showTable(Gameboard gameboard, List<Dashboard> dashboards);
 
 }
