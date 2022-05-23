@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Mode;
+import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
@@ -83,8 +85,8 @@ public class ClientController implements ViewObserver, Observer {
     }
 
     @Override
-    public void OnUpdateMoveOnIsland(Color color, int index) {
-        client.sendMessage(new MoveMessage(this.nickname, color, index));
+    public void OnUpdateMoveOnIsland(Color color, int index, List<Island> islands) {
+        client.sendMessage(new MoveMessage(this.nickname, color, index, islands));
     }
 
     @Override
@@ -162,7 +164,10 @@ public class ClientController implements ViewObserver, Observer {
                         matchInfoMessage.getActivePlayers(),
                         matchInfoMessage.getActivePlayerNickname()));
                 break;
-
+            case GENERIC_MESSAGE:
+                GenericMessage genericMessage = (GenericMessage) message;
+                taskQueue.execute(()->view.showGenericMessage(genericMessage.getMessage()));
+                break;
             case DISCONNECTION:
                 DisconnectionMessage disconnectionMessage = (DisconnectionMessage) message;
                 client.disconnect();

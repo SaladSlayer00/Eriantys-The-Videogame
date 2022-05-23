@@ -1,22 +1,21 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.EasyGame;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientHandler;
 
-import javax.swing.text.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VirtualView implements View, Observer {
@@ -48,22 +47,21 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void askAssistant(String nickname, List<Assistant> availableAssistants){
+    public void askAssistant(String nickname, List<Assistant> availableAssistants) {
         clientHandler.sendMessage(new AssistantMessageRequest(nickname, availableAssistants));
     }
+
 
     @Override
     public void askMovingPaw(List<Student> availableStudents) {
     }
 
     @Override
-    public void askMoves(List<Student> students) {
+    public void askMoves(List<Student> students, List<Island> islands) {
     }
 
     @Override
-    public void askIslandMoves(Student student){}
-    @Override
-    public void askRowMoves(Student student){}
+    public void askIslandMoves(Color student, List<Island> islands){}
     @Override
     public void askMotherMoves(int possibleSteps) {
     }
@@ -92,9 +90,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    //TODO ??? is this thing right?????????
     public void showGenericMessage(String genericMessage) {
-           System.out.println(genericMessage);
+        clientHandler.sendMessage(new GenericMessage(genericMessage));
     }
 
     //TODO
@@ -147,7 +144,10 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showBoard(Gameboard gameBoard){
-        clientHandler.sendMessage(new BoardMessage(gameBoard));
+    public void showTable(Gameboard gameBoard, List<Dashboard> dashboards){
+        clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards));
     }
+
+
+
 }

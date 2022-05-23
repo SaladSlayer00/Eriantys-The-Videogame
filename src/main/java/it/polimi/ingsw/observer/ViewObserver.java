@@ -2,6 +2,7 @@ package it.polimi.ingsw.observer;
 
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Mode;
+import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
@@ -68,7 +69,7 @@ public interface ViewObserver {
      * @param color the color of the pawn
      * @param index the index of the island.
      */
-    void OnUpdateMoveOnIsland(Color color , int index);
+    void OnUpdateMoveOnIsland(Color color , int index, List<Island> islands);
 
     /**
      * Sends a message to the server with the move chosen by the user.

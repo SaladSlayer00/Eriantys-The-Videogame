@@ -1,4 +1,7 @@
 package it.polimi.ingsw.observer;
+import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -53,4 +56,5 @@ public abstract class ViewObservable {
             lambda.accept(observer);
         }
     }
+
 }

@@ -4,10 +4,13 @@ import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 
@@ -19,6 +22,8 @@ import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
 
+    private Gameboard gameboard;
+    private List<Dashboard> dashboards;
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
@@ -182,8 +187,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableDecks.size() ==1){
-            out.println(nickname + ", you're the last player, your mage is: ");
-            printMagesAvailable(availableDecks);
+            out.println(nickname + ", you're the last player, your mage is: " + availableDecks.get(0).getText());
             notifyObserver(obs -> obs.OnUpdateInitDeck(availableDecks.get(0)));
         }
         else{
@@ -210,8 +214,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableTeams.size() ==1){
-            out.println(nickname + ", you're the last player, your team is: ");
-            printTeamsAvailable(availableTeams);
+            out.println(nickname + ", you're the last player, your team is: "+ availableTeams.get(0).getText());
             notifyObserver(obs -> obs.OnUpdateInitTower(availableTeams.get(0)));
         }
         else{
@@ -257,8 +260,7 @@ public class Cli extends ViewObservable implements View {
             }
         }
         else if(availableClouds.size() ==1){
-            out.println(nickname + ", you're the last player, your cloud is: ");
-            printCloudsAvailable(availableClouds);
+            out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
         }
         else{
@@ -267,12 +269,11 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void AskAssistant(String nickname, List<Assistant> availableAssistants){
+    public void askAssistant(String nickname, List<Assistant> availableAssistants){
         clearCli();
         Assistant assistant;
         if (!availableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
-            printAssistantsAvailable(availableAssistants, question);
             out.println("Please, enter the assistant's index and press ENTER.");
             try {
                 assistant = assistantInput(availableAssistants, question);
@@ -288,27 +289,26 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askMoves(List<Student> students){
+    public void askMoves(List<Student> students, List<Island> islands){
         clearCli();
-        Student student;
+        Color student;
         String location;
         if (!(students.size()==0)) {
-            out.println("Please, choose a student to move!");
-            printStudents(students);
+            String question = "Please, choose a student to move! Enter the LOWERCASE color of it";
             try {
-                student = studentInput();
+                student = studentInput(question, students);
             }catch(ExecutionException e) {
                 out.println(STR_INPUT_CANCELED);
             }
             out.println("Please, choose where do you want to move your students!");
-            out.println("Please, enter the ISLAND or ROW and press ENTER.");
+            question = "Please, enter ISLAND or ROW and press ENTER.";
             try {
-                location = locationInput();
+                location = locationInput(question);
                 if("ISLAND".equals(location.toUpperCase())){
-                    askIslandMoves(student);
+                    askIslandMoves(student, islands);
                 }
                 else if("ROW".equals(location.toUpperCase())){
-                    askRowMoves(student);
+                    notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student,student));
                 }
             }catch(ExecutionException e) {
                 out.println(STR_INPUT_CANCELED);
@@ -320,31 +320,19 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askIslandMoves(Student student){
-        out.println("Please, choose where do you want to move your student!");
+    public void askIslandMoves(Color student, List<Island> islands){
+        String question = "Please, choose where do you want to move your student!";
         printStudents(student);
         int location;
         try {
-            location = islandInput();
-            notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student.getColor(),location));
+            location = islandInput(question, student, islands);
+            notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
         }catch(ExecutionException e) {
             out.println(STR_INPUT_CANCELED);
         }
 
     }
 
-    @Override
-    public void askRowMoves(Student student){
-        out.println("Please, choose where do you want to move your student!");
-        printStudents(student);
-        Color location;
-        try {
-            location = rowInput();
-            notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student.getColor(),location));
-        }catch(ExecutionException e) {
-            out.println(STR_INPUT_CANCELED);
-        }
-    }
 
 
     public void clearCli() {
@@ -401,14 +389,6 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-
-    //@TODO
-    public void printMagesAvailable(List<Mage> available){
-        for(Mage m : available){
-
-        }
-
-    }
     public Mage mageInput(List<Mage> available, String question){
         Mage mage = null;
         String in;
@@ -418,7 +398,7 @@ public class Cli extends ViewObservable implements View {
 
         do {
             out.print(question);
-            printMagesAvailable(available);
+            out.print("Choose between " + modeStr + ": ");
 
             try {
                 in = readLine();
@@ -445,7 +425,7 @@ public class Cli extends ViewObservable implements View {
 
         do {
             out.print(question);
-            printTeamsAvailable(available);
+            out.print("Choose between "+ modeStr + ": ");
             try {
                 in = readLine();
                 team = Type.valueOf(in.toLowerCase());
@@ -482,12 +462,16 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int cloudInput(List<Cloud> available, String question){
+
         int number = -1;
         do{
 
             try {
                 out.print(question);
-                printCloudsAvailable(availableClouds);
+                out.print("Choose between ");
+                for(Cloud c : available){
+                    out.print(c.getIndex() + "\n");
+                }
                 number = Integer.parseInt(readLine());
 
                 if (number < 0 || number > available.size()) {
@@ -502,6 +486,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public Assistant assistantInput(List<Assistant> available, String question){
+        printBoard();
         int index;
         Assistant assistant = null;
 
@@ -509,9 +494,12 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 out.print(question);
-                printAssistantsAvailable(available);
+                out.print("Choose between ");
+                for(Assistant a : available){
+                    out.print(a.getNumOrder() + "\n");
+                }
                 index = Integer.parseInt(readLine());
-                assistant = new Assistant(index);
+                assistant = new Assistant(index, 0);
                 if (!available.contains(assistant)) {
                     out.println("Invalid assitant! Please try again.\n");
                 }
@@ -523,7 +511,86 @@ public class Cli extends ViewObservable implements View {
         return assistant;
     }
 
+    public Color studentInput(String question, List<Student> students){
+        printBoard();
+        Color color = null;
+        String in;
+        List<Color> colors = new ArrayList<Color>();
+        for(Student s : students){
+            colors.add(s.getColor());
+        }
+        do {
+            out.print(question);
+            out.print("Choose between: ");
+            for(Student s : students){
+                out.print(s.getColor().getText() + "\n");
+            }
 
+            try {
+                in = readLine();
+                color = Color.valueOf(in.toLowerCase());
+
+                if (!colors.contains(color)) {
+                    out.println("Invalid student! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid student! Please try again.");
+            }
+        } while (!colors.contains(color));
+
+        return color;
+    }
+
+    public String locationInput(String question){
+        String answer = null;
+        do{
+
+            try {
+                out.print(question);
+                answer = readLine();
+
+                if (!answer.toUpperCase().equals("ROW") && !answer.toUpperCase().equals("ISLAND")) {
+                    out.println("Invalid input! Please try again! \n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid input! Please try again.");
+            }
+            } while (!answer.equals("ROW") && !answer.equals("ISLAND"));
+
+        return answer;
+    }
+
+    public int islandInput(String question, Color student, List<Island> islands){
+        int index = -1;
+        do {
+            out.print(question);
+            out.print("Choose between: ");
+            for(Island  i : islands){
+                out.print(i.getIndex() + "\n");
+            }
+
+            try {
+                index = Integer.parseInt(readLine());
+
+                if (index < 0 || index > islands.size()) {
+                    out.println("Invalid number! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid number! Please try again.");
+            }
+        } while (index<0||index > islands.size());
+
+       return index;
+    }
+
+    public void showGenericMessage(String genericMessage) {
+        out.println(genericMessage);
+    }
+
+    public void showWinMessage(String winner) {
+        out.println("Game finished: " + winner + " WINS!");
+        System.exit(0);
+    }
 
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
@@ -534,5 +601,50 @@ public class Cli extends ViewObservable implements View {
         System.exit(1);
     }
 
+    @Override
+    public void showTable(Gameboard gameboard, List<Dashboard> dashboards ){
+        clearCli();
+        showDashboards(dashboards);
+        out.print("\n");
+        out.print("\n");
+        showBoard(gameboard);
+
+    }
+
+    //TODO vedere come è inizializzato quell'array
+    public void showDashboards(List<Dashboard> dashboards){
+        String leftAlignFormat = "| %-10s | %-4d |%n";
+        for(int i = 0; i< dashboards.size();i++) {
+            System.out.format("+-----------------+------+%n");
+            System.out.format("| Column name     | ID   |%n");
+            System.out.format("+-----------------+------+%n");
+            System.out.format(leftAlignFormat, "HALL", dashboards.get(i).getHall().size());
+            System.out.format(leftAlignFormat, "RED", dashboards.get(i).getRow("red").getNumOfStudents());
+            System.out.format(leftAlignFormat, "GREEN", dashboards.get(i).getRow("green").getNumOfStudents());
+            System.out.format(leftAlignFormat, "PINK", dashboards.get(i).getRow("pink").getNumOfStudents());
+            System.out.format(leftAlignFormat, "YELLOW", dashboards.get(i).getRow("yellow").getNumOfStudents());
+            System.out.format(leftAlignFormat, "BLUE", dashboards.get(i).getRow("blue").getNumOfStudents());
+            System.out.format("+-----------------+------+%n");
+        }
+    }
+
+    public void showBoard(Gameboard gameboard) {
+        StringBuilder strBoardBld = new StringBuilder();
+        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
+        for (int i = 0; i < 3; i++) {
+                if (i == 0) {
+                    printFirstRow(spaces, strBoardBld, i, j);
+                } else if(i==1) {
+                    printCenterRow(spaces, strBoardBld, i, j);
+                }
+                else{
+                    printLastRow();
+            }
+        }
+        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
+        out.println(strBoardBld.toString());
+    }
+
+//TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board
 
 }

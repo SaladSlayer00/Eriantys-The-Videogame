@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.enums;
 
+import java.util.ArrayList;
+
 //enumeration for the paws' color
 public enum Color{
     RED("red"),
@@ -7,7 +9,6 @@ public enum Color{
     PINK("pink"),
     YELLOW("yellow"),
     BLUE("blue");
-
     //it's the string of the color of the paw
     private String color;
 
@@ -15,5 +16,11 @@ public enum Color{
     Color(String color){
         this.color = color;
     }
+
+    public String getText(){
+        return color;
+    }
+
+
 }
 
