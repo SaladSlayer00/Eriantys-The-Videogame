@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
@@ -42,13 +44,11 @@ public interface View {
 
     //asks where the player wants to move the paw they have chosen
     //the parameter is the list of admitted positions
-    void askMoves(List<Student> students);
+    void askMoves(List<Student> students, List<Island> islands);
 
     //asks the player where on the islands they want to move the students
-    void askIslandMoves(Student student);
+    void askIslandMoves(Color student, List<Island> islands);
 
-    //asks the player where they want to move the students on a row
-    void askRowMoves(Student student);
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)
@@ -138,5 +138,4 @@ public interface View {
     //shows the current state of gameboard
     void showBoard(Gameboard gameboard);
 
-    void AskAssistant(String nickname, List<Assistant> availableAssistants);
 }

@@ -410,7 +410,9 @@ public class GameController implements Observer, Serializable {
         player.setCard(card);
         turnController.getChosen().add(card);
         if(player.getDeck().getNumCards()==0){
-            broadcastDrawMessage();
+            //broadcastDrawMessage();
+            broadcastGenericMessage("Game finished! It's a draw!");
+            endGame();
         }
 
         //check sulla carta uguale la facciamo nell'input controller
@@ -475,7 +477,7 @@ public class GameController implements Observer, Serializable {
             turnController.islandMerger(game.getGameBoard().getIslands().get(game.getGameBoard().getMotherNature()));
         }
         if(game.getGameBoard().getIslands().size()==3){
-            broadcastDrawMessage();
+            broadcastGenericMessage("The game is finished! It's a draw!");
             endGame();
         }
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
@@ -503,7 +505,6 @@ public class GameController implements Observer, Serializable {
     public void win(){
         broadcastWinMessage(turnController.getActivePlayer());
         endGame();
-
     }
 
 
@@ -573,11 +574,11 @@ public class GameController implements Observer, Serializable {
             vv.showWinMessage(winningPlayer);
         }
     }
-    private void broadcastDrawMessage() {
-        for (VirtualView vv : virtualViewMap.values()) {
-            vv.showDrawMessage();
-        }
-    }
+//    private void broadcastDrawMessage() {
+//        for (VirtualView vv : virtualViewMap.values()) {
+//            vv.showDrawMessage();
+//        }
+//    }
 
     private void restoreControllers(GameController savedGameController) {
         Gameboard restoredBoard = savedGameController.game.getGameBoard();

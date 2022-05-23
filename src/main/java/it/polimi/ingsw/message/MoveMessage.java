@@ -1,17 +1,24 @@
 package it.polimi.ingsw.message;
 
+import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
+
+import java.util.List;
 
 public class MoveMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;
     private final Color color;
     private int index = -1;
     private Color row = null;
+    private List<Island> islands;
 
-    public MoveMessage(String nickname, Color color, int index) {
+
+    public MoveMessage(String nickname, Color color, int index, List<Island> islands) {
         super(nickname, MessageType.MOVE_ON_ISLAND);
         this.index = index;
         this.color = color;
+        this.islands = islands;
+
 
     }
 

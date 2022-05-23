@@ -15,5 +15,9 @@ public enum Color{
     Color(String color){
         this.color = color;
     }
+
+    public String getText(){
+        return color;
+    }
 }
 

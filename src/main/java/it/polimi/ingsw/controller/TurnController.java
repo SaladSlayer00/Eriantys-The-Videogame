@@ -201,7 +201,7 @@ public class TurnController implements Serializable {
         vv.showGenericMessage("You have moved "+ moved + " students!");
         vv.showGenericMessage("Please choose a student and where do you want to move it!");
         //lista che si passava come parametro per fare scegliere il player
-        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall());
+        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
     //in effetti non ha senso il colore è lo stesso
