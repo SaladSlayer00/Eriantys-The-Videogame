@@ -27,7 +27,7 @@ import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 //TODO observer update o si leva o si ricicla x esperti
 
 //il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
-public class GameController implements Observer, Serializable {
+public class GameController implements Serializable, Observer {
     private InputController inputController;
     private transient Map<String, VirtualView> virtualViewMap;
     private Mode game;
@@ -176,7 +176,7 @@ public class GameController implements Observer, Serializable {
     }
 
 
-    private void initState(Message receivedMessage, VirtualView virtualView) throws noMoreStudentsException, fullTowersException {
+    private void initState(Message receivedMessage, VirtualView virtualView) throws noMoreStudentsException, fullTowersException, maxSizeException {
         switch (receivedMessage.getMessageType()) {
             case INIT_DECK:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -278,7 +278,7 @@ public class GameController implements Observer, Serializable {
 
     }
 
-    private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException {
+    private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException, maxSizeException {
 
         if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
             turnController.next();
@@ -296,20 +296,13 @@ public class GameController implements Observer, Serializable {
         else {
             turnController.next();
             game.initializeGameboard();
-            initializeDashboards();
+            game.initializeDashboards();
             startGame();
         }
 
     }
     //mette il numero di torri giusto in base al numero che sarà assegnato in fase di inizializzazione
-    public void initializeDashboards() throws fullTowersException {
-        for(Player p : game.getPlayers()){
-            for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){
-                p.getDashboard().putTower();
-            }
-        }
 
-    }
 
     public void setGameMode(modeEnum gameMode) {
         this.gameMode = gameMode;
@@ -320,6 +313,8 @@ public class GameController implements Observer, Serializable {
         broadcastGenericMessage("Game Started!");
         turnController.broadcastMatchInfo();
         turnController.newTurn();
+        game.updateGameboard();
+
     }
 
     private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
@@ -374,11 +369,11 @@ public class GameController implements Observer, Serializable {
                 }
                 break;
 
-            case USE_EXPERT:
-                if (inputController.verifyReceivedData(receivedMessage)) {
-                    expertHandler((UseExpertMessage) receivedMessage);
-                }
-                break;
+//            case USE_EXPERT:
+//                if (inputController.verifyReceivedData(receivedMessage)) {
+//                    expertHandler((UseExpertMessage) receivedMessage);
+//                }
+//                break;
 
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
@@ -405,6 +400,7 @@ public class GameController implements Observer, Serializable {
             turnController.resetChosen();
             turnController.drawAssistant();
         }
+        game.updateGameboard();
 
     }
     private void drawAssistantHandler(AssistantMessage receivedMessage) throws emptyDecktException {
@@ -433,7 +429,7 @@ public class GameController implements Observer, Serializable {
             turnController.determineOrder();
             initiateAction();
         }
-
+        game.updateGameboard();
 
     }
 
@@ -463,6 +459,7 @@ public class GameController implements Observer, Serializable {
             turnController.setMoved(0);
 //            turnController.moveMaker();
         }
+        game.updateGameboard();
     }
 
     //bisogna fare un controllo su
@@ -488,6 +485,7 @@ public class GameController implements Observer, Serializable {
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         //passo le vuote poi la gestisco
+        game.updateGameboard();
 
     }
 
@@ -505,6 +503,7 @@ public class GameController implements Observer, Serializable {
             turnController.next();
             initiateAction();
         }
+        game.updateGameboard();
     }
 
     public void win(){

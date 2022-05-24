@@ -12,6 +12,7 @@ public enum MessageType {
         ASK_TOWER, //???
         INIT_GAMEBOARD,
         PICK_CLOUD,
+        SHOW_ASSISTANT,
         PICKCLOUD_REQUEST, //???
         DRAW_ASSISTANT,
         ASSISTANT_REQUEST, //???
