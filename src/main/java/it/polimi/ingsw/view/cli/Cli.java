@@ -640,16 +640,13 @@ public class Cli extends ViewObservable implements View {
 
     public void showBoard(Gameboard gameboard) {
         StringBuilder strBoardBld = new StringBuilder();
+        String leftAlignFormat = "| 10s%- |";
         strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
-        for (int i = 0; i < 3; i++) {
-                if (i == 0) {
-                    printFirstRow();
-                } else if(i==1) {
-                    printCenterRow(spaces, strBoardBld, i, j);
-                }
-                else{
-                    printLastRow();
-            }
+        for (Island i : gameboard.getIslands()) {
+            System.out.format("+------+%n");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.YELLOW).size() +"]");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.BLUE).size() +"]");
+            System.out.format("+------+%n");
         }
         strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
         out.println(strBoardBld.toString());

@@ -34,7 +34,7 @@ public class EasyGameTest {
 
     @Test
     void getChosePlayersNumberTest() {
-        assertEquals(2,egTest.getChosenPlayersNumber());
+        assertEquals(2,egTest.getChosenPlayerNumber());
     }
 
     @Test

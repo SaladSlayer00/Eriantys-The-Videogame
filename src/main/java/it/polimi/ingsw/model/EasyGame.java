@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observable;
 
 
-public class EasyGame extends Observable, Mode implements Serializable{
+public class EasyGame extends Observable implements Serializable, Mode{
     private static final long serialVersionUID =  4405183481677036856L; //da cambiare
     private static EasyGame instance;
     public static final String SERVER_NICKNAME = "server";
@@ -57,7 +57,7 @@ public class EasyGame extends Observable, Mode implements Serializable{
         notifyObserver(new BoardMessage(gameBoard,dashboards));
     }
 
-    public int getChosenPlayersNumber() {
+    public int getChosenPlayerNumber() {
         return this.chosenPlayerNumber;
     }
 
@@ -117,6 +117,26 @@ public class EasyGame extends Observable, Mode implements Serializable{
             }
         }
         return result;
+    }
+
+    @Override
+    public void resetInstance() {
+
+    }
+
+    @Override
+    public void removePlayerByNickname(String nickname, boolean notifyEnabled) {
+
+    }
+
+    @Override
+    public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber) {
+
+    }
+
+    @Override
+    public List<Character> getExperts() {
+        return null;
     }
 
 //    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {
