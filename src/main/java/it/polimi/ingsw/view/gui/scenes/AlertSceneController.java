@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 
 //TODO
-public class AlertSceneController extends BasicSceneController {
+public class AlertSceneController extends   BasicSceneController {
 
     private final Stage actualStage;
 
