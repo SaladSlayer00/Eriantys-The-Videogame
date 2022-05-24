@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.gui.scenes.AlertSceneController;
 import it.polimi.ingsw.view.gui.scenes.BasicSceneController;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -76,6 +77,17 @@ public class SceneController extends ViewObservable {
 
     //this should show the client message in a popup
     public static void alertShown(String mainTitle, String text){
-        //TODO (i'll keep coding tomorrow cuz I'm quite tired tbh)
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/alert_scene.fxml" ));
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+
+        }catch(IOException exception){
+            Client.LOGGER.severe(exception.getMessage());
+            return;
+        }
+        AlertSceneController alertSC = fxmlLoader.getController();
+        Scene alertScene = new Scene(parent);
+        alertSC.setScene(alertScene);
     }
 }
