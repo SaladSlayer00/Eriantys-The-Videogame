@@ -2,17 +2,16 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
+
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.board.*;
-import it.polimi.ingsw.exceptions.maxSizeException;
-import it.polimi.ingsw.exceptions.deckUnavailableException;
-import it.polimi.ingsw.exceptions.invalidTeamException;
-import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
+import it.polimi.ingsw.observer.Observable;
 
 
-public class EasyGame extends Oservable implements Serializable{
+public class EasyGame extends Observable implements Serializable, Mode{
     private static final long serialVersionUID =  4405183481677036856L; //da cambiare
     private static EasyGame instance;
     public static final String SERVER_NICKNAME = "server";
@@ -20,13 +19,14 @@ public class EasyGame extends Oservable implements Serializable{
     private List<Player> players;
     private List<Player> activeplayers;
     private int chosenPlayerNumber;
-
+    private List<Dashboard> dashboards;
 
 
     public EasyGame(int numPlayers) {
         this.chosenPlayerNumber = numPlayers;
         this.players = new ArrayList<>();
         this.activeplayers = new ArrayList<>();
+        this.dashboards=new ArrayList<>();
     }
 
     public void initializeGameboard() throws noMoreStudentsException {
@@ -41,23 +41,23 @@ public class EasyGame extends Oservable implements Serializable{
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
     }
 
-    public void initializeDashboards() throws noMoreStudentsException, maxSizeException {
+    public void initializeDashboards() throws maxSizeException {
         for(Player p : this.players){
             for(int i = 0; i < p.getDashboard().getHallDimension(); i++){
                 Student s = gameBoard.getSack().drawStudent();
                 p.getDashboard().addStudent(s);
             }
+            dashboards.add(p.getDashboard());
         }
-    }
-//    public void setDeck(Mage m , int playerID) throws deckUnavailableException{
-//        for(Player p : this.players){
-//            if(p.getDeck().getMage().equals(m));
-//            throw new deckUnavailableException();
-//        }
-//        players.get(playerID).setDeck(m);
-//    }
 
-    public int getChosenPlayersNumber() {
+        updateGameboard();
+    }
+
+    public void updateGameboard(){
+        notifyObserver(new BoardMessage(gameBoard,dashboards));
+    }
+
+    public int getChosenPlayerNumber() {
         return this.chosenPlayerNumber;
     }
 
@@ -119,11 +119,39 @@ public class EasyGame extends Oservable implements Serializable{
         return result;
     }
 
-    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {
-        this.getGameBoard().restoreBoard(board.getSpaces());
-        this.players = players;
-        this.gods = gods;
-        this.chosenPlayerNumber = chosenPlayersNumber;
+    @Override
+    public void resetInstance() {
+
     }
+
+    @Override
+    public void removePlayerByNickname(String nickname, boolean notifyEnabled) {
+
+    }
+
+    @Override
+    public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber) {
+
+    }
+
+    @Override
+    public List<Character> getExperts() {
+        return null;
+    }
+
+//    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {
+//        this.getGameBoard().restoreBoard(board.getSpaces());
+//        this.players = players;
+//        this.gods = gods;
+//        this.chosenPlayerNumber = chosenPlayersNumber;
+//    }
+
+//    public void initializeDashboardsTower() throws fullTowersException {
+//        for(Player p : players){
+//            for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){
+//                p.getDashboard().putTower();
+//            }
+//        }
+//    }
 }
 

@@ -171,10 +171,22 @@ public class GameControllerTest {
 
 
 
-    //TODO INTEGRARE QUESTO CODICE CON QUELLO DI OnMessageReceived_MathcOne. Infatti , fanno riferimento alla stessa simulazione di partita ma con alcune aggiunte
+    //Codice già integrato con il codice sopra
     @Test
     public void onMessageReceived_MatchTwo()  throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException{
+        //TODO : NON SONO SICURO DI QUESTA PARTE. E' SOLAMENTE UNA IPOTESI
         //Fase iniziale del gioco
+        //inizializzazione player
+        Player ettore = new Player("EttoreMajorana", 1);
+        Player stupor = new Player("StuporMundi", 2);
+        easyGame.initializePlayer(ettore);
+        easyGame.initializePlayer(stupor);
+        //inizializzazione gameboard
+        easyGame.getGameBoard().initializeIslands();
+        easyGame.getGameBoard().placeMother();
+        //inizializzazione delle dashboard
+        easyGame.initializeDashboards();
+        //inizializzazione delle nuvole
         //Scelta delle torri
         TowerMessage playerOneTower = new TowerMessage(player1 , Type.valueOf("black"));
         gameController.onMessageReceived(playerOneTower);
@@ -212,22 +224,47 @@ public class GameControllerTest {
         chosenAssistants.add(assistantTwo);
         //controllo
         assertEquals(gameController.getTurnController().getChosen() ,chosenAssistants);
-        //TODO : NON SONO SICURO DI QUESTA PARTE. E' SOLAMENTE UNA IPOTESI
+        assertEquals(easyGame.getPlayerByNickname(player1).getCardChosen(), assistantOne);
+        assertFalse(easyGame.getPlayerByNickname(player1).getDeck().getCards().contains(assistantOne));
+        assertEquals(easyGame.getPlayerByNickname(player1).getDeck().getNumCards(), 9);
+        assertEquals(easyGame.getPlayerByNickname(player2).getCardChosen(), assistantTwo);
+        assertFalse(easyGame.getPlayerByNickname(player2).getDeck().getCards().contains(assistantTwo));
+        assertEquals(easyGame.getPlayerByNickname(player2).getDeck().getNumCards(), 9);
+
+
+        //this is the proper start of the game
+        StartMessage readyPlayerOne = new StartMessage(player1, "YES");
+        gameController.onMessageReceived(readyPlayerOne);
+        StartMessage readyPlayerTwo = new StartMessage(player2, "YES");
+        gameController.onMessageReceived(readyPlayerTwo);
+
+        //this should be the thing that return the actual first player???
+        /* THERE ARE TWO (2) CONTRUCTOR????? I CHOOSE THE SECOND ONE SINCE IT'S THE ONE CREATE
+         * BY @SALAD_SLAYER BUT DUNNO IF IT'S RIGHT
+         * TO CHECK
+         * TODO
+         */
+        MatchInfoMessage firstPlayerToChoose = new MatchInfoMessage(1, 2);
+        gameController.onMessageReceived(firstPlayerToChoose);
+
         //Fase di azione
-        Player ettore = new Player("EttoreMajorana", 1);
-        Player stupor = new Player("StuporMundi", 2);
-        easyGame.initializePlayer(ettore);
-        easyGame.initializePlayer(stupor);
-        easyGame.getGameBoard().initializeIslands();
-        easyGame.initializeDashboards();
-        easyGame.getGameBoard().placeMother();
         //Turno del primo giocatore
         //Il giocatore sceglie 3 studenti da spostare su una isola oppure nella sua sala
-        Student chosenStudent1 = ettore.getDashboard().getHall().remove(3);
-        int previousLength1 = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1.getColor()).size();
+        Student chosenStudent1Ettore = ettore.getDashboard().getHall().get(3);
+        Student chosenStudent2Ettore = ettore.getDashboard().getHall().get(4);
+        Student chosenStudent3Ettore = ettore.getDashboard().getHall().get(5);
+        int previousLengthIsland1Ettore = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1Ettore.getColor()).size();
+        int previousLehghtRow1Ettore = ettore.getDashboard().getRow(chosenStudent2Ettore.getColor()).getNumOfStudents();
+        int previousLenghtRow2Ettore = ettore.getDashboard().getRow(chosenStudent3Ettore.getColor()).getNumOfStudents();
+
         //Questa azione deve essere fatta tre volte (isola oppure sala)
-        MoveMessage playerOneMove = new MoveMessage(ettore.getName(),chosenStudent1.getColor(),4);
+        MoveMessage playerOneMove = new MoveMessage(ettore.getName(), chosenStudent1Ettore.getColor(),4 ,easyGame.getGameBoard().getIslands());
         gameController.onMessageReceived(playerOneMove);
+        MoveMessage playerOneMove2 = new MoveMessage(ettore.getName(),chosenStudent2Ettore.getColor(),chosenStudent2Ettore.getColor());
+        gameController.onMessageReceived(playerOneMove2);
+        MoveMessage playerOneMove3 = new MoveMessage(ettore.getName(),chosenStudent3Ettore.getColor(),chosenStudent3Ettore.getColor());
+        gameController.onMessageReceived(playerOneMove3);
+
         //Spostare madre natura su una isola
         int currentPositioneMother = easyGame.getGameBoard().getMotherNature();
         MoveMotherMessage playerOneMotherMove = new MoveMotherMessage(ettore.getName(),2,assistantOne);
@@ -236,12 +273,21 @@ public class GameControllerTest {
         assertEquals(currentPositioneMother + 2,easyGame.getGameBoard().getMotherNature());
         assertTrue(easyGame.getGameBoard().getIslands().get(easyGame.getGameBoard().getMotherNature()).isMotherNature());
         assertFalse(easyGame.getGameBoard().getIslands().get(currentPositioneMother).isMotherNature());
+
         //turno secondo giocatore
-        Student chosenStudent2 = stupor.getDashboard().getHall().remove(3);
-        int previousLength2 = easyGame.getGameBoard().getIslands().get(2).getStudents().get(chosenStudent1.getColor()).size();
+        Student chosenStudent1Stupor = stupor.getDashboard().getHall().get(3);
+        Student chosenStudent2Stupor = stupor.getDashboard().getHall().get(4);
+        Student chosenStudnet3Stupor = stupor.getDashboard().getHall().get(1);
+        int previousLengthIsland1Stupor = easyGame.getGameBoard().getIslands().get(2).getStudents().get(chosenStudent1Ettore.getColor()).size();
+        int previousLength2RowStupor = stupor.getDashboard().getRow(chosenStudent2Stupor.getColor()).getNumOfStudents();
+        int previousLength2islandStupor = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudnet3Stupor.getColor()).size();
         //Questa azione deve essere fatta tre volte (isola oppure sala)
-        MoveMessage playerTwoMove = new MoveMessage(stupor.getName(),chosenStudent2.getColor(),2);
+        MoveMessage playerTwoMove = new MoveMessage(stupor.getName(), chosenStudent1Stupor.getColor(),2,easyGame.getGameBoard().getIslands());
         gameController.onMessageReceived(playerTwoMove);
+        MoveMessage playerTwoMove2 = new MoveMessage(stupor.getName(),chosenStudent2Stupor.getColor(), chosenStudent2Stupor.getColor());
+        gameController.onMessageReceived(playerTwoMove2);
+        MoveMessage playerTwoMove3 = new MoveMessage(stupor.getName() ,chosenStudent2Stupor.getColor(),4,easyGame.getGameBoard().getIslands());
+        gameController.onMessageReceived(playerTwoMove3);
         //Spostare madre natura su una isola
         currentPositioneMother = easyGame.getGameBoard().getMotherNature();
         MoveMotherMessage playerTwoMotherMove = new MoveMotherMessage(stupor.getName(),1,assistantTwo);
@@ -250,12 +296,23 @@ public class GameControllerTest {
         assertEquals(currentPositioneMother + 1,easyGame.getGameBoard().getMotherNature());
         assertTrue(easyGame.getGameBoard().getIslands().get(easyGame.getGameBoard().getMotherNature()).isMotherNature());
         assertFalse(easyGame.getGameBoard().getIslands().get(currentPositioneMother).isMotherNature());
+
+
+
         //controlli
         //controllo sugli studenti spostati
-        int currentLength1 = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1.getColor()).size();
-        assertEquals(previousLength1+1,currentLength1);
-        int currentLength2 = easyGame.getGameBoard().getIslands().get(2).getStudents().get(chosenStudent1.getColor()).size();
-        assertEquals(previousLength2+1,currentLength2);
+        int currentLengthIsland1Ettore = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1Ettore.getColor()).size();
+        assertEquals(previousLengthIsland1Ettore +1, currentLengthIsland1Ettore);
+        int currentLength1IslandStupor = easyGame.getGameBoard().getIslands().get(2).getStudents().get(chosenStudent1Ettore.getColor()).size();
+        assertEquals(previousLengthIsland1Stupor +1, currentLength1IslandStupor);
+        int currentLenghRow1Ettore = ettore.getDashboard().getRow(chosenStudent2Ettore.getColor()).getNumOfStudents();
+        assertEquals(currentLenghRow1Ettore, previousLehghtRow1Ettore +1);
+        int currentLenghtRow2Ettore = ettore.getDashboard().getRow(chosenStudent3Ettore.getColor()).getNumOfStudents();
+        assertEquals(previousLenghtRow2Ettore +1 , currentLenghtRow2Ettore);
+        int currentLenght2RowStupor = stupor.getDashboard().getRow(chosenStudent2Stupor.getColor()).getNumOfStudents();
+        assertEquals(previousLength2RowStupor +1 , currentLenght2RowStupor);
+        int currentLenght2IslandStupor = easyGame.getGameBoard().getIslands().get(4).getStudents().get(chosenStudnet3Stupor.getColor()).size();
+        assertEquals(previousLength2islandStupor +1 , currentLenght2IslandStupor);
 
         //Scegliere una tessera nuvola e aggiungere tre studenti alla hall
         gameController.getTurnController().setActivePlayer(player1);
@@ -298,6 +355,8 @@ public class GameControllerTest {
         gameController.addVirtualView("testNickname",virtualView);
         assertNotNull(gameController.getVirtualViewMap());
     }
+
+
 
 
 }

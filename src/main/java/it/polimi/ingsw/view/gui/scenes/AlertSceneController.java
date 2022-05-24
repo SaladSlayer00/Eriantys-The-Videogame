@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 
 //TODO
-public class AlertSceneController implements BasicSceneController {
+public class AlertSceneController extends BasicSceneController {
 
     private final Stage actualStage;
 
@@ -75,7 +75,7 @@ public class AlertSceneController implements BasicSceneController {
         messageLabel.setText(string);
     }
 
-    public void displayAlert(){
+    public void displayLabel(){
         actualStage.showAndWait();
     }
 

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
@@ -12,8 +13,7 @@ public interface Mode {
 
      public void initializeGameboard() throws noMoreStudentsException;
      public void initializePlayer(Player p);
-     public void initializeDashboards();
-     public void setDeck(Mage m , int playerID);
+     public void initializeDashboards() throws maxSizeException;
      public int getChosenPlayerNumber();
      public Gameboard getGameBoard();
      public int getNumCurrentPlayers();
@@ -22,6 +22,7 @@ public interface Mode {
      public List<Player> getPlayers();
      public List<Player> getActivePlayers();
      public List<String> getPlayersNicknames();
+     public void updateGameboard();
      public Player getPlayerByID(int playerID);
      public Player getPlayerByNickname(String name);
      public ArrayList<Cloud> getEmptyClouds();

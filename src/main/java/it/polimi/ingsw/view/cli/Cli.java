@@ -248,6 +248,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds){
         clearCli();
+        showTable(gameboard, dashboards);
         int index;
         if (availableClouds.size() > 1) {
             String question = "Please "+ nickname + ", select a cloud from the list!";
@@ -271,6 +272,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants){
         clearCli();
+        showTable(gameboard, dashboards);
         Assistant assistant;
         if (!availableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
@@ -291,6 +293,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands){
         clearCli();
+        showTable(gameboard, dashboards);
         Color student;
         String location;
         if (!(students.size()==0)) {
@@ -321,8 +324,9 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void askIslandMoves(Color student, List<Island> islands){
+        clearCli();
+        showTable(gameboard, dashboards);
         String question = "Please, choose where do you want to move your student!";
-        printStudents(student);
         int location;
         try {
             location = islandInput(question, student, islands);
@@ -369,7 +373,6 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int numberInput(String question){
-
         int number = 0;
         do{
 
@@ -462,7 +465,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int cloudInput(List<Cloud> available, String question){
-
+        clearCli();
+        showTable(gameboard, dashboards);
         int number = -1;
         do{
 
@@ -486,7 +490,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public Assistant assistantInput(List<Assistant> available, String question){
-        printBoard();
+        clearCli();
+        showTable(gameboard, dashboards);
         int index;
         Assistant assistant = null;
 
@@ -512,7 +517,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public Color studentInput(String question, List<Student> students){
-        printBoard();
+        clearCli();
+        showTable(gameboard, dashboards);
         Color color = null;
         String in;
         List<Color> colors = new ArrayList<Color>();
@@ -542,6 +548,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public String locationInput(String question){
+        clearCli();
+        showTable(gameboard, dashboards);
         String answer = null;
         do{
 
@@ -561,6 +569,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int islandInput(String question, Color student, List<Island> islands){
+        clearCli();
+        showTable(gameboard, dashboards);
         int index = -1;
         do {
             out.print(question);
@@ -630,19 +640,25 @@ public class Cli extends ViewObservable implements View {
 
     public void showBoard(Gameboard gameboard) {
         StringBuilder strBoardBld = new StringBuilder();
+        String leftAlignFormat = "| 10s%- |";
         strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
-        for (int i = 0; i < 3; i++) {
-                if (i == 0) {
-                    printFirstRow(spaces, strBoardBld, i, j);
-                } else if(i==1) {
-                    printCenterRow(spaces, strBoardBld, i, j);
-                }
-                else{
-                    printLastRow();
-            }
+        for (Island i : gameboard.getIslands()) {
+            System.out.format("+------+%n");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.YELLOW).size() +"]");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.BLUE).size() +"]");
+            System.out.format("+------+%n");
         }
         strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
         out.println(strBoardBld.toString());
+    }
+
+    @Override
+    public void showAssistant(int number){
+        showTable(gameboard, dashboards);
+        String leftAlignFormat = "| %-6d |%n";
+        System.out.format("+------+%n");
+        System.out.format(leftAlignFormat, number);
+        System.out.format("+------+%n");
     }
 
 //TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board

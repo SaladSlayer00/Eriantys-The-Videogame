@@ -139,4 +139,7 @@ public interface View {
     //shows the current state of gameboard
     void showTable(Gameboard gameboard, List<Dashboard> dashboards);
 
+    //shows the assistants chosen
+    void showAssistant(int index);
+
 }

@@ -1,9 +1,18 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.message.ErrorMessage;
 import it.polimi.ingsw.message.Message;
+import it.polimi.ingsw.message.PingMessage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class SocketClient extends Client{
 

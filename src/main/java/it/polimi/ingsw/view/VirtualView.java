@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.observation.BoardMessage;
+import it.polimi.ingsw.message.observation.showAssistantMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.EasyGame;
 import it.polimi.ingsw.model.Student;
@@ -146,6 +147,10 @@ public class VirtualView implements View, Observer {
     @Override
     public void showTable(Gameboard gameBoard, List<Dashboard> dashboards){
         clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards));
+    }
+
+    public void showAssistant(int index){
+        clientHandler.sendMessage(new showAssistantMessage(index));
     }
 
 
