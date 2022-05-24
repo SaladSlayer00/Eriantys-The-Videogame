@@ -94,5 +94,8 @@ public class SceneController extends ViewObservable {
         AlertSceneController alertSC = fxmlLoader.getController();
         Scene alertScene = new Scene(parent);
         alertSC.setScene(alertScene);
+        alertSC.setAlertTitle(mainTitle);
+        alertSC.setAlertMessage(text);
+        alertSC.displayAlert();
     }
 }
