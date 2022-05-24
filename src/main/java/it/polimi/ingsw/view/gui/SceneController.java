@@ -22,7 +22,7 @@ public class SceneController extends ViewObservable {
     public static BasicSceneController activeSceneController;
 
     //getter for the active scene
-    public Scene getActiveScene(){
+    public static Scene getActiveScene(){
         return activeScene;
     }
 
@@ -55,6 +55,11 @@ public class SceneController extends ViewObservable {
     public static <T> T changeRootPane(List<ViewObserver> listOfObserver, Event event, String fxml){
         Scene actualScene = ((Node) event.getSource()).getScene();
         return changeRootPane(listOfObserver, actualScene, fxml);
+    }
+
+
+    public static <T> T changeRootPane(List<ViewObserver> observerList, String fxml){
+        return changeRootPane(observerList, activeScene, fxml);
     }
 
     //another one
