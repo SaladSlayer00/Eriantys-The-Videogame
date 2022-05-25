@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -146,12 +147,8 @@ public class Cli extends ViewObservable implements View {
     public void askGameMode(String nickname, List<modeEnum> gameModes) {
         modeEnum game;
         String question = "Please " + nickname + " choose the game mode: ";
-        try {
-            game = modeInput(gameModes, question);
-            notifyObserver(obs -> obs.OnUpdateGameMode(game));
-        }catch(ExecutionException e){
-        out.println(STR_INPUT_CANCELED);
-        }
+        game = modeInput(gameModes, question);
+        notifyObserver(obs -> obs.OnUpdateGameMode(game));
     }
 
 
@@ -161,12 +158,8 @@ public class Cli extends ViewObservable implements View {
         int playerNumber;
         String question = "How many players are going to play? (You can choose between 2, 3 or 4 players): ";
 
-        try {
-            playerNumber = numberInput(question);
-            notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
-        } catch (ExecutionException e) {
-            out.println(STR_INPUT_CANCELED);
-        }
+        playerNumber = numberInput(question);
+        notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
     }
 
     @Override
@@ -177,14 +170,10 @@ public class Cli extends ViewObservable implements View {
             String question = "Please "+ nickname+", select a mage from the list!";
 
             out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
-            try {
                 mage = mageInput(availableDecks, question);
                 //Mage.choose(mage);
 
                 notifyObserver(obs -> obs.OnUpdateInitDeck(mage));
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
         }
         else if(availableDecks.size() ==1){
             out.println(nickname + ", you're the last player, your mage is: " + availableDecks.get(0).getText());
@@ -204,14 +193,10 @@ public class Cli extends ViewObservable implements View {
         if (availableTeams.size() > 1) {
             String question = "Please "+ nickname + ", select a team from the list!";
             out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
-            try {
-                team = teamInput(availableTeams, question);
+            team = teamInput(availableTeams, question);
                 //Type.choose(team);
 
-                notifyObserver(obs -> obs.OnUpdateInitTower(team));
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
+            notifyObserver(obs -> obs.OnUpdateInitTower(team));
         }
         else if(availableTeams.size() ==1){
             out.println(nickname + ", you're the last player, your team is: "+ availableTeams.get(0).getText());
@@ -231,13 +216,9 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         String input;
         if(answer.equals(null)) {
-            try {
                 String question = "Please "+ nickname + ", select a team from the list!";
                 input = answerInput(question);
                 notifyObserver(obs -> obs.OnStartAnswer(input));
-            } catch (ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
         }
         else{
             showErrorAndExit("wrong message format.");
@@ -253,12 +234,9 @@ public class Cli extends ViewObservable implements View {
         if (availableClouds.size() > 1) {
             String question = "Please "+ nickname + ", select a cloud from the list!";
             out.println("Please, enter the cloud's index and press ENTER.");
-            try {
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
+
         }
         else if(availableClouds.size() ==1){
             out.println(nickname + ", you're the last player, your cloud is: 0 ");
@@ -277,12 +255,8 @@ public class Cli extends ViewObservable implements View {
         if (!availableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
             out.println("Please, enter the assistant's index and press ENTER.");
-            try {
                 assistant = assistantInput(availableAssistants, question);
                 notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
         }
         else{
             showErrorAndExit("no assistants found in the request.");
@@ -298,14 +272,10 @@ public class Cli extends ViewObservable implements View {
         String location;
         if (!(students.size()==0)) {
             String question = "Please, choose a student to move! Enter the LOWERCASE color of it";
-            try {
-                student = studentInput(question, students);
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
+            student = studentInput(question, students);
             out.println("Please, choose where do you want to move your students!");
             question = "Please, enter ISLAND or ROW and press ENTER.";
-            try {
+
                 location = locationInput(question);
                 if("ISLAND".equals(location.toUpperCase())){
                     askIslandMoves(student, islands);
@@ -313,9 +283,6 @@ public class Cli extends ViewObservable implements View {
                 else if("ROW".equals(location.toUpperCase())){
                     notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student,student));
                 }
-            }catch(ExecutionException e) {
-                out.println(STR_INPUT_CANCELED);
-            }
         }
         else{
             showErrorAndExit("no students found in the hall.");
@@ -328,16 +295,36 @@ public class Cli extends ViewObservable implements View {
         showTable(gameboard, dashboards);
         String question = "Please, choose where do you want to move your student!";
         int location;
-        try {
-            location = islandInput(question, student, islands);
-            notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
-        }catch(ExecutionException e) {
-            out.println(STR_INPUT_CANCELED);
-        }
+        location = islandInput(question, student, islands);
+        notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
+        //try {
+          //  location = islandInput(question, student, islands);
+           // notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
+        //}catch(ExecutionException e) {
+            //out.println(STR_INPUT_CANCELED);
+        //}
 
     }
 
+    public void askMotherMoves(String nickname, int possibleMoves) {
+        clearCli();
+        showTable(gameboard, dashboards);
+        int number=0;
+        do{
 
+            try {
+                out.print("Please choose a number of mother nature moves between 1 and "+ possibleMoves);
+                number = Integer.parseInt(readLine());
+
+                if (number < 1 || number > possibleMoves) {
+                    out.println("Invalid number! Please try again.\n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (number < 1 || number > possibleMoves);
+
+    }
 
     public void clearCli() {
         out.print(ColorCli.CLEAR);
@@ -602,6 +589,11 @@ public class Cli extends ViewObservable implements View {
         System.exit(0);
     }
 
+    @Override
+    public void showDrawMessage() {
+
+    }
+
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
 
@@ -645,7 +637,10 @@ public class Cli extends ViewObservable implements View {
         for (Island i : gameboard.getIslands()) {
             System.out.format("+------+%n");
             System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.YELLOW).size() +"]");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.BLUE).size() +"]");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.BLUE).size() +"]\n");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.GREEN).size() +"]");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.PINK).size() +"]\n");
+            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.RED).size() +"]");
             System.out.format("+------+%n");
         }
         strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
@@ -659,6 +654,63 @@ public class Cli extends ViewObservable implements View {
         System.out.format("+------+%n");
         System.out.format(leftAlignFormat, number);
         System.out.format("+------+%n");
+    }
+
+    /**
+     * Shows the login result on the terminal.
+     * On login fail, the program is terminated immediatly.
+     *
+     * @param nicknameAccepted     indicates if the chosen nickname has been accepted.
+     * @param connectionSuccessful indicates if the connection has been successful.
+     * @param nickname             the nickname of the player to be greeted.
+     */
+    @Override
+    public void showLoginResult(boolean nicknameAccepted, boolean connectionSuccessful, String nickname) {
+        clearCli();
+
+        if (nicknameAccepted && connectionSuccessful) {
+            out.println("Hi, " + nickname + "! You connected to the server.");
+        } else if (connectionSuccessful) {
+            askNickname();
+        } else if (nicknameAccepted) {
+            out.println("Max players reached. Connection refused.");
+            out.println("EXIT.");
+
+            System.exit(1);
+        } else {
+            showErrorAndExit("Could not contact server.");
+        }
+    }
+
+    @Override
+    public void errorCommunicationAndExit(String nickname) {
+        inputThread.interrupt();
+
+        out.println("\nERROR: " + nickname);
+        out.println("EXIT.");
+
+        System.exit(1);
+    }
+
+    @Override
+    public void effectEnabled(String summoner) {
+        out.println(summoner);
+    }
+
+    @Override
+    public void showMatchInfo(int chosen, int actual) {
+        out.println("MATCH INFO1");
+    }
+
+    @Override
+    public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {
+        out.println("SHOW INFO2");
+    }
+
+    @Override
+    public void winCommunication(String winner) {
+        out.println("Game finished: " + winner + " WINS!");
+        System.exit(0);
     }
 
 //TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board

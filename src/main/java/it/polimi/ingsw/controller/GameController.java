@@ -27,7 +27,7 @@ import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 //TODO observer update o si leva o si ricicla x esperti
 
 //il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
-public class GameController implements Serializable, Observer {
+public class GameController implements Serializable {
     private InputController inputController;
     private transient Map<String, VirtualView> virtualViewMap;
     private Mode game;
@@ -454,7 +454,7 @@ public class GameController implements Serializable, Observer {
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
             virtualView.showGenericMessage("You've chosen all your students!");
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
-            virtualView.askMotherMoves(game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
+            virtualView.askMotherMoves(turnController.getActivePlayer(),game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
 //            turnController.next();
             turnController.setMoved(0);
 //            turnController.moveMaker();

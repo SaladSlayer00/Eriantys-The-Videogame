@@ -147,7 +147,7 @@ public class ClientController implements ViewObserver, Observer {
                 taskQueue.execute(view::askPlayersNumber);
                 break;
             case MOVE_MOTHER:
-                taskQueue.execute(()->view.askMotherMoves(((MoveMotherMessage)message).getChosenAssistant().getMove()));
+                taskQueue.execute(()->view.askMotherMoves(message.getNickname(),((MoveMotherMessage)message).getChosenAssistant().getMove()));
                 //I'm not sure about that
                 break;
             case PICKCLOUD_REQUEST:
@@ -168,6 +168,9 @@ public class ClientController implements ViewObserver, Observer {
                 GenericMessage genericMessage = (GenericMessage) message;
                 taskQueue.execute(()->view.showGenericMessage(genericMessage.getMessage()));
                 break;
+            case ERROR:
+                ErrorMessage errorMessage = (ErrorMessage) message;
+                taskQueue.execute(()->view.errorCommunicationAndExit(message.getNickname()));
             case DISCONNECTION:
                 DisconnectionMessage disconnectionMessage = (DisconnectionMessage) message;
                 client.disconnect();

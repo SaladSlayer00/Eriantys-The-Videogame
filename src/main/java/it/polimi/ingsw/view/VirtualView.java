@@ -53,9 +53,6 @@ public class VirtualView implements View, Observer {
     }
 
 
-    @Override
-    public void askMovingPaw(List<Student> availableStudents) {
-    }
 
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
@@ -64,7 +61,8 @@ public class VirtualView implements View, Observer {
     @Override
     public void askIslandMoves(Color student, List<Island> islands){}
     @Override
-    public void askMotherMoves(int possibleSteps) {
+    public void askMotherMoves(String nickname, int possibleSteps) {
+        clientHandler.sendMessage(new MoveMotherMessage(nickname, possibleSteps, new Assistant(0, possibleSteps)));
     }
 
     @Override
@@ -95,9 +93,10 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new GenericMessage(genericMessage));
     }
 
-    //TODO
+
     @Override
     public void showLoginResult(boolean nicknameAccepted, boolean connectionResult, String nickname) {
+        clientHandler.sendMessage(new LoginReply(nicknameAccepted, connectionResult));
     }
 
     //TODO
@@ -107,6 +106,7 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void errorCommunicationAndExit(String nickname) {
+        clientHandler.sendMessage(new ErrorMessage(nickname, "Error comunication"));
 
     }
 
@@ -126,7 +126,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void winCommunication(Message winMessage, String winner) {
+    public void winCommunication(String winner) {
 
     }
     @Override

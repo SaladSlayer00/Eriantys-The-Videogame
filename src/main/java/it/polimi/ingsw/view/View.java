@@ -39,9 +39,6 @@ public interface View {
     //the parameter of the method is the list of the cards in the deck which the player can choose from
     void askAssistant(String nickname, List<Assistant> availableAssistants);
 
-    //asks the player which paw (student) they want to move
-    //the parameter of the method is the list of the students that the player can actually move
-    void askMovingPaw(List<Student> availableStudents);
 
     //asks where the player wants to move the paw they have chosen
     //the parameter is the list of admitted positions
@@ -53,7 +50,7 @@ public interface View {
 
     //asks the player how many steps they want Mother Nature to do
     //the parameter of the method is the number of admitted steps (???)
-    void askMotherMoves(int possibleSteps);
+    void askMotherMoves(String nickname, int possibleSteps);
 
     //asks the player which cloud they want to pick the students from
     //the parameter of the method is the list of the remaining cloud
@@ -125,7 +122,7 @@ public interface View {
     //communicates to the winner they have won
     //should we pass the nick of the player or the REAL player???
     //this should be right (((i think)))
-    void winCommunication(Message winMessage, String winner);
+    void winCommunication(String winner);
 
     //TODO
     //tells the player which player has won
