@@ -108,11 +108,11 @@ public class InputController {
         Dashboard activePlayerDashboard = game.getPlayerByNickname(activePlayerNickname).getDashboard();
         if (!(activePlayerDashboard.getHall().contains(new Student(chosenColor)))) {
             virtualView.showGenericMessage("There are no" + chosenColor + "in the hall");
-            virtualView.askMovingPaw(activePlayerDashboard.getHall());
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
             return false;
         } else if (activePlayerDashboard.getRow(chosenColor).getNumOfStudents() == 10) {
             virtualView.showGenericMessage("The chosen row is full");
-            virtualView.askMovingPaw(activePlayerDashboard.getHall());
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
             return false;
         } else {
             return true;
@@ -128,11 +128,11 @@ public class InputController {
         int chosenIndex = moveMessage.getIndex();
         if (!(activePlayerDashboard.getHall().contains(new Student(chosenColor)))) {
             virtualView.showGenericMessage("There are no" + chosenColor + "in the hall");
-            virtualView.askMovingPaw(activePlayerDashboard.getHall());
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
             return false;
         } else if (chosenIndex > (game.getGameBoard().getIslands().size() - 1) || chosenIndex < 0) {
             virtualView.showGenericMessage("Index out Bound ");
-            virtualView.askMovingPaw(activePlayerDashboard.getHall());//non sono sicuro di questo metodo in questa posizione
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());//non sono sicuro di questo metodo in questa posizione
             return false;
         } else {
             return true;
@@ -190,7 +190,7 @@ public class InputController {
             return true;
         } else {
             virtualView.showGenericMessage("move not allowed");
-            virtualView.askMotherMoves(chosenAssistant.getMove());
+            virtualView.askMotherMoves(message.getNickname(),chosenAssistant.getMove());
             return false;
         }
 

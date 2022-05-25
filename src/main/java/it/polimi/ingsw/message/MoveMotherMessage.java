@@ -31,7 +31,7 @@ public class MoveMotherMessage extends Message{
     private final int moves;
     private final Assistant chosenAssistant;
 
-    public MoveMotherMessage(String nickname , int moves , Assistant chosenAssistant){
+    public MoveMotherMessage(String nickname , int moves, Assistant chosenAssistant){
         super(nickname,MessageType.MOVE_MOTHER);
         this.moves = moves;
         this.chosenAssistant = chosenAssistant;
