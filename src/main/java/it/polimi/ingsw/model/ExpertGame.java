@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.maxSizeException;
+import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.GameState;
 
@@ -18,21 +20,25 @@ public class ExpertGame implements Mode{
         this.playerNum = players;
     }
 
+    /*
     @Override
     public void startGame() {
 
     }
+    */
+
 
     @Override
     public void initializeGameboard() {
 
     }
 
+    /*
     @Override
     public void getNumPlayers(int numPlayers) {
 
     }
-
+    */
 
     public void nextState() {
 
@@ -51,7 +57,37 @@ public class ExpertGame implements Mode{
     }
 
     @Override
+    public void initializeDashboards() throws maxSizeException {
+
+    }
+
+    @Override
+    public int getChosenPlayerNumber() {
+        return 0;
+    }
+
+    @Override
     public Gameboard getGameBoard() {
+        return null;
+    }
+
+    @Override
+    public int getNumCurrentPlayers() {
+        return 0;
+    }
+
+    @Override
+    public int getNumCurrentActivePlayers() {
+        return 0;
+    }
+
+    @Override
+    public boolean isNicknameTaken(String nickname) {
+        return false;
+    }
+
+    @Override
+    public List<Player> getPlayers() {
         return null;
     }
 
@@ -66,8 +102,43 @@ public class ExpertGame implements Mode{
     }
 
     @Override
+    public ArrayList<Cloud> getEmptyClouds() {
+        return null;
+    }
+
+    @Override
+    public void resetInstance() {
+
+    }
+
+    @Override
+    public void removePlayerByNickname(String nickname, boolean notifyEnabled) {
+
+    }
+
+    @Override
+    public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber) {
+
+    }
+
+    @Override
+    public List<Character> getExperts() {
+        return null;
+    }
+
+    @Override
     public List<Player> getActivePlayers() {
         return null;
+    }
+
+    @Override
+    public List<String> getPlayersNicknames() {
+        return null;
+    }
+
+    @Override
+    public void updateGameboard() {
+
     }
 
 
