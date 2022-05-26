@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Row {
     //attributes of the class Row
     private Color name;
-    private ArrayList<Student> students;
+    private ArrayList<Student> students = new ArrayList<>();
     private boolean hasProfessor = false;
     private Professor professor; //Can we eliminate it ?
     public static final int MAX_STUDENTS = 10;
@@ -62,5 +62,9 @@ public class Row {
             //we can replace it with an exception
             throw new noProfessorException();
         }
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
     }
 }

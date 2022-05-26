@@ -15,13 +15,13 @@ class ProfessorTest {
     //initialization for the tests
     @BeforeEach
     void startingSetUp(){
-        profTest = new Professor(Color.valueOf("blue"));
+        profTest = new Professor(Color.BLUE);
     }
 
     //testing the getter for the color
     @Test
     @DisplayName("Tests the professor's color getter")
     void getColorTest() {
-        assertEquals(Color.valueOf("blue"), profTest.getColor());
+        assertEquals(Color.BLUE, profTest.getColor());
     }
 }

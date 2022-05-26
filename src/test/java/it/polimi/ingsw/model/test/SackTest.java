@@ -26,17 +26,21 @@ class SackTest {
     //this is the method that put a student inside the sack
     @Test
     void putStudent() {
+
     }
 
     @Test
     void drawStudent() {
+
     }
 
     @Test
     void getNum() {
+
     }
 
     @Test
     void getColors() {
+
     }
 }

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.test;
 
+import it.polimi.ingsw.exceptions.emptyDecktException;
 import it.polimi.ingsw.exceptions.lowerLimitException;
+import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,7 @@ class PlayerTest {
     @BeforeEach
     void startingSetUp(){
         playerT = new Player(name, playerID);
-        playerT.setDeck(Mage.valueOf("fairy"));
+        playerT.setDeck(Mage.FAIRY);
     }
 
     //tests the getter of the name
@@ -35,6 +38,7 @@ class PlayerTest {
     //tests the getter of the deck
     @Test
     void getDeckTest() {
+        assertEquals(playerT.getDeck().getMage(),Mage.FAIRY);
     }
 
     //it returns the player's dashboard
@@ -68,11 +72,23 @@ class PlayerTest {
         assertEquals(1, playerT.getGroup());
     }
 
+    //tests the setter and the getter for the Assistant
+    @Test
+    void AssistantTest() throws emptyDecktException {
+        Assistant aTest = new Assistant(4,3);
+        playerT.setCard(aTest);
+        assertEquals(aTest,playerT.getCardChosen());
+    }
     /* this method uses dashboard so probably not very useful to test it here ???
     @Test
     void takeStudent() {
     }
     */
+    //it tests :
+    @Test
+    void changeStateTest() {
+
+    }
 
     //returns a boolean true if the player has the professor of the color's parameter
     @Test

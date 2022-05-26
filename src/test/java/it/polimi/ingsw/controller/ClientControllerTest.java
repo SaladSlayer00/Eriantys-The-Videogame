@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.Client;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 
 public class ClientControllerTest {
-    @BeforeAll
+    @Before
     public void setUp(){}
-    @AfterAll
+    @After
     public void tearDown(){}
     @Test
     public void isValidIpAddress(){

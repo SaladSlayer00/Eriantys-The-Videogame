@@ -26,6 +26,7 @@ public class EasyGameTest {
         egTest.initializePlayer(new Player("Topolino",1));
         egTest.initializeGameboard();
         egTest.initializeDashboards();
+
     }
     /*
       Method playerGettingByIdTest aims to verify the correctness of the player information getters,

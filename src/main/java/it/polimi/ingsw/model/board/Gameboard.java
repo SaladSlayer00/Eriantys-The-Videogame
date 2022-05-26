@@ -29,6 +29,7 @@ public class Gameboard extends Observable implements Serializable {
             professors.add(p);
         }
         this.sack = new Sack();
+        this.sack.initializeSack();
 
     }
 

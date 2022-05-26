@@ -73,7 +73,7 @@ public class Player {
 
     //should be a good idea to add an exception in case of wrong game mode??
     public void addCoin() {
-        coins += coins;
+        coins = coins+1;
     }
 
     public void removeCoin() throws lowerLimitException {
