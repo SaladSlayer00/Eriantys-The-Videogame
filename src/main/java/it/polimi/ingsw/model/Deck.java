@@ -7,11 +7,12 @@ import it.polimi.ingsw.model.enums.Mage;
 public class Deck {
     //attributes
     private final Mage mage;
-    private ArrayList<Assistant> cards;
+    private ArrayList<Assistant> cards = new ArrayList<Assistant>();
     private int numCards;
 
 
     public Deck(Mage m){
+        this.numCards = 10;
         this.mage = m;
         int moves = 1;
         for(int i = 1;i<11;i++){

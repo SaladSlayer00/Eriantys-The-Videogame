@@ -16,13 +16,13 @@ class StudentTest{
     //initialization for the test
     @BeforeEach
     void startingSetUp(){
-        studenTest = new Student(Color.valueOf("green"));
+        studenTest = new Student(Color.GREEN);
     }
 
     //testing for the one and only method of this class
     @Test
     @DisplayName("Tests for the getter of the color of the student")
     void getColorTest() {
-        assertEquals(Color.valueOf("green"), studenTest.getColor());
+        assertEquals(Color.GREEN, studenTest.getColor());
     }
 }

@@ -39,7 +39,7 @@ class CloudTest {
             add(s3);}};
         ArrayList<Student> s2Test = new ArrayList<Student>() {{
             add(s2);
-            add(s2);
+            add(s5);
             add(s3);
             add(s4);}};
 
@@ -71,7 +71,7 @@ class CloudTest {
             add(s3);}};
         ArrayList<Student> s2Test = new ArrayList<Student>() {{
             add(s2);
-            add(s2);
+            add(s5);
             add(s3);
             add(s4);}};
 
@@ -81,10 +81,8 @@ class CloudTest {
         for(Student s : s2Test){
             c2Test.addStudent(s);
         }
-        ArrayList<Student> a1  = new ArrayList<>(c1Test.removeStudents());
-        ArrayList<Student> a2  = new ArrayList<>(c2Test.removeStudents());
-        assertTrue(c1Test.removeStudents().containsAll(a1));
-        assertTrue(c2Test.removeStudents().containsAll(a2));
+        assertTrue(c1Test.removeStudents().containsAll(s1Test));
+        assertTrue(c2Test.removeStudents().containsAll(s2Test));
         assertTrue(c1Test.emptyCloud());
         assertTrue(c2Test.emptyCloud());
     }

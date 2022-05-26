@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Cloud{
     //attribute of class Cloud
     private int index;
-    private ArrayList<Student> students;
+    private ArrayList<Student> students = new ArrayList<Student>();
     private int dimension;
 
     public Cloud(int dimension){
@@ -25,9 +25,9 @@ public class Cloud{
 
     //it removes a student from the cloud
     public ArrayList<Student> removeStudents(){
-        ArrayList<Student> temp = new ArrayList<>(this.students);
-        for(Student s : students){
-            students.remove(s);
+        ArrayList<Student> temp = new ArrayList<>();
+        for(int i=0 ; i<dimension;i++){
+            temp.add(students.remove(0));
         }
         return temp;
     }
