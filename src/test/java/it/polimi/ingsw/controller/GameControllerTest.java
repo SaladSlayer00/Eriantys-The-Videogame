@@ -12,8 +12,11 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.view.VirtualView;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public class GameControllerTest {
 
 
     //is this a @BeforeAll or a @BeforeEach??? quite sure a @BeforeEach tho
-    @BeforeAll
+    @BeforeEach
     void startingSetUp() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         gameController = new GameController();
         easyGame = new EasyGame(2);
@@ -70,7 +73,7 @@ public class GameControllerTest {
     }
 
     //same thing of the @Before????
-    @AfterAll
+    @After
     //this clears all so to close the game safely
     public void tearDownEverything(){
         gameController = null;
