@@ -143,7 +143,7 @@ public class InputController {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         GameModeReply gameModeReply = ((GameModeReply) message);
         modeEnum mode = gameModeReply.getGameMode();
-        if (!gameModeReply.equals(modeEnum.EASY) && !gameModeReply.equals(modeEnum.EXPERT)) {
+        if (!mode.equals(modeEnum.EASY) && !mode.equals(modeEnum.EXPERT)) {
             virtualView.showGenericMessage("Wrong mode");
             virtualView.askGameMode(message.getNickname() , modeEnum.availableGameModes());
             return false;

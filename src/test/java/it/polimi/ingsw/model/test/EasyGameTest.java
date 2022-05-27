@@ -126,7 +126,13 @@ public class EasyGameTest {
        assertEquals(2,egTest.getEmptyClouds().size());
     }
 
-
+    @Test
+    void initializationTest() {
+        assertNotNull(p1.getDashboard());
+        assertNotNull(p2.getDashboard());
+        assertNull(p3.getDashboard());
+        assertNotNull(egTest.getGameBoard());
+    }
 
 
 

@@ -603,5 +603,8 @@ public class GameController implements Serializable {
         turnController.setVirtualViewMap(this.virtualViewMap);
     }
 
+    public Mode getGame(){
+        return this.game;
+    }
 
 }
