@@ -21,10 +21,12 @@ public class Gameboard extends Observable implements Serializable {
     private int motherNature;
     private int numClouds;
 
+    private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
+
     public Gameboard(int numClouds) {
         this.numClouds = numClouds;
         clouds = new ArrayList<>();
-        for (Color c : sack.getColors()) {
+        for (Color c : colors) {
             Professor p = new Professor(c);
             professors.add(p);
         }
