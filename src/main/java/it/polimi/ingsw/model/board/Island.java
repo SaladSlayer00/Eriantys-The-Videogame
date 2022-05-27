@@ -78,7 +78,7 @@ public class Island {
         }
         else{
             hasTower = true;
-            this.tower = team;
+            this.tower =  team;
         }
     }
 
