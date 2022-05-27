@@ -8,12 +8,13 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 //class Island
 public class Island {
     //attributes of the class Island
-    private Map<Color, ArrayList<Student>> students;
+    private Map<Color, ArrayList<Student>> students = new HashMap<Color,ArrayList<Student>>();
     private boolean motherNature;
     private boolean hasTower = false;
     private Type tower = null;
@@ -24,6 +25,11 @@ public class Island {
     //constructor
     public Island(int index){
         this.index = index;
+        students.put(Color.RED, new ArrayList<Student>());
+        students.put(Color.GREEN, new ArrayList<Student>());
+        students.put(Color.YELLOW, new ArrayList<Student>());
+        students.put(Color.BLUE, new ArrayList<Student>());
+        students.put(Color.PINK, new ArrayList<Student>());
     }
 
     //methods of the class

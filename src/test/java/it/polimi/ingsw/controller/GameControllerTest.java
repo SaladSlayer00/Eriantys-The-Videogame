@@ -51,6 +51,7 @@ public class GameControllerTest {
         gameController = new GameController();
         easyGame = new EasyGame(2);
 
+
         clientHandler = new ClientHandler(){
             @Override
             public boolean isConnected(){

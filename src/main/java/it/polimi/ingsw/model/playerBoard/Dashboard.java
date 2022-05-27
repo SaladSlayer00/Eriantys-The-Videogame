@@ -12,8 +12,8 @@ import java.util.ArrayList;
 //The following class represents the player's dashboard
 public class Dashboard extends Observable {
     //attributes of the class dashboard
-    private int towers;
-    private int numTowers;
+    private int towers; //fiso
+    private int numTowers; //variabile
     private final ArrayList<Row> rows = new ArrayList<>();
     //sbagliato
     private final ArrayList<Student> hall = new ArrayList<>();
@@ -34,6 +34,7 @@ public class Dashboard extends Observable {
         rows.add(new Row(Color.PINK));
         rows.add(new Row(Color.YELLOW));
         rows.add(new Row(Color.BLUE));
+        this.towers = numTowers;
 
 
     }
@@ -68,16 +69,16 @@ public class Dashboard extends Observable {
 
     //puts a tower on the dashboard
     public void putTower() throws fullTowersException {
-        if (towers < numTowers) {
-            towers++;
+        if (towers > numTowers) {
+            numTowers++;
         } else {
             throw new fullTowersException();
         }
     }
 
     public Type getTower() throws noTowersException {
-        if (towers > 0) {
-            towers--;
+        if (numTowers > 0) {
+            numTowers--;
             return this.team;
         }
         throw new noTowersException();
@@ -96,6 +97,7 @@ public class Dashboard extends Observable {
     public int getNumTowers() {
         return numTowers;
     }
+
 
     public ArrayList<Student> getHall() {
         return hall;

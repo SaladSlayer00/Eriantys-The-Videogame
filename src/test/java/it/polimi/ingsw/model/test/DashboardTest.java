@@ -51,7 +51,7 @@ class DashboardTest {
     @DisplayName("Tests the method that have to do with the hall and the students")
     void StudentsInTheHallTest() throws noStudentException {
         //adding a student to the hall
-        Student s = new Student(Color.valueOf("green"));
+        Student s = new Student(Color.GREEN);
         int l1 = d1Test.getHall().size();
         int l2 = d1Test.getHall().size();
         d1Test.addToHall(s);
@@ -59,7 +59,7 @@ class DashboardTest {
         assertTrue(d1Test.getHall().contains(s));
         assertTrue(d2Test.getHall().contains(s));
         assertEquals(l1+1,d1Test.getHall().size());
-        assertEquals(l2-1,d2Test.getHall().size());
+        assertEquals(l2+1,d2Test.getHall().size());
         //taking a student from the hall
         s = d1Test.takeStudent(Color.GREEN);
         assertEquals(s.getColor(),Color.GREEN);
