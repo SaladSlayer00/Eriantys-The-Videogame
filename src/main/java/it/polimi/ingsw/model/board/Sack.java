@@ -54,7 +54,4 @@ public class Sack{
         return students.size();
     }
 
-    public Color[] getColors() {
-        return Arrays.copyOf(colors,colors.length);
-    }
 }

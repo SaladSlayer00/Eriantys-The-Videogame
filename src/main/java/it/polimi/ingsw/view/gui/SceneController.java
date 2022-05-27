@@ -5,6 +5,7 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scenes.AlertSceneController;
 import it.polimi.ingsw.view.gui.scenes.BasicSceneController;
+import it.polimi.ingsw.view.gui.scenes.WinSceneController;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -97,5 +98,23 @@ public class SceneController extends ViewObservable {
         alertSC.setAlertTitle(mainTitle);
         alertSC.setAlertMessage(text);
         alertSC.displayAlert();
+    }
+
+    //this is the thing that controls the popup for the winning message
+    public static void showingTheWinningPopup(String whosTheWinner){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/win_scene.fxml"));
+
+        Parent parente;
+        try{
+            parente = fxmlLoader.load();
+        }catch(IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        WinSceneController winSController = fxmlLoader.getController();
+        Scene winningScene = new Scene(parente);
+        winSController.setScene(winningScene);
+        winSController.setWinnerNick(whosTheWinner);
+        winSController.winnerOnDisplay();
     }
 }
