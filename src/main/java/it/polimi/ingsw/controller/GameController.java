@@ -120,6 +120,7 @@ public class GameController implements Serializable {
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
             game.getPlayers().add(new Player(nickname, ID));
+            game.initializePlayer(game.getActivePlayerByID(ID));
 
             virtualView.showLoginResult(true, true, "server");
             virtualView.askPlayersNumber();
@@ -127,6 +128,8 @@ public class GameController implements Serializable {
         } else if (virtualViewMap.size() < game.getChosenPlayerNumber()) {
             addVirtualView(nickname, virtualView);
             game.getPlayers().add(new Player(nickname, ID));
+            //CONTROLLARE SE HA SENSO
+            game.initializePlayer(game.getActivePlayerByID(ID));
             virtualView.showLoginResult(true, true, "server");
 
             if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged

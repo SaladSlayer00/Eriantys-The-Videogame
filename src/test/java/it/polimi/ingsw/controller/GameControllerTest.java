@@ -36,7 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * Methods are also tested.
  */
 public class GameControllerTest {
-    private EasyGame easyGame;
     private GameController gameController;
     private ClientHandler clientHandler;
 
@@ -187,10 +186,8 @@ public class GameControllerTest {
         //TODO : NON SONO SICURO DI QUESTA PARTE. E' SOLAMENTE UNA IPOTESI
         //Fase iniziale del gioco
         //inizializzazione player
-        Player ettore = new Player("EttoreMajorana", 1);
-        Player stupor = new Player("StuporMundi", 2);
-        gameController.getGame().initializePlayer(ettore);
-        gameController.getGame().initializePlayer(stupor);
+        Player ettore = gameController.getGame().getPlayerByID(1);
+        Player stupor = gameController.getGame().getPlayerByID(2);
         //inizializzazione gameboard
         gameController.getGame().getGameBoard().initializeIslands();
         gameController.getGame().getGameBoard().placeMother();
@@ -198,24 +195,24 @@ public class GameControllerTest {
         gameController.getGame().initializeDashboards();
         //inizializzazione delle nuvole
         //Scelta delle torri
-        TowerMessage playerOneTower = new TowerMessage(player1 , Type.valueOf("black"));
+        TowerMessage playerOneTower = new TowerMessage(player1 , Type.BLACK);
         gameController.onMessageReceived(playerOneTower);
-        TowerMessage playerTwoTower = new TowerMessage(player2 , Type.valueOf("white"));
+        TowerMessage playerTwoTower = new TowerMessage(player2 , Type.WHITE);
         gameController.onMessageReceived(playerTwoTower);
         //Scelta del deck
-        DeckMessage playerOneDeck = new DeckMessage(player1 , Mage.valueOf("mage"));
+        DeckMessage playerOneDeck = new DeckMessage(player1, Mage.MAGE);
         gameController.onMessageReceived(playerOneDeck);
-        DeckMessage playerTwoDeck = new DeckMessage(player2 , Mage.valueOf("fairy"));
+        DeckMessage playerTwoDeck = new DeckMessage(player2 , Mage.FAIRY);
         gameController.onMessageReceived(playerTwoDeck);
         //controllo
-        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDeck(), Mage.valueOf("mage"));
-        assertFalse(Mage.notChosen().contains(Mage.valueOf("mage")));
-        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDeck(), Mage.valueOf("fairy"));
-        assertFalse(Mage.notChosen().contains(Mage.valueOf("fairy")));
-        assertEquals(gameController.getGame().getPlayerByNickname(player1), Type.valueOf("black"));
-        assertFalse(Type.notChosen().contains("black"));
-        assertEquals(gameController.getGame().getPlayerByNickname(player2), Type.valueOf("white"));
-        assertFalse(Type.notChosen().contains("white"));
+        assertEquals(gameController.getGame().getPlayerByNickname(ettore.getName()).getDeck().getMage(), Mage.MAGE);
+        assertFalse(Mage.notChosen().contains(Mage.MAGE));
+        assertEquals(gameController.getGame().getPlayerByNickname(stupor.getName()).getDeck().getMage(), Mage.FAIRY);
+        assertFalse(Mage.notChosen().contains(Mage.FAIRY));
+        assertEquals(gameController.getGame().getPlayerByNickname(player1), Type.BLACK);
+        assertFalse(Type.notChosen().contains(Type.BLACK));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2), Type.WHITE);
+        assertFalse(Type.notChosen().contains(Type.WHITE));
         //Fase di pianificazione
         //scegliamo a caso il primo giocatore per mettere gli studenti sulle nuvole
         gameController.getGame().initializeGameboard();

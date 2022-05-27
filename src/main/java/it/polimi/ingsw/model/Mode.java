@@ -30,4 +30,5 @@ public interface Mode {
      public void removePlayerByNickname(String nickname, boolean notifyEnabled);
      public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber);
      public List<Character> getExperts();
-     }
+     Player getActivePlayerByID(int i);
+}

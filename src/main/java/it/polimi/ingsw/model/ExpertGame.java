@@ -127,6 +127,11 @@ public class ExpertGame implements Mode{
     }
 
     @Override
+    public Player getActivePlayerByID(int i) {
+        return null;
+    }
+
+    @Override
     public List<Player> getActivePlayers() {
         return null;
     }
