@@ -19,7 +19,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
     private List<Player> players;
     private List<Player> activeplayers;
     private int chosenPlayerNumber;
-    private List<Dashboard> dashboards;
+    private List<Dashboard> dashboards ;
 
 
     public EasyGame(int numPlayers) {

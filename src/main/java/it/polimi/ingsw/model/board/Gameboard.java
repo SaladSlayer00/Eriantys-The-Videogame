@@ -52,7 +52,8 @@ public class Gameboard extends Observable implements Serializable {
     public void initializeIslands() throws noMoreStudentsException {
         islands = new ArrayList<Island>();
         for (int i = 0; i < 12; i++) {
-            islands.set(i, new Island(i));
+            //islands.set(i, new Island(i));
+            islands.add(new Island(i));
         }
         placeMother();
 

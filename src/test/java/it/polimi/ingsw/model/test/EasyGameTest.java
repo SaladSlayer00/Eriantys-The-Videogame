@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.test;
 import it.polimi.ingsw.model.EasyGame;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.GameState;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -18,12 +21,18 @@ import java.awt.*;
 
 public class EasyGameTest {
     EasyGame egTest;
+    Player p1;
+    Player p2;
+    Player p3;
 
     @BeforeEach
     void startingSetup() throws noMoreStudentsException , maxSizeException {
         egTest = new EasyGame(2);
-        egTest.initializePlayer(new Player("Paperino",0));
-        egTest.initializePlayer(new Player("Topolino",1));
+        p1 = new Player("Paperino",0);
+        p2 = new Player("Topolino",1);
+        p3 = new Player("Gastone" ,2);
+        egTest.initializePlayer(p1);
+        egTest.initializePlayer(p2);
         egTest.initializeGameboard();
         egTest.initializeDashboards();
 
@@ -72,9 +81,6 @@ public class EasyGameTest {
 
     @Test
     void getPlayersTest() {
-        Player p1 = new Player("Paperino",0);
-        Player p2 = new Player("Topplino",1);
-        Player p3 = new Player("Gastone" ,2);
         assertTrue(egTest.getPlayers().contains(p1));
         assertTrue(egTest.getPlayers().contains(p2));
         assertFalse(egTest.getPlayers().contains(p3));
@@ -83,9 +89,6 @@ public class EasyGameTest {
 
     @Test
     void getActivePlayersTest() {
-        Player p1 = new Player("Paperino",0);
-        Player p2 = new Player("Topplino",1);
-        Player p3 = new Player("Gastone" ,2);
         assertTrue(egTest.getActivePlayers().contains(p1));
         assertTrue(egTest.getActivePlayers().contains(p2));
         assertFalse(egTest.getActivePlayers().contains(p3));
@@ -109,6 +112,18 @@ public class EasyGameTest {
         assertEquals(egTest.getPlayerByID(1), egTest.getPlayerByNickname("Topolino"));
         assertNull(egTest.getPlayerByID(5));
 
+    }
+
+    @Test
+    void emptyCloudTest() {
+       egTest.getGameBoard().createClouds();
+       assertEquals(2 ,egTest.getEmptyClouds().size());
+       egTest.getGameBoard().getCloud(0).addStudent(new Student(Color.PINK));
+       egTest.getGameBoard().getCloud(0).addStudent(new Student(Color.BLUE));
+        egTest.getGameBoard().getCloud(0).addStudent(new Student(Color.RED));
+       assertEquals(1 , egTest.getEmptyClouds().size());
+       List<Student> students = egTest.getGameBoard().getCloud(0).removeStudents();
+       assertEquals(2,egTest.getEmptyClouds().size());
     }
 
 
