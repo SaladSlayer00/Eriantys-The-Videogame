@@ -78,7 +78,6 @@ public class GameControllerTest {
     public void tearDownEverything(){
         gameController = null;
         clientHandler = null;
-        easyGame = null;
     }
 
     private void connectAndSetUpTestMatch(String player1, String player2) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
@@ -324,11 +323,11 @@ public class GameControllerTest {
         //Scegliere una tessera nuvola e aggiungere tre studenti alla hall
         gameController.getTurnController().setActivePlayer(player1);
         PickCloudMessage playerOneCloud = new PickCloudMessage(player1,1);
-        List<Cloud> cloudOne = new ArrayList<Cloud>((Collection<? extends Cloud>) easyGame.getGameBoard().getCloud(1));
+        List<Cloud> cloudOne = new ArrayList<Cloud>((Collection<? extends Cloud>) gameController.getGame().getGameBoard().getCloud(1));
         gameController.onMessageReceived(playerOneCloud);
         gameController.getTurnController().setActivePlayer(player2);
         PickCloudMessage playerTwoCloud = new PickCloudMessage(player2,0);
-        List<Cloud> cloudTwo = new ArrayList<Cloud>((Collection<? extends Cloud>) easyGame.getGameBoard().getCloud(0));
+        List<Cloud> cloudTwo = new ArrayList<Cloud>((Collection<? extends Cloud>) gameController.getGame().getGameBoard().getCloud(0));
         gameController.onMessageReceived(playerTwoCloud);
         //controlli
         assertTrue(gameController.getGame().getGameBoard().getCloud(0).emptyCloud());
