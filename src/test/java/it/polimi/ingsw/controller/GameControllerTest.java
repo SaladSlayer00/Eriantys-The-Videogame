@@ -114,27 +114,27 @@ public class GameControllerTest {
         * if the variable match with the one chosen by the player that we can say that the test is passed i guess
         * DOUBLE CHECK ON THE PLAYER ATTRIBUTE AND ON THE LIST OF NOT CHOSEN DECKS
          */
-        assertEquals(easyGame.getPlayerByNickname(player1).getDeck(), Mage.valueOf("mage"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDeck(), Mage.valueOf("mage"));
         assertFalse(Mage.notChosen().contains(Mage.valueOf("mage")));
 
         //same thing for the other player
         DeckMessage playerTwoDeck = new DeckMessage(player2, Mage.valueOf("fairy"));
         gameController.onMessageReceived(playerTwoDeck);
         //same test as the one done on the first player
-        assertEquals(easyGame.getPlayerByNickname(player2).getDeck(), Mage.valueOf("fairy"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDeck(), Mage.valueOf("fairy"));
         assertFalse(Mage.notChosen().contains(Mage.valueOf("fairy")));
 
         //now the players choose their teams (the towers' color)
         TowerMessage playerOneTower = new TowerMessage(player1, Type.valueOf("black"));
         gameController.onMessageReceived(playerOneTower);
         //testing
-        assertEquals(easyGame.getPlayerByNickname(player1).getDashboard().getTeam(), Type.valueOf("black"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDashboard().getTeam(), Type.valueOf("black"));
         assertFalse(Type.notChosen().contains("black"));
 
         TowerMessage playerTwoTower = new TowerMessage(player2, Type.valueOf("white"));
         gameController.onMessageReceived(playerTwoTower);
         //testing
-        assertEquals(easyGame.getPlayerByNickname(player2).getDashboard().getTeam(), Type.valueOf("white"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDashboard().getTeam(), Type.valueOf("white"));
         assertFalse(Type.notChosen().contains("white"));
 
         //this is the proper start of the game
@@ -161,20 +161,20 @@ public class GameControllerTest {
         *  - the card chosen ISN'T in the deck anymore
         *  - the number of cards in the deck is 9 since the card chosen has been removed
          */
-        Assistant assistantOne = easyGame.getPlayerByNickname(player1).getDeck().draw(2);
+        Assistant assistantOne = gameController.getGame().getPlayerByNickname(player1).getDeck().draw(2);
         AssistantMessage playerOneChoice = new AssistantMessage(player1, assistantOne);
         gameController.onMessageReceived(playerOneChoice);
-        assertEquals(easyGame.getPlayerByNickname(player1).getCardChosen(), assistantOne);
-        assertFalse(easyGame.getPlayerByNickname(player1).getDeck().getCards().contains(assistantOne));
-        assertEquals(easyGame.getPlayerByNickname(player1).getDeck().getNumCards(), 9);
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getCardChosen(), assistantOne);
+        assertFalse(gameController.getGame().getPlayerByNickname(player1).getDeck().getCards().contains(assistantOne));
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDeck().getNumCards(), 9);
 
         //now it's the turn of the second player
-        Assistant assistantTwo = easyGame.getPlayerByNickname(player2).getDeck().draw(3);
+        Assistant assistantTwo = gameController.getGame().getPlayerByNickname(player2).getDeck().draw(3);
         AssistantMessage playerTwoChoice = new AssistantMessage(player2, assistantTwo);
         gameController.onMessageReceived(playerTwoChoice);
-        assertEquals(easyGame.getPlayerByNickname(player2).getCardChosen(), assistantTwo);
-        assertFalse(easyGame.getPlayerByNickname(player2).getDeck().getCards().contains(assistantTwo));
-        assertEquals(easyGame.getPlayerByNickname(player2).getDeck().getNumCards(), 9);
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getCardChosen(), assistantTwo);
+        assertFalse(gameController.getGame().getPlayerByNickname(player2).getDeck().getCards().contains(assistantTwo));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDeck().getNumCards(), 9);
 
     }
 
