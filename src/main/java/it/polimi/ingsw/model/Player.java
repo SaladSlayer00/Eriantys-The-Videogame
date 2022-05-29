@@ -15,7 +15,7 @@ public class Player {
     private Dashboard dashboard;
     private int coins = 0;
     private Assistant cardChosen;
-    private ArrayList<Color> professors;
+    private ArrayList<Color> professors = new ArrayList<>();
     private int group = 0;
 
     public Player(String name, int playerID){
