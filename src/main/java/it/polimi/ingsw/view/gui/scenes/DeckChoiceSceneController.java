@@ -12,13 +12,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeckChoiceSceneController extends ViewObservable implements BasicSceneController {
 
     private List<Mage> mageList;
 
+    private int howManyDecks;
+
     private int mageIndex;
+
+    private Mage theChosenOne;
+
+    private List<Mage> magesChosen;
 
     @FXML
     private Button previousMageButton;
@@ -32,6 +39,11 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     private Button okayLetsGoButton;
     @FXML
     private ImageView mageImage;
+    //should there be a thing like an imageview for the selevted mage???
+
+    public DeckChoiceSceneController(){
+        mageIndex = 0;
+    }
 
     @FXML
     public void initialization(){
@@ -99,14 +111,20 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
 
     //handles the clicks on the chosen mage button
     private void onTheChosenOneButtonClicked(Event mouseEvent){
-        //i think something is missed here...
+        //here we have to add the thing for the choice
         checkWhitchButtonHasBeenSelected();
+        updateMageChosenListView();
     }
 
     //handles the clicks on the mage that it has not been chosen
     private void onThisIsNotTheOneButtonClicked(Event mouseEvent){
-        //TODO
+        //here we have to add the things for the choice
+        checkWhitchButtonHasBeenSelected();
+        updateMageChosenListView();
     }
 
-    //TODO
+    //handles the clicks on the button that confirm the choise
+    public void onOkayLetsGoButtonClicked(Event mouseEvent){
+
+    }
 }
