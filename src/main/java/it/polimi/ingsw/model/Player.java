@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.State;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.exceptions.*;
 
@@ -21,6 +22,7 @@ public class Player {
     public Player(String name, int playerID){
         this.name = name;
         this.playerID = playerID;
+        this.state = State.START;
     }
 
     public void setDashboard(Dashboard playerDashboard){
@@ -63,7 +65,7 @@ public class Player {
     }
 
     //we assume that the card is chosen through the passage of the index of the card inside the deck
-    public void setCard(Assistant card) throws emptyDecktException{
+    public void setCard(Assistant card) {
         cardChosen = card;
     }
 
