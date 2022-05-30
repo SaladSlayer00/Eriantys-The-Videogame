@@ -54,4 +54,8 @@ public class Sack{
         return students.size();
     }
 
+    public ArrayList<Student> getStudents(){
+        return students;
+    }
+
 }

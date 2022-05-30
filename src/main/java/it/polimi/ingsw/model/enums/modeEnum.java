@@ -6,7 +6,7 @@ import java.util.List;
 public enum modeEnum {
     EASY("easy"),
     EXPERT("expert");
-    private static final ArrayList<modeEnum> available = new ArrayList<modeEnum>(Arrays.asList(EASY,EXPERT)) ;
+    private static final ArrayList<modeEnum> available = new ArrayList<modeEnum>(Arrays.asList(modeEnum.EASY,modeEnum.EXPERT)) ;
     private String mode;
 
     modeEnum(String mode){this.mode = mode;}
