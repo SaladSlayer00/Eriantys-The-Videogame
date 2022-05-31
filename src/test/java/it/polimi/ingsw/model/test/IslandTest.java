@@ -107,14 +107,10 @@ class IslandTest {
     void getStudents() {}
     @Test
     void addStudentOnIsland() {}
+    @Test
+    void getColor() {}
 */
-    @Test
-    void addTower() {
-    }
 
-    @Test
-    void getColor() {
-    }
 
     //it tests all the methods related to the island's dimension
     @Test
@@ -161,6 +157,10 @@ class IslandTest {
         assertTrue(islandTest.getTower());
 
     }
+    /*
+    @Test
+    void addTower() {}
+     */
 
 }
 
