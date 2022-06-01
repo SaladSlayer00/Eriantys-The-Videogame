@@ -37,6 +37,10 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     public void initializePlayer(Player p) {
         //this.players.add(p);
+        if(!this.players.contains(p));
+        {
+            this.players.add(p);
+        }
         this.activeplayers.add(p);
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
     }
@@ -84,6 +88,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     public boolean isNicknameTaken(String nickname) {
         return players.stream().anyMatch(p->nickname.equals((p.getName())));
+
     }
 
     public List<Player> getPlayers() {
