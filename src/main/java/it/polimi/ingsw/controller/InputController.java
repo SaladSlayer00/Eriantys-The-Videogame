@@ -205,7 +205,7 @@ public class InputController {
         TowerMessage towerMessage = ((TowerMessage) message);
         Type chosenTower = towerMessage.getType();
         if (chosenTower.equals(Type.BLACK) || chosenTower.equals(Type.GREY) || chosenTower.equals(Type.WHITE)) {
-            if (Type.isChosen(chosenTower)) {
+            if (!Type.isChosen(chosenTower)) {
                 return true;
             } else {
                 virtualView.showGenericMessage("Tower not available");
@@ -225,8 +225,7 @@ public class InputController {
         DeckMessage deckMessage = ((DeckMessage) message);
         Mage chosenDeck = deckMessage.getMage();
         if (chosenDeck.equals(Mage.MAGE) || chosenDeck.equals(Mage.FAIRY) || chosenDeck.equals(Mage.ELF) || chosenDeck.equals(Mage.DRAGON)) {
-            if (Mage.isChosen(chosenDeck)){
-                System.out.println("ok");
+            if (!Mage.isChosen(chosenDeck)){
                 return true;
             }else{
                 virtualView.showGenericMessage(("Deck not available"));

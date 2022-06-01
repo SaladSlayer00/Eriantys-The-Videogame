@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.enums;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //enumeration for the towers' color
@@ -9,7 +10,7 @@ public enum Type{
     WHITE("white"),
     GREY("grey");
 
-    private static final ArrayList<Type> available = new ArrayList<>();
+    private static final ArrayList<Type> available = new ArrayList<>(Arrays.asList(Type.WHITE,Type.BLACK,Type.GREY));
 
     //it's the string of the color of the tower
     private String color;

@@ -23,7 +23,7 @@ public class TurnController implements Serializable {
     private MainPhase mainPhase;
     private PhaseType phaseType;
     private final GameController gameController;
-    private ArrayList<Assistant> chosen;
+    private ArrayList<Assistant> chosen = new ArrayList<>();
     private int moved = 0;
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
@@ -165,7 +165,7 @@ public class TurnController implements Serializable {
         }
         for(int i = 0; i < var; var++){
             Student s = sack.drawStudent();
-            if(s.equals(null)){
+            if(s == null){
                 game.setNoMoreStudents(true);
                 break;
             }

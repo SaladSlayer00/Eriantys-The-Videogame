@@ -85,6 +85,7 @@ public class GameControllerTest {
     //BUT i don't understand where the problem might be cuz i can't get the way the controller handles the messages
     //like how can it be possible that the case switch with the login catch the number of players but it doesn't have to be written???
     private void connectAndSetUpTestMatch(String player1, String player2) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+        gameController.loginHandler(player1,1,new VirtualView(clientHandler));
         GameModeReply gameModeReply= new GameModeReply(player1, modeEnum.EASY);
         gameController.onMessageReceived(gameModeReply);
         //LoginRequest loginRequest = new LoginRequest(player1);
@@ -211,13 +212,16 @@ public class GameControllerTest {
         assertFalse(Mage.notChosen().contains(Mage.MAGE));
         assertEquals(gameController.getGame().getPlayerByNickname(stupor.getName()).getDeck().getMage(), Mage.FAIRY);
         assertFalse(Mage.notChosen().contains(Mage.FAIRY));
-        assertEquals(gameController.getGame().getPlayerByNickname(player1), Type.BLACK);
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDashboard().getTeam(), Type.BLACK);
         assertFalse(Type.notChosen().contains(Type.BLACK));
-        assertEquals(gameController.getGame().getPlayerByNickname(player2), Type.WHITE);
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDashboard().getTeam(), Type.WHITE);
         assertFalse(Type.notChosen().contains(Type.WHITE));
+
+        StartMessage readyPlayerOne = new StartMessage(player1, "YES");
+        gameController.onMessageReceived(readyPlayerOne);
+
         //Fase di pianificazione
         //scegliamo a caso il primo giocatore per mettere gli studenti sulle nuvole
-        gameController.getGame().initializeGameboard();
         gameController.getGame().getGameBoard().createClouds();
         gameController.getTurnController().cloudInitializer(0);
         gameController.getTurnController().cloudInitializer(1);

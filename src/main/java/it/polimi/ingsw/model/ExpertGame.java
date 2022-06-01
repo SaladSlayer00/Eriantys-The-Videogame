@@ -126,6 +126,16 @@ public class ExpertGame implements Mode{
         return null;
     }
 
+    @Override
+    public boolean getNoMoreStudents() {
+        return false;
+    }
+
+    @Override
+    public void setNoMoreStudents(boolean ans) {
+
+    }
+
 
     @Override
     public List<Player> getActivePlayers() {
