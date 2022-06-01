@@ -69,6 +69,11 @@ public class InputController {
                 return checkInitTower(message);
             case INIT_DECK:
                 return checkInitDeck(message);
+                /*
+            case INIT_GAMEBOARD:
+                return true;
+
+                 */
             default:
                 return false;
 

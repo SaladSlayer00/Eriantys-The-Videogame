@@ -197,6 +197,7 @@ public class GameController implements Serializable {
 
             case INIT_GAMEBOARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
+                    System.out.println("ok");
                     startHandler((StartMessage) receivedMessage);
                 }
                 break;
@@ -553,8 +554,8 @@ public class GameController implements Serializable {
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
-        EasyGame easyGame = (EasyGame) game;
-        easyGame.addObserver(virtualView);
+        //EasyGame easyGame = (EasyGame) game;
+        //easyGame.addObserver(virtualView);
         //game.getGameBoard().addObserver(virtualView);
     }
 
@@ -600,5 +601,7 @@ public class GameController implements Serializable {
     public Mode getGame(){
         return this.game;
     }
+
+    public GameState getGameState() {return this.gameState;}
 
 }
