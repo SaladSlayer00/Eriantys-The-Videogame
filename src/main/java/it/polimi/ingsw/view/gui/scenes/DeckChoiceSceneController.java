@@ -1,5 +1,4 @@
 package it.polimi.ingsw.view.gui.scenes;
-
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
@@ -45,6 +44,8 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         mageIndex = 0;
     }
 
+    /*
+    //THIS SHOULD BE DELATE AFTER THE TESTING OF THE GAME CONTROLLER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @FXML
     public void initialization(){
         setMageImage(mageList.get(0).getText());
@@ -127,4 +128,6 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     public void onOkayLetsGoButtonClicked(Event mouseEvent){
 
     }
+    */
+    //THIS IS THE END OF THE COMMENT THAT I PUT TO TEST THE GAME CONTROLLER!!!!!!!
 }

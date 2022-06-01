@@ -1,9 +1,12 @@
 package it.polimi.ingsw.message;
 
 public enum MessageType {
-        LOGIN_REQUEST, LOGIN_REPLY,
-        PLAYERNUMBER_REQUEST, PLAYERNUMBER_REPLY,
-        GAMEMODE_REPLY, GAMEMODE_REQUEST,
+        LOGIN_REQUEST,
+        LOGIN_REPLY,
+        PLAYERNUMBER_REQUEST,
+        PLAYERNUMBER_REPLY,
+        GAMEMODE_REPLY,
+        GAMEMODE_REQUEST,
         LOBBY,
         INIT_DECK,
         ASK_DECK,

@@ -15,16 +15,4 @@ import java.util.Timer;
  */
 public class GameboardSceneController extends ViewObservable implements BasicSceneController {
 
-    private static final String WHAT_II_HAS_BEEN_SELECTED = "wantedPane";
-
-    private Node node;
-    private Position position;
-    private int whatCanBeClicked;
-    private final List<Position> listOfClickedPosition;
-    private MessageType clicked;
-
-    private Timer timer;
-
-    //niente raga mo bisogna capire come sistemare le cose qua
-    @FXML
 }

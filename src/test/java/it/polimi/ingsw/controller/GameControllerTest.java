@@ -105,7 +105,7 @@ public class GameControllerTest {
         //TODO
         /* okay i might have some problems with the creation of the setting of the game
          */
-        DeckMessage playerOneDeck = new DeckMessage(player1, Mage.valueOf("mage"));
+        DeckMessage playerOneDeck = new DeckMessage(player1, Mage.MAGE);
         gameController.onMessageReceived(playerOneDeck); //??? i think this is super wrong
 
         /* best way to do now to test the correspondence between the value chosen and the real value
@@ -113,14 +113,14 @@ public class GameControllerTest {
         * if the variable match with the one chosen by the player that we can say that the test is passed i guess
         * DOUBLE CHECK ON THE PLAYER ATTRIBUTE AND ON THE LIST OF NOT CHOSEN DECKS
          */
-        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDeck(), Mage.valueOf("mage"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player1).getDeck().getMage(), Mage.MAGE);
         assertFalse(Mage.notChosen().contains(Mage.valueOf("mage")));
 
         //same thing for the other player
-        DeckMessage playerTwoDeck = new DeckMessage(player2, Mage.valueOf("fairy"));
+        DeckMessage playerTwoDeck = new DeckMessage(player2, Mage.FAIRY);
         gameController.onMessageReceived(playerTwoDeck);
         //same test as the one done on the first player
-        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDeck(), Mage.valueOf("fairy"));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2).getDeck().getMage(), Mage.FAIRY);
         assertFalse(Mage.notChosen().contains(Mage.valueOf("fairy")));
 
         //now the players choose their teams (the towers' color)
@@ -246,7 +246,7 @@ public class GameControllerTest {
 
         //this should be the thing that return the actual first player???
         /* THERE ARE TWO (2) CONTRUCTOR????? I CHOOSE THE SECOND ONE SINCE IT'S THE ONE CREATE
-         * BY @SALAD_SLAYER BUT DUNNO IF IT'S RIGHT
+         * BY @salad_slayer BUT DUNNO IF IT'S RIGHT
          * TO CHECK
          * TODO
          */
