@@ -80,6 +80,10 @@ public class GameControllerTest {
         clientHandler = null;
     }
 
+
+    //there should be a bug on the acquisition of the number of players
+    //BUT i don't understand where the problem might be cuz i can't get the way the controller handles the messages
+    //like how can it be possible that the case switch with the login catch the number of players but it doesn't have to be written???
     private void connectAndSetUpTestMatch(String player1, String player2) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         GameModeReply gameModeReply= new GameModeReply(player1, modeEnum.EASY);
         gameController.onMessageReceived(gameModeReply);
