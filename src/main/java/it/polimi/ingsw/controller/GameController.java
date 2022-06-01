@@ -91,13 +91,14 @@ public class GameController implements Serializable {
             if(inputController.verifyReceivedData(receivedMessage)){
                 gameFactory.setType(((GameModeReply) receivedMessage).getGameMode());
                 this.setGameMode(((GameModeReply) receivedMessage).getGameMode());
-                broadcastGenericMessage("Waiting for other Players. . .");
+                virtualViewMap.get(receivedMessage.getNickname()).askPlayersNumber();
+                setGameState(GameState.LOGIN);
             }
         }
          else{
              Server.LOGGER.warning("Wrong message received from client");
          }
-         setGameState(GameState.LOGIN);
+
     }
 
     private void loginState(Message receivedMessage) throws invalidNumberException {
@@ -124,7 +125,8 @@ public class GameController implements Serializable {
 
 
             virtualView.showLoginResult(true, true, "server");
-            virtualView.askPlayersNumber();
+            //virtualView.askPlayersNumber();
+            virtualView.askGameMode(nickname, modeEnum.availableGameModes());
 
         } else if (virtualViewMap.size() < game.getChosenPlayerNumber()) {
             addVirtualView(nickname, virtualView);
@@ -208,22 +210,16 @@ public class GameController implements Serializable {
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        if (Mage.notChosen().size() > 1){;
+        if (Mage.notChosen().size() > 4-game.getChosenPlayerNumber()){;
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
-        }
-        else if(Mage.notChosen().size()==1){
-            virtualView.showGenericMessage("Your mage calls you! You have the " + Mage.notChosen().get(0) + " deck!");
-            player.setDeck(Mage.notChosen().get(0));
-        }
-        //controllo che non sia già preso, potrebbe farlo nell'input controller
-        if (!Mage.isEmpty()) {
             virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             askDeckToNextPlayer();
-
         }
-        else{
+        else if(Mage.notChosen().size()==4-game.getChosenPlayerNumber()){
+            virtualView.showGenericMessage("Your mage calls you! You have the " + Mage.notChosen().get(0) + " deck!");
+            player.setDeck(Mage.notChosen().get(0));
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
             virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
@@ -253,58 +249,42 @@ public class GameController implements Serializable {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
 
-        if(Type.notChosen().size() > 1){
+        if(Type.notChosen().size() > 3-game.getChosenPlayerNumber()){
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
-
-        }
-        else if(Type.notChosen().size()==1){
-            virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
-            player.getDashboard().setTeam(Type.notChosen().get(0));
-        }
-        if (!Type.isEmpty()) {
             virtualView.showGenericMessage("You chose your team. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their team.", turnController.getActivePlayer());
             askTowerToNextPlayer();
 
         }
-        else{
+        //supporta solo per 2-3
+        else if(Type.notChosen().size()==3-getGame().getChosenPlayerNumber()){
+            virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
+            player.getDashboard().setTeam(Type.notChosen().get(0));
             broadcastGenericMessage("All decks and teams are set! The mode of the game is " + gameMode +
                     " and the number of players is "+ this.game.getChosenPlayerNumber() + ".");
             virtualView.showGenericMessage("Are you sure you want to start the game with these settings?");
             //yes or no
             virtualView.askStart(turnController.getActivePlayer(), null);
-
         }
-
 
     }
 
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException, maxSizeException {
 
-        if (Mage.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
-            turnController.next();
-            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-            vv.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
-        }
-        else if (Type.notChosen().size() != MAX_PLAYERS - game.getChosenPlayerNumber()) {
-            turnController.next();
-            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-            vv.askInitType(turnController.getActivePlayer(),Type.notChosen());
-        }
-        else if(receivedMessage.getAnswer().equalsIgnoreCase("NO")){
-            //chiedi al player cosa vuole editare
-        }
-        else {
+        if(receivedMessage.getAnswer().equalsIgnoreCase("yes")){
             turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
             startGame();
         }
+        else {
+            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
+            vv.askStart(turnController.getActivePlayer(), null);
+
+        }
 
     }
-    //mette il numero di torri giusto in base al numero che sarà assegnato in fase di inizializzazione
-
 
     public void setGameMode(modeEnum gameMode) {
         this.gameMode = gameMode;
@@ -316,7 +296,6 @@ public class GameController implements Serializable {
         turnController.broadcastMatchInfo();
         turnController.newTurn();
         game.updateGameboard();
-
     }
 
     private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
@@ -389,10 +368,15 @@ public class GameController implements Serializable {
         //quello che manda deve essere activeplayer dove lo controlla??
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio
+        if(game.getNoMoreStudents()){
+            broadcastGenericMessage("There are no more students in the sack! The game's over.");
+            draw();
+        }
         //sarà da scrivere il messaggio col giusto formato
         if(game.getEmptyClouds().size() > 1){
             virtualView.showGenericMessage("Please pick the cloud you want to setup. ");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is picking the clouds.", turnController.getActivePlayer());
+            turnController.next();
             turnController.pickCloud();
         }
 
@@ -415,7 +399,7 @@ public class GameController implements Serializable {
         if(player.getDeck().getNumCards()==0){
             //broadcastDrawMessage();
             broadcastGenericMessage("Game finished! It's a draw!");
-            endGame();
+            draw();
         }
 
         //check sulla carta uguale la facciamo nell'input controller
@@ -457,9 +441,7 @@ public class GameController implements Serializable {
             virtualView.showGenericMessage("You've chosen all your students!");
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
             virtualView.askMotherMoves(turnController.getActivePlayer(),game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
-//            turnController.next();
             turnController.setMoved(0);
-//            turnController.moveMaker();
         }
         game.updateGameboard();
     }
@@ -482,7 +464,7 @@ public class GameController implements Serializable {
         }
         if(game.getGameBoard().getIslands().size()==3){
             broadcastGenericMessage("The game is finished! It's a draw!");
-            endGame();
+            draw();
         }
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
@@ -514,15 +496,24 @@ public class GameController implements Serializable {
     }
 
 
-
+    public void draw(){
+        int max = 0;
+        String winner=turnController.getActivePlayer();
+        for(Player p : game.getPlayers()){
+            if(p.getProfessors().size()>max){
+                max = p.getProfessors().size();
+                winner = p.getName();
+            }
+        }
+        turnController.setActivePlayer(winner);
+        win();
+    }
 
 
     public void endGame() {
         game.resetInstance();
-
         StorageData storageData = new StorageData();
         storageData.delete();
-
         initGameController();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }

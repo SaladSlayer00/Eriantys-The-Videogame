@@ -36,10 +36,7 @@ public class Sack{
 
     //it draws a student from the sack TO CHECK
     public Student drawStudent() {
-        if(students.isEmpty()){
-            //TODO segnala fine gioco
-        }
-        else {
+        if(!students.isEmpty()){
             int random = (int)(Math.random() * students.size()); //it chooses randomly the type of student to draw
             Student chosen = students.get(random);
             students.remove(random);

@@ -309,20 +309,9 @@ public class Cli extends ViewObservable implements View {
     public void askMotherMoves(String nickname, int possibleMoves) {
         clearCli();
         showTable(gameboard, dashboards);
-        int number=0;
-        do{
-
-            try {
-                out.print("Please choose a number of mother nature moves between 1 and "+ possibleMoves);
-                number = Integer.parseInt(readLine());
-
-                if (number < 1 || number > possibleMoves) {
-                    out.println("Invalid number! Please try again.\n");
-                }
-            } catch (IllegalArgumentException | ExecutionException e) {
-                out.println("Invalid mode! Please try again.");
-            }
-        } while (number < 1 || number > possibleMoves);
+        int number;
+        number = motherInput(possibleMoves);
+        notifyObserver(obs -> obs.OnUpdateMoveMother(number, null));
 
     }
 
@@ -357,6 +346,24 @@ public class Cli extends ViewObservable implements View {
         } while (!modeEnums.contains(mode));
 
         return mode;
+    }
+
+    public int motherInput(int possibleMoves){
+        int number = 0;
+        do{
+            try {
+                out.print("Please choose a number of mother nature moves between 1 and "+ possibleMoves);
+                number = Integer.parseInt(readLine());
+
+                if (number < 1 || number > possibleMoves) {
+                    out.println("Invalid number! Please try again.\n");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid mode! Please try again.");
+            }
+        } while (number < 1 || number > possibleMoves);
+
+        return number;
     }
 
     public int numberInput(String question){
@@ -606,6 +613,8 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void showTable(Gameboard gameboard, List<Dashboard> dashboards ){
         clearCli();
+        this.gameboard=gameboard;
+        this.dashboards=dashboards;
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");

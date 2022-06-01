@@ -164,14 +164,18 @@ public class TurnController implements Serializable {
             var = 4;
         }
         for(int i = 0; i < var; var++){
-            cloud.addStudent(sack.drawStudent());
+            Student s = sack.drawStudent();
+            if(s.equals(null)){
+                game.setNoMoreStudents(true);
+                break;
+            }
+            cloud.addStudent(s);
         }
     }
     //passa quelle da non mettere
     public void drawAssistant(){
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Please choose which card to draw!");
-        Player player = game.getPlayerByNickname(getActivePlayer());
         //lista che si passava come parametro per fare scegliere il player
         vv.askAssistant(activePlayer,chosen);
     }
@@ -210,7 +214,6 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(player);
         player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
         moved++;
-
     }
 
     public void moveOnIsland(Color color, int index) throws noStudentException {

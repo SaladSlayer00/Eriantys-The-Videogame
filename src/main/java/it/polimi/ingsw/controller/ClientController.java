@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.message.*;
+import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.board.Island;
@@ -164,6 +165,9 @@ public class ClientController implements ViewObserver, Observer {
                         matchInfoMessage.getActivePlayers(),
                         matchInfoMessage.getActivePlayerNickname()));
                 break;
+            case BOARD:
+                BoardMessage boardMessage = (BoardMessage) message;
+                taskQueue.execute(()->view.showTable(boardMessage.getBoard(),boardMessage.getDashboards()));
             case GENERIC_MESSAGE:
                 GenericMessage genericMessage = (GenericMessage) message;
                 taskQueue.execute(()->view.showGenericMessage(genericMessage.getMessage()));

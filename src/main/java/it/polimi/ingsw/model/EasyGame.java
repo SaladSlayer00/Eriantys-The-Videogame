@@ -20,6 +20,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
     private List<Player> activeplayers;
     private int chosenPlayerNumber;
     private List<Dashboard> dashboards ;
+    private boolean noMoreStudents;
 
 
     public EasyGame(int numPlayers) {
@@ -27,6 +28,14 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.players = new ArrayList<>();
         this.activeplayers = new ArrayList<>();
         this.dashboards=new ArrayList<>();
+        this.noMoreStudents= false;
+    }
+    public boolean getNoMoreStudents(){
+        return this.noMoreStudents;
+    }
+
+    public void setNoMoreStudents(boolean ans){
+        this.noMoreStudents=ans;
     }
 
     public void initializeGameboard() throws noMoreStudentsException {

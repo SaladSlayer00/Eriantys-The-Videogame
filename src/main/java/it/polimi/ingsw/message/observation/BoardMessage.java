@@ -25,4 +25,12 @@ public class BoardMessage extends Message {
                 ", dashboards=" + this.dashboards +
                 '}';
     }
+
+    public Gameboard getBoard() {
+        return board;
+    }
+
+    public List<Dashboard> getDashboards() {
+        return dashboards;
+    }
 }
