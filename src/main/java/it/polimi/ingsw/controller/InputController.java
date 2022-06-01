@@ -226,6 +226,7 @@ public class InputController {
         Mage chosenDeck = deckMessage.getMage();
         if (chosenDeck.equals(Mage.MAGE) || chosenDeck.equals(Mage.FAIRY) || chosenDeck.equals(Mage.ELF) || chosenDeck.equals(Mage.DRAGON)) {
             if (Mage.isChosen(chosenDeck)){
+                System.out.println("ok");
                 return true;
             }else{
                 virtualView.showGenericMessage(("Deck not available"));

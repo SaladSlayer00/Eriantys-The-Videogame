@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.enums;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Mage {
@@ -9,8 +10,7 @@ public enum Mage {
     FAIRY("fairy"),
     DRAGON("dragon");
 
-    private static final ArrayList<Mage> available = new ArrayList<>();
-
+    private static final ArrayList<Mage> available = new ArrayList<>(Arrays.asList(Mage.MAGE, Mage.FAIRY ,Mage.ELF,Mage.DRAGON));
     //string that specifies the type of the mage
     private String mageType;
 

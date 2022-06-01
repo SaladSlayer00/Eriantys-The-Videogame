@@ -119,17 +119,17 @@ public class GameController implements Serializable {
 
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
-            game.getPlayers().add(new Player(nickname, ID));
-            game.initializePlayer(game.getActivePlayerByID(ID));
+            //game.getPlayers().add(new Player(nickname, ID));
+            game.initializePlayer(new Player(nickname,ID));
+
 
             virtualView.showLoginResult(true, true, "server");
             virtualView.askPlayersNumber();
 
         } else if (virtualViewMap.size() < game.getChosenPlayerNumber()) {
             addVirtualView(nickname, virtualView);
-            game.getPlayers().add(new Player(nickname, ID));
-            //CONTROLLARE SE HA SENSO
-            game.initializePlayer(game.getActivePlayerByID(ID));
+            //game.getPlayers().add(new Player(nickname, ID));
+            game.initializePlayer(new Player(nickname,ID));
             virtualView.showLoginResult(true, true, "server");
 
             if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged
@@ -208,8 +208,7 @@ public class GameController implements Serializable {
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        if (Mage.notChosen().size() > 1){
-
+        if (Mage.notChosen().size() > 1){;
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
         }

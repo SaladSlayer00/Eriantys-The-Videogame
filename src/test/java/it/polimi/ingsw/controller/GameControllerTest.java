@@ -98,8 +98,6 @@ public class GameControllerTest {
 
 
 
-        assertEquals(gameController.getGame().getNumCurrentPlayers(), 2);
-
     }
 
     @Test
@@ -194,17 +192,20 @@ public class GameControllerTest {
         gameController.getGame().getGameBoard().placeMother();
         //inizializzazione delle dashboard
         gameController.getGame().initializeDashboards();
-        //inizializzazione delle nuvole
-        //Scelta delle torri
-        TowerMessage playerOneTower = new TowerMessage(player1 , Type.BLACK);
-        gameController.onMessageReceived(playerOneTower);
-        TowerMessage playerTwoTower = new TowerMessage(player2 , Type.WHITE);
-        gameController.onMessageReceived(playerTwoTower);
         //Scelta del deck
+        gameController.getTurnController().setActivePlayer(player1);
         DeckMessage playerOneDeck = new DeckMessage(player1, Mage.MAGE);
         gameController.onMessageReceived(playerOneDeck);
+        gameController.getTurnController().setActivePlayer(player2);
         DeckMessage playerTwoDeck = new DeckMessage(player2 , Mage.FAIRY);
         gameController.onMessageReceived(playerTwoDeck);
+        //Scelta delle torri
+        gameController.getTurnController().setActivePlayer(player1);
+        TowerMessage playerOneTower = new TowerMessage(player1,Type.BLACK);
+        gameController.onMessageReceived(playerOneTower);
+        gameController.getTurnController().setActivePlayer(player2);
+        TowerMessage playerTwoTower = new TowerMessage(player2 , Type.WHITE);
+        gameController.onMessageReceived(playerTwoTower);
         //controllo
         assertEquals(gameController.getGame().getPlayerByNickname(ettore.getName()).getDeck().getMage(), Mage.MAGE);
         assertFalse(Mage.notChosen().contains(Mage.MAGE));
@@ -364,6 +365,13 @@ public class GameControllerTest {
         assertNotNull(gameController.getVirtualViewMap());
     }
 
+    @Test
+    public void numberOfPlayerTest() {
+        assertEquals(gameController.getGame().getNumCurrentPlayers(), 2);
+        assertEquals(gameController.getGame().getPlayers().size(),2);
+        assertEquals(gameController.getGame().getActivePlayers().size(),2);
+        assertEquals(gameController.getGame().getNumCurrentActivePlayers(),2);
+    }
 
 
 
