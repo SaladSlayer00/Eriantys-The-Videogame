@@ -106,6 +106,7 @@ public class GameController implements Serializable {
             if (inputController.verifyReceivedData(receivedMessage)) {
                 this.game = gameFactory.getMode(gameFactory.getType(), ((PlayerNumberReply) receivedMessage).getPlayerNumber());
                 this.inputController.setGame(game);
+                game.initializePlayer(new Player(receivedMessage.getNickname(), 1));
                 broadcastGenericMessage("Waiting for other Players . . .");
             }
         }
@@ -121,8 +122,7 @@ public class GameController implements Serializable {
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
             //game.getPlayers().add(new Player(nickname, ID));
-            game.initializePlayer(new Player(nickname,ID));
-
+            //game.initializePlayer(new Player(nickname,ID));
 
             virtualView.showLoginResult(true, true, "server");
             //virtualView.askPlayersNumber();

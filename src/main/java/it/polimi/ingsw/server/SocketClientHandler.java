@@ -31,6 +31,7 @@ public class SocketClientHandler implements ClientHandler, Runnable{
         this.inputLock = new Object();
         this.outputLock = new Object();
         ids.add(new Object());
+        ids.add(new Object());
         try {
             this.output = new ObjectOutputStream(client.getOutputStream());
             this.input = new ObjectInputStream(client.getInputStream());
