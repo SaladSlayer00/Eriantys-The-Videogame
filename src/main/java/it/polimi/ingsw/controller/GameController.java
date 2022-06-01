@@ -553,8 +553,9 @@ public class GameController implements Serializable {
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
-        //game.addObserver(virtualView);
-        game.getGameBoard().addObserver(virtualView);
+        EasyGame easyGame = (EasyGame) game;
+        easyGame.addObserver(virtualView);
+        //game.getGameBoard().addObserver(virtualView);
     }
 
     public Map<String, VirtualView> getVirtualViewMap() {

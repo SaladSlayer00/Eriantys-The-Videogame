@@ -22,7 +22,14 @@ import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
-
+    public static final String RED = "RED";
+    private static final String GREEN = "GREEN";
+    private static final String YELLOW = "YELLOW";
+    private static final String BG_BLACK = "BACKGROUND_BLACK";
+    private static final String RST = "RST";
+    private static final String WHITE = "WHITE";
+    private static final String BG_PURPLE = "BG_PURPLE";
+    private static final HashMap<String, String> nameMapColor = new HashMap<>();
     private Gameboard gameboard;
     private List<Dashboard> dashboards;
     private final PrintStream out;
@@ -31,7 +38,21 @@ public class Cli extends ViewObservable implements View {
 
     public Cli() {
         out = System.out;
+        nameMapColor.put(GREEN, Constants.ANSI_GREEN);
+        nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
+        nameMapColor.put(RED, Constants.ANSI_RED);
+        nameMapColor.put(RST, Constants.ANSI_RESET);
+        nameMapColor.put("BLUE", Constants.ANSI_BLUE);
+        nameMapColor.put("CYAN", Constants.ANSI_CYAN);
+        nameMapColor.put(BG_PURPLE, Constants.ANSI_BACKGROUND_PURPLE);
+        nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
+        nameMapColor.put(WHITE, Constants.ANSI_WHITE);
     }
+
+
+
+
+
 
     /**
      * Reads a line from the standard input.
