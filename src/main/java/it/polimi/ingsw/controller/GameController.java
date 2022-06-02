@@ -373,6 +373,7 @@ public class GameController implements Serializable {
     private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
         //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         //quello che manda deve essere activeplayer dove lo controlla??
+        game.updateGameboard();
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio
         if(game.getNoMoreStudents()){
@@ -393,7 +394,7 @@ public class GameController implements Serializable {
             turnController.resetChosen();
             turnController.drawAssistant();
         }
-        game.updateGameboard();
+
 
     }
     private void drawAssistantHandler(AssistantMessage receivedMessage) throws emptyDecktException {
