@@ -128,13 +128,8 @@ public interface View {
     //tells the player which player has won
     void showWinMessage(String winner);
 
-    //TODO
-    //tells the players that the match's a draw
-    void showDrawMessage();
+    void updateTable(Gameboard gameboard, List<Dashboard> dashboards);
 
-    //TODO
-    //shows the current state of gameboard
-    void showTable(Gameboard gameboard, List<Dashboard> dashboards);
 
     //shows the assistants chosen
     void showAssistant(int index);

@@ -9,6 +9,8 @@ public enum ColorCli {
     RED("\033[0;31m"),      // RED
     GREEN("\033[38;5;28m"),    // GREEN  "\u001B[32m"
     BLUE("\033[0;34m"),     // BLUE
+    PURPLE("\033[35m"),
+    ANSI_YELLOW("\033[33m"),
 
     // Bold
     YELLOW_BOLD("\033[1;33m"), // YELLOW

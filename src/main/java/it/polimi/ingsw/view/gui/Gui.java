@@ -125,18 +125,14 @@ public class Gui extends ViewObservable implements View {
 
     }
 
-    @Override
-    public void showDrawMessage() {
-
-    }
-
-    @Override
-    public void showTable(Gameboard gameboard, List<Dashboard> dashboards) {
-
-    }
 
     @Override
     public void showAssistant(int index) {
+
+    }
+
+    @Override
+    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
 
     }
 }

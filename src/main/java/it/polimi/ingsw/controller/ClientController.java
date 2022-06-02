@@ -143,7 +143,8 @@ public class ClientController implements ViewObserver, Observer {
                 break;
             case INIT_GAMEBOARD:
                 StartMessage startMessage = (StartMessage) message;
-                taskQueue.execute(()->view.askStart(message.getNickname(), null));
+                taskQueue.execute(()->view.askStart(message.getNickname(), "START"));
+                break;
             case PLAYERNUMBER_REQUEST:
                 taskQueue.execute(view::askPlayersNumber);
                 break;
@@ -167,7 +168,7 @@ public class ClientController implements ViewObserver, Observer {
                 break;
             case BOARD:
                 BoardMessage boardMessage = (BoardMessage) message;
-                taskQueue.execute(()->view.showTable(boardMessage.getBoard(),boardMessage.getDashboards()));
+                taskQueue.execute(()->view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards()));
             case GENERIC_MESSAGE:
                 GenericMessage genericMessage = (GenericMessage) message;
                 taskQueue.execute(()->view.showGenericMessage(genericMessage.getMessage()));

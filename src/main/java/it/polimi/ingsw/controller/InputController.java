@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.isNull;
+
 //This class verifies that all messages sent by client contain valid information
 public class InputController {
     private static final long serialVersionUID = 1L;
@@ -69,11 +71,8 @@ public class InputController {
                 return checkInitTower(message);
             case INIT_DECK:
                 return checkInitDeck(message);
-                /*
             case INIT_GAMEBOARD:
                 return true;
-
-                 */
             default:
                 return false;
 
@@ -86,7 +85,10 @@ public class InputController {
             view.showGenericMessage("Forbidden name.");
             view.showLoginResult(false, true, null);
             return false;
-        } else if (game.isNicknameTaken(nickname)) {
+        }
+        else if(isNull(game)){
+            return true;
+        }else if (game.isNicknameTaken(nickname)) {
             view.showGenericMessage("Nickname already taken.");
             view.showLoginResult(false, true, null);
             return false;

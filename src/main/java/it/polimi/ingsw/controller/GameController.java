@@ -107,6 +107,8 @@ public class GameController implements Serializable {
                 this.game = gameFactory.getMode(gameFactory.getType(), ((PlayerNumberReply) receivedMessage).getPlayerNumber());
                 this.inputController.setGame(game);
                 game.initializePlayer(new Player(receivedMessage.getNickname(), 1));
+                EasyGame easyGame = (EasyGame) game;
+                easyGame.addObserver(virtualViewMap.get(receivedMessage.getNickname()));
                 broadcastGenericMessage("Waiting for other Players . . .");
             }
         }
@@ -160,7 +162,7 @@ public class GameController implements Serializable {
             for(Player p: game.getPlayers()){
                 dashboards.add(p.getDashboard());
             }
-            vv.showTable(game.getGameBoard(), dashboards);
+            vv.updateTable(game.getGameBoard(), dashboards);
         }
 
         for (VirtualView vv : virtualViewMap.values()) {
@@ -194,7 +196,6 @@ public class GameController implements Serializable {
                     towerHandler((TowerMessage) receivedMessage);
                 }
                 break;
-
             case INIT_GAMEBOARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     System.out.println("ok");
@@ -211,16 +212,25 @@ public class GameController implements Serializable {
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        if (Mage.notChosen().size() > 4-game.getChosenPlayerNumber()){;
+        if (Mage.notChosen().size()==4){
+            //4-game.getChosenPlayerNumber()
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
             virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             askDeckToNextPlayer();
         }
-        else if(Mage.notChosen().size()==4-game.getChosenPlayerNumber()){
+        else if(Mage.notChosen().size()==1){
             virtualView.showGenericMessage("Your mage calls you! You have the " + Mage.notChosen().get(0) + " deck!");
             player.setDeck(Mage.notChosen().get(0));
+            virtualView.showGenericMessage("It's your turn now. Please pick your team.");
+            virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
+        }
+        else if(Mage.notChosen().size()<4){
+            player.setDeck(receivedMessage.getMage());
+            Mage.choose(receivedMessage.getMage());
+            virtualView.showGenericMessage("You chose your deck");
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
             virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
@@ -229,11 +239,10 @@ public class GameController implements Serializable {
 
     private void askDeckToNextPlayer() {
         turnController.next();
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his deck...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.showGenericMessage("It's your turn. Please pick your deck.");
         virtualView.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
-
     }
 
     private void askTowerToNextPlayer(){
@@ -250,7 +259,7 @@ public class GameController implements Serializable {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
 
-        if(Type.notChosen().size() > 3-game.getChosenPlayerNumber()){
+        if(Type.notChosen().size() ==3){
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
             virtualView.showGenericMessage("You chose your team. Please wait for the other players to pick!");
@@ -259,31 +268,28 @@ public class GameController implements Serializable {
 
         }
         //supporta solo per 2-3
-        else if(Type.notChosen().size()==3-getGame().getChosenPlayerNumber()){
+        else if(Type.notChosen().size()<3){
             virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
             player.getDashboard().setTeam(Type.notChosen().get(0));
             broadcastGenericMessage("All decks and teams are set! The mode of the game is " + gameMode +
                     " and the number of players is "+ this.game.getChosenPlayerNumber() + ".");
             virtualView.showGenericMessage("Are you sure you want to start the game with these settings?");
             //yes or no
-            virtualView.askStart(turnController.getActivePlayer(), null);
+            virtualView.askStart(turnController.getActivePlayer(), "START");
         }
 
     }
 
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException, maxSizeException {
-
-        if(receivedMessage.getAnswer().equalsIgnoreCase("yes")){
             turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
             startGame();
-        }
-        else {
-            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-            vv.askStart(turnController.getActivePlayer(), null);
-
-        }
+//        else {
+//            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
+//            vv.askStart(turnController.getActivePlayer(), "START");
+//
+//        }
 
     }
 
@@ -543,7 +549,6 @@ public class GameController implements Serializable {
 
 
     //METODI VV
-    //TODO aggiungere observer alla gameboard e player e cloud....
     public void removeVirtualView(String nickname, boolean notifyEnabled) {
         VirtualView vv = virtualViewMap.remove(nickname);
         //non mettiamo observer sul game ma sulla gameboard e sul player e sul cloud.....
@@ -554,9 +559,10 @@ public class GameController implements Serializable {
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
-        //EasyGame easyGame = (EasyGame) game;
-        //easyGame.addObserver(virtualView);
-        //game.getGameBoard().addObserver(virtualView);
+        //if(virtualViewMap.size()>1) {
+            //EasyGame easyGame = (EasyGame) game;
+            //easyGame.addObserver(virtualView);
+        //}
     }
 
     public Map<String, VirtualView> getVirtualViewMap() {

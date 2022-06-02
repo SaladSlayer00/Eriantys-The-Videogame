@@ -59,7 +59,6 @@ public class EasyGame extends Observable implements Serializable, Mode{
             dashboards.add(p.getDashboard());
         }
 
-        updateGameboard();
     }
 
     public void updateGameboard(){

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -22,14 +21,6 @@ import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
-    public static final String RED = "RED";
-    private static final String GREEN = "GREEN";
-    private static final String YELLOW = "YELLOW";
-    private static final String BG_BLACK = "BACKGROUND_BLACK";
-    private static final String RST = "RST";
-    private static final String WHITE = "WHITE";
-    private static final String BG_PURPLE = "BG_PURPLE";
-    private static final HashMap<String, String> nameMapColor = new HashMap<>();
     private Gameboard gameboard;
     private List<Dashboard> dashboards;
     private final PrintStream out;
@@ -38,20 +29,8 @@ public class Cli extends ViewObservable implements View {
 
     public Cli() {
         out = System.out;
-        nameMapColor.put(GREEN, Constants.ANSI_GREEN);
-        nameMapColor.put(YELLOW, Constants.ANSI_YELLOW);
-        nameMapColor.put(RED, Constants.ANSI_RED);
-        nameMapColor.put(RST, Constants.ANSI_RESET);
-        nameMapColor.put("BLUE", Constants.ANSI_BLUE);
-        nameMapColor.put("CYAN", Constants.ANSI_CYAN);
-        nameMapColor.put(BG_PURPLE, Constants.ANSI_BACKGROUND_PURPLE);
-        nameMapColor.put(BG_BLACK, Constants.ANSI_BACKGROUND_BLACK);
-        nameMapColor.put(WHITE, Constants.ANSI_WHITE);
+
     }
-
-
-
-
 
 
     /**
@@ -235,11 +214,11 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askStart(String nickname, String answer){
         clearCli();
-        String input;
-        if(answer.equals(null)) {
-                String question = "Please "+ nickname + ", select a team from the list!";
-                input = answerInput(question);
-                notifyObserver(obs -> obs.OnStartAnswer(input));
+        String inputWord;
+        if(answer.equals("START")) {
+            String question = "Please " + nickname + ", SAY YES OR NO";
+            inputWord = answerInput(question);
+            notifyObserver(obs -> obs.OnStartAnswer(inputWord));
         }
         else{
             showErrorAndExit("wrong message format.");
@@ -250,34 +229,38 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         int index;
         if (availableClouds.size() > 1) {
             String question = "Please "+ nickname + ", select a cloud from the list!";
             out.println("Please, enter the cloud's index and press ENTER.");
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
+                showTable();
 
         }
         else if(availableClouds.size() ==1){
             out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
+            showTable();
         }
         else{
             showErrorAndExit("no clouds found in the request.");
         }
+
     }
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         Assistant assistant;
         if (!availableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
             out.println("Please, enter the assistant's index and press ENTER.");
                 assistant = assistantInput(availableAssistants, question);
                 notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
+                showTable();
         }
         else{
             showErrorAndExit("no assistants found in the request.");
@@ -288,7 +271,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         Color student;
         String location;
         if (!(students.size()==0)) {
@@ -303,6 +286,7 @@ public class Cli extends ViewObservable implements View {
                 }
                 else if("ROW".equals(location.toUpperCase())){
                     notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student,student));
+                    showTable();
                 }
         }
         else{
@@ -313,11 +297,12 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askIslandMoves(Color student, List<Island> islands){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
         location = islandInput(question, student, islands);
         notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
+        showTable();
         //try {
           //  location = islandInput(question, student, islands);
            // notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
@@ -329,11 +314,11 @@ public class Cli extends ViewObservable implements View {
 
     public void askMotherMoves(String nickname, int possibleMoves) {
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         int number;
         number = motherInput(possibleMoves);
         notifyObserver(obs -> obs.OnUpdateMoveMother(number, null));
-
+        showTable();
     }
 
     public void clearCli() {
@@ -356,7 +341,7 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 in = readLine();
-                mode = modeEnum.valueOf(in.toLowerCase());
+                mode = modeEnum.valueOf(in.toUpperCase());
 
                 if (!modeEnums.contains(mode)) {
                     out.println("Invalid mode! Please try again.");
@@ -399,7 +384,7 @@ public class Cli extends ViewObservable implements View {
                     out.println("Invalid number! Please try again.\n");
                 }
             } catch (IllegalArgumentException | ExecutionException e) {
-                out.println("Invalid mode! Please try again.");
+                out.println("Invalid number! Please try again.");
             }
         } while (number < 2 || number > 4);
 
@@ -420,7 +405,7 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 in = readLine();
-                mage = Mage.valueOf(in.toLowerCase());
+                mage = Mage.valueOf(in.toUpperCase());
 
                 if (!available.contains(mage)) {
                     out.println("Invalid mage! Please try again.");
@@ -446,7 +431,7 @@ public class Cli extends ViewObservable implements View {
             out.print("Choose between "+ modeStr + ": ");
             try {
                 in = readLine();
-                team = Type.valueOf(in.toLowerCase());
+                team = Type.valueOf(in.toUpperCase());
 
                 if (!available.contains(team)) {
                     out.println("Invalid mage! Please try again.");
@@ -474,14 +459,14 @@ public class Cli extends ViewObservable implements View {
             } catch (IllegalArgumentException | ExecutionException e) {
                 out.println("Invalid argument! Please try again.");
             }
-        } while (answer.equals(null) || answer.equals("NO"));
+        } while (answer.equals(null) || answer.toUpperCase().equals("NO"));
 
         return answer;
     }
 
     public int cloudInput(List<Cloud> available, String question){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         int number = -1;
         do{
 
@@ -506,7 +491,7 @@ public class Cli extends ViewObservable implements View {
 
     public Assistant assistantInput(List<Assistant> available, String question){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         int index;
         Assistant assistant = null;
 
@@ -533,7 +518,7 @@ public class Cli extends ViewObservable implements View {
 
     public Color studentInput(String question, List<Student> students){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         Color color = null;
         String in;
         List<Color> colors = new ArrayList<Color>();
@@ -549,7 +534,7 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 in = readLine();
-                color = Color.valueOf(in.toLowerCase());
+                color = Color.valueOf(in.toUpperCase());
 
                 if (!colors.contains(color)) {
                     out.println("Invalid student! Please try again.");
@@ -564,7 +549,7 @@ public class Cli extends ViewObservable implements View {
 
     public String locationInput(String question){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         String answer = null;
         do{
 
@@ -585,7 +570,7 @@ public class Cli extends ViewObservable implements View {
 
     public int islandInput(String question, Color student, List<Island> islands){
         clearCli();
-        showTable(gameboard, dashboards);
+        showTable();
         int index = -1;
         do {
             out.print(question);
@@ -617,10 +602,6 @@ public class Cli extends ViewObservable implements View {
         System.exit(0);
     }
 
-    @Override
-    public void showDrawMessage() {
-
-    }
 
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
@@ -632,10 +613,13 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void showTable(Gameboard gameboard, List<Dashboard> dashboards ){
-        clearCli();
+    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
         this.gameboard=gameboard;
         this.dashboards=dashboards;
+    }
+
+    public void showTable(){
+        clearCli();
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");
@@ -679,7 +663,7 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void showAssistant(int number){
-        showTable(gameboard, dashboards);
+        showTable();
         String leftAlignFormat = "| %-6d |%n";
         System.out.format("+------+%n");
         System.out.format(leftAlignFormat, number);

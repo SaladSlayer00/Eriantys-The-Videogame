@@ -139,15 +139,13 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new WinMessage(winner));
     }
 
-    @Override
-    public void showDrawMessage(){
-        clientHandler.sendMessage(new DrawMessage());
-    }
 
     @Override
-    public void showTable(Gameboard gameBoard, List<Dashboard> dashboards){
+    public void updateTable(Gameboard gameBoard, List<Dashboard> dashboards){
         clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards));
     }
+
+
 
     public void showAssistant(int index){
         clientHandler.sendMessage(new showAssistantMessage(index));
