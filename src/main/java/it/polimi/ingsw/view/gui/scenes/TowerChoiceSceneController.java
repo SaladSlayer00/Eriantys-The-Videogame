@@ -93,7 +93,7 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
             nextTowerButton.setDisable(false);
         }
         couldItBeDisabled(previousTowerButton, 0);
-        checkWichButtonHasBeenSelected();
+        checkWhichButtonHasBeenSelected();
         Platform.runLater(this::setTowerImage);
     }
 
@@ -104,7 +104,7 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
             previousTowerButton.setDisable(false);
         }
         couldItBeDisabled(nextTowerButton, availableTowers.size() - 1);
-        checkWichButtonHasBeenSelected();
+        checkWhichButtonHasBeenSelected();
         Platform.runLater(this::setTowerImage);
     }
 
@@ -112,14 +112,14 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
     private void onThisCouldDoButtonClicked(Event mouseEvent){
         chosenTower = availableTowers.get(towerIndex);
         checkWhichButtonHasBeenSelected();
-        updateTowerChosenListView();
+       // updateTowerChosenListView();
     }
 
     //handles the clicks on the button that deselects the color of the towers chosen by the player
     private void onIHaveChangedMyMindButtonClicked(Event mouseEvent){
         chosenTower = null;
-        checkWhichButtonHasBeenSelected():
-        updateTowerChosenView();
+        checkWhichButtonHasBeenSelected();
+        //updateTowerChosenView();
     }
 
     //handles the clicks on the button that confirm the player's choice

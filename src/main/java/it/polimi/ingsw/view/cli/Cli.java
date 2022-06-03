@@ -261,7 +261,7 @@ public class Cli extends ViewObservable implements View {
             String question = "Please "+ nickname + ", select an assistant from the list!";
             out.println("Please, enter the assistant's index and press ENTER.");
             assistant = assistantInput(unavailableAssistants, question);
-            out.println("Assistente scelto "+assistant.getNumOrder() + "\n");
+            out.println("Chosen Assistant: "+assistant.getNumOrder() + "\n");
             notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
                 //showTable();
         }
@@ -278,7 +278,7 @@ public class Cli extends ViewObservable implements View {
         Color student;
         String location;
         if (!(students.size()==0)) {
-            String question = "Please, choose a student to move! Enter the LOWERCASE color of it";
+            String question = "Please, choose a student to move! Enter in LOWERCASE its color";
             student = studentInput(question, students);
             out.println("Please, choose where do you want to move your students!");
             question = "Please, enter ISLAND or ROW and press ENTER.";

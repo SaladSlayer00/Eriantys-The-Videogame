@@ -162,7 +162,7 @@ public class Gameboard extends Observable implements Serializable {
         return false;
     }
 
-    public void createClouds() {
+    public void createClouds(){
         for (int i = 0; i < this.numClouds; i++) {
             clouds.add(new Cloud(numClouds));
         }

@@ -113,7 +113,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         //here we have to add the thing for the choice
         thisIsTheChoice = mageList.get(mageIndex);
         checkWhichButtonHasBeenSelected();
-        updateMageChosenListView();
+        //updateMageChosenListView();
     }
 
     //handles the clicks on the mage that it has not been chosen
@@ -121,7 +121,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         //here we have to add the things for the choice
         thisIsTheChoice = null;
         checkWhichButtonHasBeenSelected();
-        updateMageChosenListView();
+        //updateMageChosenListView();
     }
 
     //handles the clicks on the button that confirm the choice
@@ -139,7 +139,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         okayLetsGoButton.setDisable(true);
     }
 
-    //checks and switchs the status of the button
+    //checks and switches the status of the button
     private void checkWhichButtonHasBeenSelected(){
         if (!theChosenOneButton.isDisable() || thisIsTheChoice != null) {
         } else {
