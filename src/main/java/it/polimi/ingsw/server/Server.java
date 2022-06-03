@@ -33,7 +33,7 @@ public class Server {
      */
 
     //gestire assegnamento id
-    public void addClient(String nickname, int id, ClientHandler clientHandler) {
+    public void addClient(String nickname, int id, ClientHandler clientHandler) throws noMoreStudentsException {
         VirtualView vv = new VirtualView(clientHandler);
 
         if (!gameController.isGameStarted()) {

@@ -116,7 +116,7 @@ public class TurnController implements Serializable {
         return phaseType;
     }
 
-    public void newTurn() {
+    public void newTurn() throws noMoreStudentsException {
         setActivePlayer(nicknameQueue.get(0));
         turnControllerNotify("Turn of " + activePlayer, activePlayer);
         VirtualView vv = virtualViewMap.get(getActivePlayer());
@@ -127,7 +127,12 @@ public class TurnController implements Serializable {
 
         setMainPhase(MainPhase.PLANNING);
         setPhaseType(PhaseType.ADD_ON_CLOUD);
-        pickCloud();
+        cloudInitializer(0);
+        cloudInitializer(1);
+        vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(0).getStudents().size());
+        vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(1).getStudents().size());
+        //pickCloud();
+        drawAssistant();
     }
 
 
@@ -147,6 +152,7 @@ public class TurnController implements Serializable {
         //lista che si passava come parametro per fare scegliere il player
         ArrayList<Cloud> cloudList = game.getEmptyClouds();
         VirtualView virtualView = virtualViewMap.get(activePlayer);
+        virtualView.showGenericMessage("Prova a chiedere la nuvola");
         virtualView.askCloud(activePlayer,cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
         //manderà un messaggio al player con la lista di disponibili booh poi vedremo
     }

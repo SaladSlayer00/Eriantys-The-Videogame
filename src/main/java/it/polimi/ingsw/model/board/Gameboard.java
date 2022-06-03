@@ -31,8 +31,7 @@ public class Gameboard extends Observable implements Serializable {
         }
         this.sack = new Sack();
         this.sack.initializeSack();
-
-
+        createClouds();
     }
 
     public Sack getSack() {

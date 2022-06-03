@@ -253,16 +253,17 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askAssistant(String nickname, List<Assistant> availableAssistants){
+    public void askAssistant(String nickname, List<Assistant> unavailableAssistants){
         clearCli();
-        showTable();
+        //showTable();
         Assistant assistant;
-        if (!availableAssistants.equals(null)) {
+        if (!unavailableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
             out.println("Please, enter the assistant's index and press ENTER.");
-                assistant = assistantInput(availableAssistants, question);
-                notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
-                showTable();
+            assistant = assistantInput(unavailableAssistants, question);
+            out.println("Assistente scelto "+assistant.getNumOrder() + "\n");
+            notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
+                //showTable();
         }
         else{
             showErrorAndExit("no assistants found in the request.");
@@ -491,9 +492,9 @@ public class Cli extends ViewObservable implements View {
         return number;
     }
 
-    public Assistant assistantInput(List<Assistant> available, String question){
+    public Assistant assistantInput(List<Assistant> unavailable, String question){
         clearCli();
-        showTable();
+        //showTable();
         int index;
         Assistant assistant = null;
 
@@ -501,19 +502,22 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 out.print(question);
-                out.print("Choose between ");
-                for(Assistant a : available){
-                    out.print(a.getNumOrder() + "\n");
-                }
-                index = Integer.parseInt(readLine());
+//                out.print("Choose between ");
+//                for(Assistant a : unavailable){
+//                    out.print(a.getNumOrder() + "\n");
+//                }
+                Scanner myInput = new Scanner( System.in );
+
+                index = myInput.nextInt();
                 assistant = new Assistant(index, 0);
-                if (!available.contains(assistant)) {
+
+                if (unavailable.contains(assistant)) {
                     out.println("Invalid assitant! Please try again.\n");
                 }
-            } catch (IllegalArgumentException | ExecutionException e) {
+            } catch (IllegalArgumentException e) {
                 out.println("Invalid mode! Please try again.");
             }
-        } while (!available.contains(assistant));
+        } while (unavailable.contains(assistant) || assistant.getNumOrder()>10||assistant.getNumOrder()<1);
 
         return assistant;
     }

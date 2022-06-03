@@ -119,7 +119,7 @@ public class GameController implements Serializable {
 
 
     //login handler sets the state to INIT
-    public void loginHandler(String nickname, int ID, VirtualView virtualView) {
+    public void loginHandler(String nickname, int ID, VirtualView virtualView) throws noMoreStudentsException {
 
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
@@ -315,12 +315,12 @@ public class GameController implements Serializable {
         this.gameMode = gameMode;
     }
 
-    private void startGame() {
+    private void startGame() throws noMoreStudentsException {
         setGameState(GameState.IN_GAME);
         broadcastGenericMessage("Game Started!");
         turnController.broadcastMatchInfo();
         turnController.newTurn();
-        game.updateGameboard();
+        //game.updateGameboard();
     }
 
     private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
@@ -351,7 +351,7 @@ public class GameController implements Serializable {
     }
 
 //gli handler della azione richiamano il turnController
-    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException {
+    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException, noMoreStudentsException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -391,7 +391,8 @@ public class GameController implements Serializable {
     private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
         //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         //quello che manda deve essere activeplayer dove lo controlla??
-        game.updateGameboard();
+        //game.updateGameboard();
+
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio
         if(game.getNoMoreStudents()){
@@ -500,7 +501,7 @@ public class GameController implements Serializable {
     }
 
 
-    public void getFromCloudHandler(PickCloudMessage message){
+    public void getFromCloudHandler(PickCloudMessage message) throws noMoreStudentsException {
         broadcastGenericMessage("Active player picking their cloud");
         turnController.getFromCloud(message.getCloudIndex());
         if(game.getEmptyClouds().size()==game.getChosenPlayerNumber()){

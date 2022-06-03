@@ -47,7 +47,7 @@ public class SocketServer implements Runnable{
      * @param nickname      the nickname of the new client.
      * @param clientHandler the ClientHandler of the new client.
      */
-    public void addClient(String nickname, int id, ClientHandler clientHandler) {
+    public void addClient(String nickname, int id, ClientHandler clientHandler) throws noMoreStudentsException {
         server.addClient(nickname, id, clientHandler);
     }
 
