@@ -6,7 +6,8 @@ public class PickCloudMessage extends Message{
     private final int index;
 
     public PickCloudMessage(String nickname, int index) {
-        super(nickname, MessageType.INIT_GAMEBOARD);
+        super(nickname, //MessageType.INIT_GAMEBOARD
+                MessageType.PICK_CLOUD);
         this.index = index;
     }
 

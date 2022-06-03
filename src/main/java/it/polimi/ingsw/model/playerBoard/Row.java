@@ -6,11 +6,14 @@ import it.polimi.ingsw.exceptions.noProfessorException;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //the following class represents the dashboard rows
-public class Row {
+public class Row  implements Serializable {
     //attributes of the class Row
+    private static final long serialVersionUID = -3704504226997118508L;
     private Color name;
     private ArrayList<Student> students = new ArrayList<>();
     private boolean hasProfessor = false;

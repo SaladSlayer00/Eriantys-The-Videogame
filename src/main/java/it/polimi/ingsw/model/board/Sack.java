@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.ArrayList;
 
 //class Sack
-public class Sack{
+public class Sack implements Serializable {
 
     //attributes of class Sack
     private ArrayList<Student> students = new ArrayList<>();
@@ -36,13 +38,18 @@ public class Sack{
 
     //it draws a student from the sack TO CHECK
     public Student drawStudent() {
-        if(!students.isEmpty()){
-            int random = (int)(Math.random() * students.size()); //it chooses randomly the type of student to draw
+
+        if (!(students.isEmpty())) {
+            int random = (int) (Math.random() * students.size()); //it chooses randomly the type of student to draw
             Student chosen = students.get(random);
             students.remove(random);
             return chosen;
+        } else {
+            return null;
         }
-        return null;
+
+
+
     }
 
 
@@ -55,4 +62,8 @@ public class Sack{
         return students;
     }
 
+    public boolean isEmptySack(){
+       return students.isEmpty();
+
+    }
 }

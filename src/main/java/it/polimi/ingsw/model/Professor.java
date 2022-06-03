@@ -2,7 +2,10 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.Color;
 
-public class Professor{
+import java.io.Serializable;
+
+public class Professor implements Serializable {
+    private static final long serialVersionUID = -3704504226997118508L;
     private Color color;
 
     public Professor(Color color){

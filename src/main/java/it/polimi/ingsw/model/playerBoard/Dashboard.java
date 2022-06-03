@@ -7,11 +7,13 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.observer.Observable;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //The following class represents the player's dashboard
-public class Dashboard extends Observable {
+public class Dashboard extends Observable implements Serializable {
     //attributes of the class dashboard
+    private static final long serialVersionUID = -3704504226997118508L;
     private int towers; //fiso
     private int numTowers; //variabile
     private final ArrayList<Row> rows = new ArrayList<>();

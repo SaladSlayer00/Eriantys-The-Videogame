@@ -28,6 +28,7 @@ public class MoveMotherMessage extends Message{
 //che deve fare madre natura e all'assistente scelto. In questo modo possiamo controllare che il numero di passi sia
 //compatibile con il numero sulla carta assistente
 public class MoveMotherMessage extends Message{
+    private static final long serialVersionUID = -3704504226997118508L;
     private final int moves;
     private final Assistant chosenAssistant;
 

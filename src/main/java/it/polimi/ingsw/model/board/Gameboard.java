@@ -14,6 +14,7 @@ import it.polimi.ingsw.observer.Observable;
 public class Gameboard extends Observable implements Serializable {
 
     //attributes of the class Gameboard
+    private static final long serialVersionUID = -3704504226997118508L;
     private ArrayList<Island> islands;
     private Sack sack;
     private ArrayList<Cloud> clouds = new ArrayList<>();
@@ -30,8 +31,6 @@ public class Gameboard extends Observable implements Serializable {
             professors.add(p);
         }
         this.sack = new Sack();
-        this.sack.initializeSack();
-        createClouds();
     }
 
     public Sack getSack() {
@@ -71,7 +70,7 @@ public class Gameboard extends Observable implements Serializable {
                 }
             }
         }
-        sack.initializeSack();
+        //sack.initializeSack();
     }
 
     //it checks that there is JUST ONE Mother Nature on the Gameboard
@@ -164,7 +163,7 @@ public class Gameboard extends Observable implements Serializable {
 
     public void createClouds(){
         for (int i = 0; i < this.numClouds; i++) {
-            clouds.add(new Cloud(numClouds));
+            clouds.add(new Cloud(numClouds , i));
         }
     }
 

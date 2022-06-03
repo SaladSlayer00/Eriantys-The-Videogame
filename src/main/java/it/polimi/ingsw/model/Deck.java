@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import it.polimi.ingsw.exceptions.emptyDecktException;
 import it.polimi.ingsw.model.enums.Mage;
 
 //This class represents the player's deck
-public class Deck {
+public class Deck implements Serializable {
     //attributes
+    private static final long serialVersionUID = -3704504226997118508L;
     private final Mage mage;
     private ArrayList<Assistant> cards = new ArrayList<Assistant>();
     private int numCards;

@@ -7,13 +7,15 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.Type;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 //class Island
-public class Island {
+public class Island implements Serializable {
     //attributes of the class Island
+    private static final long serialVersionUID = 1L;
     private Map<Color, ArrayList<Student>> students = new HashMap<Color,ArrayList<Student>>();
     private boolean motherNature;
     private boolean hasTower = false;

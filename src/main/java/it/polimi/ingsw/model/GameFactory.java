@@ -2,7 +2,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.invalidNumberException;
 import it.polimi.ingsw.model.enums.modeEnum;
 
-public class GameFactory {
+import java.io.Serializable;
+
+public class GameFactory implements Serializable {
+    private static final long serialVersionUID = -3704504226997118508L;
     private modeEnum type;
     public GameFactory(){};
 

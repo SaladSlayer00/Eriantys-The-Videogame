@@ -17,8 +17,8 @@ class CloudTest {
     //initial setup
     @BeforeEach
     void startingSetup(){
-        c1Test = new Cloud(2);
-        c2Test = new Cloud(3);
+        c1Test = new Cloud(2,0);
+        c2Test = new Cloud(3,0);
 
     }
     //This is for the method that adds students and

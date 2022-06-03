@@ -127,12 +127,12 @@ public class TurnController implements Serializable {
 
         setMainPhase(MainPhase.PLANNING);
         setPhaseType(PhaseType.ADD_ON_CLOUD);
-        cloudInitializer(0);
-        cloudInitializer(1);
-        vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(0).getStudents().size());
-        vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(1).getStudents().size());
-        //pickCloud();
-        drawAssistant();
+        //cloudInitializer(0);
+        //cloudInitializer(1);
+        //vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(0).getStudents().size());
+        //vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(1).getStudents().size());
+        pickCloud();
+        //drawAssistant();
     }
 
 
@@ -167,14 +167,23 @@ public class TurnController implements Serializable {
         else{
             var = 4;
         }
+/*
         for(int i = 0; i < var; var++){
-            Student s = sack.drawStudent();
+           Student s = sack.drawStudent()
             if(s == null){
                 game.setNoMoreStudents(true);
+                virtualViewMap.get(activePlayer).showGenericMessage("0lllllllll " +  i );
                 break;
             }
             cloud.addStudent(s);
         }
+*/
+
+
+        cloud.addStudent(new Student(Color.GREEN));
+        cloud.addStudent(new Student(Color.RED));
+        cloud.addStudent(new Student(Color.YELLOW));
+
     }
     //passa quelle da non mettere
     public void drawAssistant(){

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import java.util.List;
 
 public class GameModeRequest extends Message{
-    //dunno if it needs the part of the ID??
+    private static final long serialVersionUID = -3704504226997118508L;
     private List<modeEnum> modes;
 
     public GameModeRequest(String nickname, List<modeEnum> modes){

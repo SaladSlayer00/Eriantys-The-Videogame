@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.board.Cloud;
 import java.util.List;
 
 public class PickCloudMessageRequest extends Message{
-    //ID?
+    private static final long serialVersionUID = -3796309698593755714L;
     private List<Cloud> availableClouds;
 
     public PickCloudMessageRequest(String nickname, List<Cloud> availableClouds){

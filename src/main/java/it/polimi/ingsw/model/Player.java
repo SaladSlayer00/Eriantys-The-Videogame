@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.model.enums.Color;
@@ -8,7 +9,8 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.exceptions.*;
 
-public class Player {
+public class Player implements Serializable {
+    private static final long serialVersionUID = -3704504226997118508L;
     private int playerID;
     private String name;
     private Deck deck;

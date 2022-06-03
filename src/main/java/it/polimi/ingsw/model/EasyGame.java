@@ -40,7 +40,10 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     public void initializeGameboard() throws noMoreStudentsException {
         this.gameBoard = new Gameboard(this.chosenPlayerNumber);
+        this.gameBoard.getSack().initializeSack();
         this.gameBoard.initializeIslands();
+        this.gameBoard.createClouds();
+
 
     }
 

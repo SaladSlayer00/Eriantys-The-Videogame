@@ -1,15 +1,18 @@
 package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.model.Student;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //class Cloud
-public class Cloud{
+public class Cloud implements Serializable {
     //attribute of class Cloud
+    private static final long serialVersionUID = 1L;
     private int index;
     private ArrayList<Student> students = new ArrayList<Student>();
     private int dimension;
 
-    public Cloud(int players){
+    public Cloud(int players , int index){
         if(players == 2 || players == 4){
             dimension = 3;
 
@@ -17,6 +20,7 @@ public class Cloud{
         else{
             dimension = 4;
         }
+        this.index = index;
     }
     //methods of cloud
     //it adds a student on the cloud
@@ -43,4 +47,8 @@ public class Cloud{
     public int getIndex() {
         return index;
    }
+
+    public int getDimension() {
+        return dimension;
+    }
 }
