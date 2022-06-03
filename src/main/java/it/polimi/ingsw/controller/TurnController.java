@@ -122,8 +122,8 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Initiate the game! Pick your clouds. . .");
 
-        StorageData storageData = new StorageData();
-        storageData.store(gameController);
+        //StorageData storageData = new StorageData();
+        //storageData.store(gameController);
 
         setMainPhase(MainPhase.PLANNING);
         setPhaseType(PhaseType.ADD_ON_CLOUD);
@@ -144,10 +144,8 @@ public class TurnController implements Serializable {
     //il player SCEGLIE LE CAZZO DI NUVOLE era pickpositions mi pare
     //i controlli sul valore valido penso li farà inputController...???
     public void pickCloud(){
-        ArrayList<Cloud> cloudList;
-        Player player = game.getPlayerByNickname(getActivePlayer());
         //lista che si passava come parametro per fare scegliere il player
-        cloudList = game.getEmptyClouds();
+        ArrayList<Cloud> cloudList = game.getEmptyClouds();
         VirtualView virtualView = virtualViewMap.get(activePlayer);
         virtualView.askCloud(activePlayer,cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
         //manderà un messaggio al player con la lista di disponibili booh poi vedremo

@@ -9,12 +9,13 @@ public class Cloud{
     private ArrayList<Student> students = new ArrayList<Student>();
     private int dimension;
 
-    public Cloud(int dimension){
-        if(dimension == 2 || dimension == 4){
-            this.dimension = 3;
+    public Cloud(int players){
+        if(players == 2 || players == 4){
+            dimension = 3;
+
         }
         else{
-            this.dimension = 4;
+            dimension = 4;
         }
     }
     //methods of cloud
@@ -41,5 +42,5 @@ public class Cloud{
 
     public int getIndex() {
         return index;
-    }
+   }
 }

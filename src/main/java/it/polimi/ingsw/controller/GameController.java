@@ -300,7 +300,7 @@ public class GameController implements Serializable {
             //turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
-            broadcastUpdateMessages();
+            //broadcastUpdateMessages();
             startGame();
 
 //        else {
