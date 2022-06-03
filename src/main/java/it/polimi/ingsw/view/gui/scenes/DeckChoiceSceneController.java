@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.scenes;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -18,13 +19,10 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
 
     private List<Mage> mageList;
 
-    private int howManyDecks;
+    private Mage thisIsTheChoice;
 
     private int mageIndex;
 
-    private Mage theChosenOne;
-
-    private List<Mage> magesChosen;
 
     @FXML
     private Button previousMageButton;
@@ -38,14 +36,14 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     private Button okayLetsGoButton;
     @FXML
     private ImageView mageImage;
-    //should there be a thing like an imageview for the selevted mage???
+
+    //should there be a thing like an imageview for the selected mage???
 
     public DeckChoiceSceneController(){
         mageIndex = 0;
+        thisIsTheChoice = null;
     }
 
-    /*
-    //THIS SHOULD BE DELATE AFTER THE TESTING OF THE GAME CONTROLLER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @FXML
     public void initialization(){
         setMageImage(mageList.get(0).getText());
@@ -106,28 +104,46 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
             previousMageButton.setDisable(false);
         }
         couldItBeDisabled(nextMageButton, mageList.size() - 1);
-        checkWhitchButtonHasBeenSelected();
+        checkWhichButtonHasBeenSelected();
         Platform.runLater(this::setMageImage);
     }
 
     //handles the clicks on the chosen mage button
     private void onTheChosenOneButtonClicked(Event mouseEvent){
         //here we have to add the thing for the choice
-        checkWhitchButtonHasBeenSelected();
+        thisIsTheChoice = mageList.get(mageIndex);
+        checkWhichButtonHasBeenSelected();
         updateMageChosenListView();
     }
 
     //handles the clicks on the mage that it has not been chosen
     private void onThisIsNotTheOneButtonClicked(Event mouseEvent){
         //here we have to add the things for the choice
-        checkWhitchButtonHasBeenSelected();
+        thisIsTheChoice = null;
+        checkWhichButtonHasBeenSelected();
         updateMageChosenListView();
     }
 
-    //handles the clicks on the button that confirm the choise
-    public void onOkayLetsGoButtonClicked(Event mouseEvent){
-
+    //handles the clicks on the button that confirm the choice
+    public void onOkayLetsGoButtonClicked(Event mouseEvent) {
+        disableAllTheButton();
+        new Thread(() -> notifyObserver(observer -> observer.OnUpdateInitDeck(thisIsTheChoice))).start();
     }
-    */
-    //THIS IS THE END OF THE COMMENT THAT I PUT TO TEST THE GAME CONTROLLER!!!!!!!
+
+    //this disables ALL the buttons
+    public void disableAllTheButton(){
+        previousMageButton.setDisable(true);
+        nextMageButton.setDisable(true);
+        thisIsNotTheOneButton.setDisable(true);
+        theChosenOneButton.setDisable(true);
+        okayLetsGoButton.setDisable(true);
+    }
+
+    //checks and switchs the status of the button
+    private void checkWhichButtonHasBeenSelected(){
+        if(theChosenOneButton.isDisable()){
+            theChosenOneButton.setDisable(false);
+        }
+    }
+
 }
