@@ -197,6 +197,7 @@ public class InputController {
         virtualView.askAssistant(message.getNickname(), activePlayerDeck.getCards());
         return false;
 
+
     }
 
     public boolean moveMotherCheck(Message message) {
