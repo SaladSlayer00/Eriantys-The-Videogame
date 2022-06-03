@@ -171,6 +171,23 @@ public class GameController implements Serializable {
         }
     }
 
+    private void broadcastUpdateMessages() {
+        for(VirtualView vv: virtualViewMap.values()) {
+
+            ArrayList<Dashboard> dashboards = new ArrayList<>();
+            for(Player p: game.getPlayers()){
+                dashboards.add(p.getDashboard());
+            }
+            //MI DA ERRORE RIGUARDO ALLA POOL THREAD
+            vv.updateTable(game.getGameBoard(),dashboards);
+
+        }
+
+
+    }
+
+
+
     private void initGame() {
         setGameState(GameState.INIT);
 
@@ -198,7 +215,6 @@ public class GameController implements Serializable {
                 break;
             case INIT_GAMEBOARD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
-                    System.out.println("ok");
                     startHandler((StartMessage) receivedMessage);
                 }
                 break;
@@ -281,10 +297,12 @@ public class GameController implements Serializable {
     }
 
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException, maxSizeException {
-            turnController.next();
+            //turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
+            broadcastUpdateMessages();
             startGame();
+
 //        else {
 //            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
 //            vv.askStart(turnController.getActivePlayer(), "START");

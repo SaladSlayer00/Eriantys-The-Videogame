@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class Cli extends ViewObservable implements View {
     private Gameboard gameboard;
-    private List<Dashboard> dashboards;
+    private List<Dashboard> dashboards = new ArrayList<>();
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
@@ -219,6 +219,8 @@ public class Cli extends ViewObservable implements View {
             String question = "Please " + nickname + ", SAY YES OR NO";
             inputWord = answerInput(question);
             notifyObserver(obs -> obs.OnStartAnswer(inputWord));
+
+
         }
         else{
             showErrorAndExit("wrong message format.");
