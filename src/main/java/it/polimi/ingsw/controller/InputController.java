@@ -179,13 +179,24 @@ public class InputController {
         Assistant chosenAssistant = assistantMessage.getAssistant();
         String activePlayerNickname = gameController.getTurnController().getActivePlayer();
         Deck activePlayerDeck = game.getPlayerByNickname(activePlayerNickname).getDeck();
+        /*
         if (activePlayerDeck.getCards().contains(chosenAssistant)) {
             return true;
         } else {
             virtualView.showGenericMessage("The chosen card is not present in the deck");
-            virtualView.askAssistant(message.getNickname() ,activePlayerDeck.getCards());
+            virtualView.askAssistant(message.getNickname(), activePlayerDeck.getCards());
             return false;
         }
+
+         */
+        for(Assistant assistant : activePlayerDeck.getCards()){
+            if(assistant.getNumOrder() == chosenAssistant.getNumOrder())
+                return true;
+        }
+        virtualView.showGenericMessage("The chosen card is not present in the deck");
+        virtualView.askAssistant(message.getNickname(), activePlayerDeck.getCards());
+        return false;
+
     }
 
     public boolean moveMotherCheck(Message message) {
