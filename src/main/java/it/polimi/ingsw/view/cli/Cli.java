@@ -231,20 +231,20 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds){
         clearCli();
-        showTable();
+        //showTable();
         int index;
         if (availableClouds.size() > 1) {
             String question = "Please "+ nickname + ", select a cloud from the list!";
             out.println("Please, enter the cloud's index and press ENTER.");
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
-                showTable();
+                //showTable();
 
         }
         else if(availableClouds.size() ==1){
             out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
-            showTable();
+            //showTable();
         }
         else{
             showErrorAndExit("no clouds found in the request.");
@@ -468,7 +468,7 @@ public class Cli extends ViewObservable implements View {
 
     public int cloudInput(List<Cloud> available, String question){
         clearCli();
-        showTable();
+        //showTable();
         int number = -1;
         do{
 

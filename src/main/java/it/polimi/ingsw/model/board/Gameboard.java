@@ -16,7 +16,7 @@ public class Gameboard extends Observable implements Serializable {
     //attributes of the class Gameboard
     private ArrayList<Island> islands;
     private Sack sack;
-    private ArrayList<Cloud> clouds;
+    private ArrayList<Cloud> clouds = new ArrayList<>();
     private ArrayList<Professor> professors = new ArrayList<>();
     private int motherNature;
     private int numClouds;
@@ -25,13 +25,13 @@ public class Gameboard extends Observable implements Serializable {
 
     public Gameboard(int numClouds) {
         this.numClouds = numClouds;
-        clouds = new ArrayList<>();
         for (Color c : colors) {
             Professor p = new Professor(c);
             professors.add(p);
         }
         this.sack = new Sack();
         this.sack.initializeSack();
+
 
     }
 
@@ -165,7 +165,6 @@ public class Gameboard extends Observable implements Serializable {
 
     public void createClouds() {
         for (int i = 0; i < this.numClouds; i++) {
-           // this.clouds[i] = new Cloud(this.numClouds);
             clouds.add(new Cloud(numClouds));
         }
     }
