@@ -141,9 +141,19 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
 
     //checks and switchs the status of the button
     private void checkWhichButtonHasBeenSelected(){
-        if(theChosenOneButton.isDisable()){
+        if (!theChosenOneButton.isDisable() || thisIsTheChoice != null) {
+        } else {
             theChosenOneButton.setDisable(false);
         }
+        if(thisIsTheChoice.equals(mageList.get(mageIndex))){
+            theChosenOneButton.setDisable(true);
+            thisIsNotTheOneButton.setDisable(false);
+        } else {
+            theChosenOneButton.setDisable(thisIsTheChoice != null);
+            thisIsNotTheOneButton.setDisable(true);
+        }
     }
+
+    //TODO
 
 }
