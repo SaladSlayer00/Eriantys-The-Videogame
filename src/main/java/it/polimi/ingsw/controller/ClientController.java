@@ -186,10 +186,12 @@ public class ClientController implements ViewObserver, Observer {
                 client.disconnect();
                 view.showDisconnectionMessage(disconnectionMessage.getNicknameDisconnected() , disconnectionMessage.getMessageStr());
                 break;
+            case WIN:
+                WinMessage winMessage = (WinMessage) message;
+                client.disconnect();
+                view.showWinMessage(winMessage.getWinnerNickname());
             default:
                 break;
-            //TODO DEVO TERMINARE AGGIUNGENDO ALTRI CASI . DEVO GUARDARE MEGLIO I MESSAGGI CHE ARRIVANO AL CLIENT DA PARTE DEL SERVER
-
         }
 
     }
