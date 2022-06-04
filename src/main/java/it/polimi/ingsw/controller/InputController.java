@@ -1,14 +1,12 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
-import it.polimi.ingsw.model.enums.modeEnum;
 
 import javax.lang.model.type.DeclaredType;
 import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
@@ -169,15 +167,36 @@ public class InputController {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         PickCloudMessage pickCloudMessage = ((PickCloudMessage) message);
         int chosenIndex = pickCloudMessage.getCloudIndex();
-        if (chosenIndex < 0 || chosenIndex > game.getChosenPlayerNumber()) {
-            virtualView.showGenericMessage("Index out Bound ");
+        if (gameController.getTurnController().getMainPhase().equals(MainPhase.PLANNING)) {
+            if ((chosenIndex < 0 || chosenIndex >= game.getChosenPlayerNumber())) {
+                virtualView.showGenericMessage("Index out Bound ");
+            } else {
+                for (Cloud cloud : game.getEmptyClouds()) {
+                    if (cloud.getIndex() == chosenIndex) {
+                        return true;
+                    }
+                }
+                virtualView.showGenericMessage("Empty cloud");
+            }
             virtualView.askCloud(message.getNickname(), game.getGameBoard().getClouds());
             return false;
         } else {
-            return true;
+            if ((chosenIndex < 0 || chosenIndex >= game.getChosenPlayerNumber())) {
+                virtualView.showGenericMessage("Index out Bound ");
+                virtualView.askCloud(message.getNickname(), game.getGameBoard().getClouds());
+                return false;
+            } else {
+                for (Cloud cloud : game.getEmptyClouds()) {
+                    if (cloud.getIndex() == chosenIndex) {
+                        virtualView.showGenericMessage("Empty cloud");
+                        virtualView.askCloud(message.getNickname(), game.getGameBoard().getClouds());
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
     }
-
     public boolean drawAssistantCheck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         AssistantMessage assistantMessage = ((AssistantMessage) message);

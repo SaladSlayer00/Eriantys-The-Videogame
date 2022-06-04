@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
@@ -204,10 +205,13 @@ public class TurnController implements Serializable {
 //                }
 //            }
 //        }
+
+        /*
         for(Player p : game.getPlayers()) {
             if (chosen.isEmpty()) {
                 nicknameQueue.add(p.getName());
             } else {
+
                 for (int i = 0; i < chosen.size(); i++) {
                     if (p.getCardChosen().getNumOrder() > game.getPlayerByNickname(nicknameQueue.get(i)).getCardChosen().getNumOrder()) {
                         nicknameQueue.add(i, p.getName());
@@ -215,6 +219,29 @@ public class TurnController implements Serializable {
                 }
             }
         }
+         */
+        if(chosen.isEmpty()){
+            for(Player p : game.getPlayers()) {
+                nicknameQueue.add((p.getName()));}
+            }else{
+            Collections.sort(chosen, (o1, o2) -> Integer.valueOf(o1.getNumOrder()).compareTo(o2.getNumOrder()));
+            for(Player player: game.getPlayers()){
+                for(Assistant a : chosen){
+                    if(player.getCardChosen().getNumOrder()==a.getNumOrder()){
+                        nicknameQueue.set(chosen.indexOf(a),player.getName());
+                    }
+                }
+            }
+        }
+
+        for(VirtualView virtualView : virtualViewMap.values()){
+            virtualView.showGenericMessage("Order : ");
+            for(String name : nicknameQueue){
+                virtualView.showGenericMessage("-> " + nicknameQueue.size());
+                virtualView.showGenericMessage("-> " + name);
+            }
+        }
+        setActivePlayer(nicknameQueue.get(0));
         this.resetChosen();
         mainPhase = MainPhase.ACTION;
 

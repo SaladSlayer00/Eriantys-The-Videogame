@@ -519,6 +519,8 @@ public class GameController implements Serializable {
             broadcastGenericMessage("Player finished their turn!");
             turnController.next();
             initiateAction();
+
+
         }
         game.updateGameboard();
     }
