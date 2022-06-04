@@ -395,17 +395,13 @@ public class GameController implements Serializable {
         //game.updateGameboard();
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualViewMap.get(receivedMessage.getNickname()).showGenericMessage("1" );
-        turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio
-        virtualViewMap.get(receivedMessage.getNickname()).showGenericMessage("2" );
+        turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio;
         if(game.getNoMoreStudents()){
             broadcastGenericMessage("There are no more students in the sack! The game's over.");
             draw();
         }
-        virtualViewMap.get(receivedMessage.getNickname()).showGenericMessage("3" );
         //sarà da scrivere il messaggio col giusto formato
         if(game.getEmptyClouds().size() >= 1){
-            virtualViewMap.get(receivedMessage.getNickname()).showGenericMessage("5");
             virtualView.showGenericMessage("Please pick the cloud you want to setup. ");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is picking the clouds.", turnController.getActivePlayer());
             //non è sempre lo stesso player ad inizzializzare ?
@@ -415,7 +411,6 @@ public class GameController implements Serializable {
         }
 
         else if (game.getEmptyClouds().size() == 0) {
-            virtualViewMap.get(receivedMessage.getNickname()).showGenericMessage("4" );
             virtualView.showGenericMessage("You chose every cloud! Get ready to choose your assistant");
             broadcastGenericMessage("All clouds are set! Ready to initiate drawing phase!");
             turnController.resetChosen();

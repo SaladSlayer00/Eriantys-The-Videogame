@@ -167,22 +167,17 @@ public class TurnController implements Serializable {
         else{
             var = 4;
         }
-/*
-        for(int i = 0; i < var; var++){
-           Student s = sack.drawStudent()
+
+        for(int i = 0; i < var; i++){
+           Student s = sack.drawStudent();
+           for(VirtualView virtualView: virtualViewMap.values())
+               virtualView.showGenericMessage(s.getColor() +" Student on cloud n° "+ cloudIndex);
             if(s == null){
                 game.setNoMoreStudents(true);
-                virtualViewMap.get(activePlayer).showGenericMessage("0lllllllll " +  i );
                 break;
             }
             cloud.addStudent(s);
         }
-*/
-
-
-        cloud.addStudent(new Student(Color.GREEN));
-        cloud.addStudent(new Student(Color.RED));
-        cloud.addStudent(new Student(Color.YELLOW));
 
     }
     //passa quelle da non mettere
