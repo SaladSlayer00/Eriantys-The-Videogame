@@ -125,6 +125,10 @@ public class ClientController implements ViewObserver, Observer {
     @Override
     public void update(Message message) {
         switch (message.getMessageType()) {
+            case ASK_MOVE:
+                AskMoveMessage askMoveMessage = (AskMoveMessage) message;
+                taskQueue.execute(()->view.askMoves(askMoveMessage.getStudents(),askMoveMessage.getIslands()));
+                break;
             case ASK_TOWER:
                 TowerMessageRequest towerMessageRequest = (TowerMessageRequest) message;
                 taskQueue.execute(() -> view.askInitType(this.nickname, towerMessageRequest.getTypes()));
@@ -169,6 +173,7 @@ public class ClientController implements ViewObserver, Observer {
             case BOARD:
                 BoardMessage boardMessage = (BoardMessage) message;
                 taskQueue.execute(()->view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards()));
+                break;
             case GENERIC_MESSAGE:
                 GenericMessage genericMessage = (GenericMessage) message;
                 taskQueue.execute(()->view.showGenericMessage(genericMessage.getMessage()));

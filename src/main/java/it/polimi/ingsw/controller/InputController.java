@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import javax.lang.model.type.DeclaredType;
 import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -113,8 +114,12 @@ public class InputController {
         Color chosenColor = moveMessage.getColor();
         String activePlayerNickname = gameController.getTurnController().getActivePlayer();
         Dashboard activePlayerDashboard = game.getPlayerByNickname(activePlayerNickname).getDashboard();
-        if (!(activePlayerDashboard.getHall().contains(new Student(chosenColor)))) {
-            virtualView.showGenericMessage("There are no" + chosenColor + "in the hall");
+        List<Color> colors=new ArrayList<>();
+        for(Student s : game.getPlayerByNickname(activePlayerNickname).getDashboard().getHall()){
+            colors.add(s.getColor());
+        }
+        if (!(colors.contains(chosenColor))) {
+            virtualView.showGenericMessage("There are no " + chosenColor + " in the hall");
             virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
             return false;
         } else if (activePlayerDashboard.getRow(chosenColor).getNumOfStudents() == 10) {

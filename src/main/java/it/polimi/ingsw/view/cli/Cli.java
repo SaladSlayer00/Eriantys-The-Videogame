@@ -26,6 +26,7 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
+    int clouds = 0;
 
     public Cli() {
         out = System.out;
@@ -210,7 +211,6 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-    //@TODO riguardare un attimo come funziona sto metodo
     @Override
     public void askStart(String nickname, String answer){
         clearCli();
@@ -233,8 +233,8 @@ public class Cli extends ViewObservable implements View {
         clearCli();
         //showTable();
         int index;
+        String question = "Please "+ nickname + ", select a cloud from the list!";
         if (availableClouds.size() > 1) {
-            String question = "Please "+ nickname + ", select a cloud from the list!";
             out.println("Please, enter the cloud's index and press ENTER.");
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
@@ -245,6 +245,11 @@ public class Cli extends ViewObservable implements View {
             out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
             //showTable();
+        }
+        else if(availableClouds.size()==0 && clouds == 1){
+            index = intInput(question);
+            clouds = 0;
+            notifyObserver(obs -> obs.OnUpdateGetFromCloud(index));
         }
         else{
             showErrorAndExit("no clouds found in the request.");
@@ -274,22 +279,24 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands){
         clearCli();
-        showTable();
+        //showTable();
         Color student;
         String location;
         if (!(students.size()==0)) {
             String question = "Please, choose a student to move! Enter in LOWERCASE its color";
             student = studentInput(question, students);
-            out.println("Please, choose where do you want to move your students!");
+            out.println("Please, choose where do you want to move your students! "+ student.getText());
             question = "Please, enter ISLAND or ROW and press ENTER.";
 
                 location = locationInput(question);
-                if("ISLAND".equals(location.toUpperCase())){
+                if("ISLAND".equalsIgnoreCase(location)){
+                    out.println("ISLAND");
                     askIslandMoves(student, islands);
                 }
-                else if("ROW".equals(location.toUpperCase())){
+                else if("ROW".equalsIgnoreCase(location)){
+                    out.println("ROW");
                     notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student,student));
-                    showTable();
+                    //showTable();
                 }
         }
         else{
@@ -300,12 +307,13 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askIslandMoves(Color student, List<Island> islands){
         clearCli();
-        showTable();
+        //showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
         location = islandInput(question, student, islands);
+        out.println("LOC: "+location);
         notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
-        showTable();
+        //showTable();
         //try {
           //  location = islandInput(question, student, islands);
            // notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
@@ -317,11 +325,13 @@ public class Cli extends ViewObservable implements View {
 
     public void askMotherMoves(String nickname, int possibleMoves) {
         clearCli();
-        showTable();
+        //showTable();
         int number;
         number = motherInput(possibleMoves);
-        notifyObserver(obs -> obs.OnUpdateMoveMother(number, null));
-        showTable();
+        out.println("MOVES: "+number);
+        notifyObserver(obs -> obs.OnUpdateMoveMother(number, new Assistant(0, possibleMoves)));
+        clouds = 1;
+        //showTable();
     }
 
     public void clearCli() {
@@ -371,6 +381,20 @@ public class Cli extends ViewObservable implements View {
                 out.println("Invalid mode! Please try again.");
             }
         } while (number < 1 || number > possibleMoves);
+
+        return number;
+    }
+
+    public int intInput(String question) {
+        int number = -1;
+        do {
+            try {
+                out.println(question);
+                number = Integer.parseInt(readLine());
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid number! Please try again.");
+            }
+        }while(number == -1);
 
         return number;
     }
@@ -497,34 +521,38 @@ public class Cli extends ViewObservable implements View {
         //showTable();
         int index;
         Assistant assistant = null;
-
+        int taken=0;
         do{
 
             try {
+                taken = 0;
                 out.print(question);
-//                out.print("Choose between ");
-//                for(Assistant a : unavailable){
-//                    out.print(a.getNumOrder() + "\n");
-//                }
+                out.print("Choose between ");
+                for(Assistant a : unavailable){
+                    out.print(a.getNumOrder() + "\n");
+                }
                 Scanner myInput = new Scanner( System.in );
 
                 index = myInput.nextInt();
                 assistant = new Assistant(index, 0);
 
-                if (unavailable.contains(assistant)) {
-                    out.println("Invalid assitant! Please try again.\n");
+                for(Assistant a : unavailable) {
+                    if(a.getNumOrder() == index) {
+                        out.println("Invalid assitant! Please try again.\n");
+                        taken = 1;
+                    }
                 }
             } catch (IllegalArgumentException e) {
                 out.println("Invalid mode! Please try again.");
             }
-        } while (unavailable.contains(assistant) || assistant.getNumOrder()>10||assistant.getNumOrder()<1);
+        } while ( taken == 1 || assistant.getNumOrder()>10||assistant.getNumOrder()<1);
 
         return assistant;
     }
 
     public Color studentInput(String question, List<Student> students){
         clearCli();
-        showTable();
+        //showTable();
         Color color = null;
         String in;
         List<Color> colors = new ArrayList<Color>();
@@ -555,7 +583,7 @@ public class Cli extends ViewObservable implements View {
 
     public String locationInput(String question){
         clearCli();
-        showTable();
+        //showTable();
         String answer = null;
         do{
 
@@ -563,20 +591,20 @@ public class Cli extends ViewObservable implements View {
                 out.print(question);
                 answer = readLine();
 
-                if (!answer.toUpperCase().equals("ROW") && !answer.toUpperCase().equals("ISLAND")) {
+                if (!answer.equalsIgnoreCase("ROW") && !answer.equalsIgnoreCase("ISLAND")) {
                     out.println("Invalid input! Please try again! \n");
                 }
             } catch (IllegalArgumentException | ExecutionException e) {
                 out.println("Invalid input! Please try again.");
             }
-            } while (!answer.equals("ROW") && !answer.equals("ISLAND"));
+            } while (!answer.equalsIgnoreCase("ROW") && !answer.equalsIgnoreCase("ISLAND"));
 
         return answer;
     }
 
     public int islandInput(String question, Color student, List<Island> islands){
         clearCli();
-        showTable();
+        //showTable();
         int index = -1;
         do {
             out.print(question);

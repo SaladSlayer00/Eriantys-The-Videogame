@@ -9,6 +9,7 @@ import java.util.logging.Level;
 
 import static java.lang.System.out;
 
+//TODO fixare inizializzazione sacco e nuvole
 /**
  * Hello world!
  *

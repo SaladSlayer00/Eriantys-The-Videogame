@@ -33,8 +33,8 @@ public class Deck implements Serializable {
     public Assistant draw(int indexCard) throws emptyDecktException{
         if (numCards > 0 )
         {
-            Assistant drawnCard = cards.get(indexCard);
-            cards.remove(indexCard);
+            Assistant drawnCard = cards.get(indexCard-1);
+            cards.remove(indexCard-1);
             numCards = numCards-1;
             return drawnCard;
         }else{

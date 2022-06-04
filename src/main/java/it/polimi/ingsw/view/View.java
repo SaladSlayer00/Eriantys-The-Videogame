@@ -16,6 +16,7 @@ import it.polimi.ingsw.model.playerBoard.Dashboard;
 import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /* this is the general view interface that contains (it should at least) all the methods that are going to
 * be used by the various view types (such as cli and friends)

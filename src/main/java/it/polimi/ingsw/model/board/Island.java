@@ -22,7 +22,7 @@ public class Island implements Serializable {
     private Type tower = null;
     private int dimension = 1;
     int index;
-    int influence;
+    int influence=0;
 
     //constructor
     public Island(int index){

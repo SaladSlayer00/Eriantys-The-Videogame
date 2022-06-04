@@ -17,7 +17,6 @@ public class Dashboard extends Observable implements Serializable {
     private int towers; //fiso
     private int numTowers; //variabile
     private final ArrayList<Row> rows = new ArrayList<>();
-    //sbagliato
     private final ArrayList<Student> hall = new ArrayList<>();
     private Type team;
     //private static final int NUM_ROWS = 5;

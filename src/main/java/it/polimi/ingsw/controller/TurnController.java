@@ -188,18 +188,30 @@ public class TurnController implements Serializable {
         vv.askAssistant(activePlayer,chosen);
     }
 
+    //TODO ask moves sulla vv
     public void determineOrder(){
-        Vector<Integer> order = new Vector<Integer>();
-        int i = 0;
-        for(Assistant a : chosen){
-            order.set(i, a.getNumOrder());
-            i++;
-        }
-        Collections.sort(order);
-        for(Player p : game.getActivePlayers()){
-            for(i=0;i< game.getNumCurrentActivePlayers(); i++){
-                if(p.getCardChosen().getNumOrder()==order.get(i)){
-                    this.nicknameQueue.set(i, p.getName());
+//        Vector<Integer> order = new Vector<Integer>();
+//        int i = 0;
+//        for(Assistant a : chosen){
+//            order.set(i, a.getNumOrder());
+//            i++;
+//        }
+//        Collections.sort(order);
+//        for(Player p : game.getActivePlayers()){
+//            for(i=0;i< game.getNumCurrentActivePlayers(); i++){
+//                if(p.getCardChosen().getNumOrder()==order.get(i)){
+//                    this.nicknameQueue.set(i, p.getName());
+//                }
+//            }
+//        }
+        for(Player p : game.getPlayers()) {
+            if (chosen.isEmpty()) {
+                nicknameQueue.add(p.getName());
+            } else {
+                for (int i = 0; i < chosen.size(); i++) {
+                    if (p.getCardChosen().getNumOrder() > game.getPlayerByNickname(nicknameQueue.get(i)).getCardChosen().getNumOrder()) {
+                        nicknameQueue.add(i, p.getName());
+                    }
                 }
             }
         }

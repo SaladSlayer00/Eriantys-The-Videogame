@@ -301,7 +301,7 @@ public class GameController implements Serializable {
             //turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
-            //broadcastUpdateMessages();
+            broadcastGenericMessage("Students in hall: " + game.getPlayerByNickname(receivedMessage.getNickname()).getDashboard().getHall().size());
             startGame();
 
 //        else {
@@ -355,14 +355,14 @@ public class GameController implements Serializable {
     private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException, noMoreStudentsException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                //if (inputController.verifyReceivedData(receivedMessage)) {
                     moveHandler((MoveMessage) receivedMessage);
-                }
+                //}
                 break;
             case MOVE_ON_BOARD:
-                if (inputController.verifyReceivedData(receivedMessage)) {
+                //if (inputController.verifyReceivedData(receivedMessage)) {
                     moveHandler((MoveMessage) receivedMessage);
-                }
+                //}
                 break;
             case MOVE_MOTHER:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -370,7 +370,7 @@ public class GameController implements Serializable {
                 }
                 break;
 
-            case GET_FROM_CLOUD:
+            case PICK_CLOUD:
                 if (inputController.verifyReceivedData(receivedMessage)) {
                     getFromCloudHandler((PickCloudMessage) receivedMessage);
                 }
@@ -426,7 +426,9 @@ public class GameController implements Serializable {
         Assistant card = player.getDeck().draw(receivedMessage.getIndex());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         player.setCard(card);
+        virtualView.showGenericMessage("Assistant moves: "+player.getCardChosen().getMove());
         turnController.getChosen().add(card);
+        virtualView.showGenericMessage("Assistant chosen: " + card.getNumOrder());
         if(player.getDeck().getNumCards()==0){
             //broadcastDrawMessage();
             broadcastGenericMessage("Game finished! It's a draw!");
@@ -446,7 +448,7 @@ public class GameController implements Serializable {
             turnController.determineOrder();
             initiateAction();
         }
-        game.updateGameboard();
+        //game.updateGameboard();
 
     }
 
@@ -457,7 +459,7 @@ public class GameController implements Serializable {
 
 
     public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException {
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their moves", turnController.getActivePlayer());
         if (moveMessage.getMessageType() == MessageType.MOVE_ON_BOARD) {
             turnController.moveOnBoard(moveMessage.getColor(), moveMessage.getRow());
         }
@@ -500,7 +502,7 @@ public class GameController implements Serializable {
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         //passo le vuote poi la gestisco
-        game.updateGameboard();
+        //game.updateGameboard();
 
     }
 

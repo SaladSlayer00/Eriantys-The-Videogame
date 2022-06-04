@@ -20,6 +20,7 @@ public enum MessageType {
         DRAW_ASSISTANT,
         ASSISTANT_REQUEST, //???
         MOVE,
+        ASK_MOVE,
         MOVE_ON_ISLAND,
         MOVE_ON_BOARD,
         MOVE_MOTHER,

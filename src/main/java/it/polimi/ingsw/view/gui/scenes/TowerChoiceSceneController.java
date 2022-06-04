@@ -50,14 +50,14 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
 
     @FXML
     public void initialization(){
-        setTowerImage(availableTowers.get(0).getText());
+        //setTowerImage(availableTowers.get(0).getText());
         iHaveChangedMyMindButton.setDisable(true);
 
-        couldItBeDisabled(previousTowerButton, 0);
-        couldItBeDisabled(nextTowerButton, availableTowers.size() - 1);
+        //couldItBeDisabled(previousTowerButton, 0);
+        //couldItBeDisabled(nextTowerButton, availableTowers.size() - 1);
 
-        previousTowerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousTowerButtonClicked);
-        nextTowerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextTowerButtonClicked);
+        //previousTowerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousTowerButtonClicked);
+        //nextTowerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextTowerButtonClicked);
         thisCouldDoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThisCouldDoButtonClicked);
         iHaveChangedMyMindButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onIHaveChangedMyMindButtonClicked);
         thisIsTheUltimateChoiceButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThisIsTheUltimateChoiceButtonClicked);

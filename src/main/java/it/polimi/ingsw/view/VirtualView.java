@@ -56,6 +56,7 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
+        clientHandler.sendMessage(new AskMoveMessage(EasyGame.SERVER_NICKNAME, students, islands));
     }
 
     @Override
