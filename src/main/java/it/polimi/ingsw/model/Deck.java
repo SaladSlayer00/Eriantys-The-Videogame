@@ -31,16 +31,24 @@ public class Deck implements Serializable {
     }
 
     public Assistant draw(int indexCard) throws emptyDecktException{
-        if (numCards > 0 )
-        {
-            Assistant drawnCard = cards.get(indexCard-1);
-            cards.remove(indexCard-1);
-            numCards = numCards-1;
-            return drawnCard;
+        if (numCards > 0 ){
+            for(Assistant a : cards){
+                if(a.getNumOrder()==indexCard){
+                    Assistant drawnCard = a;
+                    cards.remove(a);
+                    numCards = numCards-1;
+                    return drawnCard;
+                }
+            }
+//        {
+//            Assistant drawnCard = cards.get(indexCard-1);
+//            cards.remove(indexCard-1);
+//            numCards = numCards-1;
+//            return drawnCard;
         }else{
             throw new emptyDecktException();
         }
-
+        return null;
     }
 
     public Mage getMage() {

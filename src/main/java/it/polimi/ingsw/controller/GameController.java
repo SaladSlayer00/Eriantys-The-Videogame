@@ -453,6 +453,7 @@ public class GameController implements Serializable {
     }
 
     public void initiateAction(){
+        broadcastGenericMessage(turnController.getNicknameQueue().get(0) + " " + turnController.getNicknameQueue().get(1));
         broadcastGenericMessage("Now playing "+ turnController.getActivePlayer());
         turnController.moveMaker();
     }
@@ -522,7 +523,7 @@ public class GameController implements Serializable {
 
 
         }
-        game.updateGameboard();
+        //game.updateGameboard();
     }
 
     public void win(){

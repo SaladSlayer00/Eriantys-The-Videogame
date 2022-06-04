@@ -218,7 +218,7 @@ public class InputController {
                 return true;
         }
         virtualView.showGenericMessage("The chosen card is not present in the deck");
-        virtualView.askAssistant(message.getNickname(), activePlayerDeck.getCards());
+        virtualView.askAssistant(message.getNickname(),gameController.getTurnController().getChosen());
         return false;
 
 

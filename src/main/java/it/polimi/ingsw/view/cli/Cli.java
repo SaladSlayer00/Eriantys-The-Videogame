@@ -527,7 +527,7 @@ public class Cli extends ViewObservable implements View {
             try {
                 taken = 0;
                 out.print(question);
-                out.print("Choose between ");
+                out.print("Choose except ");
                 for(Assistant a : unavailable){
                     out.print(a.getNumOrder() + "\n");
                 }
@@ -616,13 +616,13 @@ public class Cli extends ViewObservable implements View {
             try {
                 index = Integer.parseInt(readLine());
 
-                if (index < 0 || index > islands.size()) {
+                if (index < 0 || index > islands.size()-1) {
                     out.println("Invalid number! Please try again.");
                 }
             } catch (IllegalArgumentException | ExecutionException e) {
                 out.println("Invalid number! Please try again.");
             }
-        } while (index<0||index > islands.size());
+        } while (index<0||index > islands.size()-1);
 
        return index;
     }

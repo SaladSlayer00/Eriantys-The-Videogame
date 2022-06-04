@@ -189,7 +189,6 @@ public class TurnController implements Serializable {
         vv.askAssistant(activePlayer,chosen);
     }
 
-    //TODO ask moves sulla vv
     public void determineOrder(){
 //        Vector<Integer> order = new Vector<Integer>();
 //        int i = 0;
@@ -270,18 +269,20 @@ public class TurnController implements Serializable {
     }
 
     public boolean moveMother(int moves) throws noTowerException, noTowersException {
+
         int actual = game.getGameBoard().getMotherNature();
+        virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
         game.getGameBoard().getIslands().get(actual).removeMother();
         for(int i = 0; i < moves; i++){
-            if(i+actual == game.getGameBoard().getIslands().size()-1){
+            if(actual >= game.getGameBoard().getIslands().size()-1){
                 actual = 0;
             }
             else {
-                actual=actual+i;
+                actual=actual+1;
             }
         }
-
         game.getGameBoard().setMotherNature(actual);
+        virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
         return checkInfluence(actual);
     }
 
