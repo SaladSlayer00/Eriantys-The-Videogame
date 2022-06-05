@@ -319,9 +319,10 @@ public class GameController implements Serializable {
     private void startGame() throws noMoreStudentsException {
         setGameState(GameState.IN_GAME);
         broadcastGenericMessage("Game Started!");
+        game.updateGameboard();
         turnController.broadcastMatchInfo();
         turnController.newTurn();
-        //game.updateGameboard();
+
     }
 
     private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
@@ -392,7 +393,7 @@ public class GameController implements Serializable {
     private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
         //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         //quello che manda deve essere activeplayer dove lo controlla??
-        //game.updateGameboard();
+        game.updateGameboard();
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio;
@@ -448,7 +449,7 @@ public class GameController implements Serializable {
             turnController.determineOrder();
             initiateAction();
         }
-        //game.updateGameboard();
+        game.updateGameboard();
 
     }
 
@@ -503,7 +504,7 @@ public class GameController implements Serializable {
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         //passo le vuote poi la gestisco
-        //game.updateGameboard();
+        game.updateGameboard();
 
     }
 
@@ -523,7 +524,7 @@ public class GameController implements Serializable {
 
 
         }
-        //game.updateGameboard();
+        game.updateGameboard();
     }
 
     public void win(){
