@@ -35,16 +35,8 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
     @FXML
     private ImageView towerImage;
 
-    public TowerChoiceSceneController(int numberOfPlayers){
-        if(numberOfPlayers == 2 || numberOfPlayers == 4){
-            availableTowers.add(Type.BLACK);
-            availableTowers.add(Type.WHITE);
-        }
-        else if(numberOfPlayers == 3){
-            availableTowers.add(Type.BLACK);
-            availableTowers.add(Type.WHITE);
-            availableTowers.add(Type.GREY);
-        }
+    public TowerChoiceSceneController(){
+        towerIndex = 0;
         chosenTower = null;
     }
 
@@ -150,4 +142,8 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
         }
     }
 
+    //setter fot the available towers
+    public void setAvailableColors(List<Type> availableTowers){
+        this.availableTowers = availableTowers;
+    }
 }
