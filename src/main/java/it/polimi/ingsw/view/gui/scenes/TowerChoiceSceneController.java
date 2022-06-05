@@ -150,5 +150,4 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
         }
     }
 
-    //TODO
 }

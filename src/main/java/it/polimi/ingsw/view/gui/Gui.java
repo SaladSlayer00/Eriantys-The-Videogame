@@ -12,6 +12,8 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scenes.AssistantChoiceSceneController;
+import it.polimi.ingsw.view.gui.scenes.DeckChoiceSceneController;
 import it.polimi.ingsw.view.gui.scenes.GameModeSceneController;
 import it.polimi.ingsw.view.gui.scenes.PlayersNumberSceneController;
 import javafx.application.Platform;
@@ -35,12 +37,18 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askInitDeck(String nickname, List<Mage> availableDecks) {
-
+        DeckChoiceSceneController dCSController = new DeckChoiceSceneController();
+        dCSController.addAllObservers(observers);
+        dCSController.setAvailableDecks(availableDecks);
+        Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deck_choice_scene.fxml"));
     }
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
-
+        AssistantChoiceSceneController aCSController = new AssistantChoiceSceneController()();
+        aCSController.addAllObservers(observers);
+        aCSController.setAssistantDeck(availableAssistants);
+        Platform.runLater(() -> SceneController.changeRootPane(aCSController, "assistant_choice_scene.fxml"));
     }
 
     @Override

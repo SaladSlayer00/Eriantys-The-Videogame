@@ -63,7 +63,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     //handling the clicks on the image
     //we can add an info box maybe????
     //TODO
-    private void onMageImageClicked(Event mouseEven){
+    private void onMageImageClicked(Event mouseEvent){
         Mage mage = mageList.get(mageIndex);
         //dunno if we want to add an info popup or similia
     }
@@ -125,13 +125,13 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     }
 
     //handles the clicks on the button that confirm the choice
-    public void onOkayLetsGoButtonClicked(Event mouseEvent) {
-        disableAllTheButton();
+    private void onOkayLetsGoButtonClicked(Event mouseEvent) {
+        disableAllTheButtons();
         new Thread(() -> notifyObserver(observer -> observer.OnUpdateInitDeck(thisIsTheChoice))).start();
     }
 
     //this disables ALL the buttons
-    public void disableAllTheButton(){
+    private void disableAllTheButtons(){
         previousMageButton.setDisable(true);
         nextMageButton.setDisable(true);
         thisIsNotTheOneButton.setDisable(true);
@@ -139,10 +139,9 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         okayLetsGoButton.setDisable(true);
     }
 
-    //checks and switches the status of the button
+    //checks and switches the status of the buttons
     private void checkWhichButtonHasBeenSelected(){
         if (!theChosenOneButton.isDisable() || thisIsTheChoice != null) {
-        } else {
             theChosenOneButton.setDisable(false);
         }
         if(thisIsTheChoice.equals(mageList.get(mageIndex))){
@@ -154,6 +153,9 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         }
     }
 
-    //TODO
+    //setter method that sets the available decks
+    public void setAvailableDecks(List<Mage> availableMages){
+        this.mageList = availableMages;
+    }
 
 }
