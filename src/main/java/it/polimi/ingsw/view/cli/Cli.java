@@ -244,11 +244,12 @@ public class Cli extends ViewObservable implements View {
 
         }
         else if(availableClouds.size() ==1){
-            out.println(nickname + ", you're the last player, your cloud is: 0 ");
+            out.println(nickname + ", you're the last player, your cloud is: "+availableClouds.get(0).getIndex());
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
             //showTable();
         }
         else if(availableClouds.size()==0 && clouds == 1){
+            showClouds(availableClouds);
             index = intInput(question);
             clouds = 0;
             notifyObserver(obs -> obs.OnUpdateGetFromCloud(index));
@@ -501,7 +502,7 @@ public class Cli extends ViewObservable implements View {
 
             try {
                 out.print(question);
-                out.print("Choose between ");
+                out.print("Choose between \n");
                 for(Cloud c : available){
                     out.print(c.getIndex() + "\n");
                 }
@@ -638,6 +639,17 @@ public class Cli extends ViewObservable implements View {
         System.exit(0);
     }
 
+    public void showClouds(List<Cloud> available){
+        for(int i=0;i<available.size();i++) {
+            out.println("Cloud " +i+" :[");
+            for(Student s : available.get(i).getStudents()){
+                out.print(s.getColor().getText() + ";");
+            }
+            out.println("]");
+
+        }
+    }
+
 
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
@@ -668,7 +680,7 @@ public class Cli extends ViewObservable implements View {
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");
-        showIsland();
+        //showIsland();
 
     }
 
@@ -752,7 +764,7 @@ public class Cli extends ViewObservable implements View {
 
         }
         return islands;
-
+//TODO controllare inizializzazione madre natura, aggiungere madre natura su isole
     }
 
     /**
