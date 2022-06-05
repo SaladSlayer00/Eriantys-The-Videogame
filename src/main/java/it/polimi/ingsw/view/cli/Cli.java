@@ -231,20 +231,20 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds){
         clearCli();
-        showTable();
+        //showTable();
         int index;
         String question = "Please "+ nickname + ", select a cloud from the list!";
         if (availableClouds.size() > 1) {
             out.println("Please, enter the cloud's index and press ENTER.");
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
-                showTable();
+                //showTable();
 
         }
         else if(availableClouds.size() ==1){
             out.println(nickname + ", you're the last player, your cloud is: 0 ");
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
-            showTable();
+            //showTable();
         }
         else if(availableClouds.size()==0 && clouds == 1){
             index = intInput(question);
@@ -260,7 +260,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askAssistant(String nickname, List<Assistant> unavailableAssistants){
         clearCli();
-        showTable();
+        //showTable();
         Assistant assistant;
         if (!unavailableAssistants.equals(null)) {
             String question = "Please "+ nickname + ", select an assistant from the list!";
@@ -268,7 +268,7 @@ public class Cli extends ViewObservable implements View {
             assistant = assistantInput(unavailableAssistants, question);
             out.println("Chosen Assistant: "+assistant.getNumOrder() + "\n");
             notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
-                showTable();
+                //showTable();
         }
         else{
             showErrorAndExit("no assistants found in the request.");
@@ -279,7 +279,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands){
         clearCli();
-        showTable();
+        //showTable();
         Color student;
         String location;
         if (!(students.size()==0)) {
@@ -307,7 +307,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askIslandMoves(Color student, List<Island> islands){
         clearCli();
-        showTable();
+        //showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
         location = islandInput(question, student, islands);
@@ -325,7 +325,7 @@ public class Cli extends ViewObservable implements View {
 
     public void askMotherMoves(String nickname, int possibleMoves) {
         clearCli();
-        showTable();
+        //showTable();
         int number;
         number = motherInput(possibleMoves);
         out.println("MOVES: "+number);
@@ -657,7 +657,7 @@ public class Cli extends ViewObservable implements View {
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");
-        showBoard(gameboard);
+        //showBoard(gameboard);
 
     }
 

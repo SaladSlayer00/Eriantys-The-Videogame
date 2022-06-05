@@ -464,12 +464,15 @@ public class GameController implements Serializable {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their moves", turnController.getActivePlayer());
         if (moveMessage.getMessageType() == MessageType.MOVE_ON_BOARD) {
             turnController.moveOnBoard(moveMessage.getColor(), moveMessage.getRow());
+            game.updateGameboard();
         }
         else if(moveMessage.getMessageType() == MessageType.MOVE_ON_ISLAND){
             turnController.moveOnIsland(moveMessage.getColor(), moveMessage.getIndex());
+            game.updateGameboard();
         }
         if(turnController.getMoved()<3){
             turnController.moveMaker();
+            game.updateGameboard();
         }
         else{
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -477,8 +480,9 @@ public class GameController implements Serializable {
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
             virtualView.askMotherMoves(turnController.getActivePlayer(),game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
             turnController.setMoved(0);
+            game.updateGameboard();
         }
-        game.updateGameboard();
+        //game.updateGameboard();
     }
 
     //bisogna fare un controllo su
@@ -589,10 +593,10 @@ public class GameController implements Serializable {
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
-        //if(virtualViewMap.size()>1) {
-            //EasyGame easyGame = (EasyGame) game;
-            //easyGame.addObserver(virtualView);
-        //}
+        if(virtualViewMap.size()>1) {
+            EasyGame easyGame = (EasyGame) game;
+            easyGame.addObserver(virtualView);
+        }
     }
 
     public Map<String, VirtualView> getVirtualViewMap() {
