@@ -57,14 +57,14 @@ public class Gameboard extends Observable implements Serializable {
 
         if (this.motherNature < 6) {
             for (Island i : islands) {
-                if (i.index != motherNature + 6) {
+                if (i.index != motherNature + 6 && i.index !=motherNature) {
                     Student s = sack.drawStudent();
                     i.addStudent(s);
                 }
             }
         } else if (this.motherNature >= 6) {
             for (Island i : islands) {
-                if (i.index != motherNature - 6) {
+                if (i.index != motherNature - 6 && i.index != motherNature) {
                     Student s = sack.drawStudent();
                     i.addStudent(s);
                 }
