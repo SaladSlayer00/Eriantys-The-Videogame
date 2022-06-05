@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.view.cli.Constants.ISLAND;
+
 public class Cli extends ViewObservable implements View {
     private Gameboard gameboard;
     private List<Dashboard> dashboards = new ArrayList<>();
@@ -652,29 +654,42 @@ public class Cli extends ViewObservable implements View {
         this.dashboards=dashboards;
     }
 
+    public void showIsland(){
+        //showDashboard();
+        List<String> islands = buildIslands(gameboard);
+        for(int i=0;i<islands.size();i++){
+            out.print("\rIsland: "+i+"\n");
+            out.print(islands.get(i));
+        }
+    }
+
     public void showTable(){
         clearCli();
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");
-        //showBoard(gameboard);
+        showIsland();
 
     }
 
     //TODO vedere come è inizializzato quell'array
     public void showDashboards(List<Dashboard> dashboards){
-        String leftAlignFormat = "| %-10s | %-4d |%n";
+        String leftAlignFormat = "| %-10s | %-4d | %-5b%n";
+        String format = "| %-10s | %-4d | %-5s%n";
         for(int i = 0; i< dashboards.size();i++) {
-            System.out.format("+-----------------+------+%n");
-            System.out.format("| Column name     | ID   |%n");
-            System.out.format("+-----------------+------+%n");
-            System.out.format(leftAlignFormat, "HALL", dashboards.get(i).getHall().size());
-            System.out.format(leftAlignFormat, "RED", dashboards.get(i).getRow("red").getNumOfStudents());
-            System.out.format(leftAlignFormat, "GREEN", dashboards.get(i).getRow("green").getNumOfStudents());
-            System.out.format(leftAlignFormat, "PINK", dashboards.get(i).getRow("pink").getNumOfStudents());
-            System.out.format(leftAlignFormat, "YELLOW", dashboards.get(i).getRow("yellow").getNumOfStudents());
-            System.out.format(leftAlignFormat, "BLUE", dashboards.get(i).getRow("blue").getNumOfStudents());
-            System.out.format("+-----------------+------+%n");
+
+            System.out.format("+-----------------+-----------+%n");
+            System.out.format(format, "PLAYER", i, "");
+            System.out.format(format, "TOWERS", dashboards.get(i).getNumTowers(), "" );
+            System.out.format("+-----------------+-----------+%n");
+            System.out.format(format, "HALL", dashboards.get(i).getHall().size(), "");
+            System.out.format(leftAlignFormat, "RED", dashboards.get(i).getRow("red").getNumOfStudents(), dashboards.get(i).getRow("red").checkProfessor());
+            System.out.format(leftAlignFormat, "GREEN", dashboards.get(i).getRow("green").getNumOfStudents(), dashboards.get(i).getRow("green").checkProfessor());
+            System.out.format(leftAlignFormat, "PINK", dashboards.get(i).getRow("pink").getNumOfStudents(), dashboards.get(i).getRow("pink").checkProfessor());
+            System.out.format(leftAlignFormat, "YELLOW", dashboards.get(i).getRow("yellow").getNumOfStudents(), dashboards.get(i).getRow("yellow").checkProfessor());
+            System.out.format(leftAlignFormat, "BLUE", dashboards.get(i).getRow("blue").getNumOfStudents(), dashboards.get(i).getRow("blue").checkProfessor());
+            System.out.format("+-----------------+-----------+%n");
+
         }
     }
 
@@ -703,6 +718,41 @@ public class Cli extends ViewObservable implements View {
         System.out.format("+------+%n");
         System.out.format(leftAlignFormat, number);
         System.out.format("+------+%n");
+    }
+
+    public List<String> buildIslands(Gameboard gameboard){
+        List<Island> gameIslands = gameboard.getIslands();
+        List<String> islands = new ArrayList<>();
+        for(int j = 0; j<gameIslands.size();j++) {
+            int tower = 0;
+            if(gameIslands.get(j).getTower()){
+                tower = 1;
+            }
+            String[] rows = ISLAND.split("\n");
+            for (int i = 0; i < rows.length; i++) {
+                String[] temp = rows[i].split("x");
+                if((i==0)||(i==4)){
+                    rows[i] = rows[i]  + "\n";
+                }
+                else if (i == rows.length - 2) {
+                    rows[i] = "\033[33m" + temp[0] + gameIslands.get(j).getStudents().get(Color.YELLOW).size() + temp[1]+"\033[0m" + temp[2] + tower + temp[3] + "\n";
+                } else if(i==1) {
+                    rows[i] = "\033[38;5;28m"+temp[0] + gameIslands.get(j).getStudents().get(Color.GREEN).size() + temp[1] +"\033[0m" + "\033[0;31m"+temp[2] +gameIslands.get(j).getStudents().get(Color.RED).size() + temp[3] +"\033[0m"+ "\n";
+                }
+                else{
+                    rows[i] = "\033[35m"+temp[0] + gameIslands.get(j).getStudents().get(Color.PINK).size() + temp[1] +"\033[0m"+ "\033[0;34m"+temp[2] +gameIslands.get(j).getStudents().get(Color.BLUE).size() + temp[3] + "\033[0m"+"\n";
+                }
+            }
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0; i < rows.length; i++) {
+                sb.append(rows[i]);
+            }
+            String island = sb.toString();
+            islands.add(island);
+
+        }
+        return islands;
+
     }
 
     /**
