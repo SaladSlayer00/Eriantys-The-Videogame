@@ -12,8 +12,7 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.scenes.GameModeSceneController;
-import it.polimi.ingsw.view.gui.scenes.PlayersNumberSceneController;
+import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -35,12 +34,18 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askInitDeck(String nickname, List<Mage> availableDecks) {
-
+        DeckChoiceSceneController dCSController = new DeckChoiceSceneController();
+        dCSController.addAllObservers(observers);
+        dCSController.setAvailableDecks(availableDecks);
+        Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deck_choice_scene.fxml"));
     }
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
-
+        AssistantChoiceSceneController aCSController = new AssistantChoiceSceneController();
+        aCSController.addAllObservers(observers);
+        aCSController.setAssistantDeck(availableAssistants);
+        Platform.runLater(() -> SceneController.changeRootPane(aCSController, "assistant_choice_scene.fxml"));
     }
 
     @Override
@@ -82,22 +87,40 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askInitType(String nickname, List<Type> teams) {
+        TowerChoiceSceneController tCSController = new TowerChoiceSceneController();
+        tCSController.addAllObservers(observers);
+        tCSController.setAvailableColors(teams);
+        Platform.runLater(() -> SceneController.changeRootPane(tCSController, "towers_choice_scene.fxml"));
 
     }
 
     @Override
     public void showGenericMessage(String genericMessage) {
-
     }
 
     @Override
     public void showLoginResult(boolean nicknameAccepter, boolean connectionResult, String nickname) {
-
+        if(!nicknameAccepter || !connectionResult){
+            if(!nicknameAccepter && connectionResult){
+                Platform.runLater(() -> {
+                    SceneController.alertShown(ERROR_STR,"This nickname has already been used!");
+                    SceneController.changeRootPane(observers, "login_scene.fxml");
+                });
+            } else {
+                Platform.runLater(() -> {
+                    SceneController.alertShown(ERROR_STR, "Impossible to contact the server...");
+                    SceneController.changeRootPane(observers, MENU_STR_FXML);
+                });
+            }
+        }
     }
 
     @Override
     public void errorCommunicationAndExit(String nickname) {
-
+        Platform.runLater(() -> {
+            SceneController.alertShown(ERROR_STR, nickname);
+            SceneController.changeRootPane(observers, MENU_STR_FXML);
+        });
     }
 
     @Override
