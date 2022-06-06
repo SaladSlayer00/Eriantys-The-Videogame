@@ -97,7 +97,7 @@ public class InputController {
 
     public boolean playerNumberReplyCheck(Message message) {
         PlayerNumberReply playerNumberReply = (PlayerNumberReply) message;
-        if (playerNumberReply.getPlayerNumber() < 3 && playerNumberReply.getPlayerNumber() > 1) {
+        if (playerNumberReply.getPlayerNumber() <= 3 && playerNumberReply.getPlayerNumber() > 1) {
             return true;
         } else {
             VirtualView virtualView = virtualViewMap.get(message.getNickname());

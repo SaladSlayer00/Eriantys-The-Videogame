@@ -155,7 +155,7 @@ public class TurnController implements Serializable {
         //lista che si passava come parametro per fare scegliere il player
         ArrayList<Cloud> cloudList = game.getEmptyClouds();
         VirtualView virtualView = virtualViewMap.get(activePlayer);
-        virtualView.showGenericMessage("Prova a chiedere la nuvola");
+
         virtualView.askCloud(activePlayer,cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
         //manderà un messaggio al player con la lista di disponibili booh poi vedremo
     }

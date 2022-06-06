@@ -250,7 +250,6 @@ public class Cli extends ViewObservable implements View {
             //showTable();
         }
         else if(availableClouds.size()==0 && clouds == 1){
-            showClouds(availableClouds);
             index = intInput(question);
             clouds = 0;
             notifyObserver(obs -> obs.OnUpdateGetFromCloud(index));
@@ -640,16 +639,6 @@ public class Cli extends ViewObservable implements View {
         System.exit(0);
     }
 
-    public void showClouds(List<Cloud> available){
-        for(int i=0;i<available.size();i++) {
-            out.println("Cloud " +i+" :[");
-            for(Student s : available.get(i).getStudents()){
-                out.print(s.getColor().getText() + ";");
-            }
-            out.println("]");
-
-        }
-    }
 
 
     public void showErrorAndExit(String error) {
@@ -682,6 +671,7 @@ public class Cli extends ViewObservable implements View {
         out.print("\n");
         out.print("\n");
         showIsland();
+        out.println("Mother nature on: "+gameboard.getMotherNature());
 
     }
 

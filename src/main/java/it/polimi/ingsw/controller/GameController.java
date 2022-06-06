@@ -5,6 +5,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.GameState;
 import it.polimi.ingsw.model.enums.Mage;
@@ -38,7 +39,7 @@ public class GameController implements Serializable {
     private GameFactory gameFactory;
     private static final String STR_INVALID_STATE = "Invalid game state!";
     public static final String SAVED_GAME_FILE = "match.bless";
-    public static final int MAX_PLAYERS = 4;
+    public static int moves;
 
     public GameController(){
         initGameController();
@@ -111,6 +112,13 @@ public class GameController implements Serializable {
                 EasyGame easyGame = (EasyGame) game;
                 easyGame.addObserver(virtualViewMap.get(receivedMessage.getNickname()));
                 broadcastGenericMessage("Waiting for other Players . . .");
+                if(game.getChosenPlayerNumber()==2){
+                    Type.choose(Type.GREY);
+                    moves = 3;
+                }
+                else{
+                    moves = 4;
+                }
             }
         }
         else {
@@ -229,7 +237,7 @@ public class GameController implements Serializable {
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        if (Mage.notChosen().size()==4){
+        if (Mage.notChosen().size()>4-game.getChosenPlayerNumber()+1){
             //4-game.getChosenPlayerNumber()
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
@@ -243,7 +251,7 @@ public class GameController implements Serializable {
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
             virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
-        else if(Mage.notChosen().size()<4){
+        else{
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
             virtualView.showGenericMessage("You chose your deck");
@@ -275,8 +283,7 @@ public class GameController implements Serializable {
     private void towerHandler(TowerMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-
-        if(Type.notChosen().size() ==3){
+        if(Type.notChosen().size()>1){
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
             virtualView.showGenericMessage("You chose your team. Please wait for the other players to pick!");
@@ -285,7 +292,7 @@ public class GameController implements Serializable {
 
         }
         //supporta solo per 2-3
-        else if(Type.notChosen().size()<3){
+        else{
             virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
             player.getDashboard().setTeam(Type.notChosen().get(0));
             broadcastGenericMessage("All decks and teams are set! The mode of the game is " + gameMode +
@@ -470,7 +477,7 @@ public class GameController implements Serializable {
             turnController.moveOnIsland(moveMessage.getColor(), moveMessage.getIndex());
             game.updateGameboard();
         }
-        if(turnController.getMoved()<3){
+        if(turnController.getMoved()<moves){
             turnController.moveMaker();
             game.updateGameboard();
         }
@@ -506,6 +513,16 @@ public class GameController implements Serializable {
             draw();
         }
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
+        VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
+        String text = "Please choose between ";
+        for(int i=0;i<game.getGameBoard().getClouds().size();i++) {
+            text= text +"Cloud " +i+" :[";
+            for(Student s : game.getGameBoard().getClouds().get(i).getStudents()){
+                text = text + (s.getColor().getText() + ";");
+            }
+            text = text + "]\n";
+        }
+        vv.showGenericMessage(text);
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         //passo le vuote poi la gestisco
         game.updateGameboard();
