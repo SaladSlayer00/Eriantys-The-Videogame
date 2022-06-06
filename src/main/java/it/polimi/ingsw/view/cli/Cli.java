@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -680,7 +681,7 @@ public class Cli extends ViewObservable implements View {
         showDashboards(dashboards);
         out.print("\n");
         out.print("\n");
-        //showIsland();
+        showIsland();
 
     }
 
@@ -732,14 +733,25 @@ public class Cli extends ViewObservable implements View {
         System.out.format("+------+%n");
     }
 
-    public List<String> buildIslands(Gameboard gameboard){
+    public List<String> buildIslands(Gameboard gameboard) {
         List<Island> gameIslands = gameboard.getIslands();
         List<String> islands = new ArrayList<>();
         for(int j = 0; j<gameIslands.size();j++) {
-            int tower = 0;
+            String tower = "0" ;
             if(gameIslands.get(j).getTower()){
-                tower = 1;
+                tower = "1";
+                try {
+                    if(gameIslands.get(j).getTeam().equals(Type.BLACK)){
+                        tower = "\033[0;30m" + 1 + "\033[0m";
+                    }
+                    else if(gameIslands.get(j).getTeam().equals(Type.GREY)){
+                        tower = "\033[0;37m" + 1 + "\033[0m";
+                    }
+                } catch (noTowerException e) {
+                    e.printStackTrace();
+                }
             }
+
             String[] rows = ISLAND.split("\n");
             for (int i = 0; i < rows.length; i++) {
                 String[] temp = rows[i].split("x");

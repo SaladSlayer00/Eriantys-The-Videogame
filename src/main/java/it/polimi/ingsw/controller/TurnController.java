@@ -265,13 +265,13 @@ public class TurnController implements Serializable {
         moved++;
     }
 
-    public void moveOnIsland(Color color, int index) throws noStudentException {
+    public void moveOnIsland(Color color, int index) throws noStudentException, noTowerException {
         Player player = game.getPlayerByNickname(getActivePlayer());
         game.getGameBoard().placeStudent(color, player.getDashboard().takeStudent(color), index);
         moved++;
     }
 
-    public boolean moveMother(int moves) throws noTowerException, noTowersException {
+    public int moveMother(int moves) throws noTowerException, noTowersException {
 
         int actual = game.getGameBoard().getMotherNature();
         virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
@@ -289,10 +289,12 @@ public class TurnController implements Serializable {
         return checkInfluence(actual);
     }
 
-    private boolean checkInfluence(int actual) throws noTowerException, noTowersException {
+    private int checkInfluence(int actual) throws noTowerException, noTowersException {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
+        VirtualView vv = virtualViewMap.get(activePlayer);
         Island active = game.getGameBoard().getIslands().get(actual);
+        int set = 0;
         int influence = 0;
         for(Color c : player.getProfessors()){
             influence = influence + active.getStudents().get(c).size();
@@ -303,15 +305,32 @@ public class TurnController implements Serializable {
                 influence = influence + active.getDimension();
             }
         }
-        if(influence > active.getInfluence()){
+
+        for(Player p : game.getPlayers()){
+            int influenceOther = 0;
+            for(Color c : p.getProfessors()){
+                influenceOther = influenceOther + active.getStudents().get(c).size();
+            }
+
+            if(active.getTower()) {
+                if (active.getTeam().equals(p.getDashboard().getTeam())) {
+                    influenceOther = influenceOther + active.getDimension();
+                }
+            }
+            if(influence > influenceOther){
+                set = 1;
+            }
+        }
+        if(set==1){
             active.setInfluence(influence);
             active.setTower(player.getDashboard().getTower());
-            VirtualView vv = virtualViewMap.get(player);
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
             //islandMerger(active);
         }
-        return false;
+        else{
+            return 0;
+        }
 
     }
 
@@ -325,6 +344,7 @@ public class TurnController implements Serializable {
         }
         try {
             chosenPlayer.getDashboard().getRow(color).addProfessor();
+            chosenPlayer.getProfessors().add(color);
         } catch (alreadyAProfessorException e) {
             gameController.onMessageReceived(new GenericMessage("Already a professor"));
         } finally {
@@ -335,11 +355,13 @@ public class TurnController implements Serializable {
             if ((!chosenPlayer.equals(p)) && chosenPlayer.getDashboard().getRow(color).getNumOfStudents() == p.getDashboard().getRow(color).getNumOfStudents()) {
                 try {
                     chosenPlayer.getDashboard().getRow(color).removeProfessor();
+                    chosenPlayer.getProfessors().remove(color);
 
                 } catch (noProfessorException e) {
                 }
                 try {
                     p.getDashboard().getRow(color).removeProfessor();
+                    p.getProfessors().remove(color);
                 } catch (noProfessorException exp) {
                 }
 
@@ -356,12 +378,12 @@ public class TurnController implements Serializable {
 
 
 
-    public boolean towerChecker(){
+    public int towerChecker(){
         Player p = game.getPlayerByNickname(activePlayer);
         if(p.getDashboard().getNumTowers()==0){
-            return true;
+            return 2;
         }
-        return false;
+        return 1;
     }
 
     public void islandMerger(Island active) throws noTowerException {

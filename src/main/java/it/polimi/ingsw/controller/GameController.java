@@ -488,17 +488,17 @@ public class GameController implements Serializable {
     //bisogna fare un controllo su
     public void motherHandler(MoveMotherMessage message) throws noTowerException, noTowersException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
-        boolean result = turnController.moveMother(message.getMoves());
+        int result = turnController.moveMother(message.getMoves());
         broadcastGenericMessage("Mother Nature concluded her journey.");
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
 
-        if(result){
+        if(result == 2){
 
             virtualView.showGenericMessage("You've placed the last tower! You're the winner");
             win();
 
         }
-        else{
+        else if(result == 1){
             turnController.islandMerger(game.getGameBoard().getIslands().get(game.getGameBoard().getMotherNature()));
         }
         if(game.getGameBoard().getIslands().size()==3){

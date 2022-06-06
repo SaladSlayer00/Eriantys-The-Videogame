@@ -86,7 +86,7 @@ public class Island implements Serializable {
 
     //it returns the color of the tower TO CHECK //
     public Type getTeam() throws noTowerException {
-        if (getTower() == true) {
+        if (getTower()) {
             return tower;
         } else {
             throw new noTowerException();
@@ -95,9 +95,10 @@ public class Island implements Serializable {
 
     //boolean getter for hasTower
     public boolean getTower(){
-        if(hasTower == true)
+        if(hasTower)
             return true;
-        else return false;
+        else
+            return false;
     }
 
 
@@ -142,6 +143,7 @@ public class Island implements Serializable {
 
     public void setTower(Type tower) {
         this.tower = tower;
+        hasTower=true;
     }
 
     public void setIndex(int index) {
