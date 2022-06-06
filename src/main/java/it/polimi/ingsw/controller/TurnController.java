@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.GenericMessage;
 import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -255,10 +257,11 @@ public class TurnController implements Serializable {
     }
 
     //in effetti non ha senso il colore è lo stesso
-    public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException {
+    public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException,  emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         Player player = game.getPlayerByNickname(getActivePlayer());
         VirtualView vv = virtualViewMap.get(player);
         player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
+        checkProfessors(color);
         moved++;
     }
 
@@ -311,6 +314,47 @@ public class TurnController implements Serializable {
         return false;
 
     }
+
+    private void checkProfessors(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+        Player chosenPlayer = gameController.getGame().getPlayerByNickname(activePlayer);
+        boolean draw = false;
+        for (Player p : game.getPlayers()) {
+            if (chosenPlayer.getDashboard().getRow(color).getNumOfStudents() < p.getDashboard().getRow(color).getNumOfStudents()) {
+                chosenPlayer = p;
+            }
+        }
+        try {
+            chosenPlayer.getDashboard().getRow(color).addProfessor();
+        } catch (alreadyAProfessorException e) {
+            gameController.onMessageReceived(new GenericMessage("Already a professor"));
+        } finally {
+            game.getGameBoard().removeProfessor(color);
+        }
+
+        for (Player p : game.getPlayers()) {
+            if ((!chosenPlayer.equals(p)) && chosenPlayer.getDashboard().getRow(color).getNumOfStudents() == p.getDashboard().getRow(color).getNumOfStudents()) {
+                try {
+                    chosenPlayer.getDashboard().getRow(color).removeProfessor();
+
+                } catch (noProfessorException e) {
+                }
+                try {
+                    p.getDashboard().getRow(color).removeProfessor();
+                } catch (noProfessorException exp) {
+                }
+
+                if (!draw) {
+                    game.getGameBoard().addProfessor(color);
+                    draw = true;
+
+                }
+
+            }
+        }
+    }
+
+
+
 
     public boolean towerChecker(){
         Player p = game.getPlayerByNickname(activePlayer);
@@ -373,6 +417,8 @@ public class TurnController implements Serializable {
 //        }
 
     }
+
+
 
     public void getFromCloud(int index){
         Player p = game.getPlayerByNickname(activePlayer);

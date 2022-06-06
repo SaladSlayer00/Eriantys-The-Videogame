@@ -325,7 +325,7 @@ public class GameController implements Serializable {
 
     }
 
-    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
+    private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException, fullTowersException, invalidNumberException {
         switch (turnController.getMainPhase()){
             case PLANNING:
                 planningState(receivedMessage);
@@ -353,7 +353,7 @@ public class GameController implements Serializable {
     }
 
 //gli handler della azione richiamano il turnController
-    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException, noMoreStudentsException {
+    private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException, noMoreStudentsException, emptyDecktException, fullTowersException, invalidNumberException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
                 //if (inputController.verifyReceivedData(receivedMessage)) {
@@ -460,7 +460,7 @@ public class GameController implements Serializable {
     }
 
 
-    public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException {
+    public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException, emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their moves", turnController.getActivePlayer());
         if (moveMessage.getMessageType() == MessageType.MOVE_ON_BOARD) {
             turnController.moveOnBoard(moveMessage.getColor(), moveMessage.getRow());

@@ -193,5 +193,21 @@ public class Gameboard extends Observable implements Serializable {
 
     public Cloud getCloud(int index) {return clouds.get(index);}
 
+    public void removeProfessor(Color color) {
+        Professor chosenProfessor = null;
+        for (Professor professor : professors) {
+            if (professor.getColor().equals(color)) {
+               chosenProfessor = professor;
+            }
+        }
+        if(chosenProfessor!=null){
+            professors.remove(chosenProfessor);
+        }
+
+
+    }
+    public void addProfessor(Color color){
+        professors.add(new Professor(color));
+    }
 
 }
