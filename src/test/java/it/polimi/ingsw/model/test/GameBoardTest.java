@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.test;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
@@ -40,6 +41,7 @@ public class GameBoardTest {
         assertEquals(12,gameboardTest.getIslands().size());
         gameboardTest.setMotherNature(3);
         assertEquals(3,gameboardTest.getMotherNature());
+
     }
 
     @Test
@@ -91,5 +93,27 @@ public class GameBoardTest {
 
 
     }
+    @Test
+    void professorTest(){
+        assertEquals(Color.RED , gameboardTest.getProfessors().get(0).getColor());
+        assertEquals(Color.BLUE , gameboardTest.getProfessors().get(1).getColor());
+        assertEquals(Color.GREEN, gameboardTest.getProfessors().get(2).getColor());
+        assertEquals(Color.PINK, gameboardTest.getProfessors().get(3).getColor());
+        assertEquals(Color.YELLOW , gameboardTest.getProfessors().get(4).getColor());
+
+        gameboardTest.removeProfessor(Color.RED);
+        assertEquals(4,gameboardTest.getProfessors().size());
+        gameboardTest.addProfessor(Color.RED);
+        assertEquals(5,gameboardTest.getProfessors().size());
+
+    }
+
+    @Test
+    void coinTest(){
+        assertEquals(20,gameboardTest.getCoins());
+        gameboardTest.removeCoin();
+        assertEquals(19,gameboardTest.getCoins());
+    }
+
 
 }

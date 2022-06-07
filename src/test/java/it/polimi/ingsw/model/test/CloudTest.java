@@ -21,6 +21,14 @@ class CloudTest {
         c2Test = new Cloud(3,0);
 
     }
+    @Test
+    @DisplayName("Tests the initialization of the clouds")
+    void initializationTest(){
+        assertEquals(3,c1Test.getDimension());
+        assertEquals(4,c2Test.getDimension());
+        assertEquals(0,c1Test.getIndex());
+        assertEquals(0,c1Test.getIndex());
+    }
     //This is for the method that adds students and
     //for the method that removes students
     @Test

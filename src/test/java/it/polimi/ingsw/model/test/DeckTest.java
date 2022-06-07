@@ -33,10 +33,10 @@ class DeckTest {
     @DisplayName("Test the getter of the number of cards and the action of drawing a card from the deck")
     void drawTest() throws emptyDecktException {
         Assistant a;
-        for (int i = 0; i < 10; i++) {
-            a = dTest.draw(0);
+        for (int i = 1; i < 11; i++) {
+            a = dTest.draw(i);
             assertNotNull(a);
-            assertEquals(10 - (i + 1), dTest.getNumCards());
+            assertEquals(11 - (i + 1), dTest.getNumCards());
         }
         assertThrows(emptyDecktException.class,()->dTest.draw(7));
 

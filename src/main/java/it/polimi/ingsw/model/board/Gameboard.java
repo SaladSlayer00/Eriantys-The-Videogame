@@ -199,4 +199,11 @@ public class Gameboard extends Observable implements Serializable {
         professors.add(new Professor(color));
     }
 
+    //testing methods
+    public ArrayList<Professor> getProfessors() {
+        return professors;
+    }
+    public int getCoins(){
+        return coins;
+    }
 }

@@ -116,7 +116,6 @@ public class EasyGameTest {
 
     @Test
     void emptyCloudTest() {
-       egTest.getGameBoard().createClouds();
        assertEquals(2 ,egTest.getEmptyClouds().size());
        egTest.getGameBoard().getCloud(0).addStudent(new Student(Color.PINK));
        egTest.getGameBoard().getCloud(0).addStudent(new Student(Color.BLUE));
