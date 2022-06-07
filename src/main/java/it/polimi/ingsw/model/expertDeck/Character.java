@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 
 /* TODO
 * GUYS. THE FACADE PATTER WON'T WORK HERE (or at least i think...)
@@ -15,6 +16,7 @@ public abstract class Character{
     private int cost;
     private int numCoins;
     private boolean isCalled;
+    private ExpertDeck name;
 
     //methods of the class Character
     public Character(int cost){
@@ -41,6 +43,10 @@ public abstract class Character{
             return false;
         }
         else return true;
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }
 

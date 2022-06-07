@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.impossibleBanException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class InfluenceBansCard extends Character{
     private int banPaws = 4;
     private ArrayList<Integer> bannedIslands;
     private Gameboard g;
-
+    private ExpertDeck name = ExpertDeck.HERBALIST;
     //constructor
     public InfluenceBansCard(){
         super(2);
@@ -57,5 +58,9 @@ public class InfluenceBansCard extends Character{
         if(bannedIslands.contains(i.getIndex()))
             return true;
         else return false;
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }

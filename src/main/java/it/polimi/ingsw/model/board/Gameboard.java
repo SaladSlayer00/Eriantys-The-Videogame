@@ -21,6 +21,7 @@ public class Gameboard extends Observable implements Serializable {
     private ArrayList<Professor> professors = new ArrayList<>();
     private int motherNature;
     private int numClouds;
+    private int coins = 20;
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
@@ -90,16 +91,16 @@ public class Gameboard extends Observable implements Serializable {
     public void mergeIslands(Island active) throws noTowerException {
         Island before;
         Island after;
-        if(active.getIndex()==0){
+        if(islands.indexOf(active)==0){
             before=islands.get(islands.size()-1);
             after = islands.get(1);
-        }else if(active.getIndex()==islands.size()-1){
+        }else if(islands.indexOf(active)==islands.size()-1){
             after=islands.get(0);
-            before = islands.get(active.getIndex()-1);
+            before = islands.get(islands.indexOf(active)-1);
         }
         else{
-            before = islands.get(active.getIndex()-1);
-            after= islands.get(active.getIndex()+1);
+            before = islands.get(islands.indexOf(active)-1);
+            after= islands.get(islands.indexOf(active)+1);
         }
         if(before.getTower()) {
             if (before.getTeam().equals(active.getTeam())) {
@@ -108,11 +109,7 @@ public class Gameboard extends Observable implements Serializable {
                     active.getStudents().get(c).addAll(before.getStudents().get(c));
                 }
                 islands.remove(before);
-                if(active.getIndex()!=0) {
-                    for (int i = active.getIndex(); i < islands.size(); i++) {
-                        islands.get(i).setIndex(i - 1);
-                    }
-                }
+                setMotherNature(islands.indexOf(active));
             }
         }
         if(after.getTower()) {
@@ -122,19 +119,7 @@ public class Gameboard extends Observable implements Serializable {
                     active.getStudents().get(c).addAll(after.getStudents().get(c));
                 }
                 islands.remove(after);
-                if(active.getIndex()==islands.size()-1){
-                    for(int i = 1;i<islands.size();i++){
-                        //secondo me gli indici non servono
-                    }
-                }
-                for(int i = active.getIndex()+1;i < islands.size()-1;i++){
-                    if(i==0){
-                        active.setIndex(islands.size()-1);
-                    }
-                    else {
-                        islands.get(i).setIndex(i - 1);
-                    }
-                }
+                setMotherNature(islands.indexOf(active));
             }
         }
 
@@ -192,6 +177,10 @@ public class Gameboard extends Observable implements Serializable {
     }
 
     public Cloud getCloud(int index) {return clouds.get(index);}
+
+    public void removeCoin(){
+        coins=coins-1;
+    }
 
     public void removeProfessor(Color color) {
         Professor chosenProfessor = null;

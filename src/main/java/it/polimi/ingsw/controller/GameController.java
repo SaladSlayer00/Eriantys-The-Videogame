@@ -5,21 +5,20 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.GameState;
 import it.polimi.ingsw.model.enums.Mage;
 import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.model.expertDeck.ExpertCards;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
-import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.Serializable;
-import java.rmi.StubNotFoundException;
 import java.util.*;
 
 import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
@@ -40,6 +39,7 @@ public class GameController implements Serializable {
     private static final String STR_INVALID_STATE = "Invalid game state!";
     public static final String SAVED_GAME_FILE = "match.bless";
     public static int moves;
+    private List<Character> experts;
 
     public GameController(){
         initGameController();
@@ -111,6 +111,9 @@ public class GameController implements Serializable {
                 game.initializePlayer(new Player(receivedMessage.getNickname(), 1));
                 EasyGame easyGame = (EasyGame) game;
                 easyGame.addObserver(virtualViewMap.get(receivedMessage.getNickname()));
+                if(this.gameMode.equals(modeEnum.EXPERT)){
+                    expertSetup();
+                }
                 broadcastGenericMessage("Waiting for other Players . . .");
                 if(game.getChosenPlayerNumber()==2){
                     Type.choose(Type.GREY);
@@ -567,6 +570,20 @@ public class GameController implements Serializable {
         win();
     }
 
+    public void expertSetup(){
+        ExpertCards temp = new ExpertCards();
+        for(int i=0;i<3;i++) {
+            int random = (int) (Math.random() * temp.getCards().size());
+            experts.add(temp.getCards().get(random));
+            temp.getCards().remove(temp.getCards().get(random));
+
+        }
+        for(Player p : game.getPlayers()){
+            p.addCoin();
+            game.getGameBoard().removeCoin();
+        }
+
+    }
 
     public void endGame() {
         game.resetInstance();
@@ -639,7 +656,7 @@ public class GameController implements Serializable {
     private void restoreControllers(GameController savedGameController) {
         Gameboard restoredBoard = savedGameController.game.getGameBoard();
         List<Player> restoredPlayers = savedGameController.game.getPlayers();
-        List<Character> restoredExperts = savedGameController.game.getExperts();
+        List<java.lang.Character> restoredExperts = savedGameController.game.getExperts();
         int restoredChoosenPlayerNumber = savedGameController.game.getChosenPlayerNumber();
         this.game.restoreGame(restoredBoard, restoredPlayers, restoredExperts, restoredChoosenPlayerNumber);
 

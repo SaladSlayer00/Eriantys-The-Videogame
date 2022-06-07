@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 
 /*when a player summons this card at the moment of the calculation of the influence the towers on the island
 * are not to be taken in consideration
@@ -14,7 +15,7 @@ public class NoTowerCard extends Character{
     public NoTowerCard(){
         super(3);
     }
-
+    private ExpertDeck name = ExpertDeck.CUSTOMER;
     //the effect is a modified version of the calculation of the influence...
 
     public void useEffect(Player p, Island i) throws noTowerException {
@@ -27,5 +28,9 @@ public class NoTowerCard extends Character{
               */
              //TODO
          }
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }

@@ -292,10 +292,10 @@ public class TurnController implements Serializable {
     private int checkInfluence(int actual) throws noTowerException, noTowersException {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
-        VirtualView vv = virtualViewMap.get(activePlayer);
         Island active = game.getGameBoard().getIslands().get(actual);
         int set = 0;
         int influence = 0;
+        Player owner=player;
         for(Color c : player.getProfessors()){
             influence = influence + active.getStudents().get(c).size();
         }
@@ -304,6 +304,10 @@ public class TurnController implements Serializable {
             if (active.getTeam().equals(team)) {
                 influence = influence + active.getDimension();
             }
+        }
+        if(influence > active.getInfluence()){
+            set = 1;
+            active.setInfluence(influence);
         }
 
         for(Player p : game.getPlayers()){
@@ -317,13 +321,16 @@ public class TurnController implements Serializable {
                     influenceOther = influenceOther + active.getDimension();
                 }
             }
-            if(influence > influenceOther){
+            if(influenceOther> active.getInfluence()){
                 set = 1;
+                owner = p;
+                influence = influenceOther;
             }
         }
         if(set==1){
             active.setInfluence(influence);
-            active.setTower(player.getDashboard().getTower());
+            active.setTower(owner.getDashboard().getTower());
+            VirtualView vv = virtualViewMap.get(owner.getName());
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
             //islandMerger(active);

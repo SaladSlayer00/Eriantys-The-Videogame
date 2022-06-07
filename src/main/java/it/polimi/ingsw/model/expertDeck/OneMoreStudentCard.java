@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 
 import javax.naming.ContextNotEmptyException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class OneMoreStudentCard extends Character{
     //this card has an array as attribute for the four students
     private ArrayList<Student> students = new ArrayList<Student>(3);
     private Sack sack;
+    private ExpertDeck name = ExpertDeck.BARBARIAN;
 
     //initialization of the card: the initial cost is 1 PLUS the four students are added randomly
     public OneMoreStudentCard() throws noMoreStudentsException {
@@ -54,5 +56,9 @@ public class OneMoreStudentCard extends Character{
             return s;
         }
         else throw new notEnoughMoneyException();
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }

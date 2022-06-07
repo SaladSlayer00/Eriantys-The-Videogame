@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.expertDeck;
 import it.polimi.ingsw.exceptions.notEnoughMoneyException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 
 /* This card allows the player who summons it to decide an island where they can calculate the
 * influence even if Mother Nature has not finished there her movement
@@ -10,7 +11,7 @@ import it.polimi.ingsw.model.board.Island;
 * It STILL must be calculated the influence on the island where Mother Nature ends up to be!!!
  */
 public class ImproperInfluenceCard extends Character{
-
+    private ExpertDeck name = ExpertDeck.HERALD;
     //constructor
     public ImproperInfluenceCard(){
         super(3);
@@ -28,5 +29,9 @@ public class ImproperInfluenceCard extends Character{
             addCoin();
             return chosenIsland.getInfluence();
         }
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }

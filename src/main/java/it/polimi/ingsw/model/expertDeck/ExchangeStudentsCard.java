@@ -5,6 +5,8 @@ import it.polimi.ingsw.exceptions.notPresentStudentException;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
+import it.polimi.ingsw.model.enums.ExpertDeck;
+
 import java.util.ArrayList;
 
 /* At the beginning of the match six students must be drawn and put on this card
@@ -15,6 +17,7 @@ public class ExchangeStudentsCard extends Character{
     //ArrayList for the students of the card
     private ArrayList<Student> students = new ArrayList<Student>(6);
     Sack sack;
+    private ExpertDeck name = ExpertDeck.JOKER;
 
     //constructor
     public ExchangeStudentsCard() throws noMoreStudentsException {
@@ -53,5 +56,9 @@ public class ExchangeStudentsCard extends Character{
             return true;
         }
         else return false;
+    }
+
+    public ExpertDeck getName() {
+        return name;
     }
 }
