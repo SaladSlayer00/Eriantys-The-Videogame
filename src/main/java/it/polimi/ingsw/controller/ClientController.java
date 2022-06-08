@@ -7,7 +7,10 @@ import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.board.Island;
-import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
@@ -117,9 +120,6 @@ public class ClientController implements ViewObserver, Observer {
         client.disconnect();
 
     }
-
-    @Override
-    public void OnUpdateExpert(ExpertDeck c){ client.sendMessage(new ExpertMessage(this.nickname, c));}
 
 
     @Override

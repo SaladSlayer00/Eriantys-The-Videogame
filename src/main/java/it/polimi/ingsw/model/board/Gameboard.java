@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.board;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.noTowerException;
@@ -10,8 +9,6 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.enums.modeEnum;
-import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.observer.Observable;
 
 public class Gameboard extends Observable implements Serializable {
@@ -25,8 +22,6 @@ public class Gameboard extends Observable implements Serializable {
     private int motherNature;
     private int numClouds;
     private int coins = 20;
-    private List<Character> experts = new ArrayList<>();
-    private modeEnum mode;
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
@@ -37,14 +32,6 @@ public class Gameboard extends Observable implements Serializable {
             professors.add(p);
         }
         this.sack = new Sack();
-    }
-
-    public void setMode(modeEnum mode) {
-        this.mode = mode;
-    }
-
-    public modeEnum getMode() {
-        return mode;
     }
 
     public Sack getSack() {
@@ -216,12 +203,7 @@ public class Gameboard extends Observable implements Serializable {
     public ArrayList<Professor> getProfessors() {
         return professors;
     }
-
     public int getCoins(){
         return coins;
-    }
-
-    public List<Character> getExperts() {
-        return experts;
     }
 }

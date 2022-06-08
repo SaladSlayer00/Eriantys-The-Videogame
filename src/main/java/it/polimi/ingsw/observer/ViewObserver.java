@@ -3,7 +3,10 @@ package it.polimi.ingsw.observer;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.board.Island;
-import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -105,6 +108,4 @@ public interface ViewObserver {
     void onDisconnection();
 
     void OnStartAnswer(String answer);
-
-    void OnUpdateExpert(ExpertDeck c);
 }

@@ -6,7 +6,10 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
-import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.enums.GameState;
+import it.polimi.ingsw.model.enums.Mage;
+import it.polimi.ingsw.model.enums.Type;
+import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.expertDeck.ExpertCards;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
@@ -36,7 +39,7 @@ public class GameController implements Serializable {
     private static final String STR_INVALID_STATE = "Invalid game state!";
     public static final String SAVED_GAME_FILE = "match.bless";
     public static int moves;
-
+    private List<Character> experts;
 
     public GameController(){
         initGameController();
@@ -49,10 +52,6 @@ public class GameController implements Serializable {
         this.inputController = new InputController(virtualViewMap, this, null);
         setGameState(GameState.SET_MODE);
 
-    }
-
-    public modeEnum getGameMode() {
-        return gameMode;
     }
 
     public boolean isGameStarted() {
@@ -107,12 +106,14 @@ public class GameController implements Serializable {
     private void loginState(Message receivedMessage) throws invalidNumberException {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
             if (inputController.verifyReceivedData(receivedMessage)) {
-                broadcastGenericMessage("Players . . .");
                 this.game = gameFactory.getMode(gameFactory.getType(), ((PlayerNumberReply) receivedMessage).getPlayerNumber());
                 this.inputController.setGame(game);
                 game.initializePlayer(new Player(receivedMessage.getNickname(), 1));
                 EasyGame easyGame = (EasyGame) game;
                 easyGame.addObserver(virtualViewMap.get(receivedMessage.getNickname()));
+                if(this.gameMode.equals(modeEnum.EXPERT)){
+                    expertSetup();
+                }
                 broadcastGenericMessage("Waiting for other Players . . .");
                 if(game.getChosenPlayerNumber()==2){
                     Type.choose(Type.GREY);
@@ -146,7 +147,6 @@ public class GameController implements Serializable {
             //game.getPlayers().add(new Player(nickname, ID));
             game.initializePlayer(new Player(nickname,ID));
             virtualView.showLoginResult(true, true, "server");
-            broadcastGenericMessage("Waiting for other Players . . .");
 
             if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged
 
@@ -329,10 +329,6 @@ public class GameController implements Serializable {
     private void startGame() throws noMoreStudentsException {
         setGameState(GameState.IN_GAME);
         broadcastGenericMessage("Game Started!");
-        game.getGameBoard().setMode(gameFactory.getType());
-        if(gameMode.equals(modeEnum.EXPERT)){
-            expertSetup();
-        }
         game.updateGameboard();
         turnController.broadcastMatchInfo();
         turnController.newTurn();
@@ -391,11 +387,11 @@ public class GameController implements Serializable {
                 }
                 break;
 
-            case USE_EXPERT:
-                if (inputController.verifyReceivedData(receivedMessage)) {
-                    expertHandler((ExpertMessage) receivedMessage);
-                }
-                break;
+//            case USE_EXPERT:
+//                if (inputController.verifyReceivedData(receivedMessage)) {
+//                    expertHandler((UseExpertMessage) receivedMessage);
+//                }
+//                break;
 
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
@@ -555,13 +551,6 @@ public class GameController implements Serializable {
         game.updateGameboard();
     }
 
-
-    public void expertHandler(ExpertMessage expertMessage){
-        VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-        vv.showGenericMessage("Using " + expertMessage.getCard().getText());
-        vv.askMoves(game.getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), game.getGameBoard().getIslands());
-    }
-
     public void win(){
         broadcastWinMessage(turnController.getActivePlayer());
         endGame();
@@ -585,10 +574,7 @@ public class GameController implements Serializable {
         ExpertCards temp = new ExpertCards();
         for(int i=0;i<3;i++) {
             int random = (int) (Math.random() * temp.getCards().size());
-            Character card = temp.getCards().get(random);
-            game.getGameBoard().getExperts().add(card);
-            card.setController(this);
-            card.setTurnController(turnController);
+            experts.add(temp.getCards().get(random));
             temp.getCards().remove(temp.getCards().get(random));
 
         }
@@ -670,10 +656,9 @@ public class GameController implements Serializable {
     private void restoreControllers(GameController savedGameController) {
         Gameboard restoredBoard = savedGameController.game.getGameBoard();
         List<Player> restoredPlayers = savedGameController.game.getPlayers();
-        //TODO
-        // List<java.lang.Character> restoredExperts = savedGameController.game.getExperts();
+        List<java.lang.Character> restoredExperts = savedGameController.game.getExperts();
         int restoredChoosenPlayerNumber = savedGameController.game.getChosenPlayerNumber();
-        //this.game.restoreGame(restoredBoard, restoredPlayers, restoredExperts, restoredChoosenPlayerNumber);
+        this.game.restoreGame(restoredBoard, restoredPlayers, restoredExperts, restoredChoosenPlayerNumber);
 
         this.turnController = savedGameController.turnController;
         this.gameState = savedGameController.gameState;
