@@ -3,6 +3,7 @@ import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.GameState;
+import it.polimi.ingsw.model.expertDeck.Character;
 
 import java.util.ArrayList;
 import java.util.List;
