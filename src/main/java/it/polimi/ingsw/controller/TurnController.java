@@ -262,6 +262,12 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(player);
         player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
         checkProfessors(color);
+        if(gameController.getGameMode().equals(modeEnum.EXPERT)){
+            if(player.getDashboard().getRow(row).getStudents().size()%3==0){
+                player.addCoin();
+                game.getGameBoard().removeCoin();
+            }
+        }
         moved++;
     }
 
@@ -322,7 +328,7 @@ public class TurnController implements Serializable {
                     influenceOther = influenceOther + active.getDimension();
                 }
             }
-            if(influenceOther> active.getInfluence()){
+            if(influenceOther> influence){
                 set = 1;
                 owner = p;
                 influence = influenceOther;

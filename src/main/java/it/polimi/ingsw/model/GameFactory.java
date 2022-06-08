@@ -29,7 +29,7 @@ public class GameFactory implements Serializable {
                     retval = new EasyGame(players);
                     break;
                 case EXPERT:
-                    retval = new ExpertGame(players);
+                    retval = new EasyGame(players);
                     break;
             }
             return retval;

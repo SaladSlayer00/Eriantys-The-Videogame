@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.expertDeck;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 
@@ -17,6 +19,8 @@ public abstract class Character{
     private int numCoins;
     private boolean isCalled;
     private ExpertDeck name;
+    private GameController controller;
+    private TurnController turnController;
 
     //methods of the class Character
     public Character(int cost){
@@ -37,7 +41,6 @@ public abstract class Character{
         }
     }
 
-
     public boolean checkMoney(Player p){
         if(p.getCoins() < getCost()){
             return false;
@@ -47,6 +50,14 @@ public abstract class Character{
 
     public ExpertDeck getName() {
         return name;
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
+
+    public void setTurnController(TurnController turnController) {
+        this.turnController = turnController;
     }
 }
 
