@@ -285,6 +285,7 @@ public class TurnController implements Serializable {
             }
         }
         game.getGameBoard().setMotherNature(actual);
+        game.getGameBoard().getIslands().get(actual).addMother();
         virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
         return checkInfluence(actual);
     }
