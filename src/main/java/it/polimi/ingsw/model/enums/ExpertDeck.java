@@ -12,7 +12,8 @@ public enum ExpertDeck {
     SELLER("seller"),
     MUSICIAN("musician"),
     BARBARIAN("barbarian"),
-    BANKER("banker");
+    BANKER("banker"),
+    NULL("null");
 
     //it's the string of the color of the paw
     private String name;

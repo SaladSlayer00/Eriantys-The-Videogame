@@ -7,10 +7,8 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
-import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.Type;
-import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
@@ -29,7 +27,8 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
-    int clouds = 0;
+    private int clouds = 0;
+
 
     public Cli() {
         out = System.out;
@@ -280,11 +279,21 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void askMoves(List<Student> students, List<Island> islands){
+    public void askMoves(List<Student> students, List<Island> islands) {
         clearCli();
         //showTable();
         Color student;
         String location;
+        if(gameboard.getMode().equals(modeEnum.EXPERT)){
+            try {
+                ExpertDeck answer = askExpert();
+                if(!answer.equals(ExpertDeck.NULL)){
+                    notifyObserver(obs -> obs.OnUpdateExpert(answer));
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         if (!(students.size()==0)) {
             String question = "Please, choose a student to move! Enter in LOWERCASE its color";
             student = studentInput(question, students);
@@ -612,8 +621,8 @@ public class Cli extends ViewObservable implements View {
         do {
             out.print(question);
             out.print("Choose between: ");
-            for(Island  i : islands){
-                out.print(i.getIndex() + "\n");
+            for(int i=0;i<islands.size();i++){
+                out.print(i + " ");
             }
 
             try {
@@ -629,6 +638,43 @@ public class Cli extends ViewObservable implements View {
 
        return index;
     }
+
+    public ExpertDeck askExpert() throws ExecutionException {
+        String answer;
+        out.println("Would you like to play an expert card? Type yes to see them.");
+        answer = readLine();
+        if(answer.equalsIgnoreCase("yes")){
+            ExpertDeck c=null;
+            List<ExpertDeck> names =new ArrayList<>();
+            for(Character car : gameboard.getExperts()){
+                names.add(car.getName());
+            }
+            String question = "Select a card typing the name: ";
+            do {
+                out.print(question);
+                out.print("Choose between: ");
+                for(Character s : gameboard.getExperts()){
+                    out.print(s.getName().getText() + "\n");
+                }
+
+                try {
+                    answer = readLine();
+                    c = ExpertDeck.valueOf(answer.toUpperCase());
+
+                    if (!names.contains(c)) {
+                        out.println("Invalid expert! Please try again.");
+                    }
+                } catch (IllegalArgumentException | ExecutionException e) {
+                    out.println("Invalid expert! Please try again.");
+                }
+            } while (!names.contains(c));
+           return c;
+        }
+        else{
+            return null;
+        }
+    }
+
 
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
@@ -694,24 +740,6 @@ public class Cli extends ViewObservable implements View {
             System.out.format("+-----------------+-----------+%n");
 
         }
-    }
-
-    public void showBoard(Gameboard gameboard) {
-        StringBuilder strBoardBld = new StringBuilder();
-        //String leftAlignFormat = "| 10s%- |";
-        String leftAlignFormat = "| %-10s |";
-        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
-        for (Island i : gameboard.getIslands()) {
-            System.out.format("+------+%n");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.YELLOW).size() +"]");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.BLUE).size() +"]\n");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.GREEN).size() +"]");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.PINK).size() +"]\n");
-            System.out.format(leftAlignFormat, "["+i.getStudents().get(Color.RED).size() +"]");
-            System.out.format("+------+%n");
-        }
-        strBoardBld.append(ColorCli.YELLOW_BOLD).append("\n   +-----+-----+-----+-----+-----+\n").append(ColorCli.RESET);
-        out.println(strBoardBld.toString());
     }
 
     @Override
