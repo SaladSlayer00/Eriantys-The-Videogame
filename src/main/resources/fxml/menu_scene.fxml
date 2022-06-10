@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="866.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
    <children>
@@ -34,7 +35,13 @@
             <Bloom threshold="0.6" />
          </effect>
       </ImageView>
-      <Button id="playButton" layoutX="183.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" textAlignment="CENTER" />
-      <Button id="quitButton" layoutX="530.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit" />
+      <Button id="playButton" layoutX="183.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Button>
+      <Button id="quitButton" layoutX="530.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>
