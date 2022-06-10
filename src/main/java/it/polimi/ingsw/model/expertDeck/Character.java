@@ -19,8 +19,7 @@ public abstract class Character{
     private int numCoins;
     private boolean isCalled;
     private ExpertDeck name;
-    private GameController controller;
-    private TurnController turnController;
+
 
     //methods of the class Character
     public Character(int cost){
@@ -42,22 +41,16 @@ public abstract class Character{
     }
 
     public boolean checkMoney(Player p){
-        if(p.getCoins() < getCost()){
-            return false;
-        }
-        else return true;
+        return p.getCoins() >= getCost();
     }
 
     public ExpertDeck getName() {
         return name;
     }
 
-    public void setController(GameController controller) {
-        this.controller = controller;
-    }
 
-    public void setTurnController(TurnController turnController) {
-        this.turnController = turnController;
-    }
+    public abstract void useEffect();
+
+    public abstract void removeEffect();
 }
 

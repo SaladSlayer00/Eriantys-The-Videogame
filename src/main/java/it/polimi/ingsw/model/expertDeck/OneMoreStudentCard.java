@@ -61,4 +61,14 @@ public class OneMoreStudentCard extends Character{
     public ExpertDeck getName() {
         return name;
     }
+
+    @Override
+    public void useEffect() {
+
+    }
+
+    @Override
+    public void removeEffect() {
+
+    }
 }

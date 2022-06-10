@@ -14,7 +14,7 @@ public class ExpertMessage extends Message{
 
     @Override
     public String toString() {
-        return "ColorsMessage{" +
+        return "ExpertMessage{" +
                 "nickname=" + getNickname() +
                 ", Card=" + getCard() +
                 '}';

@@ -6,6 +6,8 @@ import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.model.expertDeck.ProfessorControllerCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
@@ -28,6 +30,7 @@ public class TurnController implements Serializable {
     private final GameController gameController;
     private ArrayList<Assistant> chosen = new ArrayList<>();
     private int moved = 0;
+    private List<Character> toReset = new ArrayList<>();
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
@@ -130,10 +133,11 @@ public class TurnController implements Serializable {
 
         setMainPhase(MainPhase.PLANNING);
         setPhaseType(PhaseType.ADD_ON_CLOUD);
-        //cloudInitializer(0);
-        //cloudInitializer(1);
-        //vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(0).getStudents().size());
-        //vv.showGenericMessage("Cloud 1 "+ game.getGameBoard().getCloud(1).getStudents().size());
+        if(toReset.size()>0){
+            for(Character c : toReset){
+                c.removeEffect();
+            }
+        }
         pickCloud();
         //drawAssistant();
     }
@@ -462,6 +466,27 @@ public class TurnController implements Serializable {
         for(Student s : students){
             p.getDashboard().addToHall(s);
         }
+    }
+
+    public void useExpertEffect(ExpertDeck card){
+        VirtualView vv = virtualViewMap.get(activePlayer);
+            switch(card){
+                case COOK:
+                  ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
+                  boolean result = active.checkMoney(game.getPlayerByNickname(activePlayer));
+                  if(!result){
+                      vv.showGenericMessage("You haven't enough money for this!");
+                      vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                  }
+                  else{
+                      active.useEffect();
+                      toReset.add(active);
+                  }
+                  break;
+                default:
+
+
+            }
     }
 
 

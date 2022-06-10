@@ -80,13 +80,8 @@ public class Player implements Serializable {
         coins = coins+1;
     }
 
-    public void removeCoin() throws lowerLimitException {
-        if (coins > 0)
-        {
-            coins -= coins;
-        }else{
-            throw new lowerLimitException();
-        }
+    public void removeCoin() {
+        coins -= coins;
     }
 
     public void changeState(State nextState) {
