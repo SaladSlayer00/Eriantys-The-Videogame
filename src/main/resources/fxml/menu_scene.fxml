@@ -26,7 +26,7 @@
             </DropShadow>
          </effect>
       </ImageView>
-      <ImageView depthTest="ENABLE" fitHeight="275.0" fitWidth="602.0" layoutX="154.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView depthTest="ENABLE" fitHeight="275.0" fitWidth="602.0" layoutX="154.0" layoutY="188.0" pickOnBounds="true">
          <image>
             <Image url="@../images/eriantys_text_logo.png" />
          </image>
