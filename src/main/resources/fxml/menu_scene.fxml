@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 
-<AnchorPane prefHeight="866.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
+<AnchorPane prefHeight="866.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
    <children>
-      <ImageView fitHeight="866.0" fitWidth="936.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView layoutX="88.0" layoutY="88.0" nodeOrientation="INHERIT" pickOnBounds="true" x="12.0" y="12.0" AnchorPane.bottomAnchor="166.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="100.0">
          <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
          </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+         <effect>
+            <DropShadow height="204.25" radius="83.93" spread="0.32" width="133.47">
+               <color>
+                  <Color red="0.8114035129547119" green="0.4821673631668091" blue="0.1940857172012329" />
+               </color>
+            </DropShadow>
+         </effect>
       </ImageView>
-      <ImageView fitHeight="275.0" fitWidth="602.0" layoutX="115.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView depthTest="ENABLE" fitHeight="275.0" fitWidth="602.0" layoutX="154.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/eriantys_text_logo.png" />
          </image>
+         <effect>
+            <Bloom threshold="0.6" />
+         </effect>
       </ImageView>
-      <Button id="playButton" layoutX="184.0" layoutY="449.0" mnemonicParsing="false" onAction="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" />
-      <Button id="quitButton" layoutX="497.0" layoutY="449.0" mnemonicParsing="false" onAction="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit" />
+      <Button id="playButton" layoutX="183.0" layoutY="481.0" mnemonicParsing="false" onAction="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" textAlignment="CENTER" />
+      <Button id="quitButton" layoutX="530.0" layoutY="481.0" mnemonicParsing="false" onAction="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit" />
    </children>
 </AnchorPane>
