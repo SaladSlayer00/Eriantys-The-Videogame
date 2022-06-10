@@ -34,7 +34,7 @@
             <Bloom threshold="0.6" />
          </effect>
       </ImageView>
-      <Button id="playButton" layoutX="183.0" layoutY="481.0" mnemonicParsing="false" onAction="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" textAlignment="CENTER" />
-      <Button id="quitButton" layoutX="530.0" layoutY="481.0" mnemonicParsing="false" onAction="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit" />
+      <Button id="playButton" layoutX="183.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onPlayButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Play" textAlignment="CENTER" />
+      <Button id="quitButton" layoutX="530.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#onQuitButtonClicked" prefHeight="31.0" prefWidth="202.0" text="Exit" />
    </children>
 </AnchorPane>
