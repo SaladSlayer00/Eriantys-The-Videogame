@@ -25,6 +25,16 @@ public class RemoveAColorCard extends Character{
     public ExpertDeck getName() {
         return name;
     }
+
+    @Override
+    public void useEffect() {
+
+    }
+
+    @Override
+    public void removeEffect() {
+
+    }
 }
 /* BIG QUESTION!!!!!
 * all the students means all the students of that color or ALL the students???

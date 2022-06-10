@@ -33,4 +33,14 @@ public class NoTowerCard extends Character{
     public ExpertDeck getName() {
         return name;
     }
+
+    @Override
+    public void useEffect() {
+
+    }
+
+    @Override
+    public void removeEffect() {
+
+    }
 }

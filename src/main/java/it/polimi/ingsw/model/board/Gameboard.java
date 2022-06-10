@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.observer.Observable;
@@ -25,7 +26,7 @@ public class Gameboard extends Observable implements Serializable {
     private int motherNature;
     private int numClouds;
     private int coins = 20;
-    private List<Character> experts = new ArrayList<>();
+    private List<ExpertDeck> experts = new ArrayList<>();
     private modeEnum mode;
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
@@ -221,7 +222,7 @@ public class Gameboard extends Observable implements Serializable {
         return coins;
     }
 
-    public List<Character> getExperts() {
+    public List<ExpertDeck> getExperts() {
         return experts;
     }
 }

@@ -3,6 +3,7 @@ import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.expertDeck.Character;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public interface Mode {
      public void resetInstance();
      public void removePlayerByNickname(String nickname, boolean notifyEnabled);
      public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber);
-     public List<Character> getExperts();
+     public List<ExpertDeck> getExperts();
      public boolean getNoMoreStudents();
      public void setNoMoreStudents(boolean ans);
 }

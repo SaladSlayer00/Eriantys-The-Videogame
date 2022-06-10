@@ -7,10 +7,7 @@ import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
-import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.Type;
-import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 
 import javax.swing.text.Position;
@@ -130,7 +127,6 @@ public interface View {
     void showWinMessage(String winner);
 
     void updateTable(Gameboard gameboard, List<Dashboard> dashboards);
-
 
     //shows the assistants chosen
     void showAssistant(int index);

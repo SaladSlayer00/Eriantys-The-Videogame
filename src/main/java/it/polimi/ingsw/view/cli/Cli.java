@@ -641,39 +641,43 @@ public class Cli extends ViewObservable implements View {
 
     public ExpertDeck askExpert() throws ExecutionException {
         String answer;
+        ExpertDeck c=null;
         out.println("Would you like to play an expert card? Type yes to see them.");
         answer = readLine();
         if(answer.equalsIgnoreCase("yes")){
-            ExpertDeck c=null;
-            List<ExpertDeck> names =new ArrayList<>();
-            for(Character car : gameboard.getExperts()){
-                names.add(car.getName());
-            }
-            String question = "Select a card typing the name: ";
+
+            String question = "Select a card typing the name: \n";
             do {
                 out.print(question);
                 out.print("Choose between: ");
-                for(Character s : gameboard.getExperts()){
-                    out.print(s.getName().getText() + "\n");
+                for(ExpertDeck s : gameboard.getExperts()){
+                    out.print(s.getText() + "\n");
                 }
 
                 try {
                     answer = readLine();
-                    c = ExpertDeck.valueOf(answer.toUpperCase());
+                     c = ExpertDeck.valueOf(answer.toUpperCase());
 
-                    if (!names.contains(c)) {
+                    if (!gameboard.getExperts().contains(c)) {
                         out.println("Invalid expert! Please try again.");
                     }
                 } catch (IllegalArgumentException | ExecutionException e) {
                     out.println("Invalid expert! Please try again.");
                 }
-            } while (!names.contains(c));
+            } while (!gameboard.getExperts().contains(c));
            return c;
         }
         else{
-            return null;
+            return ExpertDeck.NULL;
         }
     }
+
+//    public void expertEffect(ExpertDeck expert){
+//        switch(expert){
+//            case TAVERNER:
+//                studentInput()
+//        }
+//    }
 
 
     public void showGenericMessage(String genericMessage) {

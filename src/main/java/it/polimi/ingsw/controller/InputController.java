@@ -72,6 +72,8 @@ public class InputController {
                 return checkInitDeck(message);
             case INIT_GAMEBOARD:
                 return true;
+            case USE_EXPERT:
+                return checkExpert(message);
             default:
                 return false;
 
@@ -243,6 +245,20 @@ public class InputController {
         return receivedMessage.getNickname().equals(gameController.getTurnController().getActivePlayer());
     }
 
+    public boolean checkExpert(Message message) {
+        VirtualView virtualView = virtualViewMap.get(message.getNickname());
+        ExpertMessage expertMessage = ((ExpertMessage) message);
+        ExpertDeck chosen = expertMessage.getCard();
+        if (game.getGameBoard().getExperts().contains(chosen)) {
+            return true;
+        } else {
+            Dashboard activePlayerDashboard = game.getPlayerByNickname(message.getNickname()).getDashboard();
+            virtualView.showGenericMessage("Expert not available");
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
+            return false;
+        }
+
+    }
     public boolean checkInitTower(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         TowerMessage towerMessage = ((TowerMessage) message);

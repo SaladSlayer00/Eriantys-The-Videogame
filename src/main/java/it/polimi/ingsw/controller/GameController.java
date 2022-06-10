@@ -7,8 +7,6 @@ import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
-import it.polimi.ingsw.model.expertDeck.Character;
-import it.polimi.ingsw.model.expertDeck.ExpertCards;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -559,7 +557,7 @@ public class GameController implements Serializable {
     public void expertHandler(ExpertMessage expertMessage){
         VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
         vv.showGenericMessage("Using " + expertMessage.getCard().getText());
-        vv.askMoves(game.getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), game.getGameBoard().getIslands());
+        turnController.useExpertEffect(expertMessage.getCard());
     }
 
     public void win(){
@@ -582,16 +580,17 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertCards temp = new ExpertCards();
-        for(int i=0;i<3;i++) {
-            int random = (int) (Math.random() * temp.getCards().size());
-            Character card = temp.getCards().get(random);
-            game.getGameBoard().getExperts().add(card);
-            card.setController(this);
-            card.setTurnController(turnController);
-            temp.getCards().remove(temp.getCards().get(random));
-
+        ExpertDeck.choose(ExpertDeck.COOK);
+        for(int i=0;i<2;i++) {
+            int random = (int) (Math.random() * ExpertDeck.notChosen().size());
+            ExpertDeck card = ExpertDeck.notChosen().get(random);
+            game.getExperts().add(card);
+            //card.setController(this);
+            //card.setTurnController(turnController);
+            ExpertDeck.choose(card);
+            broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
+        game.getExperts().add(ExpertDeck.COOK);
         for(Player p : game.getPlayers()){
             p.addCoin();
             game.getGameBoard().removeCoin();
