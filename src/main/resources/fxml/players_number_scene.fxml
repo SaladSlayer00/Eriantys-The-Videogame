@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.PlayersNumberSceneController">
    <children>
-      <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
          <image>
             <Image url="C:\Users\mcrin\IdeaProjects\ing-sw-2022-Insalata-Kimbi-Maccarini\src\main\resources\images\eriantys_banner_no_items.png" />
          </image>
@@ -23,7 +23,7 @@
             <GaussianBlur radius="3.38" />
          </effect>
       </ImageView>
-      <RadioButton layoutX="256.0" layoutY="171.0" mnemonicParsing="false" onAction="#butt" text="2 players" textAlignment="CENTER" textFill="#151515">
+      <RadioButton id="radioButtonOne" layoutX="256.0" layoutY="171.0" mnemonicParsing="false" onAction="#butt" text="2 players" textAlignment="CENTER" textFill="#151515">
          <toggleGroup>
             <ToggleGroup fx:id="tG" />
          </toggleGroup>
@@ -34,7 +34,7 @@
             <Font size="15.0" />
          </font>
       </RadioButton>
-      <RadioButton layoutX="256.0" layoutY="200.0" mnemonicParsing="false" text="3 players" textAlignment="CENTER" textFill="#131313" toggleGroup="$tG">
+      <RadioButton id="radioButtonTwo" layoutX="256.0" layoutY="200.0" mnemonicParsing="false" text="3 players" textAlignment="CENTER" textFill="#131313" toggleGroup="$tG">
          <effect>
             <Bloom />
          </effect>
@@ -42,7 +42,7 @@
             <Font size="15.0" />
          </font>
       </RadioButton>
-      <Button layoutX="166.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#onBackToMainButtonClick" prefHeight="26.0" prefWidth="122.0" text="Back to Menu">
+      <Button id="backToMainButton" layoutX="166.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#onBackToMainButtonClick" prefHeight="26.0" prefWidth="122.0" text="Back to Menu">
          <effect>
             <Glow level="0.0" />
          </effect>
@@ -50,7 +50,7 @@
             <Font name="Comic Sans MS" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="317.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#onConfirmButtonClick" prefHeight="26.0" prefWidth="122.0" text="Confirm">
+      <Button id="confirmButton" layoutX="317.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#onConfirmButtonClick" prefHeight="26.0" prefWidth="122.0" text="Confirm">
          <effect>
             <Glow level="0.0" />
          </effect>
