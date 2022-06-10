@@ -52,6 +52,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
 
     //this is to handle the clicks on the confirm button
     //the parameter of the method is the event of the button clicked on by the mouse
+    @FXML
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
@@ -62,6 +63,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
 
     //this is to handle the clicks on the back to menu button
     //the parameter of the method is the event of the button clicked on by the mouse
+    @FXML
     private void onBackToMainButtonClick(Event event){
         backToMainButton.setDisable(true);
         new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
