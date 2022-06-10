@@ -4,11 +4,16 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
 
 public class MainSceneController extends ViewObservable implements BasicSceneController{
 
@@ -24,10 +29,18 @@ public class MainSceneController extends ViewObservable implements BasicSceneCon
     @FXML
     public void initialization(){
         playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPlayButtonClicked);
-        quitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->System.exit(0));
+        quitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuitButtonClicked);
     }
 
+    @FXML
     private void onPlayButtonClicked(Event event){
-        SceneController.changeRootPane(observers, event, "conncet_scene.fxml");
+        SceneController.changeRootPane(observers, event, "connect_scene.fxml");
     }
+    @FXML
+    private void onQuitButtonClicked(Event event){
+        System.exit(0);
+    }
+
+
 }
+

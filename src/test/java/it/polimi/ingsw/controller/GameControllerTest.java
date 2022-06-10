@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
-import it.polimi.ingsw.model.enums.GameState;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.Type;
-import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.view.VirtualView;
@@ -24,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameControllerTest {
     private GameController gameController;
     private ClientHandler clientHandler;
-    private Player  player1 = new Player("EttoreMajorana" , 1);
-    private Player player2 = new Player("StuporMundi" , 2);
+    private Player player1 = new Player("EttoreMajorana", 1);
+    private Player player2 = new Player("StuporMundi", 2);
 
     @BeforeEach
     void startingSetup() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
@@ -48,25 +45,27 @@ public class GameControllerTest {
         };
         connectAndSetupTestMatch();
     }
+
     @After
-    public void tearDownEverything(){
+    public void tearDownEverything() {
         gameController = null;
         clientHandler = null;
-       gameController.endGame();
+        gameController.endGame();
     }
 
     private void connectAndSetupTestMatch() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
-        gameController.loginHandler(player1.getName(),player1.getPlayerID(),new VirtualView(clientHandler));
+        gameController.loginHandler(player1.getName(), player1.getPlayerID(), new VirtualView(clientHandler));
         GameModeReply gameModeReply = new GameModeReply(player1.getName(), modeEnum.EASY);
         gameController.onMessageReceived(gameModeReply);
-        PlayerNumberReply playerNumberReply = new PlayerNumberReply(player1.getName(),2);
+        PlayerNumberReply playerNumberReply = new PlayerNumberReply(player1.getName(), 2);
         gameController.onMessageReceived(playerNumberReply);
         Server server = new Server(gameController);
-        server.addClient(player1.getName(),player1.getPlayerID(),clientHandler);
-        server.addClient(player2.getName(),player2.getPlayerID(),clientHandler);
+        server.addClient(player1.getName(), player1.getPlayerID(), clientHandler);
+        server.addClient(player2.getName(), player2.getPlayerID(), clientHandler);
 
 
     }
+
     @Test
     public void onMessageReceived_MatchOne() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         //initState
@@ -87,7 +86,7 @@ public class GameControllerTest {
         TowerMessage playerOneTower = new TowerMessage(player1.getName(), Type.BLACK);
         gameController.onMessageReceived(playerOneTower);
         gameController.getTurnController().setActivePlayer(player2.getName());
-        TowerMessage playerTwoTower = new TowerMessage(player2.getName() , Type.WHITE);
+        TowerMessage playerTwoTower = new TowerMessage(player2.getName(), Type.WHITE);
         gameController.onMessageReceived(playerTwoTower);
         //check
         assertEquals(gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getTeam(), Type.BLACK);
@@ -96,25 +95,25 @@ public class GameControllerTest {
         //assertFalse(Type.notChosen().contains(Type.WHITE));
         //init_gameboard
 
-        StartMessage startMessage = new StartMessage(player2.getName(),"yes");
+        StartMessage startMessage = new StartMessage(player2.getName(), "yes");
         gameController.onMessageReceived(startMessage);
         assertEquals(gameController.getGameState(), GameState.IN_GAME);
 
         //Scegliere una tessera nuvola e aggiungere tre studenti alla hall
         gameController.getTurnController().setActivePlayer(player1.getName());
-        PickCloudMessage playerOneCloud = new PickCloudMessage(player1.getName(),1);
+        PickCloudMessage playerOneCloud = new PickCloudMessage(player1.getName(), 1);
         gameController.onMessageReceived(playerOneCloud);
         gameController.getTurnController().setActivePlayer(player1.getName());
         PickCloudMessage playerTwoCloud = new PickCloudMessage(player1.getName(), 0);
         gameController.onMessageReceived(playerTwoCloud);
-        assertEquals(0,gameController.getGame().getEmptyClouds().size());
+        assertEquals(0, gameController.getGame().getEmptyClouds().size());
 
         //Passiamo alla scelta degli assistenti
         gameController.getTurnController().setActivePlayer(player1.getName());
-        Assistant assistantOne = new Assistant(2,1);
+        Assistant assistantOne = new Assistant(2, 1);
         AssistantMessage playerOneChoice = new AssistantMessage(player1.getName(), assistantOne);
         gameController.onMessageReceived(playerOneChoice);
-        Assistant assistantTwo = new Assistant(3,1);
+        Assistant assistantTwo = new Assistant(3, 1);
         AssistantMessage playerTwoChoice = new AssistantMessage(player2.getName(), assistantTwo);
         gameController.onMessageReceived(playerTwoChoice);
         //controllo
@@ -134,47 +133,46 @@ public class GameControllerTest {
         int previousLengthRow1Ettore = gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getRow(chosenStudent2Ettore.getColor()).getNumOfStudents();
         int previousLengthRow2Ettore = gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getRow(chosenStudent3Ettore.getColor()).getNumOfStudents();
         //Questa azione deve essere fatta tre volte (isola oppure sala)
-        MoveMessage playerOneMove = new MoveMessage(player1.getName(), chosenStudent1Ettore.getColor(),4 ,gameController.getGame().getGameBoard().getIslands());
+        MoveMessage playerOneMove = new MoveMessage(player1.getName(), chosenStudent1Ettore.getColor(), 4, gameController.getGame().getGameBoard().getIslands());
         gameController.onMessageReceived(playerOneMove);
-        MoveMessage playerOneMove2 = new MoveMessage(player1.getName(),chosenStudent2Ettore.getColor(),chosenStudent2Ettore.getColor());
+        MoveMessage playerOneMove2 = new MoveMessage(player1.getName(), chosenStudent2Ettore.getColor(), chosenStudent2Ettore.getColor());
         gameController.onMessageReceived(playerOneMove2);
-        MoveMessage playerOneMove3 = new MoveMessage(player1.getName(),chosenStudent3Ettore.getColor(),chosenStudent3Ettore.getColor());
+        MoveMessage playerOneMove3 = new MoveMessage(player1.getName(), chosenStudent3Ettore.getColor(), chosenStudent3Ettore.getColor());
         gameController.onMessageReceived(playerOneMove3);
         //controlli
         //controllo sugli studenti spostati
         int currentLengthIsland1Ettore = gameController.getGame().getGameBoard().getIslands().get(4).getStudents().get(chosenStudent1Ettore.getColor()).size();
-        assertEquals(previousLengthIsland1Ettore +1, currentLengthIsland1Ettore);
+        assertEquals(previousLengthIsland1Ettore + 1, currentLengthIsland1Ettore);
         int currentLengthRow1Ettore = gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getRow(chosenStudent2Ettore.getColor()).getNumOfStudents();
-        if(chosenStudent2Ettore.getColor().equals(chosenStudent3Ettore.getColor()))
-        {
-            assertEquals(currentLengthRow1Ettore, previousLengthRow1Ettore +2);
-        }else{
-            assertEquals(currentLengthRow1Ettore, previousLengthRow1Ettore +1);
+        if (chosenStudent2Ettore.getColor().equals(chosenStudent3Ettore.getColor())) {
+            assertEquals(currentLengthRow1Ettore, previousLengthRow1Ettore + 2);
+        } else {
+            assertEquals(currentLengthRow1Ettore, previousLengthRow1Ettore + 1);
             int currentLengthRow2Ettore = gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getRow(chosenStudent3Ettore.getColor()).getNumOfStudents();
-            assertEquals(previousLengthRow2Ettore +1 , currentLengthRow2Ettore);
+            assertEquals(previousLengthRow2Ettore + 1, currentLengthRow2Ettore);
         }
 
 
         //Spostare madre natura su una isola
         int currentPositionMother = gameController.getGame().getGameBoard().getMotherNature();
-        MoveMotherMessage playerOneMotherMove = new MoveMotherMessage(player1.getName(),1,assistantOne);
+        MoveMotherMessage playerOneMotherMove = new MoveMotherMessage(player1.getName(), 1, assistantOne);
         gameController.onMessageReceived(playerOneMotherMove);
         //controllo sullo spostamento di madre natura
-        if(currentPositionMother==11){
-            assertEquals( 0 ,gameController.getGame().getGameBoard().getMotherNature());
-        }else{
-            assertEquals(currentPositionMother + 1 ,gameController.getGame().getGameBoard().getMotherNature());
+        if (currentPositionMother == 11) {
+            assertEquals(0, gameController.getGame().getGameBoard().getMotherNature());
+        } else {
+            assertEquals(currentPositionMother + 1, gameController.getGame().getGameBoard().getMotherNature());
         }
 
         assertTrue(gameController.getGame().getGameBoard().getIslands().get(gameController.getGame().getGameBoard().getMotherNature()).isMotherNature());
         assertFalse(gameController.getGame().getGameBoard().getIslands().get(currentPositionMother).isMotherNature());
 
         //Selezione della nuvola che contiene gli studenti da aggiungere alla hall
-        List<Cloud> cloudOne = (ArrayList<Cloud>)gameController.getGame().getGameBoard().getCloud(1).getStudents().clone();
+        List<Cloud> cloudOne = (ArrayList<Cloud>) gameController.getGame().getGameBoard().getCloud(1).getStudents().clone();
         gameController.getTurnController().setActivePlayer(player1.getName());
-        playerOneCloud = new PickCloudMessage(player1.getName(),1);
+        playerOneCloud = new PickCloudMessage(player1.getName(), 1);
         gameController.onMessageReceived(playerOneCloud);
-        assertEquals(1,gameController.getGame().getEmptyClouds().size());
+        assertEquals(1, gameController.getGame().getEmptyClouds().size());
         assertTrue(gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getHall().containsAll(cloudOne));
 
         //turno secondo giocatore
@@ -186,51 +184,51 @@ public class GameControllerTest {
         int previousLength2RowStupor = gameController.getGame().getPlayerByNickname(player2.getName()).getDashboard().getRow(chosenStudent2Stupor.getColor()).getNumOfStudents();
         int previousLength2islandStupor = gameController.getGame().getGameBoard().getIslands().get(4).getStudents().get(chosenStudent3Stupor.getColor()).size();
         //Questa azione deve essere fatta tre volte (isola oppure sala)
-        MoveMessage playerTwoMove = new MoveMessage(player2.getName(), chosenStudent1Stupor.getColor(),2,gameController.getGame().getGameBoard().getIslands());
+        MoveMessage playerTwoMove = new MoveMessage(player2.getName(), chosenStudent1Stupor.getColor(), 2, gameController.getGame().getGameBoard().getIslands());
         gameController.onMessageReceived(playerTwoMove);
-        MoveMessage playerTwoMove2 = new MoveMessage(player2.getName(),chosenStudent2Stupor.getColor(), chosenStudent2Stupor.getColor());
+        MoveMessage playerTwoMove2 = new MoveMessage(player2.getName(), chosenStudent2Stupor.getColor(), chosenStudent2Stupor.getColor());
         gameController.onMessageReceived(playerTwoMove2);
-        MoveMessage playerTwoMove3 = new MoveMessage(player2.getName() ,chosenStudent3Stupor.getColor(),4,gameController.getGame().getGameBoard().getIslands());
+        MoveMessage playerTwoMove3 = new MoveMessage(player2.getName(), chosenStudent3Stupor.getColor(), 4, gameController.getGame().getGameBoard().getIslands());
         gameController.onMessageReceived(playerTwoMove3);
 
         //controlli
         //controllo sugli studenti spostati
         int currentLength1IslandStupor = gameController.getGame().getGameBoard().getIslands().get(2).getStudents().get(chosenStudent1Stupor.getColor()).size();
-        assertEquals(previousLengthIsland1Stupor +1, currentLength1IslandStupor);
+        assertEquals(previousLengthIsland1Stupor + 1, currentLength1IslandStupor);
         int currentLength2RowStupor = gameController.getGame().getPlayerByNickname(player2.getName()).getDashboard().getRow(chosenStudent2Stupor.getColor()).getNumOfStudents();
-        assertEquals(previousLength2RowStupor +1 , currentLength2RowStupor);
+        assertEquals(previousLength2RowStupor + 1, currentLength2RowStupor);
         int currentLength2IslandStupor = gameController.getGame().getGameBoard().getIslands().get(4).getStudents().get(chosenStudent3Stupor.getColor()).size();
-        assertEquals(previousLength2islandStupor +1 , currentLength2IslandStupor);
+        assertEquals(previousLength2islandStupor + 1, currentLength2IslandStupor);
 
 
         //Spostare madre natura su una isola
         currentPositionMother = gameController.getGame().getGameBoard().getMotherNature();
-        MoveMotherMessage playerTwoMotherMove = new MoveMotherMessage(player2.getName(),1,assistantTwo);
+        MoveMotherMessage playerTwoMotherMove = new MoveMotherMessage(player2.getName(), 1, assistantTwo);
         gameController.onMessageReceived(playerTwoMotherMove);
         //controllo sullo spostamento di madre natura
-        if(currentPositionMother==11){
-            assertEquals( 0 ,gameController.getGame().getGameBoard().getMotherNature());
-        }else{
-            assertEquals(currentPositionMother + 1 ,gameController.getGame().getGameBoard().getMotherNature());
+        if (currentPositionMother == 11) {
+            assertEquals(0, gameController.getGame().getGameBoard().getMotherNature());
+        } else {
+            assertEquals(currentPositionMother + 1, gameController.getGame().getGameBoard().getMotherNature());
         }
         assertTrue(gameController.getGame().getGameBoard().getIslands().get(gameController.getGame().getGameBoard().getMotherNature()).isMotherNature());
         assertFalse(gameController.getGame().getGameBoard().getIslands().get(currentPositionMother).isMotherNature());
 
         //Selezione della nuvola che contiene gli studenti da aggiungere alla hall
-        List<Cloud> cloudTwo = (ArrayList<Cloud>)gameController.getGame().getGameBoard().getCloud(0).getStudents().clone();
+        List<Cloud> cloudTwo = (ArrayList<Cloud>) gameController.getGame().getGameBoard().getCloud(0).getStudents().clone();
         gameController.getTurnController().setActivePlayer(player1.getName());
-        playerOneCloud = new PickCloudMessage(player1.getName(),0);
+        playerOneCloud = new PickCloudMessage(player1.getName(), 0);
         gameController.onMessageReceived(playerOneCloud);
-        assertEquals(2,gameController.getGame().getEmptyClouds().size());
+        assertEquals(2, gameController.getGame().getEmptyClouds().size());
         assertTrue(gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getHall().containsAll(cloudTwo));
 
 
-
     }
+
     @Test
-    public void addVirtualView(){
+    public void addVirtualView() {
         VirtualView virtualView = new VirtualView(clientHandler);
-        gameController.addVirtualView("testNickname",virtualView);
+        gameController.addVirtualView("testNickname", virtualView);
         assertNotNull(gameController.getVirtualViewMap().get("testNickname"));
 
     }
@@ -239,27 +237,101 @@ public class GameControllerTest {
     public void removeVirtualView() throws noMoreStudentsException {
         gameController.getGame().initializeGameboard();
         VirtualView virtualView = new VirtualView(clientHandler);
-        gameController.addVirtualView("testNickname",virtualView);
-        gameController.removeVirtualView("testNickname",true);
+        gameController.addVirtualView("testNickname", virtualView);
+        gameController.removeVirtualView("testNickname", true);
         assertNull(gameController.getVirtualViewMap().get("testNickname"));
     }
 
     @Test
     public void getVirtualViewMap() {
         VirtualView virtualView = new VirtualView(clientHandler);
-        gameController.addVirtualView("testNickname",virtualView);
+        gameController.addVirtualView("testNickname", virtualView);
         assertNotNull(gameController.getVirtualViewMap());
     }
 
     @Test
     public void numberOfPlayerTest() {
         assertEquals(gameController.getGame().getNumCurrentPlayers(), 2);
-        assertEquals(gameController.getGame().getPlayers().size(),2);
-        assertEquals(gameController.getGame().getActivePlayers().size(),2);
-        assertEquals(gameController.getGame().getNumCurrentActivePlayers(),2);
+        assertEquals(gameController.getGame().getPlayers().size(), 2);
+        assertEquals(gameController.getGame().getActivePlayers().size(), 2);
+        assertEquals(gameController.getGame().getNumCurrentActivePlayers(), 2);
+    }
+
+    @Test
+    public void endGameNoAssistantTest() throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+        //initState
+        //init_deck
+        gameController.getTurnController().setActivePlayer(player1.getName());
+        DeckMessage playerOneDeck = new DeckMessage(player1.getName(), Mage.MAGE);
+        gameController.onMessageReceived(playerOneDeck);
+        gameController.getTurnController().setActivePlayer(player2.getName());
+        DeckMessage playerTwoDeck = new DeckMessage(player2.getName(), Mage.FAIRY);
+        gameController.onMessageReceived(playerTwoDeck);
+        //check
+        assertEquals(gameController.getGame().getPlayerByNickname(player1.getName()).getDeck().getMage(), Mage.MAGE);
+        assertFalse(Mage.notChosen().contains(Mage.MAGE));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2.getName()).getDeck().getMage(), Mage.FAIRY);
+        assertFalse(Mage.notChosen().contains(Mage.FAIRY));
+        //init_tower
+        gameController.getTurnController().setActivePlayer(player1.getName());
+        TowerMessage playerOneTower = new TowerMessage(player1.getName(), Type.BLACK);
+        gameController.onMessageReceived(playerOneTower);
+        gameController.getTurnController().setActivePlayer(player2.getName());
+        TowerMessage playerTwoTower = new TowerMessage(player2.getName(), Type.WHITE);
+        gameController.onMessageReceived(playerTwoTower);
+        //check
+        assertEquals(gameController.getGame().getPlayerByNickname(player1.getName()).getDashboard().getTeam(), Type.BLACK);
+        assertFalse(Type.notChosen().contains(Type.BLACK));
+        assertEquals(gameController.getGame().getPlayerByNickname(player2.getName()).getDashboard().getTeam(), Type.WHITE);
+        //assertFalse(Type.notChosen().contains(Type.WHITE));
+        //init_gameboard
+
+        StartMessage startMessage = new StartMessage(player2.getName(), "yes");
+        gameController.onMessageReceived(startMessage);
+        assertEquals(gameController.getGameState(), GameState.IN_GAME);
+
+        //Scegliere una tessera nuvola e aggiungere tre studenti alla hall
+        gameController.getTurnController().setActivePlayer(player1.getName());
+        PickCloudMessage playerOneCloud = new PickCloudMessage(player1.getName(), 1);
+        gameController.onMessageReceived(playerOneCloud);
+        gameController.getTurnController().setActivePlayer(player1.getName());
+        PickCloudMessage playerTwoCloud = new PickCloudMessage(player1.getName(), 0);
+        gameController.onMessageReceived(playerTwoCloud);
+        assertEquals(0, gameController.getGame().getEmptyClouds().size());
+
+/*
+        for(int i = 1; i <11;i++){
+            //Passiamo alla scelta degli assistenti
+            gameController.getTurnController().setActivePlayer(player1.getName());
+            System.out.println(i);
+            Assistant assistantOne = new Assistant(i,gameController.getGame().getPlayerByNickname(player1.getName()).getDeck().getByNumOrder(i).getMove());
+            AssistantMessage playerOneChoice = new AssistantMessage(player1.getName(), assistantOne);
+            gameController.onMessageReceived(playerOneChoice);
+            if(gameController.getGameState().equals(GameState.SET_MODE)) {
+                System.out.println("entrato");
+                break;
+            }
+            gameController.getTurnController().setActivePlayer(player2.getName());
+            if(i==10){
+                i = 0;
+                Assistant assistantTwo = new Assistant(i+1,gameController.getGame().getPlayerByNickname(player2.getName()).getDeck().getByNumOrder(1).getMove());
+                AssistantMessage playerTwoChoice = new AssistantMessage(player2.getName(), assistantTwo);
+                gameController.onMessageReceived(playerTwoChoice);
+            }else {
+                Assistant assistantTwo = new Assistant(i + 1, gameController.getGame().getPlayerByNickname(player2.getName()).getDeck().getByNumOrder(i+1).getMove());
+                AssistantMessage playerTwoChoice = new AssistantMessage(player2.getName(), assistantTwo);
+                gameController.onMessageReceived(playerTwoChoice);
+            }
+            gameController.getTurnController().setMainPhase(MainPhase.PLANNING);
+        }
+
+        assertEquals(gameController.getGameState(),GameState.SET_MODE);
+
     }
 
 
 
+ */
 
+    }
 }

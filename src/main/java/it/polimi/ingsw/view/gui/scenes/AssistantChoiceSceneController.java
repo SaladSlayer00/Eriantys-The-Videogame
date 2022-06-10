@@ -39,7 +39,7 @@ public class AssistantChoiceSceneController extends ViewObservable implements Ba
     }
 
     @FXML
-    public void initialize(){
+    public void initialization(){
         setAssistantImage(availableAssistants.get(0).getNumOrder());
         notThisOneButton.setDisable(true);
 

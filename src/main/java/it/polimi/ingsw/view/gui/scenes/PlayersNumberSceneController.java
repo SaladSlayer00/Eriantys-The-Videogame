@@ -42,7 +42,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     }
 
     @FXML
-    public void initialize(){
+    public void initialization(){
         radioButtonROne.setText(minimumPlayers + " players");
         radioButtonRTwo.setText(maximumPlayers + " players");
 
