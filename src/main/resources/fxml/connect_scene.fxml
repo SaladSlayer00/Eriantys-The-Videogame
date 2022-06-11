@@ -46,7 +46,7 @@
             <Bloom threshold="1.0" />
          </effect>
             </Text>
-            <Button fx:id="backBtn" layoutX="157.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#onBackBtnClick" prefHeight="25.0" prefWidth="73.0" styleClass="smallButton" text="Back">
+            <Button fx:id="backBtn" layoutX="157.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" styleClass="smallButton" text="Back">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
@@ -62,7 +62,7 @@
             <Bloom threshold="1.0" />
          </effect>
       </Text>
-            <Button id="connectBtn" layoutX="279.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#onConnectBtnClick" prefHeight="22.0" prefWidth="73.0" styleClass="smallButton" text="Connect">
+            <Button fx:id="connectBtn" layoutX="279.0" layoutY="217.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="73.0" styleClass="smallButton" text="Connect">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>

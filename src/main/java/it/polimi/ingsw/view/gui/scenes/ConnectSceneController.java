@@ -26,7 +26,7 @@ public class ConnectSceneController extends ViewObservable implements  BasicScen
     @FXML
     private Button backBtn;
     @FXML
-    public void initialization(){
+    public void initialize(){
         connectBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onConnectBtnClick);
         backBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onBackBtnClick);
     }

@@ -131,4 +131,6 @@ public interface View {
     //shows the assistants chosen
     void showAssistant(int index);
 
+    void showLobby(List<String> nicknameList, int maxPlayers);
+
 }

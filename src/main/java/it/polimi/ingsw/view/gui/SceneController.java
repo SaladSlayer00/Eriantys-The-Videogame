@@ -36,7 +36,6 @@ public class SceneController extends ViewObservable {
     //it returns the new scene controller
     public static <T> T changeRootPane(List<ViewObserver> listOfObserver, Scene actualScene, String fxml){
         T controller = null;
-        System.out.println("ok");
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/"+fxml));
             //System loader;

@@ -33,7 +33,6 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
 
         joinTheMatchButton.setDisable(true);
         String nicknameChosen = nickname.getText();
-
         new Thread(() -> notifyObserver(observers -> observers.onUpdateNickname(nicknameChosen))).start();
     }
 

@@ -755,6 +755,11 @@ public class Cli extends ViewObservable implements View {
         System.out.format("+------+%n");
     }
 
+    @Override
+    public void showLobby(List<String> nicknameList, int maxPlayers) {
+
+    }
+
     public List<String> buildIslands(Gameboard gameboard) {
         List<Island> gameIslands = gameboard.getIslands();
         List<String> islands = new ArrayList<>();

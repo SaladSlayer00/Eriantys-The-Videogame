@@ -143,13 +143,14 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards));
     }
 
-
-
-
     public void showAssistant(int index){
         clientHandler.sendMessage(new showAssistantMessage(index));
     }
 
+    @Override
+    public void showLobby(List<String> nicknameList, int maxPlayers) {
+        clientHandler.sendMessage(new LobbyMessage(nicknameList,maxPlayers));
+    }
 
 
 }

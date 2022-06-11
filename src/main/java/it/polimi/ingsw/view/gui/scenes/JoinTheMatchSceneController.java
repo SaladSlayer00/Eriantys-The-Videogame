@@ -21,7 +21,7 @@ public class JoinTheMatchSceneController extends ViewObservable implements Basic
     private Button backToMainButton;
 
     @FXML
-    public void initialization(){
+    public void initialize(){
         joinTheMatchButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onJoinTheMatchButtonClicked);
         backToMainButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackToMainButtonClicked);
     }

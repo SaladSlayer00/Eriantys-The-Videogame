@@ -82,7 +82,7 @@ public class Gui extends ViewObservable implements View {
     public void askGameMode(String nickname, List<modeEnum> gameMode){
         GameModeSceneController gameModeSC = new GameModeSceneController();
         gameModeSC.addAllObservers(observers);
-        Platform.runLater(() -> SceneController.changeRootPane(gameModeSC, "game_mode_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeRootPane(gameModeSC, "gameMode_scene.fxml"));
     }
 
     @Override
@@ -162,4 +162,28 @@ public class Gui extends ViewObservable implements View {
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
 
     }
+
+    @Override
+    public void showLobby(List<String> nicknameList, int maxPlayers) {
+        LobbySceneController lsc;
+        try {
+            lsc = (LobbySceneController) SceneController.activeSceneController;
+            lsc.setNicknames(nicknameList);
+            lsc.setMaxPlayers(maxPlayers);
+            Platform.runLater(lsc::updateValues);
+        } catch (ClassCastException e) {
+            lsc = new LobbySceneController();
+            lsc.addAllObservers(observers);
+            lsc.setNicknames(nicknameList);
+            lsc.setMaxPlayers(maxPlayers);
+            LobbySceneController finalLsc = lsc;
+            Platform.runLater(() -> SceneController.changeRootPane(finalLsc, "lobby_scene.fxml"));
+        }
+    }
+
+
+
+
+
+
 }

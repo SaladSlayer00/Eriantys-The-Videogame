@@ -19,7 +19,7 @@ public class LobbySceneController extends ViewObservable implements BasicSceneCo
     @FXML
     private Button backToMenuBtn;
     @FXML
-    public void intialize() {
+    public void initialize() {
         playersLbl.setText(String.join(",",nicknames));
         numbersLbl.setText(nicknames.size()+"/"+maxPlayers);
         backToMenuBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onBackToMenuBtnClick);

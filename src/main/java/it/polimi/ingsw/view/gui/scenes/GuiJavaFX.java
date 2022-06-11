@@ -8,9 +8,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.IOException;
 
 public class GuiJavaFX extends Application {
@@ -31,9 +35,10 @@ public class GuiJavaFX extends Application {
             Client.LOGGER.severe(exception.getMessage());
             System.exit(1);
         }
+
         MainSceneController controller = loader.getController();
         controller.addObserver(clientController);
-
+        Image icon = new Image("/images/eriantys_text_logo.png");
         //shows the scene with the main layout
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
@@ -42,6 +47,7 @@ public class GuiJavaFX extends Application {
         stage.setResizable(false);
         stage.setMaximized(true);
         stage.setFullScreen(true);
+        stage.getIcons().add(icon);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setTitle("Eryantis Board Game");

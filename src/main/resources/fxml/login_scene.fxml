@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
          <image>
-            <Image url="C:\Users\mcrin\IdeaProjects\ing-sw-2022-Insalata-Kimbi-Maccarini\src\main\resources\images\eriantys_banner_no_items.png" />
+            <Image url="@../images/eriantys_banner_no_items.png" />
          </image>
          <effect>
             <GaussianBlur radius="3.38" />
@@ -24,13 +24,13 @@
             <Font name="Comic Sans MS" size="16.0" />
          </font>
       </Text>
-      <TextField id="nickname" layoutX="225.0" layoutY="175.0" />
-      <Button id="JoinTheMatchButton" layoutX="327.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#onJoinTheMatchButtonClicked" text="Join the match">
+      <TextField fx:id="nickname" layoutX="225.0" layoutY="175.0" />
+      <Button fx:id="joinTheMatchButton" layoutX="327.0" layoutY="290.0" mnemonicParsing="false"  text="Join the match">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
       </Button>
-      <Button id="backToMainButton" layoutX="179.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#onBackToMainButtonClicked" text="Back to Menu">
+      <Button fx:id="backToMainButton" layoutX="179.0" layoutY="290.0" mnemonicParsing="false"  text="Back to Menu">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>

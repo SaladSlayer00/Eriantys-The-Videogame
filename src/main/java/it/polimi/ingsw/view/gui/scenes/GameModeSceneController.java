@@ -35,7 +35,7 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
     private ToggleGroup tG;
 
     @FXML
-    public void initialization(){
+    public void initialize(){
         radioButtonEasyMode.setText("Easy Mode");
         radioButtonExpertMode.setText("Expert Mode");
 
@@ -51,11 +51,11 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
         //tbh i don't really know what to put here...
         //also not quite sure this is the right way to use the modeEnum...seems quite redundant (???)
         if(selectedRadioButton.equals(radioButtonEasyMode)){
-           modeEnum selectedMode = modeEnum.valueOf("easy");
+           modeEnum selectedMode = modeEnum.EASY;
             new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
         }
         else if(selectedRadioButton.equals(radioButtonExpertMode)){
-            modeEnum selectedMode = modeEnum.valueOf("expert");
+            modeEnum selectedMode = modeEnum.EXPERT;
             new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
         }
     }

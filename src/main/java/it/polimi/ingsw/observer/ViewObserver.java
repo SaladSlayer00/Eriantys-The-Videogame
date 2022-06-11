@@ -107,4 +107,5 @@ public interface ViewObserver {
     void OnStartAnswer(String answer);
 
     void OnUpdateExpert(ExpertDeck c);
+
 }
