@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" ><children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.GameModeSceneController"><children>
     <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
         <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
@@ -21,7 +21,7 @@
             <GaussianBlur radius="3.38" />
         </effect>
     </ImageView>
-    <RadioButton fx:id="radioButtonEasyMode" layoutX="256.0" layoutY="171.0" mnemonicParsing="false" text="EASY" textAlignment="CENTER" textFill="#151515">
+    <RadioButton fx:id="radioButtonEasyMode" layoutX="256.0" layoutY="171.0" mnemonicParsing="false" text="easy mode" textAlignment="CENTER" textFill="#151515">
         <toggleGroup>
             <ToggleGroup fx:id="tG" />
         </toggleGroup>
@@ -29,15 +29,15 @@
             <Bloom />
         </effect>
         <font>
-            <Font size="15.0" />
+            <Font name="Comic Sans MS" size="15.0" />
         </font>
     </RadioButton>
-    <RadioButton fx:id="radioButtonExpertMode" layoutX="256.0" layoutY="200.0" mnemonicParsing="false" text="EXPERT" textAlignment="CENTER" textFill="#131313" toggleGroup="$tG">
+    <RadioButton fx:id="radioButtonExpertMode" layoutX="256.0" layoutY="200.0" mnemonicParsing="false" text="expert mode" textAlignment="CENTER" textFill="#131313" toggleGroup="$tG">
         <effect>
             <Bloom />
         </effect>
         <font>
-            <Font size="15.0" />
+            <Font name="Comic Sans MS" size="15.0" />
         </font>
     </RadioButton>
     <Button fx:id="backToMainButton" layoutX="166.0" layoutY="310.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Back to Menu">

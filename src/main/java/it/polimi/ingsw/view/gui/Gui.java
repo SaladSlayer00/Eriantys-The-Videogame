@@ -72,7 +72,7 @@ public class Gui extends ViewObservable implements View {
     public void askPlayersNumber(){
         PlayersNumberSceneController playersNumSC = new PlayersNumberSceneController();
         playersNumSC.addAllObservers(observers);
-        playersNumSC.setRangeForPlayers(2, 4); //here is kept the possibility to play in 4 players
+        playersNumSC.setRangeForPlayers(2, 3); //here is kept the possibility to play in 4 players
         Platform.runLater(() -> SceneController.changeRootPane(playersNumSC, "players_number_scene.fxml"));
     }
 
