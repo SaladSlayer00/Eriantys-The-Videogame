@@ -114,8 +114,9 @@ public class ExpertGame implements Mode{
     }
 
     @Override
-    public void removePlayerByNickname(String nickname, boolean notifyEnabled) {
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
 
+        return notifyEnabled;
     }
 
     @Override

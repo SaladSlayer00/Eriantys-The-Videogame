@@ -755,10 +755,6 @@ public class Cli extends ViewObservable implements View {
         System.out.format("+------+%n");
     }
 
-    @Override
-    public void showLobby(List<String> nicknameList, int maxPlayers) {
-
-    }
 
     public List<String> buildIslands(Gameboard gameboard) {
         List<Island> gameIslands = gameboard.getIslands();
@@ -862,6 +858,15 @@ public class Cli extends ViewObservable implements View {
         out.println("Game finished: " + winner + " WINS!");
         System.exit(0);
     }
+    @Override
+    public void showLobby(List<String> nicknameList, int numPlayers) {
+        out.println("LOBBY:");
+        for (String nick : nicknameList) {
+            out.println(nick);
+        }
+        out.println("Current players in lobby: " + nicknameList.size() + " / " + numPlayers);
+    }
+
 
 //TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board
 

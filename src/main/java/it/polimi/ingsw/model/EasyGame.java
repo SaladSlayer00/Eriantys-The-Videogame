@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.LobbyMessage;
 import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.board.Gameboard;
@@ -54,7 +55,9 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.players.add(p);
         this.activeplayers.add(p);
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
+        notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
     }
+
 
     public void initializeDashboards() throws maxSizeException {
         for(Player p : this.players){
@@ -141,8 +144,12 @@ public class EasyGame extends Observable implements Serializable, Mode{
     }
 
     @Override
-    public void removePlayerByNickname(String nickname, boolean notifyEnabled) {
-
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
+        boolean result = players.remove(getPlayerByNickname(nickname));
+        if(notifyEnabled){
+            notifyObserver(new LobbyMessage(getPlayersNicknames(),this.chosenPlayerNumber));
+        }
+        return result;
     }
 
     @Override

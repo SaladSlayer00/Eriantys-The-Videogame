@@ -44,10 +44,10 @@ public class AlertSceneController implements BasicSceneController {
     }
 
     @FXML
-    public void initialization(){
+    public void initialize(){
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
-        rootBPane.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onButtonForOkayClicked);
+        buttonForOkay.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onButtonForOkayClicked);
     }
 
     //this method handles the event for the pressing of the mouse
@@ -82,4 +82,6 @@ public class AlertSceneController implements BasicSceneController {
     public void setScene(Scene scene){
         actualStage.setScene(scene);
     }
+
+
 }
