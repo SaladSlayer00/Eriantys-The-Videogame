@@ -55,7 +55,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.players.add(p);
         this.activeplayers.add(p);
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
-        notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
+        lobbyUpdate();
     }
 
 
@@ -160,6 +160,10 @@ public class EasyGame extends Observable implements Serializable, Mode{
     @Override
     public List<ExpertDeck> getExperts() {
         return gameBoard.getExperts();
+    }
+    @Override
+    public void lobbyUpdate(){
+        notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
     }
 
 //    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {

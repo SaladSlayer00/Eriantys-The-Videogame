@@ -4,9 +4,11 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DeckChoiceSceneController extends ViewObservable implements BasicSceneController {
 
@@ -22,7 +25,6 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     private Mage thisIsTheChoice;
 
     private int mageIndex;
-
 
     @FXML
     private Button previousMageButton;
@@ -36,16 +38,21 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     private Button okayLetsGoButton;
     @FXML
     private ImageView mageImage;
+    @FXML
+    private ListView<String> selectedMageListView;
+    @FXML
+    private ImageView chosenMage;
 
     //should there be a thing like an imageview for the selected mage???
 
     public DeckChoiceSceneController(){
         mageIndex = 0;
         thisIsTheChoice = null;
+        chosenMage = new ImageView();
     }
 
     @FXML
-    public void initialization(){
+    public void initialize(){
         setMageImage(mageList.get(0).getText());
         thisIsNotTheOneButton.setDisable(true);
 
@@ -78,7 +85,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
     }
 
     private void setMageImage(String nameOfTheMage){
-        Image image = new Image(getClass().getResourceAsStream("/image/cards/" + nameOfTheMage.toLowerCase() + ".png"));
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/mage/" + nameOfTheMage.toLowerCase() + ".png"));
         mageImage.setImage(image);
     }
 
@@ -113,6 +120,8 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         //here we have to add the thing for the choice
         thisIsTheChoice = mageList.get(mageIndex);
         checkWhichButtonHasBeenSelected();
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/mage/" + thisIsTheChoice.getText().toLowerCase() + ".png"));
+        chosenMage.setImage(image);
         //updateMageChosenListView();
     }
 
@@ -121,13 +130,18 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         //here we have to add the things for the choice
         thisIsTheChoice = null;
         checkWhichButtonHasBeenSelected();
+        chosenMage.setImage(null);
         //updateMageChosenListView();
     }
 
     //handles the clicks on the button that confirm the choice
     private void onOkayLetsGoButtonClicked(Event mouseEvent) {
-        disableAllTheButtons();
-        new Thread(() -> notifyObserver(observer -> observer.OnUpdateInitDeck(thisIsTheChoice))).start();
+        if (thisIsTheChoice == null) {
+            SceneController.alertShown("Error", "Please select your deck");
+        } else {
+            disableAllTheButtons();
+            new Thread(() -> notifyObserver(observer -> observer.OnUpdateInitDeck(thisIsTheChoice))).start();
+        }
     }
 
     //this disables ALL the buttons
@@ -144,7 +158,8 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         if (!theChosenOneButton.isDisable() || thisIsTheChoice != null) {
             theChosenOneButton.setDisable(false);
         }
-        if(thisIsTheChoice.equals(mageList.get(mageIndex))){
+
+        if(thisIsTheChoice!=null && thisIsTheChoice.equals(mageList.get(mageIndex))){
             theChosenOneButton.setDisable(true);
             thisIsNotTheOneButton.setDisable(false);
         } else {

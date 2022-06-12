@@ -3,14 +3,14 @@ import it.polimi.ingsw.model.EasyGame;
 import java.util.List;
 
 public class LobbyMessage extends Message {
-    private static final long serialVersionUID = 6886305903361404798L;
+    private static final long serialVersionUID = -6886305903361404798L;
     private final List<String> nicknameList;
     private final int maxPlayers;
 
-    public LobbyMessage(List<String> nicknameList , int maxPlyers){
+    public LobbyMessage(List<String> nicknameList , int maxPlayers){
         super(EasyGame.SERVER_NICKNAME,MessageType.LOBBY);
         this.nicknameList = nicknameList;
-        this.maxPlayers = maxPlyers;
+        this.maxPlayers = maxPlayers;
     }
 
     public List<String> getNicknameList(){

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Group scaleX="2.0" scaleY="2.0" scaleZ="2.0" StackPane.alignment="CENTER">
+    <AnchorPane layoutX="923.0" layoutY="-264.0" prefHeight="351.0" prefWidth="561.0">
+        <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="146.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="134.0" AnchorPane.topAnchor="40.0">
+            <image>
+                <Image url="@../images/eriantys_banner_no_items.png" />
+            </image>
+            <effect>
+                <GaussianBlur radius="3.38" />
+            </effect>
+        </ImageView>
+        <Separator layoutX="189.0" layoutY="112.0" prefHeight="40.0" prefWidth="222.0" />
+
+        <ImageView fx:id="mageImage" fitHeight="124.0" fitWidth="67.0" layoutX="194.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <image>
+                <Image url="@../images/cards/mage/mage.png" />
+            </image>
+
+        </ImageView>
+        <Button id="theChosenOneButton" fx:id="theChosenOneButton" layoutX="177.0" layoutY="272.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="104.0" text="Select" />
+        <Button id="nextMageButton" fx:id="nextMageButton" layoutX="269.0" layoutY="192.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button id="previousMageButton" fx:id="previousMageButton" layoutX="162.0" layoutY="191.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button id="okayLetsGoButton" fx:id="okayLetsGoButton" layoutX="345.0" layoutY="260.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="108.0" text="Confirm" />
+        <Button id="thisIsNotTheOneButton" fx:id="thisIsNotTheOneButton" layoutX="177.0" layoutY="310.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="104.0" text="Deselect" />
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="108.0" prefHeight="7.0" prefWidth="130.0" text="Choose your Gods">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="371.0" layoutY="171.0" text="Selected Deck:">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+         <ImageView fx:id="chosenMage" fitHeight="65.0" fitWidth="41.0" layoutX="381.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true" />
+    </AnchorPane>
+</Group>
+</StackPane>

@@ -20,7 +20,7 @@ public class SceneController extends ViewObservable {
     //should there be a String for the prefix???
 
     private static Scene activeScene;
-    public static BasicSceneController activeSceneController;
+    private static BasicSceneController activeSceneController;
 
     //getter for the active scene
     public static Scene getActiveScene(){
@@ -28,7 +28,7 @@ public class SceneController extends ViewObservable {
     }
 
     //getter for the active scene controller
-    public BasicSceneController getSceneController(){
+    public static BasicSceneController getSceneController(){
         return activeSceneController;
     }
 

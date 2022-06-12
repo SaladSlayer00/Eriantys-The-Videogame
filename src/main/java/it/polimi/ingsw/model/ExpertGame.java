@@ -139,6 +139,10 @@ public class ExpertGame implements Mode{
 
     }
 
+    @Override
+    public void lobbyUpdate() {
+
+    }
 
     @Override
     public List<Player> getActivePlayers() {

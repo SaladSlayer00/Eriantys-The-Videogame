@@ -112,6 +112,7 @@ public class GameController implements Serializable {
                 EasyGame easyGame = (EasyGame) game;
                 easyGame.addObserver(virtualViewMap.get(receivedMessage.getNickname()));
                 broadcastGenericMessage("Waiting for other Players . . .");
+                game.lobbyUpdate();
                 if(game.getChosenPlayerNumber()==2){
                     Type.choose(Type.GREY);
                     moves = 3;

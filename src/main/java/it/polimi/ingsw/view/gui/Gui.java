@@ -37,7 +37,7 @@ public class Gui extends ViewObservable implements View {
         DeckChoiceSceneController dCSController = new DeckChoiceSceneController();
         dCSController.addAllObservers(observers);
         dCSController.setAvailableDecks(availableDecks);
-        Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deck_choice_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deckChoice_scene.fxml"));
     }
 
     @Override
@@ -167,7 +167,7 @@ public class Gui extends ViewObservable implements View {
     public void showLobby(List<String> nicknameList, int maxPlayers) {
         LobbySceneController lsc;
         try {
-            lsc = (LobbySceneController) SceneController.activeSceneController;
+            lsc = (LobbySceneController) SceneController.getSceneController();
             lsc.setNicknames(nicknameList);
             lsc.setMaxPlayers(maxPlayers);
             Platform.runLater(lsc::updateValues);
@@ -180,10 +180,5 @@ public class Gui extends ViewObservable implements View {
             Platform.runLater(() -> SceneController.changeRootPane(finalLsc, "lobby_scene.fxml"));
         }
     }
-
-
-
-
-
 
 }

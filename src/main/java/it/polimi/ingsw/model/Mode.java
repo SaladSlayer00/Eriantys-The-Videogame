@@ -33,4 +33,5 @@ public interface Mode {
      public List<ExpertDeck> getExperts();
      public boolean getNoMoreStudents();
      public void setNoMoreStudents(boolean ans);
+     void lobbyUpdate();
 }

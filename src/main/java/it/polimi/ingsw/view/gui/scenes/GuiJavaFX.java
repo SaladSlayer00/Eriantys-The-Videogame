@@ -42,11 +42,14 @@ public class GuiJavaFX extends Application {
         //shows the scene with the main layout
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
+        /*
         stage.setWidth(1280d);
         stage.setHeight(720d);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreen(true);
+
+         */
+        stage.setResizable(true);
+        stage.setMaximized(false);
+        stage.setFullScreen(false);
         stage.getIcons().add(icon);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
