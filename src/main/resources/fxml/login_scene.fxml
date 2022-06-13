@@ -25,12 +25,12 @@
          </font>
       </Text>
       <TextField fx:id="nickname" layoutX="225.0" layoutY="175.0" />
-      <Button fx:id="joinTheMatchButton" layoutX="327.0" layoutY="290.0" mnemonicParsing="false"  text="Join the match">
+      <Button fx:id="joinTheMatchButton" layoutX="327.0" layoutY="290.0" mnemonicParsing="false" text="Join the match">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="backToMainButton" layoutX="179.0" layoutY="290.0" mnemonicParsing="false"  text="Back to Menu">
+      <Button fx:id="backToMainButton" layoutX="179.0" layoutY="290.0" mnemonicParsing="false" text="Back to Menu">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font>
