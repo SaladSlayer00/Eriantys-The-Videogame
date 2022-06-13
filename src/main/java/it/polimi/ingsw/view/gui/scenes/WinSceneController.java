@@ -70,7 +70,7 @@ public class WinSceneController implements BasicSceneController{
 
     //it sets the nickname of the winner of the match
     public void setWinnerNick(String nickOfTheWinner){
-        labelForTheNick.setText(nickOfTheWinner);
+        labelForTheNick.setText(nickOfTheWinner + " is the winner of this match!");
     }
 
     //it sets the win scene on the display (theoretically???)
