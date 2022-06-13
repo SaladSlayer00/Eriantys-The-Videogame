@@ -43,6 +43,7 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
         backToMainButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackToMainButtonClick);
     }
 
+
     //this is to handle the event of clicking on the confirm button with the mouse
     //parameter is the mouse click itself
     private void onConfirmButtonClick(Event event){

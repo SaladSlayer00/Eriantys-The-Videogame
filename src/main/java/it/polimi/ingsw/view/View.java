@@ -116,6 +116,7 @@ public interface View {
 
     void showMatchInfo(List<String> activePlayers , String activePlayerNickname);
 
+
     //TODO
     //communicates to the winner they have won
     //should we pass the nick of the player or the REAL player???
@@ -132,5 +133,6 @@ public interface View {
     void showAssistant(int index);
 
     void showLobby(List<String> nicknameList, int maxPlayers);
+
 
 }

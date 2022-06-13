@@ -127,6 +127,7 @@ public class VirtualView implements View, Observer {
     public void winCommunication(String winner) {
 
     }
+
     @Override
     public void update(Message message){
         clientHandler.sendMessage(message);

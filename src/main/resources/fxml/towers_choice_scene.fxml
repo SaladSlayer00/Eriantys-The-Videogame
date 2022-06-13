@@ -52,6 +52,7 @@
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
                                 </ImageView>
+
                                 <ImageView fx:id="greyTower" fitHeight="90.0" fitWidth="90.0" preserveRatio="true">
                                     <image>
                                         <Image url="@../images/towers/grey_tower.png" />

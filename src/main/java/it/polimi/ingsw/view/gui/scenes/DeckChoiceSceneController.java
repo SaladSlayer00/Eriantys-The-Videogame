@@ -115,6 +115,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         Platform.runLater(this::setMageImage);
     }
 
+
     //handles the clicks on the chosen mage button
     private void onTheChosenOneButtonClicked(Event mouseEvent){
         //here we have to add the thing for the choice
@@ -123,6 +124,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         Image image = new Image(getClass().getResourceAsStream("/images/cards/mage/" + thisIsTheChoice.getText().toLowerCase() + ".png"));
         chosenMage.setImage(image);
         //updateMageChosenListView();
+
     }
 
     //handles the clicks on the mage that it has not been chosen

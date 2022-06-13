@@ -212,6 +212,7 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
         thisIsTheUltimateChoiceButton.setDisable(true);
     }
 
+
     private void checkWhichButtonHasBeenSelected(){
         if(thisCouldDoButton.isDisable() && chosenTower == null){
             thisCouldDoButton.setDisable(false);

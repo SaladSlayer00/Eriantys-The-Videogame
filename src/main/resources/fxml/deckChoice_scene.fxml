@@ -28,6 +28,7 @@
         <ImageView fx:id="mageImage" fitHeight="124.0" fitWidth="67.0" layoutX="194.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND" />
+
             </cursor>
             <image>
                 <Image url="@../images/cards/mage/mage.png" />

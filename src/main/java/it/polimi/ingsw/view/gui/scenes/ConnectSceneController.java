@@ -34,6 +34,7 @@ public class ConnectSceneController extends ViewObservable implements  BasicScen
      * Handle the click on the connect button
      * @param event the mouse click event
      */
+
     @FXML
     private void onConnectBtnClick(Event event){
         String address = serverAddressField.getText();

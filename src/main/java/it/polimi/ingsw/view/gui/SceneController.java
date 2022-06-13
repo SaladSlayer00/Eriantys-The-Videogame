@@ -23,6 +23,7 @@ public class SceneController extends ViewObservable {
     private static BasicSceneController activeSceneController;
 
     //getter for the active scene
+
     public static Scene getActiveScene(){
         return activeScene;
     }

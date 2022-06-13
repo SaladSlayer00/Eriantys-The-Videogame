@@ -36,20 +36,18 @@ public class GuiJavaFX extends Application {
             System.exit(1);
         }
 
+
         MainSceneController controller = loader.getController();
         controller.addObserver(clientController);
         Image icon = new Image("/images/eriantys_text_logo.png");
         //shows the scene with the main layout
         Scene scene = new Scene(rootLayout);
         stage.setScene(scene);
-        /*
         stage.setWidth(1280d);
         stage.setHeight(720d);
-
-         */
-        stage.setResizable(true);
-        stage.setMaximized(false);
-        stage.setFullScreen(false);
+        stage.setResizable(false);
+        stage.setMaximized(true);
+        stage.setFullScreen(true);
         stage.getIcons().add(icon);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

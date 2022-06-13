@@ -94,6 +94,7 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+
     @Override
     public void showGenericMessage(String genericMessage) {
         Platform.runLater(() -> SceneController.alertShown("Message:", genericMessage));

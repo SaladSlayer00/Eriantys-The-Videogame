@@ -21,6 +21,7 @@ public class MainSceneController extends ViewObservable implements BasicSceneCon
     @FXML
     private Button quitButton;
 
+
     @FXML
     public void initialize(){
         playButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPlayButtonClicked);

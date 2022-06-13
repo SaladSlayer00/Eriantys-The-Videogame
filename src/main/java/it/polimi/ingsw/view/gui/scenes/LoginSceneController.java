@@ -36,6 +36,7 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
         new Thread(() -> notifyObserver(observers -> observers.onUpdateNickname(nicknameChosen))).start();
     }
 
+
     private void onBackToMainButtonClicked(Event mouseEvent){
 
         joinTheMatchButton.setDisable(true);

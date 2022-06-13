@@ -50,6 +50,7 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
         backToMainButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackToMainButtonClick);
     }
 
+
     //this is to handle the clicks on the confirm button
     //the parameter of the method is the event of the button clicked on by the mouse
     @FXML

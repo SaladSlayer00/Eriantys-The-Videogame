@@ -33,6 +33,7 @@ public class LobbySceneController extends ViewObservable implements BasicSceneCo
         new Thread(()->notifyObserver(ViewObserver:: onDisconnection)).start();
         SceneController.changeRootPane(observers,event,"menu_scene.fxml");
     }
+    
 
     /**
      * Set nicknames already logged in game
