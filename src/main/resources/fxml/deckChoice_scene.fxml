@@ -14,8 +14,8 @@
 
 <StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
 <Group scaleX="2.0" scaleY="2.0" scaleZ="2.0" StackPane.alignment="CENTER">
-    <AnchorPane layoutX="923.0" layoutY="-264.0" prefHeight="351.0" prefWidth="561.0">
-        <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="146.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="146.0" AnchorPane.rightAnchor="134.0" AnchorPane.topAnchor="40.0">
+    <AnchorPane prefHeight="400.0" prefWidth="600.0">
+        <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
             <image>
                 <Image url="@../images/eriantys_banner_no_items.png" />
             </image>
@@ -25,7 +25,7 @@
         </ImageView>
         <Separator layoutX="189.0" layoutY="112.0" prefHeight="40.0" prefWidth="222.0" />
 
-        <ImageView fx:id="mageImage" fitHeight="124.0" fitWidth="67.0" layoutX="194.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="mageImage" fitHeight="124.0" fitWidth="67.0" layoutX="208.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND" />
 
@@ -35,30 +35,39 @@
             </image>
 
         </ImageView>
-        <Button id="theChosenOneButton" fx:id="theChosenOneButton" layoutX="177.0" layoutY="272.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="104.0" text="Select" />
-        <Button id="nextMageButton" fx:id="nextMageButton" layoutX="269.0" layoutY="192.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
+        <Button id="theChosenOneButton" fx:id="theChosenOneButton" layoutX="279.0" layoutY="308.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="66.0" text="Select">
+            <font>
+               <Font name="Comic Sans MS" size="10.0" />
+            </font></Button>
+        <Button id="nextMageButton" fx:id="nextMageButton" layoutX="291.0" layoutY="203.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button id="previousMageButton" fx:id="previousMageButton" layoutX="162.0" layoutY="191.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
+        <Button id="previousMageButton" fx:id="previousMageButton" layoutX="170.0" layoutY="205.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="28.0">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Button id="okayLetsGoButton" fx:id="okayLetsGoButton" layoutX="345.0" layoutY="260.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="108.0" text="Confirm" />
-        <Button id="thisIsNotTheOneButton" fx:id="thisIsNotTheOneButton" layoutX="177.0" layoutY="310.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="104.0" text="Deselect" />
+        <Button id="okayLetsGoButton" fx:id="okayLetsGoButton" layoutX="372.0" layoutY="307.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="64.0" text="Confirm">
+            <font>
+               <Font name="Comic Sans MS" size="10.0" />
+            </font></Button>
+        <Button id="thisIsNotTheOneButton" fx:id="thisIsNotTheOneButton" layoutX="187.0" layoutY="308.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="63.0" text="Deselect">
+            <font>
+               <Font name="Comic Sans MS" size="10.0" />
+            </font></Button>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="108.0" prefHeight="7.0" prefWidth="130.0" text="Choose your Gods">
             <font>
-                <Font size="14.0" />
+                <Font name="Comic Sans MS Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutX="371.0" layoutY="171.0" text="Selected Deck:">
             <font>
-                <Font size="10.0" />
+                <Font name="Comic Sans MS Bold" size="10.0" />
             </font>
         </Label>
-         <ImageView fx:id="chosenMage" fitHeight="65.0" fitWidth="41.0" layoutX="381.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="chosenMage" fitHeight="65.0" fitWidth="41.0" layoutX="383.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" />
     </AnchorPane>
 </Group>
 </StackPane>

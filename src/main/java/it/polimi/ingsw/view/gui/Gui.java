@@ -90,7 +90,7 @@ public class Gui extends ViewObservable implements View {
         TowerChoiceSceneController tCSController = new TowerChoiceSceneController();
         tCSController.addAllObservers(observers);
         tCSController.setAvailableColors(teams);
-        Platform.runLater(() -> SceneController.changeRootPane(tCSController, "towers_choice_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeRootPane(tCSController, "tower_scene.fxml"));
 
     }
 

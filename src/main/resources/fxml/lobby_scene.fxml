@@ -43,7 +43,10 @@
             <Font name="Comic Sans MS" size="16.0" />
         </font>
     </Label>
-    <Button fx:id="backToMenuBtn" layoutX="196.0" layoutY="304.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="198.0" styleClass="smallButton" text="Back To Menu" />
+    <Button fx:id="backToMenuBtn" layoutX="229.0" layoutY="320.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="143.0" styleClass="smallButton" text="Back To Menu">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font></Button>
 </children>
 
 
