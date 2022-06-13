@@ -140,10 +140,14 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+    /*
     @Override
     public void winCommunication(String winner) {
-
+        Platform.runLater(() -> {
+            SceneController.alertShown("CONGRATULATION!", "You have won this match!");
+        });
     }
+    */
 
     @Override
     public void showWinMessage(String winner) {
