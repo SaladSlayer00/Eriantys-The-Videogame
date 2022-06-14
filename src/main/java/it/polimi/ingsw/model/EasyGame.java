@@ -24,6 +24,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
     private int chosenPlayerNumber;
     private List<Dashboard> dashboards ;
     private boolean noMoreStudents;
+    private int numCurrentActivePlayers = 0;
 
 
     public EasyGame(int numPlayers) {
@@ -54,6 +55,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
     public void initializePlayer(Player p) {
         this.players.add(p);
         this.activeplayers.add(p);
+        numCurrentActivePlayers=numCurrentActivePlayers+1;
         p.setDashboard(new Dashboard(this.chosenPlayerNumber));
         lobbyUpdate();
     }
@@ -92,9 +94,11 @@ public class EasyGame extends Observable implements Serializable, Mode{
         return null;
     }
 
+    public int getActives(){
+        return this.numCurrentActivePlayers;
+    }
     public int getNumCurrentActivePlayers() {
         return activeplayers.size();
-
     }
     public int getNumCurrentPlayers() {
         return players.size();
@@ -140,7 +144,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     @Override
     public void resetInstance() {
-
+        instance=null;
     }
 
     @Override
@@ -152,10 +156,6 @@ public class EasyGame extends Observable implements Serializable, Mode{
         return result;
     }
 
-    @Override
-    public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber) {
-
-    }
 
     @Override
     public List<ExpertDeck> getExperts() {
@@ -166,19 +166,30 @@ public class EasyGame extends Observable implements Serializable, Mode{
         notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
     }
 
-//    public void restoreGame(Gameboard board, List<Player> players, List<God> gods, int chosenPlayersNumber) {
-//        this.getGameBoard().restoreBoard(board.getSpaces());
-//        this.players = players;
-//        this.gods = gods;
-//        this.chosenPlayerNumber = chosenPlayersNumber;
-//    }
+    @Override
+    public void restoreGame(Gameboard board, List<Player> players, int chosenPlayersNumber) {
+        this.gameBoard = board;
+        this.players = players;
+        this.chosenPlayerNumber = chosenPlayersNumber;
+    }
 
-//    public void initializeDashboardsTower() throws fullTowersException {
+    @Override
+    public void setActives(int number) {
+        this.numCurrentActivePlayers=this.numCurrentActivePlayers+number;
+    }
+
+    //    public void initializeDashboardsTower() throws fullTowersException {
 //        for(Player p : players){
 //            for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){
 //                p.getDashboard().putTower();
 //            }
 //        }
 //    }
+
+    public static EasyGame getInstance() {
+        if (instance == null)
+            instance = new EasyGame(0);
+        return instance;
+    }
 }
 

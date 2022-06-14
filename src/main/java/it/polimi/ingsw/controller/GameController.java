@@ -19,9 +19,6 @@ import java.util.*;
 import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
 import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 
-//TODO gestire la logica di fare agire solamente il player attivo
-//TODO observer update o si leva o si ricicla x esperti
-
 //il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
 public class GameController implements Serializable {
     private InputController inputController;
@@ -133,18 +130,19 @@ public class GameController implements Serializable {
 
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
-            //game.getPlayers().add(new Player(nickname, ID));
-            //game.initializePlayer(new Player(nickname,ID));
-
             virtualView.showLoginResult(true, true, "server");
-            //virtualView.askPlayersNumber();
             virtualView.askGameMode(nickname, modeEnum.availableGameModes());
 
-        } else if (virtualViewMap.size() < game.getChosenPlayerNumber()) {
-            addVirtualView(nickname, virtualView);
-            //game.getPlayers().add(new Player(nickname, ID));
-            game.initializePlayer(new Player(nickname,ID));
-            virtualView.showLoginResult(true, true, "server");
+        } else if (game.getNumCurrentActivePlayers() < game.getChosenPlayerNumber() ) {
+            if(virtualViewMap.get(nickname)!=null){
+                turnController.getNicknameQueue().add(nickname);
+                game.setActives(1);
+            }
+            else {
+                addVirtualView(nickname, virtualView);
+                game.initializePlayer(new Player(nickname, ID));
+                virtualView.showLoginResult(true, true, "server");
+            }
             broadcastGenericMessage("Waiting for other Players . . .");
 
             if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged
@@ -450,7 +448,7 @@ public class GameController implements Serializable {
         }
 
         //check sulla carta uguale la facciamo nell'input controller
-        if(turnController.getChosen().size() < game.getNumCurrentActivePlayers()){
+        if(turnController.getChosen().size() < game.getActives()){
             virtualView.showGenericMessage("You chose your assistant. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             turnController.next();
@@ -628,7 +626,10 @@ public class GameController implements Serializable {
         }
     }
 
-
+    public void removeNickname(String nickname){
+        turnController.getNicknameQueue().remove(nickname);
+        game.setActives(-1);
+    }
 
     //METODI VV
     public void removeVirtualView(String nickname, boolean notifyEnabled) {
@@ -661,28 +662,14 @@ public class GameController implements Serializable {
             vv.showWinMessage(winningPlayer);
         }
     }
-//    private void broadcastDrawMessage() {
-//        for (VirtualView vv : virtualViewMap.values()) {
-//            vv.showDrawMessage();
-//        }
-//    }
 
     private void restoreControllers(GameController savedGameController) {
         Gameboard restoredBoard = savedGameController.game.getGameBoard();
         List<Player> restoredPlayers = savedGameController.game.getPlayers();
-        //TODO
-        // List<java.lang.Character> restoredExperts = savedGameController.game.getExperts();
-        int restoredChoosenPlayerNumber = savedGameController.game.getChosenPlayerNumber();
-        //this.game.restoreGame(restoredBoard, restoredPlayers, restoredExperts, restoredChoosenPlayerNumber);
-
+        int restoredChosenPlayerNumber = savedGameController.game.getChosenPlayerNumber();
+        this.game.restoreGame(restoredBoard, restoredPlayers, restoredChosenPlayerNumber);
         this.turnController = savedGameController.turnController;
         this.gameState = savedGameController.gameState;
-
-        // set this gameController as Observer of all effects of all gods of all players.
-        //for (int i = 0; i < game.getNumCurrentPlayers(); i++) {
-          //  game.getPlayerByNickname(turnController.getNicknameQueue().get(i)).getGod().addObserverToAllEffects(this);
-        //}
-
         inputController = new InputController(this.virtualViewMap, this, this.game);
         turnController.setVirtualViewMap(this.virtualViewMap);
     }
