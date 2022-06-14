@@ -1,5 +1,4 @@
 package it.polimi.ingsw.view.gui;
-
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -29,7 +28,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askStart(String nickname, String answer) {
-
+        Platform.runLater(() -> SceneController.changeRootPane(observers, "start_scene.fxml"));
     }
 
     @Override
@@ -42,10 +41,13 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
+        /*
         AssistantChoiceSceneController aCSController = new AssistantChoiceSceneController();
         aCSController.addAllObservers(observers);
         aCSController.setAssistantDeck(availableAssistants);
-        Platform.runLater(() -> SceneController.changeRootPane(aCSController, "assistant_choice_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeRootPane(aCSController, "assistantChoice_scene.fxml"));
+         */
+        Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants));
     }
 
     @Override

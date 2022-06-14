@@ -29,7 +29,7 @@ public class TowerChoiceSceneController extends ViewObservable implements BasicS
         private Button backToMenuBtn;
 
         /**
-         * Default constructor.
+         * Default constructor
          */
         public TowerChoiceSceneController() {
             this.availableColors = new ArrayList<>();

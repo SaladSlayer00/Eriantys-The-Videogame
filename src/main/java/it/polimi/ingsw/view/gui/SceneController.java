@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scenes.AlertSceneController;
+import it.polimi.ingsw.view.gui.scenes.AssistantChoiceSceneController;
 import it.polimi.ingsw.view.gui.scenes.BasicSceneController;
 import it.polimi.ingsw.view.gui.scenes.WinSceneController;
 import javafx.event.Event;
@@ -98,6 +100,24 @@ public class SceneController extends ViewObservable {
         alertSC.setAlertTitle(mainTitle);
         alertSC.setAlertMessage(text);
         alertSC.displayAlert();
+    }
+
+
+    public static void showingAssistantPopup(List<Assistant> availableAssistants){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/assistantChoice_scene.fxml"));
+
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+        }catch(IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        AssistantChoiceSceneController aSController = fxmlLoader.getController();
+        Scene assistantScene = new Scene(parent);
+        aSController.setScene(assistantScene);
+        aSController.setAssistantDeck(availableAssistants);
+        aSController.displayAlert();
     }
 
     //this is the thing that controls the popup for the winning message
