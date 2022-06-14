@@ -140,6 +140,11 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+    @Override
+    public void winCommunication(String winner) {
+
+    }
+
     /*
     @Override
     public void winCommunication(String winner) {
