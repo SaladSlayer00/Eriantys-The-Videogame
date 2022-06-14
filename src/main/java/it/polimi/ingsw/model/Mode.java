@@ -29,9 +29,11 @@ public interface Mode {
      public ArrayList<Cloud> getEmptyClouds();
      public void resetInstance();
      public boolean removePlayerByNickname(String nickname, boolean notifyEnabled);
-     public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber);
+     public void restoreGame(Gameboard board, List<Player> players, int chosenPlayerNumber);
      public List<ExpertDeck> getExperts();
      public boolean getNoMoreStudents();
      public void setNoMoreStudents(boolean ans);
      void lobbyUpdate();
+     void setActives(int number);
+     int getActives();
 }

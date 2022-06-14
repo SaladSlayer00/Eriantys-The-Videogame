@@ -120,7 +120,7 @@ public class ExpertGame implements Mode{
     }
 
     @Override
-    public void restoreGame(Gameboard board, List<Player> players, List<Character> carteEsperto, int chosenPlayerNumber) {
+    public void restoreGame(Gameboard board, List<Player> players, int chosenPlayerNumber) {
 
     }
 
@@ -142,6 +142,16 @@ public class ExpertGame implements Mode{
     @Override
     public void lobbyUpdate() {
 
+    }
+
+    @Override
+    public void setActives(int number) {
+
+    }
+
+    @Override
+    public int getActives() {
+        return 0;
     }
 
     @Override

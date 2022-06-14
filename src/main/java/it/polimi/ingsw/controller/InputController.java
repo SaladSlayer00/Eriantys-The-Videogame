@@ -18,7 +18,7 @@ import java.util.Map;
 import static java.util.Objects.isNull;
 
 //This class verifies that all messages sent by client contain valid information
-public class InputController {
+public class InputController implements Serializable{
     private static final long serialVersionUID = 1L;
     private Mode game;
     private transient Map<String, VirtualView> virtualViewMap;

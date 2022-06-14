@@ -41,7 +41,12 @@ public class Server {
                 clientHandlerMap.put(nickname, clientHandler);
                 gameController.loginHandler(nickname, id, vv);
             }
-        } else {
+        }
+        else if(gameController.getGame().getPlayerByNickname(nickname)!=null){
+            gameController.loginHandler(nickname, gameController.getGame().getPlayerByNickname(nickname).getPlayerID(), gameController.getVirtualViewMap().get(nickname));
+            vv = gameController.getVirtualViewMap().get(nickname);
+            vv.showLoginResult(true, true, nickname);
+        }else {
             vv.showLoginResult(true, false, null);
             clientHandler.disconnect();
         }
@@ -55,8 +60,9 @@ public class Server {
      * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
      */
     public void removeClient(String nickname, boolean notifyEnabled) {
-        clientHandlerMap.remove(nickname);
-        gameController.removeVirtualView(nickname, notifyEnabled);
+        //clientHandlerMap.remove(nickname);
+        //gameController.removeVirtualView(nickname, notifyEnabled);
+        gameController.removeNickname(nickname);
         LOGGER.info(() -> "Removed " + nickname + " from the client list.");
     }
 
@@ -93,8 +99,8 @@ public class Server {
                 if (gameStarted) {
                     gameController.broadcastDisconnectionMessage(nickname, " disconnected from the server. GAME ENDED.");
 
-                    gameController.endGame();
-                    clientHandlerMap.clear();
+                    //gameController.endGame();
+                    //clientHandlerMap.clear();
                 }
             }
         }
