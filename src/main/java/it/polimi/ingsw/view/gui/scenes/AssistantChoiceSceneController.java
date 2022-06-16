@@ -38,30 +38,7 @@ public class AssistantChoiceSceneController extends ViewObservable implements Ba
     private Button deselectButton;
     @FXML
     private ImageView chosenAssistant;
-    /*
-    @FXML
-    private ImageView assistant0ne;
-    @FXML
-    private ImageView assistantTwo;
-    @FXML
-    private ImageView assistantThree;
-    @FXML
-    private ImageView assistantFour ;
-    @FXML
-    private ImageView assistantFive;
-    @FXML
-    private ImageView assistantSix ;
-    @FXML
-    private ImageView assistantSeven ;
-    @FXML
-    private ImageView assistantEight;
-    @FXML
-    private ImageView assistantNine  ;
-    @FXML
-    private ImageView assistantTen;
 
-
-     */
     public AssistantChoiceSceneController(){
         actualStage = new Stage();
         actualStage.initOwner(SceneController.getActiveScene().getWindow());
@@ -75,29 +52,6 @@ public class AssistantChoiceSceneController extends ViewObservable implements Ba
         chosenAssistant = new ImageView();
         imagesView = new ImageView[10];
         tilePane = new TilePane();
-        /*
-        assistant0ne = new ImageView();
-        assistant0ne.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +1 + ").png")));
-        assistantTwo = new ImageView();
-        assistantTwo.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +2+ ").png")));
-        assistantThree = new ImageView();
-        assistantThree.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +3 + ").png")));
-        assistantFour = new ImageView();
-        assistantFour.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +4 + ").png")));
-        assistantFive = new ImageView();
-        assistantFive.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +5 + ").png")));
-        assistantSix = new ImageView();
-        assistantSix.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +6 + ").png")));
-        assistantSeven = new ImageView();
-        assistantSeven.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +7+ ").png")));
-        assistantEight = new ImageView();
-        assistantEight.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +8 + ").png")));
-        assistantNine = new ImageView();
-        assistantNine.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +9 + ").png")));
-        assistantTen = new ImageView();
-        assistantTen.setImage(new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +10 + ").png")));
-
-         */
        for(int i = 0; i<10;i++){
            int j = i+1;
            Image image = new Image(getClass().getResourceAsStream("/images/cards/assistant/Assistente(" +j +").png"));

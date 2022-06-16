@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootBPane" prefHeight="400.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.CloudSceneController">
+   <children>
+      <AnchorPane fx:id="anchorPaneCloudZero" layoutX="59.0" layoutY="45.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneCloudOne"/>
+      <AnchorPane fx:id="anchorPaneCloudOne" layoutX="546.0" layoutY="57.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneCloudTwo"/>
+      <AnchorPane fx:id="anchorPaneCloudTwo" layoutX="308.0" layoutY="57.0" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneCloudThree"/>
+      <Button fx:id="cloudZero" layoutX="140.0" layoutY="273.0" mnemonicParsing="false" text="Cloud 0 " />
+      <Button fx:id="cloudOne" layoutX="378.0" layoutY="273.0" mnemonicParsing="false" text="Cloud 1" />
+      <Button fx:id="cloudTwo" layoutX="616.0" layoutY="273.0" mnemonicParsing="false" text="Cloud 2 " />
+      <Button fx:id="confirmButton" layoutX="320.0" layoutY="330.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="178.0" text="Confirm" />
+
+   </children>
+   <stylesheets>
+      <URL value="@../css/cloud_scene.css" />
+   </stylesheets>
+</AnchorPane>

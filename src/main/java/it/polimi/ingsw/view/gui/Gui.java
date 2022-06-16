@@ -27,6 +27,8 @@ public class Gui extends ViewObservable implements View {
 
     private static final String ERROR_STR = "ERRROR";
     private static final String MENU_STR_FXML = "menu_scene.fxml";
+    private static List<Cloud> clouds;
+    private static String cloudChoice ="Pick";
 
     @Override
     public void askNickname(){
@@ -68,6 +70,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds) {
+        Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
 
     }
 
@@ -173,7 +176,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
-
+        clouds = gameboard.getClouds();
     }
 
     @Override
@@ -193,5 +196,6 @@ public class Gui extends ViewObservable implements View {
             Platform.runLater(() -> SceneController.changeRootPane(finalLsc, "lobby_scene.fxml"));
         }
     }
+
 
 }

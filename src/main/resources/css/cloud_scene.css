@@ -1,0 +1,20 @@
+.anchorPaneCloudOne {
+    -fx-background-image:url("../images/clouds/cloud_card.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.anchorPaneCloudTwo {
+    -fx-background-image:url("../images/clouds/cloud_card.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.anchorPaneCloudThree {
+    -fx-background-image:url("../images/clouds/cloud_card.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
