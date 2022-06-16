@@ -278,20 +278,51 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    public void askExpert() {
+            String answer;
+            ExpertDeck c = null;
+            String question = "Select a card typing the name: \n";
+            do {
+                out.print(question);
+                out.print("Choose between: ");
+                for (ExpertDeck s : gameboard.getExperts()) {
+                    out.print(s.getText() + "\n");
+                }
+
+                try {
+                    answer = readLine();
+                    c = ExpertDeck.valueOf(answer.toUpperCase());
+                    if (!gameboard.getExperts().contains(c)) {
+                        out.println("Invalid expert! Please try again.");
+                    }
+                } catch (IllegalArgumentException | ExecutionException e) {
+                    out.println("Invalid expert! Please try again.");
+                }
+            } while (!gameboard.getExperts().contains(c));
+
+            if (!(c == null)) {
+                ExpertDeck finalAnswer = c;
+                notifyObserver(obs -> obs.OnUpdateExpert(finalAnswer));
+            }
+    }
+
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         clearCli();
         //showTable();
         Color student;
         String location;
-        if(gameboard.getMode().equals(modeEnum.EXPERT)){
+        if(gameboard.getExperts().size()>0){
+            out.println("Would you like to play an expert card? Type yes to see them.");
+            String answer = null;
             try {
-                ExpertDeck answer = askExpert();
-                if(!answer.equals(ExpertDeck.NULL)){
-                    notifyObserver(obs -> obs.OnUpdateExpert(answer));
-                }
+                answer = readLine();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+            }
+            if(answer.equalsIgnoreCase("yes")){
+                askExpert();
+                return;
             }
         }
         if (!(students.size()==0)) {
@@ -637,39 +668,6 @@ public class Cli extends ViewObservable implements View {
         } while (index<0||index > islands.size()-1);
 
        return index;
-    }
-
-    public ExpertDeck askExpert() throws ExecutionException {
-        String answer;
-        ExpertDeck c=null;
-        out.println("Would you like to play an expert card? Type yes to see them.");
-        answer = readLine();
-        if(answer.equalsIgnoreCase("yes")){
-
-            String question = "Select a card typing the name: \n";
-            do {
-                out.print(question);
-                out.print("Choose between: ");
-                for(ExpertDeck s : gameboard.getExperts()){
-                    out.print(s.getText() + "\n");
-                }
-
-                try {
-                    answer = readLine();
-                     c = ExpertDeck.valueOf(answer.toUpperCase());
-
-                    if (!gameboard.getExperts().contains(c)) {
-                        out.println("Invalid expert! Please try again.");
-                    }
-                } catch (IllegalArgumentException | ExecutionException e) {
-                    out.println("Invalid expert! Please try again.");
-                }
-            } while (!gameboard.getExperts().contains(c));
-           return c;
-        }
-        else{
-            return ExpertDeck.NULL;
-        }
     }
 
 //    public void expertEffect(ExpertDeck expert){

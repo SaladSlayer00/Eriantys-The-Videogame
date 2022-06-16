@@ -153,5 +153,7 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new LobbyMessage(nicknameList,maxPlayers));
     }
 
-
+    public void askExpert(){
+        clientHandler.sendMessage(new ExpertMessage(EasyGame.SERVER_NICKNAME, null));
+    }
 }

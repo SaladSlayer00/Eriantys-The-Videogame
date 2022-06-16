@@ -134,5 +134,6 @@ public interface View {
 
     void showLobby(List<String> nicknameList, int maxPlayers);
 
+    void askExpert();
 
 }

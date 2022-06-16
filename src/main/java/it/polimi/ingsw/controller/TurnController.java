@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.expertDeck.ProfessorControllerCard;
+import it.polimi.ingsw.model.expertDeck.TwoMoreMovesCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
@@ -259,7 +260,6 @@ public class TurnController implements Serializable {
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
-    //in effetti non ha senso il colore è lo stesso
     public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException,  emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         Player player = game.getPlayerByNickname(getActivePlayer());
         VirtualView vv = virtualViewMap.get(player);
@@ -267,7 +267,7 @@ public class TurnController implements Serializable {
         checkProfessors(color);
         if(gameController.getGameMode().equals(modeEnum.EXPERT)){
             if(player.getDashboard().getRow(row).getStudents().size()%3==0){
-                player.addCoin();
+                player.addCoin(1);
                 game.getGameBoard().removeCoin();
             }
         }
@@ -281,7 +281,14 @@ public class TurnController implements Serializable {
     }
 
     public int moveMother(int moves) throws noTowerException, noTowersException {
-
+        int extra = 0;
+        Character c=null;
+        for(Character car : getToReset()){
+            if(car.getName().equals(ExpertDeck.GAMBLER)){
+                extra = 2;
+                c = car;
+            }
+        }
         int actual = game.getGameBoard().getMotherNature();
         virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
         game.getGameBoard().getIslands().get(actual).removeMother();
@@ -296,6 +303,9 @@ public class TurnController implements Serializable {
         game.getGameBoard().setMotherNature(actual);
         game.getGameBoard().getIslands().get(actual).addMother();
         virtualViewMap.get(activePlayer).showGenericMessage("Mother nature on: "+actual);
+        if(extra>0){
+            c.removeEffect();
+        }
         return checkInfluence(actual);
     }
 
@@ -423,9 +433,11 @@ public class TurnController implements Serializable {
             switch(card){
                 case COOK:
                   ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
+                  vv.showGenericMessage("cost: " + active.getCost()+"\n");
                   boolean result = active.checkMoney(game.getPlayerByNickname(activePlayer));
                   if(!result){
                       vv.showGenericMessage("You haven't enough money for this!");
+                      vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
                       vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                   }
                   else{
@@ -433,12 +445,29 @@ public class TurnController implements Serializable {
                       toReset.add(active);
                   }
                   break;
+
+                case GAMBLER:
+                    TwoMoreMovesCard activeTM = new TwoMoreMovesCard(gameController, this);
+                    vv.showGenericMessage("cost: " + activeTM.getCost()+"\n");
+                    if(!activeTM.checkMoney(game.getPlayerByNickname(activePlayer))){
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else {
+                        activeTM.useEffect();
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
                 default:
 
 
             }
     }
 
+    public List<Character> getToReset() {
+        return toReset;
+    }
 
     public List<String> getNicknameQueue() {
         return nicknameQueue;

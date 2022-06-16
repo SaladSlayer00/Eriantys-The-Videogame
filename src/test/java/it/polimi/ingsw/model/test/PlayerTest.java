@@ -61,11 +61,11 @@ class PlayerTest {
     @Test
     @DisplayName("Player's coins setter and getter test")
     void CoinsTest() throws lowerLimitException {
-        playerT.addCoin();
+        playerT.addCoin(1);
         assertEquals(1, playerT.getCoins());
-        playerT.removeCoin();
+        playerT.removeCoin(1);
         assertEquals(0, playerT.getCoins());
-        assertThrows(lowerLimitException.class,()->playerT.removeCoin());
+        assertThrows(lowerLimitException.class,()->playerT.removeCoin(1));
     }
 
     /* dunno if this could be tested here...

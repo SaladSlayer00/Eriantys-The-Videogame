@@ -249,10 +249,14 @@ public class InputController implements Serializable{
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         ExpertMessage expertMessage = ((ExpertMessage) message);
         ExpertDeck chosen = expertMessage.getCard();
+        Dashboard activePlayerDashboard = game.getPlayerByNickname(message.getNickname()).getDashboard();
         if (game.getGameBoard().getExperts().contains(chosen)) {
             return true;
-        } else {
-            Dashboard activePlayerDashboard = game.getPlayerByNickname(message.getNickname()).getDashboard();
+        } else if(chosen.equals(ExpertDeck.NULL)){
+            virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
+            return false;
+        }
+        else{
             virtualView.showGenericMessage("Expert not available");
             virtualView.askMoves(activePlayerDashboard.getHall(), game.getGameBoard().getIslands());
             return false;

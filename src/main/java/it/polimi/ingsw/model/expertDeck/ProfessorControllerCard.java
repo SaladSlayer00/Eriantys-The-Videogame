@@ -46,7 +46,7 @@ public class ProfessorControllerCard extends Character{
             }
         }
         addCoin();
-        gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).removeCoin();
+        gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).removeCoin(getCost());
     }
     @Override
     public void removeEffect(){

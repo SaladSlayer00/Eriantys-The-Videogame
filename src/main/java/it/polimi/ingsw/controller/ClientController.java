@@ -190,7 +190,11 @@ public class ClientController implements ViewObserver, Observer {
                 WinMessage winMessage = (WinMessage) message;
                 client.disconnect();
                 view.showWinMessage(winMessage.getWinnerNickname());
-
+                break;
+            case USE_EXPERT:
+                ExpertMessage expertMessage = (ExpertMessage) message;
+                taskQueue.execute(()->view.askExpert());
+                break;
             case LOBBY:
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
                 taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));

@@ -7,6 +7,7 @@ import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -489,7 +490,13 @@ public class GameController implements Serializable {
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
             virtualView.showGenericMessage("You've chosen all your students!");
             virtualView.showGenericMessage("Please choose the number of moves of mother nature");
-            virtualView.askMotherMoves(turnController.getActivePlayer(),game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove());
+            int extra = 0;
+            for(Character c : turnController.getToReset()){
+                if(c.getName().equals(ExpertDeck.GAMBLER)){
+                    extra = 2;
+                }
+            }
+            virtualView.askMotherMoves(turnController.getActivePlayer(),game.getPlayerByNickname(turnController.getActivePlayer()).getCardChosen().getMove()+extra);
             turnController.setMoved(0);
             game.updateGameboard();
         }
@@ -547,7 +554,6 @@ public class GameController implements Serializable {
             turnController.next();
             initiateAction();
 
-
         }
         game.updateGameboard();
     }
@@ -579,7 +585,7 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.COOK);
+        ExpertDeck.choose(ExpertDeck.GAMBLER);
         for(int i=0;i<2;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
@@ -589,9 +595,9 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.COOK);
+        game.getExperts().add(ExpertDeck.GAMBLER);
         for(Player p : game.getPlayers()){
-            p.addCoin();
+            p.addCoin(10);
             game.getGameBoard().removeCoin();
         }
 

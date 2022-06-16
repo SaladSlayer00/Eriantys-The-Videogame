@@ -76,12 +76,12 @@ public class Player implements Serializable {
     }
 
     //should be a good idea to add an exception in case of wrong game mode??
-    public void addCoin() {
-        coins = coins+1;
+    public void addCoin(int num) {
+        coins = coins+num;
     }
 
-    public void removeCoin() {
-        coins -= coins;
+    public void removeCoin(int num) {
+        coins = coins-num;
     }
 
     public void changeState(State nextState) {
