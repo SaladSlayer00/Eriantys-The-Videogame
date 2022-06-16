@@ -178,7 +178,7 @@ public class InputController implements Serializable{
                         return true;
                     }
                 }
-                virtualView.showGenericMessage("Empty cloud");
+                virtualView.showGenericMessage("Already Picked");
             }
             virtualView.askCloud(message.getNickname(), game.getGameBoard().getClouds());
             return false;
