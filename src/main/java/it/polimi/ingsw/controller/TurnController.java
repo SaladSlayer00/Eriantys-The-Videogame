@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.model.expertDeck.NoTowerCard;
 import it.polimi.ingsw.model.expertDeck.ProfessorControllerCard;
 import it.polimi.ingsw.model.expertDeck.TwoMoreMovesCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
@@ -137,12 +138,13 @@ public class TurnController implements Serializable {
             for(Character c : toReset){
                 c.removeEffect();
             }
+            toReset=new ArrayList<>();
         }
         pickCloud();
         //drawAssistant();
     }
 
-
+    //quelle di turno le rimuove qua, quelle di metodo le devo rimuovere io
     public void turnControllerNotify(String messageToNotify, String excludeNickname) {
         virtualViewMap.values().forEach(vv -> vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentPlayers()));
         virtualViewMap.entrySet().stream()
@@ -321,8 +323,17 @@ public class TurnController implements Serializable {
         }
 
         if(active.getTower()) {
-            if (active.getTeam().equals(team)) {
+            Character c=null;
+            for(Character car : getToReset()){
+                if(car.getName().equals(ExpertDeck.CUSTOMER)){
+                    c = car;
+                }
+            }
+            if (active.getTeam().equals(team) && c==null) {
                 influence = influence + active.getDimension();
+            }
+            else if(c!=null){
+                c.removeEffect();
             }
         }
         if(influence > active.getInfluence()){
@@ -441,8 +452,11 @@ public class TurnController implements Serializable {
                       vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                   }
                   else{
+                      active.addCoin();
+                      game.getPlayerByNickname(activePlayer).removeCoin(active.getCost());
                       active.useEffect();
                       toReset.add(active);
+                      vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                   }
                   break;
 
@@ -455,10 +469,28 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else {
+                        //TODO  dovrei rimuovere ma funziona
+                        toReset.add(activeTM);
+                        activeTM.addCoin();
                         activeTM.useEffect();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost());
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
+                case CUSTOMER:
+                    NoTowerCard activeTC = new NoTowerCard(gameController, this);
+                    vv.showGenericMessage("Cost: "+activeTC.getCost()+"\n");
+                    if(!activeTC.checkMoney(game.getPlayerByNickname(activePlayer))){
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else{
+                        activeTC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost());
+                        activeTC.useEffect();
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
                 default:
 
 

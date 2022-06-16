@@ -123,4 +123,7 @@ public class Dashboard extends Observable implements Serializable {
         return null;
     }
 
+    public ArrayList<Row> getRows() {
+        return rows;
+    }
 }

@@ -43,8 +43,8 @@ public class Server {
             }
         }
         else if(gameController.getGame().getPlayerByNickname(nickname)!=null){
-            gameController.loginHandler(nickname, gameController.getGame().getPlayerByNickname(nickname).getPlayerID(), gameController.getVirtualViewMap().get(nickname));
-            vv = gameController.getVirtualViewMap().get(nickname);
+            Server.LOGGER.info(() -> "Received: " + nickname);
+            gameController.loginHandler(nickname, gameController.getGame().getPlayerByNickname(nickname).getPlayerID(), vv);
             vv.showLoginResult(true, true, nickname);
         }else {
             vv.showLoginResult(true, false, null);
@@ -63,7 +63,7 @@ public class Server {
         //clientHandlerMap.remove(nickname);
         //gameController.removeVirtualView(nickname, notifyEnabled);
         gameController.removeNickname(nickname);
-        LOGGER.info(() -> "Removed " + nickname + " from the client list.");
+        Server.LOGGER.info(() -> "Removed " + nickname + " from the client list.");
     }
 
     /**

@@ -136,7 +136,10 @@ public class GameController implements Serializable {
 
         } else if (game.getNumCurrentActivePlayers() < game.getChosenPlayerNumber() ) {
             if(virtualViewMap.get(nickname)!=null){
+                Server.LOGGER.info("Player present");
                 turnController.getNicknameQueue().add(nickname);
+                virtualViewMap.remove(nickname);
+                addVirtualView(nickname, virtualView);
                 game.setActives(1);
             }
             else {
@@ -585,8 +588,10 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
+        ExpertDeck.choose(ExpertDeck.COOK);
+        ExpertDeck.choose(ExpertDeck.CUSTOMER);
         ExpertDeck.choose(ExpertDeck.GAMBLER);
-        for(int i=0;i<2;i++) {
+        for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
             game.getExperts().add(card);
@@ -595,7 +600,10 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
+        game.getExperts().add(ExpertDeck.COOK);
+        game.getExperts().add(ExpertDeck.CUSTOMER);
         game.getExperts().add(ExpertDeck.GAMBLER);
+
         for(Player p : game.getPlayers()){
             p.addCoin(10);
             game.getGameBoard().removeCoin();
