@@ -5,7 +5,6 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -26,7 +25,9 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     private double offsetX;
     private double offsetY;
     private int chosenCloud;
-    private ImageView[] studentsImages;
+    private List<ImageView> studentsImagesZero;
+    private List<ImageView> studentsImagesOne;
+    private List<ImageView> studentsImagesTwo;
     private String typeOfChoice;
 
     @FXML
@@ -56,28 +57,14 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         offsetY = 0;
         emptyClouds = new ArrayList<>();
         availableClouds = new ArrayList<>();
-        studentsImages = new ImageView[9];
-        anchorPaneCloudZero = new AnchorPane();
-        anchorPaneCloudOne = new AnchorPane();
-        anchorPaneCloudTwo = new AnchorPane();
-        for(int i = 0; i<9;i++){
-            ImageView imageView = new ImageView();
-            if(i<3){
-                Platform.runLater(()->anchorPaneCloudZero.getChildren().add(imageView));
-            }else if(i<6){
-                Platform.runLater(()->anchorPaneCloudTwo.getChildren().add(imageView));
-            }else{
-                Platform.runLater(()->anchorPaneCloudOne.getChildren().add(imageView));
-            }
-            studentsImages[i] = imageView;
-        }
-        Platform.runLater(()->xyCorrection());
-
-
+        studentsImagesZero = new ArrayList<>();
+        studentsImagesOne = new ArrayList<>();
+        studentsImagesTwo = new ArrayList<>();
     }
     @FXML
     public void initialize(){
         Platform.runLater(()->createListOfClouds(availableClouds));
+        Platform.runLater(()->setListOfClouds(availableClouds));
         confirmButton.setDisable(true);
         if(availableClouds.size()<3){
             cloudOne.setDisable(true);
@@ -90,15 +77,51 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED,event->OnConfirmButtonClicked());
 
     }
+    private void createListOfClouds(List<Cloud> availableClouds) {
+        int numOfClouds;
+        if (availableClouds.size() == 9) {
+            numOfClouds = 3;
+        } else {
+            numOfClouds = 4;
+        }
+        for (int i = 0; i < numOfClouds; i++) {
+            studentsImagesZero.add((ImageView) anchorPaneCloudZero.getChildren().get(i));
+            studentsImagesTwo.add((ImageView) anchorPaneCloudTwo.getChildren().get(i));
+            studentsImagesOne.add((ImageView) anchorPaneCloudOne.getChildren().get(i));
+        }
+    }
 
-
-    private void createListOfClouds(List<Cloud> availableClouds){
-        for(Cloud cloud:availableClouds){
-            for(int i = 0; i<cloud.getStudents().size();i++){
-                String color = cloud.getStudents().get(i).getColor().toString();
+    private void setListOfClouds(List<Cloud> availableClouds){
+        int numOfClouds;
+        if (availableClouds.size() == 2) {
+            numOfClouds = 3;
+        } else {
+            numOfClouds = 4;
+        }
+        System.out.println(availableClouds.size());
+        if(availableClouds.get(0).getStudents().size()!=0){
+                for(int i = 0; i<numOfClouds;i++){
+                String color = availableClouds.get(0).getStudents().get(i).getColor().toString();
                 Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_"+color+".png"));
-                studentsImages[i].setImage(image);
+                studentsImagesZero.get(i).setImage(image);
             }
+
+        }
+        if(availableClouds.get(1).getStudents().size()!=0) {
+            for (int i = 0; i < numOfClouds; i++) {
+                String color = availableClouds.get(1).getStudents().get(i).getColor().toString();
+                Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
+                studentsImagesTwo.get(i).setImage(image);
+            }
+        }
+
+        if(numOfClouds==4 &&  availableClouds.get(2).getStudents().size()!=0){
+            for(int i =0; i<numOfClouds;i++) {
+            String color = availableClouds.get(2).getStudents().get(i).getColor().toString();
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
+            studentsImagesOne.get(i).setImage(image);
+
+        }
         }
 
     }
@@ -168,26 +191,5 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
     public void setTypeOfChoice(String choice) {
         typeOfChoice = choice;
-    }
-
-    private void xyCorrection(){
-        studentsImages[0].setLayoutX(14);
-        studentsImages[0].setLayoutY(63);
-        studentsImages[1].setLayoutX(122);
-        studentsImages[1].setLayoutY(39);
-        studentsImages[2].setLayoutX(84);
-        studentsImages[2].setLayoutY(132);
-        studentsImages[3].setLayoutX(108);
-        studentsImages[3].setLayoutY(29);
-        studentsImages[4].setLayoutX(11);
-        studentsImages[4].setLayoutY(54);
-        studentsImages[5].setLayoutX(99);
-        studentsImages[5].setLayoutY(131);
-        studentsImages[6].setLayoutX(14);
-        studentsImages[6].setLayoutY(66);
-        studentsImages[7].setLayoutX(91);
-        studentsImages[7].setLayoutY(131);
-        studentsImages[8].setLayoutX(120);
-        studentsImages[8].setLayoutY(23);
     }
 }
