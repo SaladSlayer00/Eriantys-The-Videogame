@@ -404,10 +404,9 @@ public class GameController implements Serializable {
     private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
         //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         //quello che manda deve essere activeplayer dove lo controlla??
-        game.updateGameboard();
-
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio;
+        game.updateGameboard();
         if(game.getNoMoreStudents()){
             broadcastGenericMessage("There are no more students in the sack! The game's over.");
             draw();
@@ -429,6 +428,7 @@ public class GameController implements Serializable {
             turnController.drawAssistant();
 
         }
+
 
 
     }
