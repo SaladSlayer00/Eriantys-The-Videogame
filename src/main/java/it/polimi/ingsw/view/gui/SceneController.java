@@ -2,12 +2,11 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
-import it.polimi.ingsw.view.gui.scenes.AlertSceneController;
-import it.polimi.ingsw.view.gui.scenes.AssistantChoiceSceneController;
-import it.polimi.ingsw.view.gui.scenes.BasicSceneController;
-import it.polimi.ingsw.view.gui.scenes.WinSceneController;
+import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,7 +16,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneController extends ViewObservable {
+public class SceneController extends ViewObservable  {
 
     //should there be a String for the prefix???
 
@@ -103,7 +102,7 @@ public class SceneController extends ViewObservable {
     }
 
 
-    public static void showingAssistantPopup(List<Assistant> availableAssistants){
+    public static void showingAssistantPopup(List<Assistant> availableAssistants, List<ViewObserver> obs){
         FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/assistantChoice_scene.fxml"));
 
         Parent parent;
@@ -116,8 +115,29 @@ public class SceneController extends ViewObservable {
         AssistantChoiceSceneController aSController = fxmlLoader.getController();
         Scene assistantScene = new Scene(parent);
         aSController.setScene(assistantScene);
+        aSController.addAllObservers(obs);
         aSController.setAssistantDeck(availableAssistants);
         aSController.displayAlert();
+    }
+
+    public static void showingCloudsPopup(List<Cloud> emptyClouds,List<Cloud> availableClouds, List<ViewObserver> obs,String choice){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/clouds_scene.fxml"));
+
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+        }catch(IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        CloudSceneController cSController = fxmlLoader.getController();
+        Scene assistantScene = new Scene(parent);
+        cSController.setScene(assistantScene);
+        cSController.addAllObservers(obs);
+        cSController.setAvailableClouds(availableClouds);
+        cSController.setEmptyClouds(emptyClouds);
+        cSController.setTypeOfChoice(choice);
+        cSController.displayAlert();
     }
 
     //this is the thing that controls the popup for the winning message
