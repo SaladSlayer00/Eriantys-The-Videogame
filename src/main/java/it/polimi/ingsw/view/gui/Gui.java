@@ -1,4 +1,5 @@
 package it.polimi.ingsw.view.gui;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -10,10 +11,16 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends ViewObservable implements View {
@@ -41,13 +48,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
-        /*
-        AssistantChoiceSceneController aCSController = new AssistantChoiceSceneController();
-        aCSController.addAllObservers(observers);
-        aCSController.setAssistantDeck(availableAssistants);
-        Platform.runLater(() -> SceneController.changeRootPane(aCSController, "assistantChoice_scene.fxml"));
-         */
-        Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants));
+        Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants,observers));
     }
 
     @Override

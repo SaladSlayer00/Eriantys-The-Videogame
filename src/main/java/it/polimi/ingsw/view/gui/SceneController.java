@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Assistant;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scenes.AlertSceneController;
@@ -17,7 +18,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneController extends ViewObservable {
+public class SceneController extends ViewObservable  {
 
     //should there be a String for the prefix???
 
@@ -103,7 +104,7 @@ public class SceneController extends ViewObservable {
     }
 
 
-    public static void showingAssistantPopup(List<Assistant> availableAssistants){
+    public static void showingAssistantPopup(List<Assistant> availableAssistants, List<ViewObserver> obs){
         FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/assistantChoice_scene.fxml"));
 
         Parent parent;
@@ -116,6 +117,7 @@ public class SceneController extends ViewObservable {
         AssistantChoiceSceneController aSController = fxmlLoader.getController();
         Scene assistantScene = new Scene(parent);
         aSController.setScene(assistantScene);
+        aSController.addAllObservers(obs);
         aSController.setAssistantDeck(availableAssistants);
         aSController.displayAlert();
     }
