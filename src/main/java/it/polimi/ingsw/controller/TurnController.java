@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.message.EffectMessage;
 import it.polimi.ingsw.message.GenericMessage;
 import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.*;
@@ -309,7 +310,7 @@ public class TurnController implements Serializable {
         return checkInfluence(actual);
     }
 
-    private int checkInfluence(int actual) throws noTowerException, noTowersException {
+    public int checkInfluence(int actual) throws noTowerException, noTowersException {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
         Island active = game.getGameBoard().getIslands().get(actual);
@@ -509,11 +510,52 @@ public class TurnController implements Serializable {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost());
                         activeTP.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                        break;
+
+                    case HERALD:
+                        ImproperInfluenceCard activeII = new ImproperInfluenceCard(gameController, this);
+                        vv.showGenericMessage("Cost: " + activeII.getCost() + "\n");
+                        if (!activeII.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                            vv.showGenericMessage("You haven't enough money for this!");
+                            vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                            vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                        } else {
+                            activeII.addCoin();
+                            game.getPlayerByNickname(activePlayer).removeCoin(activeII.getCost());
+                            //per chiamare effetto
+                            toReset.add(activeII);
+                            //per vedere da vv
+                            game.getGameBoard().getToReset().add(ExpertDeck.HERALD);
+                            game.updateGameboard();
+                            //activeII.useEffect();
+                            vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                        }
                         break;
 
 
-                    }
             }
+    }
+
+
+    public void effectHandler(EffectMessage message){
+        VirtualView vv = virtualViewMap.get(activePlayer);
+        Character chosen = null;
+        for(Character c : toReset){
+            if(message.getName().equals(c.getName())){
+                chosen = c;
+            }
+        }
+        switch(message.getName()){
+            case HERALD:
+                ImproperInfluenceCard card = (ImproperInfluenceCard) chosen;
+                ((ImproperInfluenceCard) chosen).setIndex(message.getIndex());
+                card.useEffect();
+                card.removeEffect();
+                game.updateGameboard();
+                break;
+        }
+        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
     public List<Character> getToReset() {

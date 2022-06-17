@@ -312,7 +312,13 @@ public class Cli extends ViewObservable implements View {
         //showTable();
         Color student;
         String location;
-        if(gameboard.getExperts().size()>0){
+        if(gameboard.getToReset().size()>0 && gameboard.getToReset().contains(ExpertDeck.HERALD)){
+            String question = "Please choose the island to calculate influence on.";
+            int island = islandInput(question, islands);
+            notifyObserver(obs -> obs.OnUpdateEffect(island));
+            return;
+        }
+        else if(gameboard.getExperts().size()>0){
             out.println("Would you like to play an expert card? Type yes to see them.");
             String answer = null;
             try {
@@ -353,7 +359,7 @@ public class Cli extends ViewObservable implements View {
         //showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
-        location = islandInput(question, student, islands);
+        location = islandInput(question, islands);
         out.println("LOC: "+location);
         notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
         //showTable();
@@ -645,7 +651,7 @@ public class Cli extends ViewObservable implements View {
         return answer;
     }
 
-    public int islandInput(String question, Color student, List<Island> islands){
+    public int islandInput(String question, List<Island> islands){
         clearCli();
         showTable();
         int index = -1;

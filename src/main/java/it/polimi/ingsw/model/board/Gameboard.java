@@ -28,6 +28,7 @@ public class Gameboard extends Observable implements Serializable {
     private int coins = 20;
     private List<ExpertDeck> experts = new ArrayList<>();
     private modeEnum mode;
+    private List<ExpertDeck> toReset= new ArrayList<>();
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
@@ -116,14 +117,23 @@ public class Gameboard extends Observable implements Serializable {
             before = islands.get(islands.indexOf(active)-1);
             after= islands.get(islands.indexOf(active)+1);
         }
+        Island motherIsland = islands.get(getMotherNature());
         if(before.getTower()) {
             if (before.getTeam().equals(active.getTeam())) {
                 active.changeDimension(before.getDimension());
                 for(Color c : before.getStudents().keySet()){
                     active.getStudents().get(c).addAll(before.getStudents().get(c));
                 }
-                islands.remove(before);
-                setMotherNature(islands.indexOf(active));
+
+                if(!toReset.contains(ExpertDeck.HERALD) ||(toReset.contains(ExpertDeck.HERALD) &&motherIsland.equals(before))) {
+                    islands.remove(before);
+                    setMotherNature(islands.indexOf(active));
+                }
+                else{
+                    islands.remove(before);
+                    setMotherNature(islands.indexOf(motherIsland));
+                }
+                //setMotherNature(islands.indexOf(active));
             }
         }
         if(after.getTower()) {
@@ -132,8 +142,15 @@ public class Gameboard extends Observable implements Serializable {
                 for(Color c : after.getStudents().keySet()){
                     active.getStudents().get(c).addAll(after.getStudents().get(c));
                 }
-                islands.remove(after);
-                setMotherNature(islands.indexOf(active));
+                if(!toReset.contains(ExpertDeck.HERALD) || toReset.contains(ExpertDeck.HERALD) && after.equals(motherIsland)) {
+                    islands.remove(after);
+                    setMotherNature(islands.indexOf(active));
+                }
+                else{
+                    islands.remove(after);
+                    setMotherNature(islands.indexOf(motherIsland));
+                }
+
             }
         }
 
@@ -224,5 +241,15 @@ public class Gameboard extends Observable implements Serializable {
 
     public List<ExpertDeck> getExperts() {
         return experts;
+    }
+
+
+    //passo solo quelli da input
+    public void setToReset(List<ExpertDeck> toReset) {
+        this.toReset = toReset;
+    }
+
+    public List<ExpertDeck> getToReset() {
+        return toReset;
     }
 }

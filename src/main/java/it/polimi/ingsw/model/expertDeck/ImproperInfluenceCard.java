@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model.expertDeck;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnController;
+import it.polimi.ingsw.exceptions.noTowerException;
+import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.exceptions.notEnoughMoneyException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
+import it.polimi.ingsw.view.VirtualView;
 
 /* This card allows the player who summons it to decide an island where they can calculate the
 * influence even if Mother Nature has not finished there her movement
@@ -12,24 +17,21 @@ import it.polimi.ingsw.model.enums.ExpertDeck;
  */
 public class ImproperInfluenceCard extends Character{
     private ExpertDeck name = ExpertDeck.HERALD;
+    private GameController gameController;
+    private TurnController turnController;
+    private int index = 0;
     //constructor
-    public ImproperInfluenceCard(){
+    public ImproperInfluenceCard(GameController gameController, TurnController turnController){
         super(3);
+        this.gameController = gameController;
+        this.turnController = turnController;
+        index = 0;
     }
 
     /* this method modifies the game pattern but it doesn't fully replace the normal game logic!!
     * note that the controller must call the calculation of the influence on the right island anyway!!!
     * this is just the ""extra"" part caused by the summoning of the expert card...
      */
-    public int useEffect(Player p, Island chosenIsland) throws notEnoughMoneyException {
-        if(checkMoney(p) == false){
-            throw new notEnoughMoneyException();
-        }
-        else{
-            addCoin();
-            return chosenIsland.getInfluence();
-        }
-    }
 
     public ExpertDeck getName() {
         return name;
@@ -37,11 +39,31 @@ public class ImproperInfluenceCard extends Character{
 
     @Override
     public void useEffect() {
-
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Island chosen: " + index + "\n");
+        try {
+            turnController.checkInfluence(index);
+        } catch (noTowerException e) {
+            e.printStackTrace();
+        } catch (noTowersException e) {
+            e.printStackTrace();
+        }
+        try {
+            turnController.islandMerger(gameController.getGame().getGameBoard().getIslands().get(index));
+        } catch (noTowerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void removeEffect() {
+        turnController.getToReset().remove(this);
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Effect's over!\n");
+        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.HERALD);
+    }
 
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

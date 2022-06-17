@@ -108,4 +108,6 @@ public interface ViewObserver {
 
     void OnUpdateExpert(ExpertDeck c);
 
+    void OnUpdateEffect(int island);
+
 }

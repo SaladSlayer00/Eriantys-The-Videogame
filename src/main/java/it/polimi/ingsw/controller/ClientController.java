@@ -119,6 +119,11 @@ public class ClientController implements ViewObserver, Observer {
     }
 
     @Override
+    public void OnUpdateEffect(int island){
+        client.sendMessage(new EffectMessage(this.nickname, island));
+    }
+
+    @Override
     public void OnUpdateExpert(ExpertDeck c){ client.sendMessage(new ExpertMessage(this.nickname, c));}
 
 

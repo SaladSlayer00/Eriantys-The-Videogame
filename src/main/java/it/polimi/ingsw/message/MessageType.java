@@ -14,6 +14,7 @@ public enum MessageType {
         INIT_TOWERS,
         ASK_TOWER, //???
         INIT_GAMEBOARD,
+        ISLAND_MESSAGE,
         PICK_CLOUD,
         SHOW_ASSISTANT,
         PICKCLOUD_REQUEST, //???
