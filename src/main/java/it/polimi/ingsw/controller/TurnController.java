@@ -595,6 +595,25 @@ public class TurnController implements Serializable {
                         //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
+                case BANKER:
+                    RemoveAColorCard activeRC = new RemoveAColorCard(gameController, this);
+                    vv.showGenericMessage("Cost: " + activeRC.getCost() + "\n");
+                    if (!activeRC.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    } else {
+                        activeRC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeRC.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeRC);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.BANKER);
+                        game.updateGameboard();
+                        activeRC.useEffect();
+                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
 
 
             }
@@ -629,6 +648,11 @@ public class TurnController implements Serializable {
             case SELLER:
                 NullColorCard colorCard = (NullColorCard) chosen;
                 colorCard.setColor(message.getColor());
+                game.updateGameboard();
+                break;
+            case BANKER:
+                RemoveAColorCard colorCard1 = (RemoveAColorCard) chosen;
+                colorCard1.setColor(message.getColor());
                 game.updateGameboard();
                 break;
         }

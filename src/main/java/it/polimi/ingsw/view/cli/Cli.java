@@ -333,7 +333,11 @@ public class Cli extends ViewObservable implements View {
         } while (!colors.contains(color));
 
         Color finalColor = color;
-        notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
+        if(gameboard.getToReset().contains(ExpertDeck.BANKER)){
+            notifyObserver(obs->obs.OnUpdateEffectBanker(finalColor));
+        }
+        else
+            notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
 
     }
 

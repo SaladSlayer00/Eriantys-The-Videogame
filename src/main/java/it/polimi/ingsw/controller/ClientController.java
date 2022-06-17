@@ -134,6 +134,10 @@ public class ClientController implements ViewObserver, Observer {
     @Override
     public void OnUpdateExpert(ExpertDeck c){ client.sendMessage(new ExpertMessage(this.nickname, c));}
 
+    @Override
+    public void OnUpdateEffectBanker(Color c){
+        client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.BANKER, c));
+    }
 
 
     @Override
