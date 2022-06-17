@@ -398,6 +398,11 @@ public class GameController implements Serializable {
                 }
                 break;
 
+            case ENABLE_EFFECT:
+                EffectMessage effectMessage = (EffectMessage) receivedMessage;
+                turnController.effectHandler(effectMessage);
+                break;
+
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -588,9 +593,9 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.KNIGHT);
-        ExpertDeck.choose(ExpertDeck.CUSTOMER);
-        ExpertDeck.choose(ExpertDeck.GAMBLER);
+        ExpertDeck.choose(ExpertDeck.HERBALIST);
+        ExpertDeck.choose(ExpertDeck.HERALD);
+        ExpertDeck.choose(ExpertDeck.SELLER);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
@@ -600,9 +605,9 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.KNIGHT);
-        game.getExperts().add(ExpertDeck.CUSTOMER);
-        game.getExperts().add(ExpertDeck.GAMBLER);
+        game.getExperts().add(ExpertDeck.HERBALIST);
+        game.getExperts().add(ExpertDeck.HERALD);
+        game.getExperts().add(ExpertDeck.SELLER);
 
         for(Player p : game.getPlayers()){
             p.addCoin(10);
@@ -693,5 +698,5 @@ public class GameController implements Serializable {
     }
 
     public GameState getGameState() {return this.gameState;}
-//TODO aggiungere di mandare aggiornamento all'altro player prima di expert cardblue
+//TODO aggiungere di mandare aggiornamento all'altro player prima di expert card
 }

@@ -156,4 +156,8 @@ public class VirtualView implements View, Observer {
     public void askExpert(){
         clientHandler.sendMessage(new ExpertMessage(EasyGame.SERVER_NICKNAME, null));
     }
+
+    public void askColor(){
+        clientHandler.sendMessage((new ColorMessage(EasyGame.SERVER_NICKNAME, null)));
+    }
 }

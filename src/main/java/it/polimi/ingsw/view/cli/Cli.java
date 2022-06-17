@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
+import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 
@@ -307,12 +308,54 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
+    public void askColor() {
+        //clearCli();
+        //showTable();
+        Color color = null;
+        String in;
+        List<Color> colors = new ArrayList<Color>();
+        for(Row r : dashboards.get(0).getRows()){
+            colors.add(r.getName());
+        }
+        do{
+            out.print("Choose a color: ");
+
+            try {
+                in = readLine();
+                color = Color.valueOf(in.toUpperCase());
+
+                if (!colors.contains(color)) {
+                    out.println("Invalid color! Please try again.");
+                }
+            } catch (IllegalArgumentException | ExecutionException e) {
+                out.println("Invalid color! Please try again.");
+            }
+        } while (!colors.contains(color));
+
+        Color finalColor = color;
+        notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
+
+    }
+
+    @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         clearCli();
         //showTable();
         Color student;
         String location;
-        if(gameboard.getExperts().size()>0){
+        if(gameboard.getToReset().size()>0 && gameboard.getToReset().contains(ExpertDeck.HERALD)){
+            String question = "Please choose the island to calculate influence on.\n";
+            int island = islandInput(question, islands);
+            notifyObserver(obs -> obs.OnUpdateEffectHerald(island));
+            return;
+        }
+        else if(gameboard.getToReset().size()>0 && gameboard.getToReset().contains(ExpertDeck.HERBALIST)){
+            String question = "Please choose the island to ban.\n";
+            int island = islandInput(question, islands);
+            notifyObserver(obs -> obs.OnUpdateEffectHerbalist(island));
+            return;
+        }
+        else if(gameboard.getExperts().size()>0){
             out.println("Would you like to play an expert card? Type yes to see them.");
             String answer = null;
             try {
@@ -353,7 +396,7 @@ public class Cli extends ViewObservable implements View {
         //showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
-        location = islandInput(question, student, islands);
+        location = islandInput(question, islands);
         out.println("LOC: "+location);
         notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
         //showTable();
@@ -645,7 +688,7 @@ public class Cli extends ViewObservable implements View {
         return answer;
     }
 
-    public int islandInput(String question, Color student, List<Island> islands){
+    public int islandInput(String question, List<Island> islands){
         clearCli();
         showTable();
         int index = -1;

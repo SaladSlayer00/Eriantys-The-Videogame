@@ -17,7 +17,6 @@ public abstract class Character{
     //attributes of the class Character
     private int cost;
     private int numCoins;
-    private boolean isCalled;
     private ExpertDeck name;
 
 
@@ -30,14 +29,9 @@ public abstract class Character{
         return cost;
     }
 
-    public boolean getUsage(){
-        return isCalled;
-    }
 
     public void addCoin() {
-        if(getUsage() == false){
-            cost += cost;
-        }
+        cost = cost+1;
     }
 
     public boolean checkMoney(Player p){
