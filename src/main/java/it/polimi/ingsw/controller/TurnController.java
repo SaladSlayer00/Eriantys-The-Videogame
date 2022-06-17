@@ -614,9 +614,41 @@ public class TurnController implements Serializable {
                         //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
-
-
-            }
+                case BARBARIAN:
+                    OneMoreStudentCard activeOM = null;
+                    if(game.getGameBoard().getToReset().contains(ExpertDeck.BARBARIAN)) {
+                        for (Character c : toReset) {
+                            if (c.getName().equals(ExpertDeck.BARBARIAN)) {
+                                activeOM = (OneMoreStudentCard) c;
+                                activeOM.useEffect();
+                                return;
+                            }
+                        }
+                    }
+                    try {
+                        activeOM = new OneMoreStudentCard(gameController, this);
+                    } catch (noMoreStudentsException e) {
+                        e.printStackTrace();
+                    }
+                    vv.showGenericMessage("Cost: " + activeOM.getCost() + "\n");
+                    if (!activeOM.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else{
+                            activeOM.addCoin();
+                            game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost());
+                            //per chiamare effetto
+                            toReset.add(activeOM);
+                            //per vedere da vv
+                            game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
+                            game.updateGameboard();
+                            activeOM.useEffect();
+                            //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                        }
+                    break;
+                    }
     }
 
 
@@ -653,6 +685,11 @@ public class TurnController implements Serializable {
             case BANKER:
                 RemoveAColorCard colorCard1 = (RemoveAColorCard) chosen;
                 colorCard1.setColor(message.getColor());
+                game.updateGameboard();
+                break;
+            case BARBARIAN:
+                OneMoreStudentCard oneMoreStudentCard = (OneMoreStudentCard) chosen;
+                oneMoreStudentCard.addStudent(message.getColor());
                 game.updateGameboard();
                 break;
         }

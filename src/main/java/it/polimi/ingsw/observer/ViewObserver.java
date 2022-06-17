@@ -116,4 +116,6 @@ public interface ViewObserver {
 
     void OnUpdateEffectBanker(Color c);
 
+    void OnUpdateEffectBarbarian(Color c);
+
 }
