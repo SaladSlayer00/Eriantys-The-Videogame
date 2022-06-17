@@ -1,0 +1,20 @@
+.anchorPaneIslandOne{
+    -fx-background-image:url("../images/gameboard/island1.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.anchorPaneIslandTwo{
+    -fx-background-image:url("../images/gameboard/island2.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.anchorPaneIslandThree{
+    -fx-background-image:url("../images/gameboard/island3.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

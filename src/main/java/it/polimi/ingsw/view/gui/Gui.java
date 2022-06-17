@@ -176,6 +176,19 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
+        GameBoardSceneController gBSC;
+        try {
+            gBSC = (GameBoardSceneController) SceneController.getSceneController();
+            gBSC.setDashboards(dashboards);
+            gBSC.setGameBoard(gameboard);
+        } catch (ClassCastException e) {
+            gBSC = new GameBoardSceneController();
+            gBSC.addAllObservers(observers);
+            gBSC.setDashboards(dashboards);
+            gBSC.setGameBoard(gameboard);
+            GameBoardSceneController finalBSC = gBSC;
+            Platform.runLater(() -> SceneController.changeRootPane(finalBSC, "gameboard_scene.fxml"));
+        }
         clouds = gameboard.getClouds();
     }
 
