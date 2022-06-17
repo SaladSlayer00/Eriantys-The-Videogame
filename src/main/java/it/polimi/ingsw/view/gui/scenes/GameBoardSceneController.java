@@ -58,6 +58,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
 
     }
+
     public void initialize(){
 
     }
