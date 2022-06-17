@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.SocketClient;
+import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.message.observation.BoardMessage;
 import it.polimi.ingsw.model.Assistant;
@@ -172,7 +173,13 @@ public class ClientController implements ViewObserver, Observer {
                 break;
             case BOARD:
                 BoardMessage boardMessage = (BoardMessage) message;
-                taskQueue.execute(()->view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards()));
+                taskQueue.execute(()-> {
+                    try {
+                        view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards());
+                    } catch (noTowersException e) {
+                        e.printStackTrace();
+                    }
+                });
                 break;
             case GENERIC_MESSAGE:
                 GenericMessage genericMessage = (GenericMessage) message;

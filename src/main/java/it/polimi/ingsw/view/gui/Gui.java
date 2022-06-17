@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -186,8 +187,8 @@ public class Gui extends ViewObservable implements View {
             gBSC.addAllObservers(observers);
             gBSC.setDashboards(dashboards);
             gBSC.setGameBoard(gameboard);
-            GameBoardSceneController finalBSC = gBSC;
-            Platform.runLater(() -> SceneController.changeRootPane(finalBSC, "gameboard_scene.fxml"));
+            GameBoardSceneController finalGBSC = gBSC;
+            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
         }
         clouds = gameboard.getClouds();
     }

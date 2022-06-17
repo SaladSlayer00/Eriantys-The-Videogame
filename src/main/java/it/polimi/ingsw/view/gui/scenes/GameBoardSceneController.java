@@ -1,17 +1,28 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.message.MessageType;
+import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
+import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import javax.swing.text.Position;
 import java.util.*;
@@ -21,52 +32,122 @@ import java.util.*;
 * that are in charge of the moves of the paws/ professors/ these things...
  */
 public class GameBoardSceneController extends ViewObservable implements BasicSceneController {
-    private Gameboard gameboard;
-    private List<Dashboard> dashboards;
-    private List<AnchorPane> listOfIsland;
-    private List<HashMap> reducedGameBoard;
-    private Map<AnchorPane,List<ImageView>> islandAndStudents;
+   private Gameboard reducedGameBoard;
+   private List<Dashboard> reducedDashboards;
+   private List<ImageView> movableStudents;
+   private int currentDashboard;
     @FXML
-    private AnchorPane anchorPaneIslands;
+    private GridPane gridPaneIslands;
+    @FXML
+    private TilePane reducedHall;
+    @FXML
+    private TilePane greenRow;
+    @FXML
+    private TilePane redRow;
+    @FXML
+    private TilePane yellowRow;
+    @FXML
+    private TilePane pinkRow;
+    @FXML
+    private TilePane blueRow;
+    @FXML
+    private TilePane towersSpot;
+   @FXML
+   private Button previousDashBoardButton;
+   @FXML
+   private Button nextDashBoardButton;
 
     public GameBoardSceneController(){
-        this.dashboards = new ArrayList<>();
-        listOfIsland = new ArrayList<>();
-        reducedGameBoard = new ArrayList<>();
-        anchorPaneIslands = new AnchorPane();
-        islandAndStudents = new HashMap<>();
-        for(Node node :anchorPaneIslands.getChildren()){
-            listOfIsland.add((AnchorPane) node);
-        }
-        for(Island island :gameboard.getIslands()){
-            HashMap<Color, Integer> tempIsland = new HashMap<Color,Integer>(){{
-                put(Color.RED,0);
-                put(Color.YELLOW,0);
-                put(Color.BLUE,0);
-                put(Color.GREEN,0);
-                put(Color.PINK,0);
-            }};
-            reducedGameBoard.add(tempIsland);
-        }
-        for(AnchorPane anchorPane:listOfIsland){
-            List<ImageView> tempImageView = new ArrayList<>();
-            for(Node node:anchorPane.getChildren()){
-                tempImageView.add((ImageView) node);
-            }
-            islandAndStudents.put(anchorPane,tempImageView);
+     reducedDashboards = new ArrayList<>();
+     movableStudents = new ArrayList<>();
+     currentDashboard = 0;
 
-        }
 
     }
 
-    public void initialize(){
 
+    public void initialize() {
+      updateDashBoard(reducedDashboards.get(0));
+      previousDashBoardButton.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
+      nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
     }
     public void setGameBoard(Gameboard gameboard) {
-        this.gameboard = gameboard;
+        reducedGameBoard= gameboard;
+
     }
 
     public void setDashboards(List<Dashboard> dashboards) {
-        this.dashboards = dashboards;
+        reducedDashboards = dashboards;
     }
+
+    public void updateDashBoard(Dashboard dashboard){
+      reducedHall.getChildren().clear();
+      towersSpot.getChildren().clear();
+      Dashboard selectedDashBoard = dashboard;
+      int numberOfTowers = selectedDashBoard.getNumTowers();
+      System.out.println(numberOfTowers);
+      //hall
+      for (Student student : selectedDashBoard.getHall()) {
+       Color studentColor = student.getColor();
+       Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + studentColor.toString() + ".png"));
+       Circle circle = new Circle();
+       circle.setRadius(20);
+       circle.setFill(new ImagePattern(studentInTheHall));
+       reducedHall.getChildren().add(circle);
+      }
+      //towers
+      Type colorOfTower = selectedDashBoard.getTeam();
+      for (int i = 0; i < numberOfTowers; i++) {
+       Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.toString() + "_tower.png"));
+       ImageView addedTower = new ImageView(tower);
+       addedTower.setFitWidth(46);
+       addedTower.setFitHeight(41);
+       towersSpot.getChildren().add(addedTower);
+      }
+     }
+
+
+    public void updateGameBoard(){
+
+    }
+
+    private void  createIsland(Gameboard gameboard){
+
+    }
+
+ private void onPreviousDashBoardButtonClicked(Event mouseEvent)  {
+  if(currentDashboard > 0){
+   currentDashboard--;
+   nextDashBoardButton.setDisable(false);
+  }
+  couldItBeDisabled(previousDashBoardButton, 0);
+   Platform.runLater(()-> {
+    updateDashBoard (reducedDashboards.get(currentDashboard));
+   });
+
+ }
+
+ //handling the clicks on the button of the next mage
+ private void onNextDashBoardButtonClicked(Event mouseEvent){
+  if(currentDashboard < reducedDashboards.size() - 1){
+   currentDashboard++;
+   previousDashBoardButton.setDisable(false);
+  }
+  couldItBeDisabled(nextDashBoardButton, reducedDashboards.size() - 1);
+  Platform.runLater(()-> {
+   updateDashBoard (reducedDashboards.get(currentDashboard));
+  });
+
+ }
+
+ private boolean couldItBeDisabled(Button button, int index){
+  if(currentDashboard == index){
+   button.setDisable(true);
+   return true;
+  }
+  button.setDisable(false);
+  return false;
+ }
+
+
 }

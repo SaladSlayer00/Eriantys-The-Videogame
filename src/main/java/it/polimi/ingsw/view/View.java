@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Deck;
@@ -127,7 +128,7 @@ public interface View {
     //tells the player which player has won
     void showWinMessage(String winner);
 
-    void updateTable(Gameboard gameboard, List<Dashboard> dashboards);
+    void updateTable(Gameboard gameboard, List<Dashboard> dashboards) throws noTowersException;
 
     //shows the assistants chosen
     void showAssistant(int index);
