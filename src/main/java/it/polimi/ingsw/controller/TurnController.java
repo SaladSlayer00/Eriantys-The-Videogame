@@ -6,10 +6,8 @@ import it.polimi.ingsw.message.PlayerNumberReply;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.expertDeck.*;
 import it.polimi.ingsw.model.expertDeck.Character;
-import it.polimi.ingsw.model.expertDeck.NoTowerCard;
-import it.polimi.ingsw.model.expertDeck.ProfessorControllerCard;
-import it.polimi.ingsw.model.expertDeck.TwoMoreMovesCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
@@ -315,6 +313,7 @@ public class TurnController implements Serializable {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
         Island active = game.getGameBoard().getIslands().get(actual);
+        Character character=null;
         int set = 0;
         int influence = 0;
         Player owner=player;
@@ -323,19 +322,29 @@ public class TurnController implements Serializable {
         }
 
         if(active.getTower()) {
-            Character c=null;
             for(Character car : getToReset()){
                 if(car.getName().equals(ExpertDeck.CUSTOMER)){
-                    c = car;
+                    character = car;
                 }
             }
-            if (active.getTeam().equals(team) && c==null) {
+            if (active.getTeam().equals(team) && character==null) {
                 influence = influence + active.getDimension();
             }
-            else if(c!=null){
-                c.removeEffect();
+            else if(character!=null){
+                character.removeEffect();
             }
         }
+        for(Character car : getToReset()){
+            if(car.getName().equals(ExpertDeck.KNIGHT)){
+                character = car;
+            }
+        }
+        if(character!=null){
+            influence = influence +2;
+            character.removeEffect();
+        }
+
+
         if(influence > active.getInfluence()){
             set = 1;
             active.setInfluence(influence);
@@ -441,36 +450,33 @@ public class TurnController implements Serializable {
 
     public void useExpertEffect(ExpertDeck card){
         VirtualView vv = virtualViewMap.get(activePlayer);
-            switch(card){
+            switch(card) {
                 case COOK:
-                  ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
-                  vv.showGenericMessage("cost: " + active.getCost()+"\n");
-                  boolean result = active.checkMoney(game.getPlayerByNickname(activePlayer));
-                  if(!result){
-                      vv.showGenericMessage("You haven't enough money for this!");
-                      vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
-                      vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
-                  }
-                  else{
-                      active.addCoin();
-                      game.getPlayerByNickname(activePlayer).removeCoin(active.getCost());
-                      active.useEffect();
-                      toReset.add(active);
-                      vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
-                  }
-                  break;
+                    ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
+                    vv.showGenericMessage("cost: " + active.getCost() + "\n");
+                    boolean result = active.checkMoney(game.getPlayerByNickname(activePlayer));
+                    if (!result) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    } else {
+                        active.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(active.getCost());
+                        active.useEffect();
+                        toReset.add(active);
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
 
                 case GAMBLER:
                     TwoMoreMovesCard activeTM = new TwoMoreMovesCard(gameController, this);
-                    vv.showGenericMessage("cost: " + activeTM.getCost()+"\n");
-                    if(!activeTM.checkMoney(game.getPlayerByNickname(activePlayer))){
+                    vv.showGenericMessage("cost: " + activeTM.getCost() + "\n");
+                    if (!activeTM.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
-                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
-                    }
-                    else {
-                        //TODO  dovrei rimuovere ma funziona
-                        toReset.add(activeTM);
+                    } else {
+                        //TODO toReset.add(activeTM); vedere se funziona ancora
                         activeTM.addCoin();
                         activeTM.useEffect();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost());
@@ -479,21 +485,34 @@ public class TurnController implements Serializable {
                     break;
                 case CUSTOMER:
                     NoTowerCard activeTC = new NoTowerCard(gameController, this);
-                    vv.showGenericMessage("Cost: "+activeTC.getCost()+"\n");
-                    if(!activeTC.checkMoney(game.getPlayerByNickname(activePlayer))){
+                    vv.showGenericMessage("Cost: " + activeTC.getCost() + "\n");
+                    if (!activeTC.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
-                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins()+"\n");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
-                    }
-                    else{
+                    } else {
                         activeTC.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost());
                         activeTC.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
-                default:
+                    break;
+                case KNIGHT:
+                    TwoMorePointsCard activeTP = new TwoMorePointsCard(gameController, this);
+                    vv.showGenericMessage("Cost: " + activeTP.getCost() + "\n");
+                    if (!activeTP.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    } else {
+                        activeTP.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost());
+                        activeTP.useEffect();
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                        break;
 
 
+                    }
             }
     }
 

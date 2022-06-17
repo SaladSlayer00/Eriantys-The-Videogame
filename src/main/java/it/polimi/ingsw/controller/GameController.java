@@ -588,7 +588,7 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.COOK);
+        ExpertDeck.choose(ExpertDeck.KNIGHT);
         ExpertDeck.choose(ExpertDeck.CUSTOMER);
         ExpertDeck.choose(ExpertDeck.GAMBLER);
         for(int i=0;i<0;i++) {
@@ -600,7 +600,7 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.COOK);
+        game.getExperts().add(ExpertDeck.KNIGHT);
         game.getExperts().add(ExpertDeck.CUSTOMER);
         game.getExperts().add(ExpertDeck.GAMBLER);
 
@@ -693,5 +693,5 @@ public class GameController implements Serializable {
     }
 
     public GameState getGameState() {return this.gameState;}
-
+//TODO aggiungere di mandare aggiornamento all'altro player prima di expert cardblue
 }
