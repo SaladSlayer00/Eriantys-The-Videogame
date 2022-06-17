@@ -1,13 +1,11 @@
 package it.polimi.ingsw.model.expertDeck;
 
 
-import it.polimi.ingsw.exceptions.impossibleBanException;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
-
-import java.util.ArrayList;
+import it.polimi.ingsw.view.VirtualView;
 
 /* this card has four ban paws on it
 * when a player summon the card they can put one of these paw on an island of their choice
@@ -22,43 +20,17 @@ import java.util.ArrayList;
  */
 public class InfluenceBansCard extends Character{
 
-    private int banPaws = 4;
-    private ArrayList<Integer> bannedIslands;
-    private Gameboard g;
     private ExpertDeck name = ExpertDeck.HERBALIST;
+    private GameController gameController;
+    private TurnController turnController;
+    private int index;
     //constructor
-    public InfluenceBansCard(){
+    public InfluenceBansCard(GameController gameController, TurnController turnController){
         super(2);
+        this.gameController = gameController;
+        this.turnController = turnController;
     }
 
-    /* is this useful??
-    * getter for the gameboard
-    * public void getGameboard(Gameboard g){
-    *    this.g = g;
-    * }
-    */
-
-    /* this is the method that put the ban on the island.
-    * the island chosen by the player is added to an arraylist that contains all the banned islands
-    * (of course the number of banned islands must go from 0 to 4!)
-    * the real talk here is: how do we handle this thing during the game???
-    * the controller may check if an island is banned before calculate the influence???
-     */
-    public void banIsland(Player p, int index) throws impossibleBanException {
-        if(banPaws == 0)
-            throw new impossibleBanException();
-        else{
-            bannedIslands.add(index);
-            banPaws--;
-        }
-    }
-
-    //method that check if an island is banned
-    public boolean checkBan(Island i){
-        if(bannedIslands.contains(i.getIndex()))
-            return true;
-        else return false;
-    }
 
     public ExpertDeck getName() {
         return name;
@@ -66,11 +38,30 @@ public class InfluenceBansCard extends Character{
 
     @Override
     public void useEffect() {
-
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Island chosen: " + index + "\n");
+        int num = 0;
+        for(Island i : gameController.getGame().getGameBoard().getIslands()){
+            if(i.isBlocked())
+                num+=1;
+        }
+        if(num>=4){
+            vv.showGenericMessage("Too many blocked already!\n");
+            return;
+        }
+        gameController.getGame().getGameBoard().getIslands().get(index).setBlocked(true);
     }
 
     @Override
     public void removeEffect() {
+        Island active = gameController.getGame().getGameBoard().getIslands().get(gameController.getGame().getGameBoard().getMotherNature());
+        active.setBlocked(false);
+        turnController.getToReset().remove(this);
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Effect's over!\n");
+    }
 
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

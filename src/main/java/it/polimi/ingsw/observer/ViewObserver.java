@@ -108,6 +108,10 @@ public interface ViewObserver {
 
     void OnUpdateExpert(ExpertDeck c);
 
-    void OnUpdateEffect(int island);
+    void OnUpdateEffectHerald(int island);
+
+    void OnUpdateEffectHerbalist(int island);
+
+    void OnUpdateEffectSeller(Color c);
 
 }

@@ -215,5 +215,10 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+    @Override
+    public void askColor() {
+
+    }
+
 
 }

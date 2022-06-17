@@ -119,12 +119,20 @@ public class ClientController implements ViewObserver, Observer {
     }
 
     @Override
-    public void OnUpdateEffect(int island){
-        client.sendMessage(new EffectMessage(this.nickname, island));
+    public void OnUpdateEffectSeller(Color c){
+        client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.SELLER, c));
     }
 
     @Override
+    public void OnUpdateEffectHerald(int island){
+        client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.HERALD, island));
+    }
+    @Override
+    public void OnUpdateEffectHerbalist(int island){client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.HERBALIST,island));}
+
+    @Override
     public void OnUpdateExpert(ExpertDeck c){ client.sendMessage(new ExpertMessage(this.nickname, c));}
+
 
 
     @Override
@@ -203,6 +211,10 @@ public class ClientController implements ViewObserver, Observer {
             case LOBBY:
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
                 taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
+                break;
+            case COLOR_MESSAGE:
+                ColorMessage colorMessage = (ColorMessage) message;
+                taskQueue.execute(()->view.askColor());
                 break;
             default:
                 break;

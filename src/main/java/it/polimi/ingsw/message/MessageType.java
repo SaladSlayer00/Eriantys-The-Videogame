@@ -25,6 +25,7 @@ public enum MessageType {
         MOVE_ON_ISLAND,
         MOVE_ON_BOARD,
         MOVE_MOTHER,
+        COLOR_MESSAGE,
         GET_FROM_CLOUD,
         USE_EXPERT,
         BOARD,

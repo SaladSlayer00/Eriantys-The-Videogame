@@ -32,6 +32,7 @@ public class TurnController implements Serializable {
     private ArrayList<Assistant> chosen = new ArrayList<>();
     private int moved = 0;
     private List<Character> toReset = new ArrayList<>();
+    private List<Color> banned = new ArrayList<>();
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
@@ -314,13 +315,32 @@ public class TurnController implements Serializable {
         Player player = game.getPlayerByNickname(activePlayer);
         Type team = player.getDashboard().getTeam();
         Island active = game.getGameBoard().getIslands().get(actual);
+        if(active.isBlocked()){
+            VirtualView vv = virtualViewMap.get(activePlayer);
+            vv.showGenericMessage("The island is blocked!\n");
+            for(Character c : toReset){
+                if(c.getName().equals(ExpertDeck.HERBALIST)){
+                    c.removeEffect();
+                    return 0;
+                }
+            }
+            return 0;
+        }
         Character character=null;
         int set = 0;
         int influence = 0;
         Player owner=player;
+
+
         for(Color c : player.getProfessors()){
-            influence = influence + active.getStudents().get(c).size();
+            if(!banned.contains(c))
+                influence = influence + active.getStudents().get(c).size();
+            else {
+                VirtualView vv = virtualViewMap.get(activePlayer);
+                vv.showGenericMessage("The color "+c.getText()+" is banned!\n");
+            }
         }
+
 
         if(active.getTower()) {
             for(Character car : getToReset()){
@@ -354,7 +374,8 @@ public class TurnController implements Serializable {
         for(Player p : game.getPlayers()){
             int influenceOther = 0;
             for(Color c : p.getProfessors()){
-                influenceOther = influenceOther + active.getStudents().get(c).size();
+                if(!banned.contains(c))
+                    influenceOther = influenceOther + active.getStudents().get(c).size();
             }
 
             if(active.getTower()) {
@@ -368,6 +389,9 @@ public class TurnController implements Serializable {
                 influence = influenceOther;
             }
         }
+
+        banned = new ArrayList<>();
+
         if(set==1){
             active.setInfluence(influence);
             active.setTower(owner.getDashboard().getTower());
@@ -532,6 +556,45 @@ public class TurnController implements Serializable {
                             vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                         }
                         break;
+                case HERBALIST:
+                    InfluenceBansCard activeIB = new InfluenceBansCard(gameController, this);
+                    vv.showGenericMessage("Cost: " + activeIB.getCost() + "\n");
+                    if (!activeIB.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    } else {
+                        activeIB.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeIB.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeIB);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.HERBALIST);
+                        game.updateGameboard();
+                        //activeII.useEffect();
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
+
+                case SELLER:
+                    NullColorCard activeNC = new NullColorCard(gameController, this);
+                    vv.showGenericMessage("Cost: " + activeNC.getCost() + "\n");
+                    if (!activeNC.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    } else {
+                        activeNC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeNC.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeNC);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.SELLER);
+                        game.updateGameboard();
+                        activeNC.useEffect();
+                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
 
 
             }
@@ -554,12 +617,30 @@ public class TurnController implements Serializable {
                 card.removeEffect();
                 game.updateGameboard();
                 break;
+
+            case HERBALIST:
+                InfluenceBansCard c = (InfluenceBansCard) chosen;
+                c.setIndex(message.getIndex());
+                c.useEffect();
+                //non ha più herbalist questa volta non chiede input
+                gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.HERBALIST);
+                game.updateGameboard();
+                break;
+            case SELLER:
+                NullColorCard colorCard = (NullColorCard) chosen;
+                colorCard.setColor(message.getColor());
+                game.updateGameboard();
+                break;
         }
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
     public List<Character> getToReset() {
         return toReset;
+    }
+
+    public List<Color> getBanned() {
+        return banned;
     }
 
     public List<String> getNicknameQueue() {

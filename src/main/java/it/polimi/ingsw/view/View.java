@@ -136,6 +136,6 @@ public interface View {
 
     void askExpert();
 
-
+    void askColor();
 
 }

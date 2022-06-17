@@ -23,6 +23,7 @@ public class Island implements Serializable {
     private int dimension = 1;
     int index;
     int influence=0;
+    private boolean blocked=false;
 
     //constructor
     public Island(int index){
@@ -64,6 +65,14 @@ public class Island implements Serializable {
 
     public boolean isMotherNature() {
         return motherNature;
+    }
+
+    public boolean isBlocked(){
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     public Map<Color, ArrayList<Student>> getStudents() {
@@ -149,4 +158,6 @@ public class Island implements Serializable {
     public void setIndex(int index) {
         this.index = index;
     }
+
+
 }
