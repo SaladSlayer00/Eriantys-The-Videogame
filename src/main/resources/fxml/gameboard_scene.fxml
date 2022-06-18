@@ -18,122 +18,92 @@
             <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/hjdtyu.png" />
          </image>
       </ImageView>
-      <GridPane layoutX="94.0" layoutY="35.0" prefHeight="561.0" prefWidth="1611.0">
+      <GridPane fx:id="gridPaneIslands" layoutX="274.0" layoutY="59.0" prefHeight="582.0" prefWidth="1236.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="200.0" minHeight="0.0" prefHeight="200.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane prefHeight="146.0" prefWidth="129.0" styleClass="anchorPaneIslandThree" GridPane.columnIndex="1">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="43.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="114.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="114.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="43.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandOne" GridPane.rowIndex="1">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="46.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="106.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="53.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="114.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandTwo" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="59.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="113.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="53.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="113.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandOne" GridPane.columnIndex="3">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="117.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="44.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="108.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandThree" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="120.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="120.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandTwo" GridPane.columnIndex="5">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="118.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="118.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandOne" GridPane.columnIndex="5" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="58.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="117.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="44.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="111.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandThree" GridPane.columnIndex="7">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="126.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="115.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandTwo" GridPane.columnIndex="7" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="122.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="41.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="122.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandOne" GridPane.columnIndex="9">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="52.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="114.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="52.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="114.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandThree" GridPane.columnIndex="9" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="137.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="109.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="anchorPaneIslandTwo" GridPane.columnIndex="10" GridPane.rowIndex="1">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="53.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="127.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="33.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="107.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
          </children>
       </GridPane>
       <AnchorPane layoutX="446.0" layoutY="607.0" prefHeight="446.0" prefWidth="923.0">
@@ -158,6 +128,7 @@
       </AnchorPane>
       <Button fx:id="previousDashBoardButton" layoutX="251.0" layoutY="772.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="136.0" style="-fx-background-color: #58ccec;" styleClass="buttonSkin" />
       <Button fx:id="nextDashBoardButton" layoutX="1401.0" layoutY="786.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="136.0" rotate="180.0" style="-fx-background-color: #58ccec;" styleClass="buttonSkin" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    </children>
    <stylesheets>
       <URL value="@../css/gameBoard_scene.css" />

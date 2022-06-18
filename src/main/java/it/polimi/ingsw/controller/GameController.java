@@ -568,8 +568,10 @@ public class GameController implements Serializable {
 
 
     public void getFromCloudHandler(PickCloudMessage message) throws noMoreStudentsException {
+
         broadcastGenericMessage("Active player picking their cloud");
         turnController.getFromCloud(message.getCloudIndex());
+        game.updateGameboard();
         if(game.getEmptyClouds().size()==game.getChosenPlayerNumber()){
             broadcastGenericMessage("All players have moved! Starting a new turn");
             turnController.newTurn();
@@ -581,7 +583,7 @@ public class GameController implements Serializable {
             initiateAction();
 
         }
-        game.updateGameboard();
+
     }
 
 
@@ -611,9 +613,9 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.BANKER);
-        ExpertDeck.choose(ExpertDeck.BARBARIAN);
-        ExpertDeck.choose(ExpertDeck.JOKER);
+        ExpertDeck.choose(ExpertDeck.COOK);
+        ExpertDeck.choose(ExpertDeck.GAMBLER);
+        ExpertDeck.choose(ExpertDeck.CUSTOMER);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
@@ -623,12 +625,12 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.BANKER);
-        game.getExperts().add(ExpertDeck.BARBARIAN);
-        game.getExperts().add(ExpertDeck.JOKER);
+        game.getExperts().add(ExpertDeck.COOK);
+        game.getExperts().add(ExpertDeck.GAMBLER);
+        game.getExperts().add(ExpertDeck.CUSTOMER);
 
         for(Player p : game.getPlayers()){
-            p.addCoin(10);
+            p.addCoin(1);
             game.getGameBoard().removeCoin();
         }
 

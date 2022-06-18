@@ -28,10 +28,6 @@ public class ImproperInfluenceCard extends Character{
         index = 0;
     }
 
-    /* this method modifies the game pattern but it doesn't fully replace the normal game logic!!
-    * note that the controller must call the calculation of the influence on the right island anyway!!!
-    * this is just the ""extra"" part caused by the summoning of the expert card...
-     */
 
     public ExpertDeck getName() {
         return name;

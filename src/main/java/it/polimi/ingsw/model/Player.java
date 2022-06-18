@@ -75,7 +75,6 @@ public class Player implements Serializable {
         return cardChosen;
     }
 
-    //should be a good idea to add an exception in case of wrong game mode??
     public void addCoin(int num) {
         coins = coins+num;
     }
