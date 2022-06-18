@@ -1,8 +1,14 @@
 package it.polimi.ingsw.model.expertDeck;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnController;
+import it.polimi.ingsw.exceptions.noStudentException;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.board.Sack;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
-import it.polimi.ingsw.model.playerBoard.Row;
+import it.polimi.ingsw.view.VirtualView;
 
 /* the player that summons this card can choose a color and every player (themselves included) has to take
 * three students from the row of the chosen color and put them back in the sack
@@ -10,17 +16,16 @@ import it.polimi.ingsw.model.playerBoard.Row;
  */
 public class RemoveAColorCard extends Character{
     private ExpertDeck name = ExpertDeck.BANKER;
+    private GameController gameController;
+    private TurnController turnController;
+    private Color color;
     //constructor
-    public RemoveAColorCard(){
+    public RemoveAColorCard(GameController gameController, TurnController turnController){
         super(3);
+        this.gameController = gameController;
+        this.turnController = turnController;
     }
 
-    //this is the method that get the students of the chosen color
-    public void removeStudents(Dashboard d){
-        /* I still think that honestly handling the rows with an array is a very silly idea
-        * i mean literally: how someone is supposed to understand some basic things without
-         */
-    }
 
     public ExpertDeck getName() {
         return name;
@@ -28,15 +33,37 @@ public class RemoveAColorCard extends Character{
 
     @Override
     public void useEffect() {
-
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("You can choose a color to make everyone lose 3 students!\n");
+        vv.askColor();
     }
 
     @Override
     public void removeEffect() {
+        turnController.getToReset().remove(this);
+        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.BANKER);
+    }
 
+    public void setColor(Color color) {
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Everyone puts back "+color.getText()+" students!\n");
+
+        this.color = color;
+        Sack sack = gameController.getGame().getGameBoard().getSack();
+        for(Player p:gameController.getGame().getPlayers()){
+            for(int i = 0;i<3;i++){
+                try {
+                    sack.putStudent(p.getDashboard().takeStudent(color));
+                } catch (noStudentException e) {
+                    vv.showGenericMessage(p.getName()+" has less than 3 students for " + color.getText() +"\n");
+                    break;
+                }
+            }
+        }
+        removeEffect();
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
-/* BIG QUESTION!!!!!
-* all the students means all the students of that color or ALL the students???
-* i think the latter but who knows...
- */

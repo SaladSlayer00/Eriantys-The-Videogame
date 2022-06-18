@@ -301,6 +301,7 @@ public class Cli extends ViewObservable implements View {
                 }
             } while (!gameboard.getExperts().contains(c));
 
+
             if (!(c == null)) {
                 ExpertDeck finalAnswer = c;
                 notifyObserver(obs -> obs.OnUpdateExpert(finalAnswer));
@@ -333,7 +334,13 @@ public class Cli extends ViewObservable implements View {
         } while (!colors.contains(color));
 
         Color finalColor = color;
-        notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
+        if(gameboard.getToReset().contains(ExpertDeck.BANKER)){
+            notifyObserver(obs->obs.OnUpdateEffectBanker(finalColor));
+        }
+        else if(gameboard.getToReset().contains(ExpertDeck.SELLER))
+            notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
+        else
+            notifyObserver(obs->obs.OnUpdateEffectBarbarian(finalColor));
 
     }
 
