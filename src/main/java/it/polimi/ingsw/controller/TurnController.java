@@ -406,7 +406,7 @@ public class TurnController implements Serializable {
 
     }
 
-    private void checkProfessors(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+    public void checkProfessors(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         Player chosenPlayer = gameController.getGame().getPlayerByNickname(activePlayer);
         boolean draw = false;
         for (Player p : game.getPlayers()) {
@@ -648,6 +648,27 @@ public class TurnController implements Serializable {
                             //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                         }
                     break;
+
+                case MUSICIAN:
+                    SwapTwoStudentsCard activeSS = new SwapTwoStudentsCard(gameController, this);
+                    vv.showGenericMessage("Cost: " + activeSS.getCost() + "\n");
+                    if (!activeSS.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else{
+                        activeSS.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeSS.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeSS);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.MUSICIAN);
+                        game.updateGameboard();
+                        activeSS.useEffect();
+                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
                     }
     }
 
@@ -692,6 +713,22 @@ public class TurnController implements Serializable {
                 oneMoreStudentCard.addStudent(message.getColor());
                 game.updateGameboard();
                 break;
+            case MUSICIAN:
+                SwapTwoStudentsCard swapTwoStudentsCard = (SwapTwoStudentsCard) chosen;
+                if(swapTwoStudentsCard.getHall()!=null){
+                    try {
+                        swapTwoStudentsCard.getColorRow(message.getColor());
+                    } catch (noStudentException e) {
+                        e.printStackTrace();
+                    } catch (maxSizeException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    swapTwoStudentsCard.getColorHall(message.getColor());
+                }
+                game.updateGameboard();
+                return;
         }
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }

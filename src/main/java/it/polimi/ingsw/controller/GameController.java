@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.model.expertDeck.SwapTwoStudentsCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -398,6 +399,23 @@ public class GameController implements Serializable {
                 }
                 break;
 
+            case INIT_GAMEBOARD:
+                 StartMessage startMessage = (StartMessage) receivedMessage;
+                 Character car=null;
+                 for(Character c : turnController.getToReset()){
+                     if(c.getName().equals(ExpertDeck.MUSICIAN)){
+                         car=c;
+                     }
+                 }
+                 if(startMessage.getAnswer().equalsIgnoreCase("yes")) {
+                     car.useEffect();
+                 }
+                 else{
+                     car.removeEffect();
+                     turnController.moveMaker();
+                 }
+                break;
+
             case ENABLE_EFFECT:
                 EffectMessage effectMessage = (EffectMessage) receivedMessage;
                 turnController.effectHandler(effectMessage);
@@ -594,7 +612,7 @@ public class GameController implements Serializable {
 
     public void expertSetup(){
         ExpertDeck.choose(ExpertDeck.BANKER);
-        ExpertDeck.choose(ExpertDeck.BARBARIAN);
+        ExpertDeck.choose(ExpertDeck.MUSICIAN);
         ExpertDeck.choose(ExpertDeck.SELLER);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
@@ -606,7 +624,7 @@ public class GameController implements Serializable {
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
         game.getExperts().add(ExpertDeck.BANKER);
-        game.getExperts().add(ExpertDeck.BARBARIAN);
+        game.getExperts().add(ExpertDeck.MUSICIAN);
         game.getExperts().add(ExpertDeck.SELLER);
 
         for(Player p : game.getPlayers()){

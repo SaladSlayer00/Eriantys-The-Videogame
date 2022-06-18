@@ -118,4 +118,6 @@ public interface ViewObserver {
 
     void OnUpdateEffectBarbarian(Color c);
 
+    void OnUpdateEffectMusician(Color c);
+
 }

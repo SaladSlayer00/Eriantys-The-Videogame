@@ -100,7 +100,6 @@ public class Dashboard extends Observable implements Serializable {
         return numTowers;
     }
 
-
     public ArrayList<Student> getHall() {
         return hall;
     }

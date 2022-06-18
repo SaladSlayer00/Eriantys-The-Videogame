@@ -144,6 +144,11 @@ public class ClientController implements ViewObserver, Observer {
         client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.BARBARIAN, c));
     }
 
+    @Override
+    public void OnUpdateEffectMusician(Color c){
+        client.sendMessage((new EffectMessage(this.nickname, ExpertDeck.MUSICIAN, c)));
+    }
+
 
     @Override
     public void update(Message message) {
