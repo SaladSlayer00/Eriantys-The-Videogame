@@ -86,6 +86,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
       updateDashBoard(reducedDashboards.get(0));
       previousDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
       nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
+
     }
     public void setGameBoard(Gameboard gameboard) {
         reducedGameBoard= gameboard;
@@ -119,7 +120,6 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
        addedTower.setFitHeight(41);
        towersSpot.getChildren().add(addedTower);
       }
-
       checkOwnership(selectedDashBoard);
      }
 
@@ -186,5 +186,6 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
         }
  }
+
 
 }
