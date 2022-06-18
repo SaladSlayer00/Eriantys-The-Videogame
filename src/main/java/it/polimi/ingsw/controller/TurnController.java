@@ -485,8 +485,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        active.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(active.getCost());
+                        active.addCoin();
                         active.useEffect();
                         toReset.add(active);
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
@@ -501,10 +501,9 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        //TODO toReset.add(activeTM); vedere se funziona ancora
-                        activeTM.addCoin();
                         activeTM.useEffect();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost());
+                        activeTM.addCoin();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
@@ -516,8 +515,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        activeTC.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost());
+                        activeTC.addCoin();
                         activeTC.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -530,8 +529,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        activeTP.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost());
+                        activeTP.addCoin();
                         activeTP.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -545,8 +544,8 @@ public class TurnController implements Serializable {
                             vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                             vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                         } else {
-                            activeII.addCoin();
                             game.getPlayerByNickname(activePlayer).removeCoin(activeII.getCost());
+                            activeII.addCoin();
                             //per chiamare effetto
                             toReset.add(activeII);
                             //per vedere da vv
@@ -564,8 +563,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        activeIB.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeIB.getCost());
+                        activeIB.addCoin();
                         //per chiamare effetto
                         toReset.add(activeIB);
                         //per vedere da vv
@@ -584,8 +583,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        activeNC.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeNC.getCost());
+                        activeNC.addCoin();
                         //per chiamare effetto
                         toReset.add(activeNC);
                         //per vedere da vv
@@ -603,8 +602,8 @@ public class TurnController implements Serializable {
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        activeRC.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeRC.getCost());
+                        activeRC.addCoin();
                         //per chiamare effetto
                         toReset.add(activeRC);
                         //per vedere da vv
@@ -637,16 +636,17 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                            activeOM.addCoin();
-                            game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost());
-                            //per chiamare effetto
-                            toReset.add(activeOM);
-                            //per vedere da vv
-                            game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
-                            game.updateGameboard();
-                            activeOM.useEffect();
+
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost());
+                        activeOM.addCoin();
+                        //per chiamare effetto
+                        toReset.add(activeOM);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
+                        game.updateGameboard();
+                        activeOM.useEffect();
                             //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
-                        }
+                    }
                     break;
 
                 case MUSICIAN:
@@ -658,8 +658,8 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                        activeSS.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeSS.getCost());
+                        activeSS.addCoin();
                         //per chiamare effetto
                         toReset.add(activeSS);
                         //per vedere da vv
@@ -683,8 +683,9 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                        activeES.addCoin();
+
                         game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost());
+                        activeES.addCoin();
                         //per chiamare effetto
                         toReset.add(activeES);
                         //per vedere da vv
@@ -718,8 +719,8 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                        activeTI.addCoin();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost());
+                        activeTI.addCoin();
                         //per chiamare effetto
                         toReset.add(activeTI);
                         //per vedere da vv
