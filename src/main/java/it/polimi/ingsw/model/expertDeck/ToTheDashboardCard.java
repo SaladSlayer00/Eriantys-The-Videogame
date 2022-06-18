@@ -11,8 +11,7 @@ import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 
-/* the player that summons this card can pick one of the four students that are on this card
-* NOTE that the four students are already on the card at the beginning of the game
+/* da carta  a isola
  */
 public class ToTheDashboardCard extends Character{
 

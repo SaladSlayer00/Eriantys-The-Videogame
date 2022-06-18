@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model.expertDeck;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
-import it.polimi.ingsw.exceptions.notPresentStudentException;
-import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.Sack;
+import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 
@@ -15,48 +16,21 @@ import java.util.ArrayList;
 public class ExchangeStudentsCard extends Character{
 
     //ArrayList for the students of the card
-    private ArrayList<Student> students = new ArrayList<Student>(6);
-    Sack sack;
+    private ArrayList<Student> students = new ArrayList<Student>();
     private ExpertDeck name = ExpertDeck.JOKER;
-
+    private GameController gameController;
+    private TurnController turnController;
+    private int calls =0;
     //constructor
-    public ExchangeStudentsCard() throws noMoreStudentsException {
+    public ExchangeStudentsCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
         super(1);
-        for(Student s : students){
-            s = sack.drawStudent();
+        this.gameController = gameController;
+        this.turnController = turnController;
+        for(int i=0;i<6;i++){
+            students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
     }
 
-    //method that associates the sack to this sack
-    public void setSack(Sack gameSack){
-        this.sack = gameSack;
-    }
-
-    //this is the method that replaces the students
-    public Student swap(Color wanted, Student playerChoice) throws notPresentStudentException {
-        for(Student s : students){
-            if(s.getColor().equals(wanted)){
-                Student temp = new Student(s.getColor());
-                s = playerChoice;
-                return temp;
-            }
-        }
-        throw new notPresentStudentException();
-    }
-
-    /* an idea may be to pass the student that has been swapped to the controller and then
-    * it becomes a controller's problem
-    * TODO (added this only to remember to discuss it next time)
-     */
-
-    //check that the player hasn't asked for more than three swaps. might be useful for the controller
-    //i don't really know if it might be useful tbh
-    public boolean checkValidSwapNumber(int swaps){
-        if(swaps > 0 && swaps < 4){
-            return true;
-        }
-        else return false;
-    }
 
     public ExpertDeck getName() {
         return name;
@@ -64,11 +38,48 @@ public class ExchangeStudentsCard extends Character{
 
     @Override
     public void useEffect() {
-
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Please choose a student to pick from the card!\n");
+        for(Student s : students){
+            vv.showGenericMessage(s.getColor().getText()+"\n");
+        }
+        vv.askColor();
     }
 
     @Override
     public void removeEffect() {
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Effect was removed!\n");
+        turnController.getToReset().remove(this);
+        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.JOKER);
+        gameController.getGame().updateGameboard();
+        vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
 
+    }
+
+    public void swapStudent(Color c){
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        Student st=null;
+        for(Student s : students){
+            if(s.getColor().equals(c)){
+                st=s;
+            }
+        }
+        if(st==null){
+            vv.showGenericMessage("Student not present!\n");
+            useEffect();
+        }
+        else{
+            vv.showGenericMessage("Added "+c.getText()+" student to the hall!\n");
+            gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(st);
+            students.remove(st);
+            students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
+        }
+        calls+=1;
+        if (calls < 3) {
+            vv.showGenericMessage("Would you like to choose another?\n");
+            vv.askStart(turnController.getActivePlayer(), "START");
+        } else
+            removeEffect();
     }
 }

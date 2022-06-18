@@ -223,7 +223,6 @@ public class Cli extends ViewObservable implements View {
             inputWord = answerInput(question);
             notifyObserver(obs -> obs.OnStartAnswer(inputWord));
 
-
         }
         else{
             showErrorAndExit("wrong message format.");
@@ -339,6 +338,10 @@ public class Cli extends ViewObservable implements View {
         }
         else if(gameboard.getToReset().contains(ExpertDeck.SELLER))
             notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
+        else if(gameboard.getToReset().contains(ExpertDeck.MUSICIAN))
+            notifyObserver(obs->obs.OnUpdateEffectMusician(finalColor));
+        else if(gameboard.getToReset().contains(ExpertDeck.JOKER))
+            notifyObserver(obs->obs.OnUpdateEffectJoker(finalColor));
         else
             notifyObserver(obs->obs.OnUpdateEffectBarbarian(finalColor));
 
@@ -572,6 +575,10 @@ public class Cli extends ViewObservable implements View {
             try {
                 out.print(question);
                 answer = readLine();
+
+                if(gameboard!= null && (gameboard.getToReset().contains(ExpertDeck.MUSICIAN) || gameboard.getToReset().contains(ExpertDeck.JOKER))){
+                    return answer;
+                }
 
                 if (answer.toUpperCase().equals("NO")) {
                     out.println("Ok! You can type YES when you're ready! \n");

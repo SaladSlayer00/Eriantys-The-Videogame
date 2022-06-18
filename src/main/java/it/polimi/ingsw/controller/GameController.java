@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.model.expertDeck.SwapTwoStudentsCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -398,6 +399,23 @@ public class GameController implements Serializable {
                 }
                 break;
 
+            case INIT_GAMEBOARD:
+                 StartMessage startMessage = (StartMessage) receivedMessage;
+                 Character car=null;
+                 for(Character c : turnController.getToReset()){
+                     if(c.getName().equals(ExpertDeck.MUSICIAN) || c.getName().equals(ExpertDeck.JOKER)){
+                         car=c;
+                     }
+                 }
+                 if(startMessage.getAnswer().equalsIgnoreCase("yes")) {
+                     car.useEffect();
+                 }
+                 else{
+                     car.removeEffect();
+                     turnController.moveMaker();
+                 }
+                break;
+
             case ENABLE_EFFECT:
                 EffectMessage effectMessage = (EffectMessage) receivedMessage;
                 turnController.effectHandler(effectMessage);
@@ -595,7 +613,7 @@ public class GameController implements Serializable {
     public void expertSetup(){
         ExpertDeck.choose(ExpertDeck.BANKER);
         ExpertDeck.choose(ExpertDeck.BARBARIAN);
-        ExpertDeck.choose(ExpertDeck.SELLER);
+        ExpertDeck.choose(ExpertDeck.JOKER);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
@@ -607,7 +625,7 @@ public class GameController implements Serializable {
         }
         game.getExperts().add(ExpertDeck.BANKER);
         game.getExperts().add(ExpertDeck.BARBARIAN);
-        game.getExperts().add(ExpertDeck.SELLER);
+        game.getExperts().add(ExpertDeck.JOKER);
 
         for(Player p : game.getPlayers()){
             p.addCoin(10);

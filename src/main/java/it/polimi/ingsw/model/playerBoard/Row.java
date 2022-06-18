@@ -70,4 +70,8 @@ public class Row  implements Serializable {
     public ArrayList<Student> getStudents() {
         return students;
     }
+
+    public Student removeStudent(){
+        return students.remove(0);
+    }
 }
