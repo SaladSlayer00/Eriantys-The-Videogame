@@ -340,6 +340,8 @@ public class Cli extends ViewObservable implements View {
             notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
         else if(gameboard.getToReset().contains(ExpertDeck.MUSICIAN))
             notifyObserver(obs->obs.OnUpdateEffectMusician(finalColor));
+        else if(gameboard.getToReset().contains(ExpertDeck.JOKER))
+            notifyObserver(obs->obs.OnUpdateEffectJoker(finalColor));
         else
             notifyObserver(obs->obs.OnUpdateEffectBarbarian(finalColor));
 
@@ -574,7 +576,7 @@ public class Cli extends ViewObservable implements View {
                 out.print(question);
                 answer = readLine();
 
-                if(gameboard!= null && gameboard.getToReset().contains(ExpertDeck.MUSICIAN)){
+                if(gameboard!= null && (gameboard.getToReset().contains(ExpertDeck.MUSICIAN) || gameboard.getToReset().contains(ExpertDeck.JOKER))){
                     return answer;
                 }
 

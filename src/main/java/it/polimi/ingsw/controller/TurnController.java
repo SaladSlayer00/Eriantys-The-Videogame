@@ -669,6 +669,31 @@ public class TurnController implements Serializable {
                         //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
+                case JOKER:
+                    ExchangeStudentsCard activeES = null;
+                    try {
+                        activeES = new ExchangeStudentsCard(gameController, this);
+                    } catch (noMoreStudentsException e) {
+                        e.printStackTrace();
+                    }
+                    vv.showGenericMessage("Cost: " + activeES.getCost() + "\n");
+                    if (!activeES.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else{
+                        activeES.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeES);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
+                        game.updateGameboard();
+                        activeES.useEffect();
+                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
                     }
     }
 
@@ -729,6 +754,12 @@ public class TurnController implements Serializable {
                 }
                 game.updateGameboard();
                 return;
+            case JOKER:
+                ExchangeStudentsCard exchangeStudentCard = (ExchangeStudentsCard) chosen;
+                exchangeStudentCard.swapStudent(message.getColor());
+                game.updateGameboard();
+                return;
+
         }
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }

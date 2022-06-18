@@ -120,4 +120,6 @@ public interface ViewObserver {
 
     void OnUpdateEffectMusician(Color c);
 
+    void OnUpdateEffectJoker(Color c);
+
 }
