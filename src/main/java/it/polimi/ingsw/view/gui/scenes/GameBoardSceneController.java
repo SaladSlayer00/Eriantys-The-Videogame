@@ -136,6 +136,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
           GuiStudent studentImage = addGuiStudent(student);
           greenRow.getChildren().add(studentImage);
       }
+
         for(Student student: selectedDashBoard.getRow(Color.RED).getStudents()){
             GuiStudent studentImage = addGuiStudent(student);
             redRow.getChildren().add(studentImage);
