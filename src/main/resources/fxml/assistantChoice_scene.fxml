@@ -17,7 +17,7 @@
     <AnchorPane layoutX="-1.0" layoutY="-2.0" prefHeight="378.0" prefWidth="975.0">
         <children>
             <ImageView id="chosenAssistant" fx:id="chosenAssistant" fitHeight="150.0" fitWidth="101.0" layoutX="784.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="titleLabel" alignment="CENTER" layoutX="338.0" layoutY="24.0" prefHeight="25.0" prefWidth="340.0" styleClass="customText" text="CHOOSE YOUR ASSISTANT" textAlignment="CENTER">
+            <Label fx:id="titleLabel" alignment="CENTER" layoutX="338.0" layoutY="24.0" prefHeight="25.0" prefWidth="340.0" styleClass="customText" text="Choose your assistant..." textAlignment="CENTER">
                 <font>
                     <Font name="Comic Sans MS Bold" size="18.0" />
                 </font>
