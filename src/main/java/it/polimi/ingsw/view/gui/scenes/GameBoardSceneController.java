@@ -119,6 +119,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
        addedTower.setFitHeight(41);
        towersSpot.getChildren().add(addedTower);
       }
+
       checkOwnership(selectedDashBoard);
      }
 
