@@ -98,7 +98,6 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         } else {
             numOfClouds = 4;
         }
-        System.out.println(availableClouds.size());
         if(availableClouds.get(0).getStudents().size()!=0){
                 for(int i = 0; i<numOfClouds;i++){
                 String color = availableClouds.get(0).getStudents().get(i).getColor().toString();

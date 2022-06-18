@@ -36,6 +36,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
    private List<Dashboard> reducedDashboards;
    private List<ImageView> movableStudents;
    private int currentDashboard;
+   private List<ImageView> hallList;
+   private List<TilePane> rows;
+   private String playerNickname;
     @FXML
     private GridPane gridPaneIslands;
     @FXML
@@ -57,18 +60,31 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
    @FXML
    private Button nextDashBoardButton;
 
-    public GameBoardSceneController(){
+
+    public GameBoardSceneController(String playerNickname){
      reducedDashboards = new ArrayList<>();
      movableStudents = new ArrayList<>();
+     rows = new ArrayList<>();
      currentDashboard = 0;
-
+     this.playerNickname = playerNickname;
+     hallList = new ArrayList<>();
+     greenRow = new TilePane();
+     redRow = new TilePane();
+     yellowRow = new TilePane();
+     pinkRow = new TilePane();
+     blueRow = new TilePane();
+     rows.add(greenRow);
+     rows.add(redRow);
+     rows.add(yellowRow);
+     rows.add(pinkRow);
+     rows.add(blueRow);
 
     }
 
 
     public void initialize() {
       updateDashBoard(reducedDashboards.get(0));
-      previousDashBoardButton.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
+      previousDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
       nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
     }
     public void setGameBoard(Gameboard gameboard) {
@@ -83,17 +99,16 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     public void updateDashBoard(Dashboard dashboard){
       reducedHall.getChildren().clear();
       towersSpot.getChildren().clear();
+      hallList.clear();
       Dashboard selectedDashBoard = dashboard;
       int numberOfTowers = selectedDashBoard.getNumTowers();
-      System.out.println(numberOfTowers);
       //hall
       for (Student student : selectedDashBoard.getHall()) {
        Color studentColor = student.getColor();
        Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + studentColor.toString() + ".png"));
-       Circle circle = new Circle();
-       circle.setRadius(20);
-       circle.setFill(new ImagePattern(studentInTheHall));
-       reducedHall.getChildren().add(circle);
+       ImageView studentImage = new ImageView(studentInTheHall);
+       hallList.add(studentImage);
+       reducedHall.getChildren().add(studentImage);
       }
       //towers
       Type colorOfTower = selectedDashBoard.getTeam();
@@ -104,6 +119,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
        addedTower.setFitHeight(41);
        towersSpot.getChildren().add(addedTower);
       }
+      checkOwnership(selectedDashBoard);
      }
 
 
@@ -148,6 +164,26 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
   button.setDisable(false);
   return false;
  }
+ private void checkOwnership(Dashboard dashboard){
+        if(!dashboard.getOwner().equals(playerNickname)){
+            for(ImageView imageView : hallList){
+                imageView.setDisable(true);
+                imageView.setOpacity(0.5);
+            }
+            for(TilePane tilePane :rows){
+                tilePane.setDisable(true);
+            }
 
+
+        }else{
+            for(ImageView imageView : hallList){
+                imageView.setDisable(false);
+            }
+            for(TilePane tilePane :rows){
+                tilePane.setDisable(false);
+            }
+
+        }
+ }
 
 }

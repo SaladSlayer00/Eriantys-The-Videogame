@@ -21,8 +21,9 @@ public class Dashboard extends Observable implements Serializable {
     private Type team;
     //private static final int NUM_ROWS = 5;
     private int hallDimension;
+    private String owner;
 
-    public Dashboard(int numPlayers){
+    public Dashboard(int numPlayers, String playerName){
         if(numPlayers == 2){
             this.numTowers = 8;
             this.hallDimension = 7;
@@ -36,7 +37,7 @@ public class Dashboard extends Observable implements Serializable {
         rows.add(new Row(Color.YELLOW));
         rows.add(new Row(Color.BLUE));
         this.towers = numTowers;
-
+        this.owner = playerName;
 
     }
 
@@ -126,4 +127,6 @@ public class Dashboard extends Observable implements Serializable {
     public ArrayList<Row> getRows() {
         return rows;
     }
+
+    public String getOwner(){return owner;}
 }

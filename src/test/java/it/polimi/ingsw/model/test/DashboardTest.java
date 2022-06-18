@@ -21,8 +21,8 @@ class DashboardTest {
     //initial set up of the dashboard
     @BeforeEach
     void startingSetUp(){
-        d1Test = new Dashboard(2);
-        d2Test = new Dashboard(3);
+        d1Test = new Dashboard(2,"mario");
+        d2Test = new Dashboard(3,"luigi");
 
     }
 

@@ -28,8 +28,10 @@ public class Gui extends ViewObservable implements View {
 
     private static final String ERROR_STR = "ERRROR";
     private static final String MENU_STR_FXML = "menu_scene.fxml";
+    private static String playerName;
     private static List<Cloud> clouds;
     private static String cloudChoice ="Pick";
+
 
     @Override
     public void askNickname(){
@@ -38,6 +40,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askStart(String nickname, String answer) {
+        setPlayerName(nickname);
         Platform.runLater(() -> SceneController.changeRootPane(observers, "start_scene.fxml"));
     }
 
@@ -183,7 +186,7 @@ public class Gui extends ViewObservable implements View {
             gBSC.setDashboards(dashboards);
             gBSC.setGameBoard(gameboard);
         } catch (ClassCastException e) {
-            gBSC = new GameBoardSceneController();
+            gBSC = new GameBoardSceneController(playerName);
             gBSC.addAllObservers(observers);
             gBSC.setDashboards(dashboards);
             gBSC.setGameBoard(gameboard);
@@ -219,6 +222,10 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askColor() {
 
+    }
+
+    private void setPlayerName(String nickname){
+        playerName = nickname;
     }
 
 

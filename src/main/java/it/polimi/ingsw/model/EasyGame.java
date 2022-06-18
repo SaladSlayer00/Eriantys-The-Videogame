@@ -56,7 +56,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.players.add(p);
         this.activeplayers.add(p);
         numCurrentActivePlayers=numCurrentActivePlayers+1;
-        p.setDashboard(new Dashboard(this.chosenPlayerNumber));
+        p.setDashboard(new Dashboard(this.chosenPlayerNumber,p.getName()));
         lobbyUpdate();
     }
 

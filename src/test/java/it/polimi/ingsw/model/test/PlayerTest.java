@@ -28,7 +28,7 @@ class PlayerTest {
     void startingSetUp(){
         playerT = new Player(name, playerID);
         playerT.setDeck(Mage.FAIRY);
-        playerT.setDashboard(new Dashboard(2));
+        playerT.setDashboard(new Dashboard(2,playerT.getName()));
     }
 
     //tests the getter of the name
