@@ -4,33 +4,36 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/* At the beginning of the match six students must be drawn and put on this card
-* The summoner can exchange as much as three students in their hall with three students on the card
+/* da carta  a isola
  */
-public class ExchangeStudentsCard extends Character{
-
-    //ArrayList for the students of the card
-    private ArrayList<Student> students = new ArrayList<Student>();
-    private ExpertDeck name = ExpertDeck.JOKER;
+public class ToIslandCard extends Character{
+//TODO mettere una spiegazione per tutte
+    private ExpertDeck name = ExpertDeck.TAVERNER;
+    private ArrayList<Student> students = new ArrayList<>();
+    private Sack sack;
+    private Student chosen = null;
     private GameController gameController;
     private TurnController turnController;
-    private int calls =0;
+    private final String text = "The player that summons this card can pick one of the four students that are on this card\n";
+
     //constructor
-    public ExchangeStudentsCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
-        super(1);
+    public ToIslandCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
+        super(2);
         this.gameController = gameController;
         this.turnController = turnController;
-        for(int i=0;i<6;i++){
-            students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
+        sack = gameController.getGame().getGameBoard().getSack();
+        for(int i=0;i<4;i++){
+            students.add(sack.drawStudent());
         }
     }
-
 
     public ExpertDeck getName() {
         return name;
@@ -48,16 +51,22 @@ public class ExchangeStudentsCard extends Character{
 
     @Override
     public void removeEffect() {
+        //rimuovo dalla lista ma non elimino l'istanza
+        chosen = null;
+        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.TAVERNER);
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Effect was removed!\n");
-        turnController.getToReset().remove(this);
-        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.JOKER);
         gameController.getGame().updateGameboard();
         vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
 
     }
 
-    public void swapStudent(Color c){
+    public String getText() {
+        return text;
+    }
+
+
+    public void getStudent(Color c) {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;
         for(Student s : students){
@@ -70,16 +79,25 @@ public class ExchangeStudentsCard extends Character{
             useEffect();
         }
         else{
-            vv.showGenericMessage("Added "+c.getText()+ " student to the hall!\n");
-            gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(st);
+            vv.showGenericMessage("Student "+c.getText()+ " selected!\n");
+            this.chosen = st;
             students.remove(st);
-            students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
+            vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
         }
-        calls+=1;
-        if (calls < 3) {
-            vv.showGenericMessage("Would you like to choose another?\n");
-            vv.askStart(turnController.getActivePlayer(), "START");
-        } else
-            removeEffect();
+
+
+    }
+
+    public void getIsland(int index){
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage(("Island chosen: "+index+"\n"));
+        gameController.getGame().getGameBoard().getIslands().get(index).addStudentOnIsland(chosen.getColor(), chosen);
+        students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
+        removeEffect();
+
+    }
+
+    public Student getChosen() {
+        return chosen;
     }
 }

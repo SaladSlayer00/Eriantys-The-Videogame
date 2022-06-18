@@ -35,14 +35,13 @@ public class NoTowerCard extends Character{
     @Override
     public void useEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
-        vv.showGenericMessage("Towers on the island are irrelevant!\n");
+        gameController.broadcastGenericMessage("Towers on the island are irrelevant!\n");
         turnController.getToReset().add(this);
     }
 
     @Override
     public void removeEffect() {
-        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
-        vv.showGenericMessage("Tower effect removed!\n");
+        gameController.broadcastGenericMessage("Tower effect removed!\n");
         turnController.getToReset().remove(this);
     }
 }

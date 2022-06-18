@@ -340,6 +340,10 @@ public class Cli extends ViewObservable implements View {
             notifyObserver(obs -> obs.OnUpdateEffectSeller(finalColor));
         else if(gameboard.getToReset().contains(ExpertDeck.MUSICIAN))
             notifyObserver(obs->obs.OnUpdateEffectMusician(finalColor));
+        else if(gameboard.getToReset().contains(ExpertDeck.JOKER))
+            notifyObserver(obs->obs.OnUpdateEffectJoker(finalColor));
+        else if(gameboard.getToReset().contains(ExpertDeck.TAVERNER))
+            notifyObserver(obs->obs.OnUpdateEffectTaverner(finalColor));
         else
             notifyObserver(obs->obs.OnUpdateEffectBarbarian(finalColor));
 
@@ -361,6 +365,12 @@ public class Cli extends ViewObservable implements View {
             String question = "Please choose the island to ban.\n";
             int island = islandInput(question, islands);
             notifyObserver(obs -> obs.OnUpdateEffectHerbalist(island));
+            return;
+        }
+        else if(gameboard.getToReset().size()>0 && gameboard.getToReset().contains(ExpertDeck.TAVERNER)){
+            String question = "Please choose the island to put the student on.\n";
+            int island = islandInput(question, islands);
+            notifyObserver(obs -> obs.OnUpdateEffectTaverner(island));
             return;
         }
         else if(gameboard.getExperts().size()>0){
@@ -574,7 +584,7 @@ public class Cli extends ViewObservable implements View {
                 out.print(question);
                 answer = readLine();
 
-                if(gameboard!= null && gameboard.getToReset().contains(ExpertDeck.MUSICIAN)){
+                if(gameboard!= null && (gameboard.getToReset().contains(ExpertDeck.MUSICIAN) || gameboard.getToReset().contains(ExpertDeck.JOKER))){
                     return answer;
                 }
 

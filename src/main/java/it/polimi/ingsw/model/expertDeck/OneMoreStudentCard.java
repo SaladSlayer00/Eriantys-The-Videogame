@@ -14,9 +14,7 @@ import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 
-/* At the beginning of a match four students should be drawn from the sack and put on this card
-* When a player uses this card, they can choose one of the student and put it on an island (anyone)
-* Then they have to draw a student from the sack to replace the one they have chosen
+/* carta che fa passare uno studente da lei alla hall
  */
 public class OneMoreStudentCard extends Character{
     //this card has an array as attribute for the four students
@@ -61,7 +59,6 @@ public class OneMoreStudentCard extends Character{
         for(Student s : students){
             if(s.getColor().equals(c)){
                 st=s;
-                gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(s);
             }
         }
         if(st==null){
@@ -69,6 +66,7 @@ public class OneMoreStudentCard extends Character{
             useEffect();
         }
         else{
+            gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(st);
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
