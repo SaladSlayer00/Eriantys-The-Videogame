@@ -19,7 +19,7 @@
     <children>
         <Group scaleX="1.5" scaleY="1.5" scaleZ="1.5" StackPane.alignment="CENTER">
             <children>
-                <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                <AnchorPane layoutY="-5.0" prefHeight="400.0" prefWidth="600.0">
                     <children>
                         <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
                             <image>
@@ -38,10 +38,13 @@
                      </effect>
                         </Label>
                         <Separator layoutX="175.0" layoutY="79.0" prefHeight="5.0" prefWidth="280.0" />
-                        <Button fx:id="backToMenuBtn" layoutX="209.0" layoutY="272.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="194.0" text="Back To Menu">
+                        <Button fx:id="backToMenuBtn" layoutX="208.0" layoutY="276.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="184.0" text="Back To Menu">
                      <effect>
                         <Bloom threshold="1.0" />
-                     </effect></Button>
+                     </effect>
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="14.0" />
+                     </font></Button>
                         <HBox layoutX="166.0" layoutY="141.0" prefHeight="107.0" prefWidth="277.0">
                             <children>
                                 <ImageView fx:id="blackTower" fitHeight="90.0" fitWidth="90.0" preserveRatio="true">
