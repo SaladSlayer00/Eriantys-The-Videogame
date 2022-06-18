@@ -11,15 +11,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.TilePane?>
 
-<AnchorPane opacity="0.99" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane opacity="0.99" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="1082.0" fitWidth="1921.0" layoutX="7.0">
          <image>
-            <Image url="@../images/download.png" />
+            <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/hjdtyu.png" />
          </image>
       </ImageView>
       <GridPane fx:id="gridPaneIslands" layoutX="274.0" layoutY="59.0" prefHeight="582.0" prefWidth="1236.0">
         <columnConstraints>
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -28,13 +30,81 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/yiugjg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB_1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../../../../Downloads/Graphical_Assets/Graphical_Assets/Reame/PNG/reameB.png" />
+               </image>
+            </ImageView>
+         </children>
       </GridPane>
       <AnchorPane layoutX="446.0" layoutY="607.0" prefHeight="446.0" prefWidth="923.0">
          <children>
@@ -56,25 +126,9 @@
             <TilePane fx:id="towersSpot" hgap="15.0" layoutX="753.0" layoutY="132.0" prefHeight="173.0" prefWidth="132.0" />
          </children>
       </AnchorPane>
-      <GridPane layoutX="43.0" layoutY="1039.0" prefHeight="21.0" prefWidth="436.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="32.5" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.5" minWidth="0.0" prefWidth="30.5" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="102.0" minWidth="10.0" prefWidth="37.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.5" minWidth="8.0" prefWidth="31.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.5" minWidth="10.0" prefWidth="33.5" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.5" minWidth="10.0" prefWidth="37.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.5" minWidth="10.0" prefWidth="31.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.5" minWidth="10.0" prefWidth="30.5" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.5" minWidth="10.0" prefWidth="29.5" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.5" minWidth="10.0" prefWidth="37.5" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
       <Button fx:id="previousDashBoardButton" layoutX="251.0" layoutY="772.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="136.0" style="-fx-background-color: #58ccec;" styleClass="buttonSkin" />
       <Button fx:id="nextDashBoardButton" layoutX="1401.0" layoutY="786.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="136.0" rotate="180.0" style="-fx-background-color: #58ccec;" styleClass="buttonSkin" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    </children>
    <stylesheets>
       <URL value="@../css/gameBoard_scene.css" />
