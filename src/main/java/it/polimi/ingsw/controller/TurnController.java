@@ -694,6 +694,43 @@ public class TurnController implements Serializable {
                         //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
+
+                case TAVERNER:
+                    ToIslandCard activeTI=null;
+                    for (Character c : toReset) {
+                        if (c.getName().equals(ExpertDeck.TAVERNER)) {
+                            game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
+                            game.updateGameboard();
+                            activeTI = (ToIslandCard) c;
+                            activeTI.useEffect();
+                            return;
+                        }
+                    }
+                    try {
+                        activeTI = new ToIslandCard(gameController, this);
+                    } catch (noMoreStudentsException e) {
+                        e.printStackTrace();
+                    }
+                    vv.showGenericMessage("Cost: " + activeTI.getCost() + "\n");
+                    if (!activeTI.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                        vv.showGenericMessage("You haven't enough money for this!");
+                        vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                        vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    else{
+                        activeTI.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost());
+                        //per chiamare effetto
+                        toReset.add(activeTI);
+                        //per vedere da vv
+                        game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
+                        game.updateGameboard();
+                        activeTI.useEffect();
+                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                    }
+                    break;
+
+
                     }
     }
 
@@ -757,6 +794,17 @@ public class TurnController implements Serializable {
             case JOKER:
                 ExchangeStudentsCard exchangeStudentCard = (ExchangeStudentsCard) chosen;
                 exchangeStudentCard.swapStudent(message.getColor());
+                game.updateGameboard();
+                return;
+
+            case TAVERNER:
+                ToIslandCard toIslandCard = (ToIslandCard) chosen;
+                if(toIslandCard.getChosen()==null){
+                    toIslandCard.getStudent(message.getColor());
+                }
+                else{
+                    toIslandCard.getIsland(message.getIndex());
+                }
                 game.updateGameboard();
                 return;
 

@@ -611,7 +611,7 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.BANKER);
+        ExpertDeck.choose(ExpertDeck.TAVERNER);
         ExpertDeck.choose(ExpertDeck.BARBARIAN);
         ExpertDeck.choose(ExpertDeck.JOKER);
         for(int i=0;i<0;i++) {
@@ -623,7 +623,7 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.BANKER);
+        game.getExperts().add(ExpertDeck.TAVERNER);
         game.getExperts().add(ExpertDeck.BARBARIAN);
         game.getExperts().add(ExpertDeck.JOKER);
 

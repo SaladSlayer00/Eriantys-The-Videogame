@@ -59,7 +59,6 @@ public class OneMoreStudentCard extends Character{
         for(Student s : students){
             if(s.getColor().equals(c)){
                 st=s;
-                gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(s);
             }
         }
         if(st==null){
@@ -67,6 +66,7 @@ public class OneMoreStudentCard extends Character{
             useEffect();
         }
         else{
+            gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(st);
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }

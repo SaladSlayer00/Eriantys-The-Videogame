@@ -154,6 +154,16 @@ public class ClientController implements ViewObserver, Observer {
         client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.JOKER, c));
     }
 
+    @Override
+    public void OnUpdateEffectTaverner(Color c){
+        client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.TAVERNER, c));
+    }
+
+    @Override
+    public void OnUpdateEffectTaverner(int index){
+        client.sendMessage(new EffectMessage(this.nickname, ExpertDeck.TAVERNER, index));
+    }
+
 
     @Override
     public void update(Message message) {

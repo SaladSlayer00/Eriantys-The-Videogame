@@ -122,4 +122,8 @@ public interface ViewObserver {
 
     void OnUpdateEffectJoker(Color c);
 
+    void OnUpdateEffectTaverner(Color c);
+
+    void OnUpdateEffectTaverner(int index);
+
 }
