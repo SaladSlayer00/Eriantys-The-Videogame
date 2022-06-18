@@ -568,8 +568,10 @@ public class GameController implements Serializable {
 
 
     public void getFromCloudHandler(PickCloudMessage message) throws noMoreStudentsException {
+
         broadcastGenericMessage("Active player picking their cloud");
         turnController.getFromCloud(message.getCloudIndex());
+        game.updateGameboard();
         if(game.getEmptyClouds().size()==game.getChosenPlayerNumber()){
             broadcastGenericMessage("All players have moved! Starting a new turn");
             turnController.newTurn();
@@ -581,7 +583,7 @@ public class GameController implements Serializable {
             initiateAction();
 
         }
-        game.updateGameboard();
+
     }
 
 

@@ -1,27 +1,16 @@
 package it.polimi.ingsw.view.gui;
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
-import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.enums.Mage;
-import it.polimi.ingsw.model.enums.Type;
-import it.polimi.ingsw.model.enums.modeEnum;
+import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
-import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Gui extends ViewObservable implements View {
@@ -59,7 +48,11 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
-
+        Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
+        GameBoardSceneController gBSC = getGameSceneController();
+        gBSC.setMainPhase(PhaseType.YOUR_MOVE);
+        gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
+        Platform.runLater(()->gBSC.updateDashBoard());
     }
 
     @Override
@@ -69,6 +62,10 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
+        //TODO SOLO PER VEDERE SE FUNZIONA
+        getGameSceneController().setSecondaryPhase(PhaseType.MOVE_MOTHER);
+        getGameSceneController().setMainPhase(PhaseType.WAITING);
+        notifyObserver(obs -> obs.OnUpdateMoveMother(1, new Assistant(0, possibleSteps)));
 
     }
 
@@ -227,6 +224,23 @@ public class Gui extends ViewObservable implements View {
     private void setPlayerName(String nickname){
         playerName = nickname;
     }
-
+    /**
+     * Returns the current GameBoardSceneController if the board is already on scene.
+     * Otherwise returns a new GameBoardSceneController and the scene is changed to this one.
+     *
+     * @return the active GameBoardSceneController if any present, a new one otherwise.
+     */
+    public GameBoardSceneController getGameSceneController() {
+        GameBoardSceneController gBSC;
+        try {
+            gBSC = (GameBoardSceneController) SceneController.getSceneController();
+        } catch (ClassCastException e) {
+            gBSC = new GameBoardSceneController(playerName);
+            gBSC.addAllObservers(observers);
+            GameBoardSceneController finalGBSC = gBSC;
+            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
+        }
+        return gBSC;
+    }
 
 }
