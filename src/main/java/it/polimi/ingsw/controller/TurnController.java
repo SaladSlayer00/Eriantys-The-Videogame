@@ -478,6 +478,7 @@ public class TurnController implements Serializable {
 
     public void useExpertEffect(ExpertDeck card){
         VirtualView vv = virtualViewMap.get(activePlayer);
+        vv.showGenericMessage("Your money: "+game.getPlayerByNickname(activePlayer).getCoins()+"\n");
             switch(card) {
                 case COOK:
                     ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);

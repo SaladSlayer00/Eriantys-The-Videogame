@@ -412,7 +412,7 @@ public class GameController implements Serializable {
                  }
                  else{
                      car.removeEffect();
-                     turnController.moveMaker();
+                     //turnController.moveMaker();
                  }
                 break;
 
