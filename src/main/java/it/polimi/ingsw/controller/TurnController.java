@@ -319,6 +319,9 @@ public class TurnController implements Serializable {
             VirtualView vv = virtualViewMap.get(activePlayer);
             vv.showGenericMessage("The island is blocked!\n");
             for(Character c : toReset){
+                if(c.getName().equals(ExpertDeck.KNIGHT)){
+                    c.removeEffect();
+                }
                 if(c.getName().equals(ExpertDeck.HERBALIST)){
                     c.removeEffect();
                     return 0;
@@ -735,7 +738,7 @@ public class TurnController implements Serializable {
                     }
     }
 
-
+//TODO fix cost bug
     public void effectHandler(EffectMessage message){
         VirtualView vv = virtualViewMap.get(activePlayer);
         Character chosen = null;
@@ -794,7 +797,11 @@ public class TurnController implements Serializable {
                 return;
             case JOKER:
                 ExchangeStudentsCard exchangeStudentCard = (ExchangeStudentsCard) chosen;
-                exchangeStudentCard.swapStudent(message.getColor());
+                if(exchangeStudentCard.getHall()!=null){
+                    exchangeStudentCard.swapStudent(message.getColor());
+                }
+                else
+                    exchangeStudentCard.getColorHall(message.getColor());
                 game.updateGameboard();
                 return;
 
