@@ -21,6 +21,7 @@ public class TwoMorePointsCard extends Character{
         this.turnController = turnController;
     }
 
+    //TODO se siblocca non viene elimiata e quindi il prossimo player ha i due punti
     public ExpertDeck getName() {
         return name;
     }
