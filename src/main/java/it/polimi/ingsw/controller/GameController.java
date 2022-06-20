@@ -176,7 +176,7 @@ public class GameController implements Serializable {
             for(Player p: game.getPlayers()){
                 dashboards.add(p.getDashboard());
             }
-            vv.updateTable(game.getGameBoard(), dashboards);
+            vv.updateTable(game.getGameBoard(), dashboards,game.getPlayers());
         }
 
         for (VirtualView vv : virtualViewMap.values()) {
@@ -193,7 +193,7 @@ public class GameController implements Serializable {
                 dashboards.add(p.getDashboard());
             }
             //MI DA ERRORE RIGUARDO ALLA POOL THREAD
-            vv.updateTable(game.getGameBoard(),dashboards);
+            vv.updateTable(game.getGameBoard(),dashboards,game.getPlayers());
 
         }
 

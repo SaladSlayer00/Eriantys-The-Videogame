@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
+import it.polimi.ingsw.model.Player;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;
@@ -128,7 +129,7 @@ public interface View {
     //tells the player which player has won
     void showWinMessage(String winner);
 
-    void updateTable(Gameboard gameboard, List<Dashboard> dashboards) throws noTowersException;
+    void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players) throws noTowersException;
 
     //shows the assistants chosen
     void showAssistant(int index);

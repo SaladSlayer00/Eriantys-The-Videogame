@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
-
+import it.polimi.ingsw.model.Player;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +25,7 @@ import static it.polimi.ingsw.view.cli.Constants.ISLAND;
 public class Cli extends ViewObservable implements View {
     private Gameboard gameboard;
     private List<Dashboard> dashboards = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private final PrintStream out;
     private Thread inputThread;
     private static final String STR_INPUT_CANCELED = "User input canceled.";
@@ -764,9 +765,10 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
+    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){
         this.gameboard=gameboard;
         this.dashboards=dashboards;
+        this.players = players;
     }
 
     public void showIsland(){

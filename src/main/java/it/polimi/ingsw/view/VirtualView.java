@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.model.Player;
 
 import java.util.List;
 
@@ -140,8 +141,8 @@ public class VirtualView implements View, Observer {
 
 
     @Override
-    public void updateTable(Gameboard gameBoard, List<Dashboard> dashboards){
-        clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards));
+    public void updateTable(Gameboard gameBoard, List<Dashboard> dashboards,List<Player> players){
+        clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards,players));
     }
 
     public void showAssistant(int index){

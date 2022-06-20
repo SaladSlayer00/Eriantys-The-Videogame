@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.gui.scenes;
 
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.PhaseType;
 import it.polimi.ingsw.model.enums.Type;
@@ -17,8 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
+import it.polimi.ingsw.model.Player;
 
 import java.util.*;
 
@@ -30,7 +33,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     private List<Dashboard> reducedDashboards;
     private List<GuiStudent> hallList;
-    private List<TilePane> rows;
+    private List<Player> listOfPlayer;
+    private List<TilePane> listOfIslands;
     private int currentDashboard;
     private Gameboard reducedGameBoard;
     private Dashboard reducedDashBoard;
@@ -38,9 +42,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private GuiStudent chosenStudent;
     private PhaseType mainPhase;
     private PhaseType secondaryPhase;
-
-    @FXML
-    private GridPane gridPaneIslands;
+    //dashBoard
     @FXML
     private TilePane reducedHall;
     @FXML
@@ -58,6 +60,36 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     @FXML
     private TilePane theChosenOne;
     @FXML
+    private TilePane professorsRow;
+    //gameBoard
+    @FXML
+    private AnchorPane archipelago;
+    @FXML
+    private TilePane islandOne;
+    @FXML
+    private TilePane islandTwo;
+    @FXML
+    private TilePane islandThree;
+    @FXML
+    private TilePane islandFour;
+    @FXML
+    private TilePane islandFive;
+    @FXML
+    private TilePane islandSix;
+    @FXML
+    private TilePane islandSeven;
+    @FXML
+    private TilePane islandEight;
+    @FXML
+    private TilePane islandNine;
+    @FXML
+    private TilePane islandTen;
+    @FXML
+    private TilePane islandEleven;
+    @FXML
+    private TilePane islandTwelve;
+    //buttons
+    @FXML
     private Button previousDashBoardButton;
     @FXML
     private Button nextDashBoardButton;
@@ -69,8 +101,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         mainPhase = PhaseType.WAITING;
         secondaryPhase = PhaseType.WAITING;
         reducedDashboards = new ArrayList<>();
-        rows = new ArrayList<>();
         hallList = new ArrayList<>();
+        listOfPlayer = new ArrayList<>();
+        listOfIslands = new ArrayList<>();
         greenRow = new TilePane();
         redRow = new TilePane();
         yellowRow = new TilePane();
@@ -79,17 +112,25 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         theChosenOne = new TilePane();
         towersSpot = new TilePane();
         reducedHall = new TilePane();
-        rows.add(greenRow);
-        rows.add(redRow);
-        rows.add(yellowRow);
-        rows.add(pinkRow);
-        rows.add(blueRow);
-
+        professorsRow = new TilePane();
+        archipelago = new AnchorPane();
+        islandOne = new TilePane();
+        islandTwo = new TilePane();
+        islandThree = new TilePane();
+        islandFour = new TilePane();
+        islandFive = new TilePane();
+        islandSix = new TilePane();
+        islandSeven = new TilePane();
+        islandEight = new TilePane();
+        islandNine = new TilePane();
+        islandTen = new TilePane();
+        islandEleven = new TilePane();
+        islandTwelve = new TilePane();
     }
 
 
-    public void initialize() {
-        updateDashBoard();
+    public void initialize() throws noTowerException {
+        updateAll();
         previousDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
         nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
         reducedHall.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onStudentClicked);
@@ -98,21 +139,26 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         yellowRow.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onYellowRowClicked());
         pinkRow.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onPinkRowClicked());
         blueRow.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onBlueRowClicked());
+        archipelago.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onIslandClicked);
+
 
 
     }
-    public void setGameBoard(Gameboard gameboard) {
+    public void setGameBoard(Gameboard gameboard,List<Dashboard> dashboards,List<Player> players) {
         reducedGameBoard= gameboard;
-
-    }
-
-    public void setDashboards(List<Dashboard> dashboards) {
         reducedDashboards = dashboards;
         reducedDashBoard = getYourDashBoard();
+        listOfPlayer = players;
+
+
+    }
+    public void updateAll() throws noTowerException {
+        updateDashBoard();
+        updateGameBoard();
     }
 
 
-    public void updateDashBoard(){
+    private void updateDashBoard(){
         clearDashBoard();
         Dashboard selectedDashBoard = reducedDashBoard;
         int numberOfTowers = selectedDashBoard.getNumTowers();
@@ -153,16 +199,52 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             GuiStudent studentImage = addGuiStudent(student);
             blueRow.getChildren().add(studentImage);
         }
+        //TODO E' BUGGATO BISOGNA RIFARLO
+        //professors
+        for(Object color: Color.getAvailable()){
+            if(getPlayer(selectedDashBoard).getProfessors().contains(color)) {
+                Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + color.toString() + ".png"));
+                ImageView professor = new ImageView(image);
+                professor.setFitWidth(40);
+                professor.setFitHeight(36);
+                professorsRow.getChildren().add(professor);
+            }
+
+        }
+
         checkOwnership(selectedDashBoard);
     }
 
 
-    public void updateGameBoard(){
 
-    }
-
-    private void  createIsland(Gameboard gameboard){
-
+    public void updateGameBoard() throws noTowerException {
+        clearArchipelago();
+        int index = 0;
+        for (Island island : reducedGameBoard.getIslands()) {
+            TilePane selectedIsland = (TilePane) archipelago.getChildren().get(index);
+            for (Color color : island.getStudents().keySet()) {
+                for (Student student : island.getStudents().get(color)) {
+                    GuiStudent studentImage = addGuiStudent(student);
+                    selectedIsland.getChildren().add(studentImage);
+                }
+            }
+            if(island.isMotherNature()){
+                Image image = new Image(getClass().getResourceAsStream("/images/pawn/mother_nature.png"));
+                ImageView motherNature = new ImageView(image);
+                motherNature.setFitWidth(30);
+                motherNature.setFitHeight(30);
+                selectedIsland.getChildren().add(motherNature);
+            }
+            if(island.getTower()){
+                Image image = new Image(getClass().getResourceAsStream("/images/towers/"+island.getTeam().toString()+"_tower.png"));
+                ImageView tower = new ImageView(image);
+                tower.setFitWidth(30);
+                tower.setFitHeight(30);
+                selectedIsland.getChildren().add(tower);
+            }
+            index++;
+        }
+        mergeIslands();
     }
 
     private void onPreviousDashBoardButtonClicked(Event mouseEvent)  {
@@ -173,7 +255,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         couldItBeDisabled(previousDashBoardButton, 0);
         reducedDashBoard = reducedDashboards.get(currentDashboard);
         Platform.runLater(()-> {
-            updateDashBoard ();
+            try {
+                updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
         });
 
     }
@@ -187,8 +273,13 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         couldItBeDisabled(nextDashBoardButton, reducedDashboards.size() - 1);
         reducedDashBoard = reducedDashboards.get(currentDashboard);
         Platform.runLater(()-> {
-            updateDashBoard ();
+            try {
+                updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
         });
+
 
     }
 
@@ -203,6 +294,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
 
     private void checkOwnership(Dashboard dashboard){
+        setDisabledItems();
         if(!dashboard.getOwner().equals(playerNickname)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(true);
@@ -220,13 +312,12 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             enabledRows();
 
         }
-        setDisabledItems();
+
     }
     private void onStudentClicked(MouseEvent event){
         Dashboard playerDashBoard = getYourDashBoard();
         Node clickedNode = event.getPickResult().getIntersectedNode();
         if(clickedNode instanceof  GuiStudent) {
-            //clickedNode.setOpacity(0.5);
             chosenStudent = (GuiStudent) clickedNode;
             theChosenOne.getChildren().add(chosenStudent);
             playerDashBoard.getHall().remove(chosenStudent.getStudent());
@@ -237,10 +328,45 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    private void onIslandClicked(MouseEvent event){
+        Node clickedNode = event.getPickResult().getIntersectedNode();
+        TilePane chosenIsland;
+        int index;
+        if(clickedNode instanceof TilePane) {
+            chosenIsland = (TilePane) clickedNode;
+            index = getIslandIndex(chosenIsland);
+            Color studentColor = chosenStudent.getStudent().getColor();
+            chosenIsland.getChildren().add(chosenStudent);
+            theChosenOne.getChildren().remove(chosenStudent);
+            setDisabledItems();
+            chosenStudent = null;
+            new Thread(() ->notifyObserver(obs -> obs.OnUpdateMoveOnIsland(studentColor,index, reducedGameBoard.getIslands()))).start();
+
+        }
+    }
+
     public Dashboard getYourDashBoard(){
         for(Dashboard dashboard:reducedDashboards){
             if(dashboard.getOwner().equals(playerNickname))
                 return dashboard;
+        }
+        return null;
+    }
+
+    private int getIslandIndex(TilePane island){
+        for(int i = 0; i<archipelago.getChildren().size();i++)
+        {
+            if(archipelago.getChildren().get(i).equals(island))
+                return i;
+        }
+        System.out.println("non trovata");
+        return 0;
+    }
+
+    private Player getPlayer(Dashboard dashboard){
+        for(Player player :listOfPlayer){
+            if(player.getName().equals(dashboard.getOwner()))
+                return player;
         }
         return null;
     }
@@ -297,7 +423,6 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private void notifyGameController(TilePane selectedRow){
         try{
             Color studentColor = chosenStudent.getStudent().getColor();
-            chosenStudent.setOpacity(1);
             selectedRow.getChildren().add(chosenStudent);
             theChosenOne.getChildren().remove(chosenStudent);
             setDisabledItems();
@@ -324,6 +449,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
                 guiStudent.setDisable(true);
             }
             reducedHall.setDisable(true);
+            archipelago.setDisable(true);
             disabledRows();
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_ON_ISLAND_ROW)){
             for(GuiStudent guiStudent: hallList){
@@ -331,13 +457,14 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             }
             reducedHall.setDisable(true);
             enabledRows();
+            archipelago.setDisable(false);
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_STUDENT)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(false);
             }
             reducedHall.setDisable(false);
             disabledRows();
-
+            archipelago.setDisable(true);
 
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_MOTHER)){
             for(GuiStudent guiStudent: hallList){
@@ -345,6 +472,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             }
             reducedHall.setDisable(true);
             disabledRows();
+            archipelago.setDisable(true);
         }
     }
 
@@ -365,6 +493,23 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         yellowRow.getChildren().clear();
         pinkRow.getChildren().clear();
         blueRow.getChildren().clear();
+        professorsRow.getChildren().clear();
+    }
+
+    private void clearArchipelago(){
+        islandOne.getChildren().clear();
+        islandTwo.getChildren().clear();
+        islandThree.getChildren().clear();
+        islandFour.getChildren().clear();
+        islandFive.getChildren().clear();
+        islandSix.getChildren().clear();
+        islandSeven.getChildren().clear();
+        islandEight.getChildren().clear();
+        islandNine.getChildren().clear();
+        islandTen.getChildren().clear();
+        islandEleven.getChildren().clear();
+        islandTwelve.getChildren().clear();
+
     }
 
     private void disabledRows(){
@@ -383,6 +528,15 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         pinkRow.setDisable(false);
     }
 
+    private void mergeIslands(){
+        int numberOfIsland = reducedGameBoard.getIslands().size();
+        if(numberOfIsland<12){
+            for(int i = numberOfIsland; i<archipelago.getChildren().size();i++){
+                archipelago.getChildren().get(numberOfIsland).setVisible(false);
+                archipelago.getChildren().get(numberOfIsland).setDisable(true);
+            }
+        }
+    }
 
 
 }
