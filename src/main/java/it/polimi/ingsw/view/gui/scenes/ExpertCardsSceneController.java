@@ -58,7 +58,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         tilePane = new TilePane();
         for(int i = 0; i < 12; i++){
             int j = i + 1;
-            Image image = new Image(getClass().getResourceAsStream("7images/cards/characters/CarteTOT_front" + j + ".jpg"));
+            Image image = new Image(getClass().getResourceAsStream("images/cards/characters/CarteTOT_front" + j + ".jpg"));
             ImageView imageVw = new ImageView(image);
             imageVw.setFitWidth(100d);
             imageVw.setFitHeight(130d);
