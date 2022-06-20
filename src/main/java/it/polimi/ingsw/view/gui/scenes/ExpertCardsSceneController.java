@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -213,18 +214,36 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     }
 
     private void onRethoughtAboutItButtonClick(){
-        //TODO
+        for(int i = 0; i < 12; i++){
+            cards[i].setDisable(false);
+            cards[i].setOpacity(1);
+        }
+        chosenOne = null;
+        selectedCard.setImage(null);
+        lessGoButton.setDisable(true);
+        rethoughtAboutItButton.setDisable(true);
     }
 
-    private void setExpertCardImage(int index){
-        //TODO
+    private void setExpertCardImage(int easyIndex){
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front" + easyIndex + ".png"));
+        selectedCard.setImage(image);
     }
 
-    private void onRootPaneMousePressed(Event mouseEvent){
-        //TODO
+    private void onRootPaneMousePressed(MouseEvent mouseEvent){
+        offsetX = actualStage.getX() - mouseEvent.getScreenX();
+        offsetY = actualStage.getY() - mouseEvent.getScreenY();
     }
 
-    private void onRootPaneMouseDragged(Event mouseEvent){
-        //TODO
+    private void onRootPaneMouseDragged(MouseEvent mouseEvent){
+        actualStage.setX(mouseEvent.getScreenX() + offsetX);
+        actualStage.setY(mouseEvent.getScreenY() + offsetY);
+    }
+
+    public void setScene(Scene scene){
+        actualStage.setScene(scene);
+    }
+
+    public void displayAlert(){
+        actualStage.showAndWait();
     }
 }
