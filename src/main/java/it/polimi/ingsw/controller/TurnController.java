@@ -22,17 +22,18 @@ import java.util.*;
 
 public class TurnController implements Serializable {
     private static final long serialVersionUID = -5987205913389392005L; //non so che cazzo è
-    private final Mode game;
+    private  Mode game;
     private List<String> nicknameQueue;
     private String activePlayer;
     transient Map<String, VirtualView> virtualViewMap;
     private MainPhase mainPhase;
     private PhaseType phaseType;
-    private final GameController gameController;
+    private GameController gameController;
     private ArrayList<Assistant> chosen = new ArrayList<>();
     private int moved = 0;
     private List<Character> toReset = new ArrayList<>();
     private List<Color> banned = new ArrayList<>();
+    private Map<ExpertDeck, Integer> price = new HashMap<>();
 
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
@@ -129,17 +130,21 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Initiate the game! Pick your clouds. . .");
 
-        StorageData storageData = new StorageData();
-        storageData.store(gameController);
-
-        setMainPhase(MainPhase.PLANNING);
-        setPhaseType(PhaseType.ADD_ON_CLOUD);
         if(toReset.size()>0){
             for(Character c : toReset){
                 c.removeEffect();
             }
             toReset=new ArrayList<>();
         }
+
+        setMainPhase(MainPhase.PLANNING);
+        setPhaseType(PhaseType.ADD_ON_CLOUD);
+
+        StorageData storageData = new StorageData();
+        storageData.store(gameController);
+
+
+
         pickCloud();
         //drawAssistant();
     }
@@ -477,20 +482,22 @@ public class TurnController implements Serializable {
     }
 
     public void useExpertEffect(ExpertDeck card){
+        int cost = price.get(card);
         VirtualView vv = virtualViewMap.get(activePlayer);
         vv.showGenericMessage("Your money: "+game.getPlayerByNickname(activePlayer).getCoins()+"\n");
             switch(card) {
                 case COOK:
                     ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
-                    vv.showGenericMessage("cost: " + active.getCost() + "\n");
+                    vv.showGenericMessage("cost: " + active.getCost()+"+"+cost + "\n");
                     boolean result = active.checkMoney(game.getPlayerByNickname(activePlayer));
                     if (!result) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(active.getCost());
-                        active.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(active.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //active.addCoin();
                         active.useEffect();
                         toReset.add(active);
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
@@ -499,42 +506,45 @@ public class TurnController implements Serializable {
 
                 case GAMBLER:
                     TwoMoreMovesCard activeTM = new TwoMoreMovesCard(gameController, this);
-                    vv.showGenericMessage("cost: " + activeTM.getCost() + "\n");
+                    vv.showGenericMessage("cost: " + activeTM.getCost()+"+"+cost + "\n");
                     if (!activeTM.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
                         activeTM.useEffect();
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost());
-                        activeTM.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeTM.addCoin();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
                 case CUSTOMER:
                     NoTowerCard activeTC = new NoTowerCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeTC.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeTC.getCost()+"+"+cost + "\n");
                     if (!activeTC.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost());
-                        activeTC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeTC.addCoin();
                         activeTC.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
                 case KNIGHT:
                     TwoMorePointsCard activeTP = new TwoMorePointsCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeTP.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeTP.getCost()+"+"+cost + "\n");
                     if (!activeTP.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost());
-                        activeTP.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeTP.addCoin();
                         activeTP.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -542,14 +552,15 @@ public class TurnController implements Serializable {
 
                     case HERALD:
                         ImproperInfluenceCard activeII = new ImproperInfluenceCard(gameController, this);
-                        vv.showGenericMessage("Cost: " + activeII.getCost() + "\n");
+                        vv.showGenericMessage("Cost: " + activeII.getCost()+"+"+cost + "\n");
                         if (!activeII.checkMoney(game.getPlayerByNickname(activePlayer))) {
                             vv.showGenericMessage("You haven't enough money for this!");
                             vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                             vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                         } else {
-                            game.getPlayerByNickname(activePlayer).removeCoin(activeII.getCost());
-                            activeII.addCoin();
+                            game.getPlayerByNickname(activePlayer).removeCoin(activeII.getCost()+cost);
+                            price.put(card, price.get(card)+1);
+                            //activeII.addCoin();
                             //per chiamare effetto
                             toReset.add(activeII);
                             //per vedere da vv
@@ -561,14 +572,15 @@ public class TurnController implements Serializable {
                         break;
                 case HERBALIST:
                     InfluenceBansCard activeIB = new InfluenceBansCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeIB.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeIB.getCost()+"+"+cost + "\n");
                     if (!activeIB.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeIB.getCost());
-                        activeIB.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeIB.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeIB.addCoin();
                         //per chiamare effetto
                         toReset.add(activeIB);
                         //per vedere da vv
@@ -581,14 +593,15 @@ public class TurnController implements Serializable {
 
                 case SELLER:
                     NullColorCard activeNC = new NullColorCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeNC.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeNC.getCost()+"+"+cost + "\n");
                     if (!activeNC.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeNC.getCost());
-                        activeNC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeNC.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeNC.addCoin();
                         //per chiamare effetto
                         toReset.add(activeNC);
                         //per vedere da vv
@@ -600,14 +613,15 @@ public class TurnController implements Serializable {
                     break;
                 case BANKER:
                     RemoveAColorCard activeRC = new RemoveAColorCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeRC.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeRC.getCost()+"+"+cost + "\n");
                     if (!activeRC.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     } else {
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeRC.getCost());
-                        activeRC.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeRC.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeRC.addCoin();
                         //per chiamare effetto
                         toReset.add(activeRC);
                         //per vedere da vv
@@ -623,6 +637,8 @@ public class TurnController implements Serializable {
                         for (Character c : toReset) {
                             if (c.getName().equals(ExpertDeck.BARBARIAN)) {
                                 activeOM = (OneMoreStudentCard) c;
+                                game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost()+cost);
+                                price.put(card, price.get(card)+1);
                                 activeOM.useEffect();
                                 return;
                             }
@@ -633,7 +649,7 @@ public class TurnController implements Serializable {
                     } catch (noMoreStudentsException e) {
                         e.printStackTrace();
                     }
-                    vv.showGenericMessage("Cost: " + activeOM.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeOM.getCost()+"+"+cost + "\n");
                     if (!activeOM.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
@@ -641,8 +657,9 @@ public class TurnController implements Serializable {
                     }
                     else{
 
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost());
-                        activeOM.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeOM.addCoin();
                         //per chiamare effetto
                         toReset.add(activeOM);
                         //per vedere da vv
@@ -655,15 +672,16 @@ public class TurnController implements Serializable {
 
                 case MUSICIAN:
                     SwapTwoStudentsCard activeSS = new SwapTwoStudentsCard(gameController, this);
-                    vv.showGenericMessage("Cost: " + activeSS.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeSS.getCost()+"+"+cost + "\n");
                     if (!activeSS.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeSS.getCost());
-                        activeSS.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeSS.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeSS.addCoin();
                         //per chiamare effetto
                         toReset.add(activeSS);
                         //per vedere da vv
@@ -680,7 +698,7 @@ public class TurnController implements Serializable {
                     } catch (noMoreStudentsException e) {
                         e.printStackTrace();
                     }
-                    vv.showGenericMessage("Cost: " + activeES.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeES.getCost()+"+"+cost + "\n");
                     if (!activeES.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
@@ -688,8 +706,9 @@ public class TurnController implements Serializable {
                     }
                     else{
 
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost());
-                        activeES.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeES.addCoin();
                         //per chiamare effetto
                         toReset.add(activeES);
                         //per vedere da vv
@@ -707,6 +726,8 @@ public class TurnController implements Serializable {
                             game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
                             game.updateGameboard();
                             activeTI = (ToIslandCard) c;
+                            game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost()+cost);
+                            price.put(card, price.get(card)+1);
                             activeTI.useEffect();
                             return;
                         }
@@ -716,15 +737,16 @@ public class TurnController implements Serializable {
                     } catch (noMoreStudentsException e) {
                         e.printStackTrace();
                     }
-                    vv.showGenericMessage("Cost: " + activeTI.getCost() + "\n");
+                    vv.showGenericMessage("Cost: " + activeTI.getCost()+"+"+cost + "\n");
                     if (!activeTI.checkMoney(game.getPlayerByNickname(activePlayer))) {
                         vv.showGenericMessage("You haven't enough money for this!");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-                        game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost());
-                        activeTI.addCoin();
+                        game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost()+cost);
+                        price.put(card, price.get(card)+1);
+                        //activeTI.addCoin();
                         //per chiamare effetto
                         toReset.add(activeTI);
                         //per vedere da vv
@@ -831,6 +853,22 @@ public class TurnController implements Serializable {
 
     public List<String> getNicknameQueue() {
         return nicknameQueue;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    public void setToReset(List<Character> toReset) {
+        this.toReset = toReset;
+    }
+
+    public void setGame(Mode game) {
+        this.game = game;
+    }
+
+    public Map<ExpertDeck, Integer> getPrice() {
+        return price;
     }
 
     public void setVirtualViewMap(Map<String, VirtualView> virtualViewMap) {

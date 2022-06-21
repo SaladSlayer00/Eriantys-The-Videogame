@@ -25,7 +25,7 @@ public class OneMoreStudentCard extends Character{
 
     //initialization of the card: the initial cost is 1 PLUS the four students are added randomly
     public OneMoreStudentCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
-        super(1);
+        super(2);
         this.gameController = gameController;
         this.turnController = turnController;
         for(int i=0;i<4;i++){
@@ -70,5 +70,9 @@ public class OneMoreStudentCard extends Character{
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
+    }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

@@ -59,6 +59,10 @@ public class ImproperInfluenceCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.HERALD);
     }
 
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
+    }
+
     public void setIndex(int index) {
         this.index = index;
     }

@@ -757,7 +757,6 @@ public class Cli extends ViewObservable implements View {
 
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
-
         out.println("\nERROR: " + error);
         out.println("EXIT.");
 
@@ -790,7 +789,6 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    //TODO vedere come è inizializzato quell'array
     public void showDashboards(List<Dashboard> dashboards){
         String leftAlignFormat = "| %-10s | %-4d | %-5b%n";
         String format = "| %-10s | %-4d | %-5s%n";
@@ -864,7 +862,6 @@ public class Cli extends ViewObservable implements View {
 
         }
         return islands;
-//TODO controllare inizializzazione madre natura, aggiungere madre natura su isole
     }
 
     /**
@@ -896,7 +893,6 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void errorCommunicationAndExit(String nickname) {
         inputThread.interrupt();
-
         out.println("\nERROR: " + nickname);
         out.println("EXIT.");
 
@@ -933,6 +929,5 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-//TODO facciamo un set gameboard dal controller che setta gli attributi tramite cui posso stampare la board
 
 }

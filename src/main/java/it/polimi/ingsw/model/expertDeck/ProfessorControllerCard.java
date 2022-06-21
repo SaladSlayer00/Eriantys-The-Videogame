@@ -84,8 +84,13 @@ public class ProfessorControllerCard extends Character{
             gameController.getGame().getGameBoard().addProfessor(c);
         }
     }
+    //TODO rimuovere a fine turno
 
     public Player getCaller() {
         return caller;
+    }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

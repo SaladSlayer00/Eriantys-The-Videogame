@@ -39,4 +39,9 @@ public class TwoMoreMovesCard extends Character{
         vv.showGenericMessage("Your 2 more moves effect was removed!\n");
         turnController.getToReset().remove(this);
     }
+
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
+    }
 }
