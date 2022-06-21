@@ -247,3 +247,4 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         actualStage.showAndWait();
     }
 }
+*/
