@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.noStudentException;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
@@ -120,5 +121,9 @@ public class ExchangeStudentsCard extends Character{
 
     public Color getHall() {
         return hall;
+    }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

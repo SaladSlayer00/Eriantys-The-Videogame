@@ -629,6 +629,10 @@ public class GameController implements Serializable {
         game.getExperts().add(ExpertDeck.JOKER);
         game.getExperts().add(ExpertDeck.MUSICIAN);
 
+        turnController.getPrice().put(ExpertDeck.TAVERNER,0);
+        turnController.getPrice().put(ExpertDeck.JOKER,0);
+        turnController.getPrice().put(ExpertDeck.MUSICIAN,0);
+
         for(Player p : game.getPlayers()){
             p.addCoin(10);
             game.getGameBoard().removeCoin();
@@ -709,6 +713,13 @@ public class GameController implements Serializable {
         this.game.restoreGame(restoredBoard, restoredPlayers, restoredChosenPlayerNumber);
         this.turnController = savedGameController.turnController;
         this.gameState = savedGameController.gameState;
+        turnController.setGameController(this);
+        turnController.setGame(game);
+        turnController.setToReset(savedGameController.turnController.getToReset());
+        for(Character c : turnController.getToReset()){
+            c.setController(this, turnController);
+        }
+        game.updateGameboard();
         inputController = new InputController(this.virtualViewMap, this, this.game);
         turnController.setVirtualViewMap(this.virtualViewMap);
     }

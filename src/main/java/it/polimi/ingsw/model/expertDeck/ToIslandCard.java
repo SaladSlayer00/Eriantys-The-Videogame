@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.expertDeck;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
@@ -15,7 +16,6 @@ import java.util.List;
 /* da carta  a isola
  */
 public class ToIslandCard extends Character{
-//TODO mettere una spiegazione per tutte
     private ExpertDeck name = ExpertDeck.TAVERNER;
     private ArrayList<Student> students = new ArrayList<>();
     private Sack sack;
@@ -26,7 +26,7 @@ public class ToIslandCard extends Character{
 
     //constructor
     public ToIslandCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
-        super(2);
+        super(1);
         this.gameController = gameController;
         this.turnController = turnController;
         sack = gameController.getGame().getGameBoard().getSack();
@@ -99,5 +99,10 @@ public class ToIslandCard extends Character{
 
     public Student getChosen() {
         return chosen;
+    }
+
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

@@ -171,6 +171,10 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.gameBoard = board;
         this.players = players;
         this.chosenPlayerNumber = chosenPlayersNumber;
+        dashboards = new ArrayList<>();
+        for(Player p: players){
+            dashboards.add(p.getDashboard());
+        }
     }
 
     @Override

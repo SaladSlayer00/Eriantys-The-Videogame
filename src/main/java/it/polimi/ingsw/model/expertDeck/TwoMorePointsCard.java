@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -21,7 +22,6 @@ public class TwoMorePointsCard extends Character{
         this.turnController = turnController;
     }
 
-    //TODO se siblocca non viene elimiata e quindi il prossimo player ha i due punti
     public ExpertDeck getName() {
         return name;
     }
@@ -38,5 +38,10 @@ public class TwoMorePointsCard extends Character{
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Two additional points removed!\n");
         turnController.getToReset().remove(this);
+    }
+
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

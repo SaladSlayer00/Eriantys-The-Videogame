@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
@@ -63,5 +64,9 @@ public class InfluenceBansCard extends Character{
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 }

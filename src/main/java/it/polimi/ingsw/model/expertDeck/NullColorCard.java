@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.exceptions.noTowersException;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
@@ -55,6 +56,10 @@ public class NullColorCard extends Character{
 
     public Color getColor(){
         return color;
+    }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 
 }

@@ -121,4 +121,9 @@ public class SwapTwoStudentsCard extends Character{
     public Color getHall() {
         return hall;
     }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
+    }
+
 }

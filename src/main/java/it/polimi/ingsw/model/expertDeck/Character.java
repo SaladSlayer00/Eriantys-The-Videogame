@@ -12,6 +12,8 @@ public abstract class Character{
     private int cost;
     private int numCoins;
     private ExpertDeck name;
+    private TurnController turnController;
+    private GameController gameController;
 
 
     //methods of the class Character
@@ -27,10 +29,7 @@ public abstract class Character{
     public void addCoin() {
         this.cost = this.cost +1;
     }
-
-    public boolean checkMoney(Player p){
-        return p.getCoins() >= getCost();
-    }
+//TODO non rimuovere le carte da cui si pesca
 
     public ExpertDeck getName() {
         return name;
@@ -40,5 +39,10 @@ public abstract class Character{
     public abstract void useEffect();
 
     public abstract void removeEffect();
+
+    public void setController(GameController gameController, TurnController turnController) {
+        this.gameController = gameController;
+        this.turnController = turnController;
+    }
 }
 

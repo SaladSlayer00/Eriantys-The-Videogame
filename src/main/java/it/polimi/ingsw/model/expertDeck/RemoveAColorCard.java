@@ -66,4 +66,11 @@ public class RemoveAColorCard extends Character{
     public Color getColor() {
         return color;
     }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
+    }
+
 }
+
+

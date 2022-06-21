@@ -44,4 +44,8 @@ public class NoTowerCard extends Character{
         gameController.broadcastGenericMessage("Tower effect removed!\n");
         turnController.getToReset().remove(this);
     }
+
+    public boolean checkMoney(Player p){
+        return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
+    }
 }

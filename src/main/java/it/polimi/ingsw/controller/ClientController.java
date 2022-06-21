@@ -231,9 +231,16 @@ public class ClientController implements ViewObserver, Observer {
                 ErrorMessage errorMessage = (ErrorMessage) message;
                 taskQueue.execute(()->view.errorCommunicationAndExit(message.getNickname()));
             case DISCONNECTION:
-                DisconnectionMessage disconnectionMessage = (DisconnectionMessage) message;
-                client.disconnect();
-                view.showDisconnectionMessage(disconnectionMessage.getNicknameDisconnected() , disconnectionMessage.getMessageStr());
+                try {
+                    DisconnectionMessage disconnectionMessage = (DisconnectionMessage) message;
+                    taskQueue.execute(()->view.errorCommunicationAndExit(this.nickname));
+                    client.disconnect();
+                    view.showDisconnectionMessage(disconnectionMessage.getNicknameDisconnected(), disconnectionMessage.getMessageStr());
+                }catch (ClassCastException c){
+                    taskQueue.execute(()->view.errorCommunicationAndExit(this.nickname));
+                    view.showDisconnectionMessage(this.nickname, "Disconnected from server\n");
+                    client.disconnect();
+                }
                 break;
             case WIN_FX:
                 WinMessage winMessage = (WinMessage) message;
