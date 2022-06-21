@@ -173,39 +173,60 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         chosenOneName = nameOfTheCard;
         if(nameOfTheCard.equals("ToIslandCard")){
             chosenOne = new ToIslandCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Taverner", "The player that summons this card can pick one of the four students that are on this cardS");
         }
         else if(nameOfTheCard.equals("ImproperInfluenceCard")){
             chosenOne = new ImproperInfluenceCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Herald", "This card allows the player who summons it to decide an island where they can calculate the\n" +
+                    "influence even if Mother Nature has not finished there her movement");
         }
         else if(nameOfTheCard.equals("TwoMoreMovesCard")){
             chosenOne = new TwoMoreMovesCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Gambler", "This card allows the summoner to move Mother Nature of two more islands than the number that is\n" +
+                    "written on the Assistant card they have played");
         }
         else if(nameOfTheCard.equals("InfluenceBansCard")){
             chosenOne = new InfluenceBansCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Herbalist", "When a player summon the card they can put one of ban paw on an island of their choice\n" +
+                    "* when Mother Nature ends her journey on that island, the paw is put again on the card and\n" +
+                    "* the influence it is not calculated!");
         }
         else if(nameOfTheCard.equals("NoTowerCard")){
             chosenOne = new NoTowerCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Customer", "When a player summons this card at the moment of the calculation of the influence the towers on the island\n" +
+                    "are not to be taken in consideration");
         }
         else if(nameOfTheCard.equals("ExchangeStudentsCard")){
             chosenOne = new ExchangeStudentsCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Joker", "The summoner can exchange as much as three students in their hall with three students on the card");
         }
         else if(nameOfTheCard.equals("TwoMorePointsCard")){
             chosenOne = new TwoMorePointsCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Knight", "This card gives two more influence points to the summoner");
         }
         else if(nameOfTheCard.equals("NullColorCard")){
             chosenOne = new NullColorCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Seller", "When a player summons this card they can choose a color that will have no influence in the calculation\n" +
+                    "of the influence");
         }
         else if(nameOfTheCard.equals("SwapTwoStudentsCard")){
             chosenOne = new SwapTwoStudentsCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Musician", "The player that summons this card can swap two of their students from the row to the dashboard");
         }
         else if(nameOfTheCard.equals("OneMoreStudentCard")){
             chosenOne = new OneMoreStudentCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Barbarian", "The summoner can choose a student from this card\n" +
+                    "and move it on their hall");
         }
         else if(nameOfTheCard.equals("RemoveAColorCard")){
             chosenOne = new RemoveAColorCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Banker", "The player that summons this card can choose a color and every player (themselves included) has to take\n" +
+                    "three students from the row of the chosen color and put them back in the sack");
         }
         else if(nameOfTheCard.equals("ProfessorControllerCard")){
             chosenOne = new ProfessorControllerCard(actualGameController, actualTurnController);
+            SceneController.alertShown("Cook", "This card allows the player who summons it to control the professor even if they have the same number\n" +
+                    "students of the player who has it in that very moment");
         }
     }
 
