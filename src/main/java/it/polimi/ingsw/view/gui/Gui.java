@@ -69,10 +69,9 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
-        //TODO SOLO PER VEDERE SE FUNZIONA
         GameBoardSceneController gBSC = getGameSceneController();
         gBSC.setSecondaryPhase(PhaseType.MOVE_MOTHER);
-        gBSC.setMainPhase(PhaseType.WAITING);
+        Platform.runLater(()->gBSC.enabledGlowEffectIsland());
         Platform.runLater(()-> {
             try {
                 gBSC.updateAll();
@@ -80,8 +79,7 @@ public class Gui extends ViewObservable implements View {
                 e.printStackTrace();
             }
         });
-        notifyObserver(obs -> obs.OnUpdateMoveMother(1, new Assistant(0, possibleSteps)));
-
+        Platform.runLater(() -> SceneController.alertShown("Message:", "Please choose a number of mother nature moves between 1 and "+ possibleSteps));
     }
 
     @Override

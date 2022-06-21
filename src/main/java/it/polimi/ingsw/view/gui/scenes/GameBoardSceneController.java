@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.exceptions.noTowerException;
+import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
@@ -16,6 +17,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -59,8 +61,6 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private TilePane towersSpot;
     @FXML
     private TilePane theChosenOne;
-    @FXML
-    private TilePane professorsRow;
     //gameBoard
     @FXML
     private AnchorPane archipelago;
@@ -88,6 +88,17 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private TilePane islandEleven;
     @FXML
     private TilePane islandTwelve;
+    //professors
+    @FXML
+    private ImageView redProfessor;
+    @FXML
+    private ImageView greenProfessor;
+    @FXML
+    private ImageView yellowProfessor;
+    @FXML
+    private ImageView blueProfessor;
+    @FXML
+    private ImageView pinkProfessor;
     //buttons
     @FXML
     private Button previousDashBoardButton;
@@ -112,7 +123,6 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         theChosenOne = new TilePane();
         towersSpot = new TilePane();
         reducedHall = new TilePane();
-        professorsRow = new TilePane();
         archipelago = new AnchorPane();
         islandOne = new TilePane();
         islandTwo = new TilePane();
@@ -126,6 +136,12 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         islandTen = new TilePane();
         islandEleven = new TilePane();
         islandTwelve = new TilePane();
+        redProfessor = new ImageView();
+        greenProfessor = new ImageView();
+        yellowProfessor = new ImageView();
+        redProfessor = new ImageView();
+        blueProfessor = new ImageView();
+        greenProfessor = new ImageView();
     }
 
 
@@ -155,6 +171,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     public void updateAll() throws noTowerException {
         updateDashBoard();
         updateGameBoard();
+        setDisabledItems();
     }
 
 
@@ -199,16 +216,40 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             GuiStudent studentImage = addGuiStudent(student);
             blueRow.getChildren().add(studentImage);
         }
-        //TODO E' BUGGATO BISOGNA RIFARLO
         //professors
-        for(Object color: Color.getAvailable()){
-            if(getPlayer(selectedDashBoard).getProfessors().contains(color)) {
-                Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + color.toString() + ".png"));
-                ImageView professor = new ImageView(image);
-                professor.setFitWidth(40);
-                professor.setFitHeight(36);
-                professorsRow.getChildren().add(professor);
-            }
+        if(getPlayer(selectedDashBoard).getProfessors().contains(Color.GREEN)){
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString() + ".png"));
+             greenProfessor.setFitHeight(36);
+             greenProfessor.setFitHeight(40);
+             greenProfessor.setImage(image);
+
+        }
+        if(getPlayer(selectedDashBoard).getProfessors().contains(Color.RED)){
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString() + ".png"));
+            redProfessor.setFitHeight(36);
+            redProfessor.setFitHeight(40);
+            redProfessor.setImage(image);
+
+        }
+        if(getPlayer(selectedDashBoard).getProfessors().contains(Color.YELLOW)){
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString() + ".png"));
+            yellowProfessor.setFitHeight(36);
+            yellowProfessor.setFitHeight(40);
+            yellowProfessor.setImage(image);
+
+        }
+        if(getPlayer(selectedDashBoard).getProfessors().contains(Color.PINK)){
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString() + ".png"));
+            pinkProfessor.setFitHeight(36);
+            pinkProfessor.setFitHeight(40);
+            pinkProfessor.setImage(image);
+
+        }
+        if(getPlayer(selectedDashBoard).getProfessors().contains(Color.BLUE)){
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString() + ".png"));
+            blueProfessor.setFitHeight(36);
+            blueProfessor.setFitHeight(40);
+            blueProfessor.setImage(image);
 
         }
 
@@ -332,16 +373,34 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         Node clickedNode = event.getPickResult().getIntersectedNode();
         TilePane chosenIsland;
         int index;
-        if(clickedNode instanceof TilePane) {
-            chosenIsland = (TilePane) clickedNode;
-            index = getIslandIndex(chosenIsland);
-            Color studentColor = chosenStudent.getStudent().getColor();
-            chosenIsland.getChildren().add(chosenStudent);
-            theChosenOne.getChildren().remove(chosenStudent);
-            setDisabledItems();
-            chosenStudent = null;
-            new Thread(() ->notifyObserver(obs -> obs.OnUpdateMoveOnIsland(studentColor,index, reducedGameBoard.getIslands()))).start();
-
+        int indexOfIsland;
+        switch (secondaryPhase) {
+            case MOVE_ON_ISLAND_ROW:
+                if(clickedNode instanceof TilePane) {
+                    chosenIsland = (TilePane) clickedNode;
+                    indexOfIsland = getIslandIndex(chosenIsland);
+                    Color studentColor = chosenStudent.getStudent().getColor();
+                    chosenIsland.getChildren().add(chosenStudent);
+                    theChosenOne.getChildren().remove(chosenStudent);
+                    setDisabledItems();
+                    chosenStudent = null;
+                    new Thread(() -> notifyObserver(obs -> obs.OnUpdateMoveOnIsland(studentColor, indexOfIsland, reducedGameBoard.getIslands()))).start();}
+                break;
+            case MOVE_MOTHER:
+                int possibleMoves = getPlayer(getYourDashBoard()).getCardChosen().getMove();
+                if(clickedNode instanceof TilePane) {
+                    chosenIsland = (TilePane) clickedNode;
+                    index = getIslandIndex(chosenIsland) - reducedGameBoard.getMotherNature();
+                    if (index < 1 || index > possibleMoves) {
+                        Platform.runLater(() -> SceneController.alertShown("Message:", "Select the right island"));
+                    } else {
+                        mainPhase = PhaseType.WAITING;
+                        setDisabledItems();
+                        disableGlowEffectIsland();
+                       new Thread(() ->notifyObserver(obs -> obs.OnUpdateMoveMother(index,new Assistant(0,possibleMoves)))).start();
+                    }
+                }
+                break;
         }
     }
 
@@ -472,7 +531,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             }
             reducedHall.setDisable(true);
             disabledRows();
-            archipelago.setDisable(true);
+            archipelago.setDisable(false);
         }
     }
 
@@ -493,7 +552,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         yellowRow.getChildren().clear();
         pinkRow.getChildren().clear();
         blueRow.getChildren().clear();
-        professorsRow.getChildren().clear();
+        greenProfessor.setImage(null);
+        redProfessor.setImage(null);
+        yellowProfessor.setImage(null);
+        pinkProfessor.setImage(null);
+        blueProfessor.setImage(null);
     }
 
     private void clearArchipelago(){
@@ -538,5 +601,22 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    public void enabledGlowEffectIsland() {
+        Glow glow = new Glow();
+        for(int i = 0; i < getPlayer(getYourDashBoard()).getCardChosen().getMove();i++){
+                int index = (reducedGameBoard.getMotherNature()+i+1) % reducedGameBoard.getIslands().size();
+                archipelago.getChildren().get(index).setEffect(glow);
 
-}
+
+        }
+    }
+
+    private void disableGlowEffectIsland() {
+        for (int i = 0; i < getPlayer(getYourDashBoard()).getCardChosen().getMove(); i++) {
+            int index = (reducedGameBoard.getMotherNature()+i+1) % reducedGameBoard.getIslands().size();
+            archipelago.getChildren().get(index).setEffect(null);
+        }
+    }
+
+    }
+
