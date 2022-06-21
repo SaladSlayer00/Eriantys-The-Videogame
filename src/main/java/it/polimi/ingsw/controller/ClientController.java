@@ -217,7 +217,7 @@ public class ClientController implements ViewObserver, Observer {
                 BoardMessage boardMessage = (BoardMessage) message;
                 taskQueue.execute(()-> {
                     try {
-                        view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards());
+                        view.updateTable(boardMessage.getBoard(),boardMessage.getDashboards() ,boardMessage.getPlayers());
                     } catch (noTowersException e) {
                         e.printStackTrace();
                     }

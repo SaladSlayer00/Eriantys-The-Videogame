@@ -28,7 +28,7 @@ public class Observable {
         observers.remove(obs);
     }
 
-    /* Notifies all the current observers through the update method and passes to them a {@link Message}.
+    /* Notifies all the current observers through the updateDashBoard method and passes to them a {@link Message}.
      * message is the message that has to be passed to the observers.
      */
     protected void notifyObserver(Message message) {

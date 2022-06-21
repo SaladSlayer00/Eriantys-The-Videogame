@@ -74,7 +74,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
     }
 
     public void updateGameboard(){
-        notifyObserver(new BoardMessage(gameBoard,dashboards));
+        notifyObserver(new BoardMessage(gameBoard,dashboards,players));
     }
 
     public int getChosenPlayerNumber() {

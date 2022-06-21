@@ -1,4 +1,5 @@
 package it.polimi.ingsw.view.gui;
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Cloud;
@@ -10,7 +11,7 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scenes.*;
 import javafx.application.Platform;
-
+import it.polimi.ingsw.model.Player;
 import java.util.List;
 
 public class Gui extends ViewObservable implements View {
@@ -52,7 +53,13 @@ public class Gui extends ViewObservable implements View {
         GameBoardSceneController gBSC = getGameSceneController();
         gBSC.setMainPhase(PhaseType.YOUR_MOVE);
         gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
-        Platform.runLater(()->gBSC.updateDashBoard());
+        Platform.runLater(()-> {
+            try {
+                gBSC.updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -63,8 +70,16 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
         //TODO SOLO PER VEDERE SE FUNZIONA
-        getGameSceneController().setSecondaryPhase(PhaseType.MOVE_MOTHER);
-        getGameSceneController().setMainPhase(PhaseType.WAITING);
+        GameBoardSceneController gBSC = getGameSceneController();
+        gBSC.setSecondaryPhase(PhaseType.MOVE_MOTHER);
+        gBSC.setMainPhase(PhaseType.WAITING);
+        Platform.runLater(()-> {
+            try {
+                gBSC.updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
+        });
         notifyObserver(obs -> obs.OnUpdateMoveMother(1, new Assistant(0, possibleSteps)));
 
     }
@@ -72,6 +87,13 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds) {
         Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
+        Platform.runLater(()-> {
+            try {
+                getGameSceneController().updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
@@ -176,19 +198,32 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards){
+    public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){
         GameBoardSceneController gBSC;
         try {
             gBSC = (GameBoardSceneController) SceneController.getSceneController();
-            gBSC.setDashboards(dashboards);
-            gBSC.setGameBoard(gameboard);
+            gBSC.setGameBoard(gameboard,dashboards,players);
+            GameBoardSceneController finalGBSC1 = gBSC;
+            Platform.runLater(()-> {
+                try {
+                    finalGBSC1.updateAll();
+                } catch (noTowerException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (ClassCastException e) {
             gBSC = new GameBoardSceneController(playerName);
             gBSC.addAllObservers(observers);
-            gBSC.setDashboards(dashboards);
-            gBSC.setGameBoard(gameboard);
+            gBSC.setGameBoard(gameboard,dashboards,players);
             GameBoardSceneController finalGBSC = gBSC;
-            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
+            Platform.runLater(()-> {
+                try {
+                    finalGBSC.updateAll();
+                } catch (noTowerException ex) {
+                    e.printStackTrace();
+                }
+            });
+            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
         }
         clouds = gameboard.getClouds();
     }
@@ -238,7 +273,7 @@ public class Gui extends ViewObservable implements View {
             gBSC = new GameBoardSceneController(playerName);
             gBSC.addAllObservers(observers);
             GameBoardSceneController finalGBSC = gBSC;
-            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
+            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
         }
         return gBSC;
     }
