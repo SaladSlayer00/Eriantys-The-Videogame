@@ -1,5 +1,5 @@
 package it.polimi.ingsw.view.gui.scenes;
-
+/*
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.noMoreStudentsException;
@@ -166,7 +166,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     private void disabledCards(){
 
     }
-     */
+
 
     private void onExpertCardsClick(String nameOfTheCard, int easyIndex, GameController gc, TurnController tc) throws noMoreStudentsException {
         setExpertCardImage(easyIndex);
