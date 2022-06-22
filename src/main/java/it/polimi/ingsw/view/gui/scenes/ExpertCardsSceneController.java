@@ -40,6 +40,8 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     @FXML
     private Button rethoughtAboutItButton;
     @FXML
+    private  Button exit;
+    @FXML
     private ImageView selectedCard;
 
     public ExpertCardsSceneController(TurnController turnController, GameController gameController){
@@ -54,11 +56,10 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         offsetX = 0;
         offsetY = 0;
         selectedCard = new ImageView();
-        cards = new ImageView[12];
+        cards = new ImageView[3];
         tilePane = new TilePane();
-        for(int i = 0; i < 12; i++){
-            int j = i + 1;
-            Image image = new Image(getClass().getResourceAsStream("images/cards/characters/CarteTOT_front" + j + ".jpg"));
+        for(int i = 0; i < 3; i++){
+            Image image = new Image(getClass().getResourceAsStream("images/cards/characters/CarteTOT_front_" +gameController.getGame().getExperts().get(i).getText() + ".jpg"));
             ImageView imageVw = new ImageView(image);
             imageVw.setFitWidth(100d);
             imageVw.setFitHeight(130d);
@@ -74,90 +75,28 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         //Platform.runLater(() -> disabledCards());
         cards[0].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
-                onExpertCardsClick("ToIslandCard", 1, actualGameController, actualTurnController);
+                onExpertCardsClick(actualGameController.getGame().getGameBoard().getExperts().get(0).getText(), actualGameController, actualTurnController);
             } catch (noMoreStudentsException e) {
                 e.printStackTrace();
             }
         });
         cards[1].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
-                onExpertCardsClick("ImproperInfluenceCard", 2, actualGameController, actualTurnController);
+                onExpertCardsClick(actualGameController.getGame().getGameBoard().getExperts().get(1).getText(), actualGameController, actualTurnController);
             } catch (noMoreStudentsException e) {
                 e.printStackTrace();
             }
         });
         cards[2].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
-                onExpertCardsClick("TwoMoreMovesCard", 3, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[3].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("InfluenceBansCard", 4, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[4].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("NoTowerCard", 5, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[5].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("ExchangeStudentsCard",6, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[6].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("TwoMorePointsCard", 7, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[7].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("NullColorCard", 8, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[8].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("SwapTwoStudentsCard", 9, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[9].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("OneMoreStudentCard", 10, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[10].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("RemoveAColorCard", 11, actualGameController, actualTurnController);
-            } catch (noMoreStudentsException e) {
-                e.printStackTrace();
-            }
-        });
-        cards[11].addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            try {
-                onExpertCardsClick("ProfessorControllerCard", 12, actualGameController, actualTurnController);
+                onExpertCardsClick(actualGameController.getGame().getGameBoard().getExperts().get(2).getText(), actualGameController, actualTurnController);
             } catch (noMoreStudentsException e) {
                 e.printStackTrace();
             }
         });
         lessGoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onLessGoButtonClick);
         rethoughtAboutItButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> onRethoughtAboutItButtonClick());
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->actualStage.close());
         rootPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootPaneMousePressed);
         rootPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootPaneMouseDragged);
     }
@@ -168,62 +107,62 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     }
  */
 
-    private void onExpertCardsClick(String nameOfTheCard, int easyIndex, GameController gc, TurnController tc) throws noMoreStudentsException {
-        setExpertCardImage(easyIndex);
+    private void onExpertCardsClick(String nameOfTheCard,  GameController gc, TurnController tc) throws noMoreStudentsException {
+        setExpertCardImage(nameOfTheCard);
         chosenOneName = nameOfTheCard;
-        if(nameOfTheCard.equals("ToIslandCard")){
+        if(nameOfTheCard.equals("taverner")){
             chosenOne = new ToIslandCard(actualGameController, actualTurnController);
             SceneController.alertShown("Taverner", "The player that summons this card can pick one of the four students that are on this cardS");
         }
-        else if(nameOfTheCard.equals("ImproperInfluenceCard")){
+        else if(nameOfTheCard.equals("herald")){
             chosenOne = new ImproperInfluenceCard(actualGameController, actualTurnController);
             SceneController.alertShown("Herald", "This card allows the player who summons it to decide an island where they can calculate the\n" +
                     "influence even if Mother Nature has not finished there her movement");
         }
-        else if(nameOfTheCard.equals("TwoMoreMovesCard")){
+        else if(nameOfTheCard.equals("gambler")){
             chosenOne = new TwoMoreMovesCard(actualGameController, actualTurnController);
             SceneController.alertShown("Gambler", "This card allows the summoner to move Mother Nature of two more islands than the number that is\n" +
                     "written on the Assistant card they have played");
         }
-        else if(nameOfTheCard.equals("InfluenceBansCard")){
+        else if(nameOfTheCard.equals("herbalist")){
             chosenOne = new InfluenceBansCard(actualGameController, actualTurnController);
             SceneController.alertShown("Herbalist", "When a player summon the card they can put one of ban paw on an island of their choice\n" +
                     "* when Mother Nature ends her journey on that island, the paw is put again on the card and\n" +
                     "* the influence it is not calculated!");
         }
-        else if(nameOfTheCard.equals("NoTowerCard")){
+        else if(nameOfTheCard.equals("customer")){
             chosenOne = new NoTowerCard(actualGameController, actualTurnController);
             SceneController.alertShown("Customer", "When a player summons this card at the moment of the calculation of the influence the towers on the island\n" +
                     "are not to be taken in consideration");
         }
-        else if(nameOfTheCard.equals("ExchangeStudentsCard")){
+        else if(nameOfTheCard.equals("joker")){
             chosenOne = new ExchangeStudentsCard(actualGameController, actualTurnController);
             SceneController.alertShown("Joker", "The summoner can exchange as much as three students in their hall with three students on the card");
         }
-        else if(nameOfTheCard.equals("TwoMorePointsCard")){
+        else if(nameOfTheCard.equals("knight")){
             chosenOne = new TwoMorePointsCard(actualGameController, actualTurnController);
             SceneController.alertShown("Knight", "This card gives two more influence points to the summoner");
         }
-        else if(nameOfTheCard.equals("NullColorCard")){
+        else if(nameOfTheCard.equals("seller")){
             chosenOne = new NullColorCard(actualGameController, actualTurnController);
             SceneController.alertShown("Seller", "When a player summons this card they can choose a color that will have no influence in the calculation\n" +
                     "of the influence");
         }
-        else if(nameOfTheCard.equals("SwapTwoStudentsCard")){
+        else if(nameOfTheCard.equals("musician")){
             chosenOne = new SwapTwoStudentsCard(actualGameController, actualTurnController);
             SceneController.alertShown("Musician", "The player that summons this card can swap two of their students from the row to the dashboard");
         }
-        else if(nameOfTheCard.equals("OneMoreStudentCard")){
+        else if(nameOfTheCard.equals("barbarian")){
             chosenOne = new OneMoreStudentCard(actualGameController, actualTurnController);
             SceneController.alertShown("Barbarian", "The summoner can choose a student from this card\n" +
                     "and move it on their hall");
         }
-        else if(nameOfTheCard.equals("RemoveAColorCard")){
+        else if(nameOfTheCard.equals("banker")){
             chosenOne = new RemoveAColorCard(actualGameController, actualTurnController);
             SceneController.alertShown("Banker", "The player that summons this card can choose a color and every player (themselves included) has to take\n" +
                     "three students from the row of the chosen color and put them back in the sack");
         }
-        else if(nameOfTheCard.equals("ProfessorControllerCard")){
+        else if(nameOfTheCard.equals("cook")){
             chosenOne = new ProfessorControllerCard(actualGameController, actualTurnController);
             SceneController.alertShown("Cook", "This card allows the player who summons it to control the professor even if they have the same number\n" +
                     "students of the player who has it in that very moment");
@@ -231,46 +170,46 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     }
 
     private void onLessGoButtonClick(Event event){
-       if(chosenOneName.equals("ToIslandCard")){
+       if(chosenOneName.equals("taverner")){
            SceneController.changeRootPane(observers, event, "toIslandCard_scene.fxml");
        }
-       else if(chosenOneName.equals("ImproperInfluenceCard")){
+       else if(chosenOneName.equals("herald")){
            SceneController.changeRootPane(observers, event, "improperInfluenceCard_scene.fxml");
        }
-       else if(chosenOneName.equals("TwoMoreMovesCard")){
+       else if(chosenOneName.equals("gambler")){
            SceneController.changeRootPane(observers, event, "twoMoreMovesCard_scene.fxml");
        }
-       else if(chosenOneName.equals("InfluenceBansCard")){
+       else if(chosenOneName.equals("herbalist")){
            SceneController.changeRootPane(observers, event, "influenceBansCard_scene.fxml");
        }
-       else if(chosenOneName.equals("NoTowerCard")){
+       else if(chosenOneName.equals("customer")){
            SceneController.changeRootPane(observers, event, "noTowerCard_scene.fxml");
        }
-       else if(chosenOneName.equals("ExchangeStudentsCard")){
+       else if(chosenOneName.equals("joker")){
            SceneController.changeRootPane(observers, event, "exchangeStudentCard_scene.fxml");
        }
-       else if(chosenOneName.equals("TwoMorePointsCard")){
+       else if(chosenOneName.equals("knight")){
            SceneController.changeRootPane(observers, event, "twoMorePointsCard_scene.fxml");
        }
-       else if(chosenOneName.equals("NullColorCard")){
+       else if(chosenOneName.equals("seller")){
            SceneController.changeRootPane(observers, event, "nullColorCard_scene.fxml");
        }
-       else if(chosenOneName.equals("SwapTwoStudentsCard")){
+       else if(chosenOneName.equals("musician")){
            SceneController.changeRootPane(observers, event, "swapTwoStudentCard_scene.fxml");
        }
-       else if(chosenOneName.equals("OneMoreStudentCard")){
+       else if(chosenOneName.equals("barbarian")){
            SceneController.changeRootPane(observers, event, "oneMoreStudentCard_scene.fxml");
        }
-       else if(chosenOneName.equals("RemoveAColorCard")){
+       else if(chosenOneName.equals("banker")){
            SceneController.changeRootPane(observers, event, "removeAColorCard_scene.fxml");
        }
-       else if(chosenOneName.equals(("ProfessorControllerCard"))){
+       else if(chosenOneName.equals(("cook"))){
            SceneController.changeRootPane(observers, event, "professorControllerCard_scene.fxml");
        }
     }
 
     private void onRethoughtAboutItButtonClick(){
-        for(int i = 0; i < 12; i++){
+        for(int i = 0; i < 3; i++){
             cards[i].setDisable(false);
             cards[i].setOpacity(1);
         }
@@ -280,8 +219,8 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         rethoughtAboutItButton.setDisable(true);
     }
 
-    private void setExpertCardImage(int easyIndex){
-        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front" + easyIndex + ".png"));
+    private void setExpertCardImage(String nameOfTheCard){
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front" +nameOfTheCard+ ".png"));
         selectedCard.setImage(image);
     }
 

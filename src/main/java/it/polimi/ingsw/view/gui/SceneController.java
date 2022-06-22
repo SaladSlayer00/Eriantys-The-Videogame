@@ -157,4 +157,23 @@ public class SceneController extends ViewObservable  {
         winSController.setWinnerNick(whosTheWinner);
         winSController.winnerOnDisplay();
     }
+
+    public static void showingExpertCards(){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/expert_scene.fxml"));
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+        }catch (IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        ExpertCardsSceneController eSController = fxmlLoader.getController();
+        Scene expertCardsScene = new Scene(parent);
+        eSController.setScene(expertCardsScene);
+        eSController.displayAlert();
+
+
+    }
+
+
 }
