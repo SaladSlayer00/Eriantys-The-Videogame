@@ -127,8 +127,8 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         else if(nameOfTheCard.equals("herbalist")){
             chosenOne = new InfluenceBansCard(actualGameController, actualTurnController);
             SceneController.alertShown("Herbalist", "When a player summon the card they can put one of ban paw on an island of their choice\n" +
-                    "* when Mother Nature ends her journey on that island, the paw is put again on the card and\n" +
-                    "* the influence it is not calculated!");
+                    " when Mother Nature ends her journey on that island, the paw is put again on the card and\n" +
+                    " the influence it is not calculated!");
         }
         else if(nameOfTheCard.equals("customer")){
             chosenOne = new NoTowerCard(actualGameController, actualTurnController);
