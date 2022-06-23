@@ -29,6 +29,7 @@ public class Gameboard extends Observable implements Serializable {
     private List<ExpertDeck> experts = new ArrayList<>();
     private modeEnum mode;
     private List<ExpertDeck> toReset= new ArrayList<>();
+    private List<Character> activeCards;
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
@@ -251,5 +252,13 @@ public class Gameboard extends Observable implements Serializable {
 
     public List<ExpertDeck> getToReset() {
         return toReset;
+    }
+
+    public void setActiveCards(List<Character> activeCards) {
+        this.activeCards = activeCards;
+    }
+
+    public List<Character> getActiveCards() {
+        return activeCards;
     }
 }

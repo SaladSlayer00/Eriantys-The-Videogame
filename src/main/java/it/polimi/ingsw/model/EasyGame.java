@@ -195,5 +195,7 @@ public class EasyGame extends Observable implements Serializable, Mode{
             instance = new EasyGame(0);
         return instance;
     }
+
+
 }
 
