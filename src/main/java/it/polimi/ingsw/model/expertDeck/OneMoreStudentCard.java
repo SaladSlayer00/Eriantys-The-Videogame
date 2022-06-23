@@ -50,7 +50,9 @@ public class OneMoreStudentCard extends Character{
 
     @Override
     public void removeEffect() {
-
+        gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.BARBARIAN);
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Effect's over!\n");
     }
 
     public void addStudent(Color c){

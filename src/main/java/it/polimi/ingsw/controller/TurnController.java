@@ -639,6 +639,7 @@ public class TurnController implements Serializable {
                                 activeOM = (OneMoreStudentCard) c;
                                 game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost()+cost);
                                 price.put(card, price.get(card)+1);
+                                game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
                                 activeOM.useEffect();
                                 return;
                             }
