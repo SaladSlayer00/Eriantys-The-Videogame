@@ -27,11 +27,11 @@
                     <Font name="Comic Sans MS" size="15.0" />
                 </font>
             </Label>
-            <Button fx:id="confirmButton" layoutX="732.0" layoutY="261.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="CONFIRM">
+            <Button fx:id="confirmButton" layoutX="732.0" layoutY="261.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="Confirm">
                 <font>
                     <Font name="Comic Sans MS" size="14.0" />
                 </font></Button>
-            <Button fx:id="deselectButton" layoutX="732.0" layoutY="315.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="DESELECT">
+            <Button fx:id="deselectButton" layoutX="732.0" layoutY="315.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="Deselect">
                 <font>
                     <Font name="Comic Sans MS" size="14.0" />
                 </font>
