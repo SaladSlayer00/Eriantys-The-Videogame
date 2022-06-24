@@ -24,6 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
+
+import javax.swing.text.Style;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -354,26 +356,33 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
                 ToIslandCard taverner = (ToIslandCard) getCharacter(expertDeck);
                 for (Student student : taverner.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
+                    studentImage.setFitHeight(68);
+                    studentImage.setFitWidth(68);
                     expertStudents.getChildren().add(studentImage);
-                    break;
                 }
+                    break;
             case JOKER:
                 ExchangeStudentsCard joker = (ExchangeStudentsCard) getCharacter(expertDeck);
                 for (Student student : joker.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
+                    studentImage.setFitHeight(68);
+                    studentImage.setFitWidth(68);
                     expertStudents.getChildren().add(studentImage);
-                    break;
                 }
+                    break;
             case BARBARIAN:
                 OneMoreStudentCard barbarian = (OneMoreStudentCard) getCharacter(expertDeck);
                 for (Student student : barbarian.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
+                    studentImage.setFitHeight(68);
+                    studentImage.setFitWidth(68);
                     expertStudents.getChildren().add(studentImage);
-                    break;
-
                 }
-        }
-    }
+                    break;
+                }
+}
+
+
     private GuiStudent addGuiStudent(Student student) {
         Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString() + ".png"));
         GuiStudent studentImage = new GuiStudent(student);
