@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.LoginSceneController">
    <children>
-      <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
+      <ImageView fitHeight="360.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="40.0">
          <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
          </image>
@@ -22,7 +22,7 @@
             <GaussianBlur radius="3.38" />
          </effect>
       </ImageView>
-      <Text layoutX="233.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname ">
+      <Text layoutX="243.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname ">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
@@ -34,7 +34,7 @@
             </DropShadow>
          </effect>
       </Text>
-      <TextField fx:id="nickname" layoutX="225.0" layoutY="175.0">
+      <TextField fx:id="nickname" layoutX="228.0" layoutY="178.0">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="36.52" radius="31.090000000000003" spread="0.7" width="89.84">
                <color>
