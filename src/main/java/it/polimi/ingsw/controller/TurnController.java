@@ -664,6 +664,7 @@ public class TurnController implements Serializable {
                         //per chiamare effetto
                         toReset.add(activeOM);
                         //per vedere da vv
+                        game.getGameBoard().getActiveCards().add(activeOM);
                         game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
                         game.updateGameboard();
                         activeOM.useEffect();
@@ -713,6 +714,7 @@ public class TurnController implements Serializable {
                         //per chiamare effetto
                         toReset.add(activeES);
                         //per vedere da vv
+                        game.getGameBoard().getActiveCards().add(activeES);
                         game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
                         game.updateGameboard();
                         activeES.useEffect();
@@ -751,6 +753,7 @@ public class TurnController implements Serializable {
                         //per chiamare effetto
                         toReset.add(activeTI);
                         //per vedere da vv
+                        game.getGameBoard().getActiveCards().add(activeTI);
                         game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
                         game.updateGameboard();
                         activeTI.useEffect();

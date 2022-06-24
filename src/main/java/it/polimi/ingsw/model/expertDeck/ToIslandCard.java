@@ -46,8 +46,6 @@ public class ToIslandCard extends Character{
         for(Student s : students){
             vv.showGenericMessage(s.getColor().getText()+"\n");
         }
-        gameController.getGame().getGameBoard().setActiveCards(turnController.getToReset());
-        gameController.getGame().updateGameboard();
         vv.askColor();
     }
 

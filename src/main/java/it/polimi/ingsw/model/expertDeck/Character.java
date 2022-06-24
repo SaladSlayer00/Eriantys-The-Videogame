@@ -5,9 +5,11 @@ import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 
+import java.io.Serializable;
+
 
 //class representing the character cards of the expert game mode
-public abstract class Character{
+public abstract class Character implements Serializable {
     //attributes of the class Character
     private int cost;
     private int numCoins;
