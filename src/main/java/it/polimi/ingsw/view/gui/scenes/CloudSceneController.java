@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.observer.ViewObservable;
+import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -152,12 +153,16 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         confirmButton.setDisable(false);
     }
     private void OnConfirmButtonClicked(){
-        if(typeOfChoice == "Pick"){
+        if(typeOfChoice == "firstPick"){
             new Thread(() -> notifyObserver(obs -> obs.OnUpdatePickCloud(chosenCloud))).start();
+            Gui.setCloudPhase();
+        }else if (typeOfChoice == "secondPick"){
+            new Thread(() -> notifyObserver(obs -> obs.OnUpdatePickCloud(chosenCloud))).start();
+            Gui.setCloudPhase();
         }else{
             new Thread(() -> notifyObserver(obs -> obs.OnUpdateGetFromCloud(chosenCloud))).start();
+            Gui.setCloudPhase();
         }
-
         actualStage.close();
     }
 

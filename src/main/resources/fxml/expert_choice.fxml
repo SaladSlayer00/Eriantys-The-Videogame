@@ -9,38 +9,32 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="435.0" prefWidth="815.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.ExpertCardsSceneController">
+<AnchorPane fx:id="rootPane" prefHeight="1080.0" prefWidth="1920.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../css/expert_scene.css" />
     </stylesheets>
+
    <children>
-      <TilePane fx:id="tilePane" layoutX="35.0" layoutY="83.0" prefHeight="220.0" prefWidth="395.0" />
-      <Button fx:id="lessGoButton" layoutX="589.0" layoutY="280.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="166.0" text="Confirm">
+      <Button fx:id="lessGoButton" layoutX="1479.0" layoutY="673.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="372.0" text="Confirm">
          <effect>
             <Bloom threshold="1.0" />
          </effect>
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font></Button>
-      <Button fx:id="rethoughtAboutItButton" layoutX="589.0" layoutY="339.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="166.0" text="Deselect">
+      <Button fx:id="exit" layoutX="1481.0" layoutY="808.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="364.0" text="Exit">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
          <effect>
             <Bloom threshold="1.0" />
          </effect></Button>
-      <Button fx:id="exit" layoutX="325.0" layoutY="362.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="166.0" text="Exit">
+      <Label layoutX="476.0" layoutY="46.0" prefHeight="199.0" prefWidth="869.0" text="             Choose a card :" textAlignment="CENTER">
          <font>
-            <Font name="Comic Sans MS" size="16.0" />
-         </font>
-         <effect>
-            <Bloom threshold="1.0" />
-         </effect></Button>
-      <Label layoutX="210.0" layoutY="30.0" prefHeight="17.0" prefWidth="335.0" text="             Choose a card :" textAlignment="CENTER">
-         <font>
-            <Font name="Comic Sans MS Bold" size="23.0" />
+            <Font name="Comic Sans MS Bold" size="49.0" />
          </font>
       </Label>
-      <ImageView fx:id="selectedCard" fitHeight="180.0" fitWidth="129.0" layoutX="606.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="selectedCard" fitHeight="460.0" fitWidth="303.0" layoutX="1504.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
+      <TilePane fx:id="tilePane" layoutX="35.0" layoutY="254.0" prefHeight="506.0" prefWidth="1390.0" />
    </children>
 </AnchorPane>

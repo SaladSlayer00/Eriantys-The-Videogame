@@ -261,4 +261,14 @@ public class Gameboard extends Observable implements Serializable {
     public List<Character> getActiveCards() {
         return activeCards;
     }
+
+    public ArrayList<Cloud> getEmptyClouds(){
+        ArrayList<Cloud> result = new ArrayList<Cloud>();
+        for(Cloud c :clouds){
+            if(c.emptyCloud()){
+                result.add(c);
+            }
+        }
+        return result;
+    }
 }

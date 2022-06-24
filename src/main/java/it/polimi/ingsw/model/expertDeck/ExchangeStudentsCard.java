@@ -128,4 +128,8 @@ public class ExchangeStudentsCard extends Character{
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 }
