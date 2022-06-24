@@ -34,8 +34,6 @@ public class ExchangeStudentsCard extends Character{
         for(int i=0;i<6;i++){
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
-        gameController.getGame().getGameBoard().setActiveCards(turnController.getToReset());
-        gameController.getGame().updateGameboard();
     }
 
 
