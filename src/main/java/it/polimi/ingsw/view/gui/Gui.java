@@ -73,10 +73,10 @@ public class Gui extends ViewObservable implements View {
             }catch (ClassCastException e){
                 getStudentFromCard = new GetStudentFromCardController(playerName,gameBoardSceneController);
                 getStudentFromCard.addAllObservers(observers);
-                List<Dashboard> listOfDashBoards = getGameSceneController().getReducedDashboards();
-                List<Player> listOfPlayers = getGameSceneController().getListOfPlayer();
-                getStudentFromCard.setGameBoard(actualGameBoard, listOfDashBoards, listOfPlayers);
             }finally {
+                List<Dashboard> listOfDashBoards = updateDashBoards;
+                List<Player> listOfPlayers = updatePlayers;
+                getStudentFromCard.setGameBoard(actualGameBoard, listOfDashBoards, listOfPlayers);
                 GetStudentFromCardController finalGetStudentFromCard = getStudentFromCard;
                 if (actualGameBoard.getToReset().contains(ExpertDeck.HERALD)) {
                     Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to calculate influence on.\n"));
@@ -104,10 +104,9 @@ public class Gui extends ViewObservable implements View {
 
                 }
                 Platform.runLater(() -> finalGetStudentFromCard.setDisabledItems());
-            }
-            if(alreadyExist==false){
-                GetStudentFromCardController finalGetStudentFromCard = getStudentFromCard;
-                Platform.runLater(() -> SceneController.changeRootPane(finalGetStudentFromCard, "get_from_card_scene.fxml"));
+                if(alreadyExist==false){
+                    Platform.runLater(() -> SceneController.changeRootPane(finalGetStudentFromCard, "get_from_card_scene.fxml"));
+                }
             }
             return;
             }
@@ -373,6 +372,7 @@ public class Gui extends ViewObservable implements View {
         updateGameBoard = gameboard;
         updateDashBoards = dashboards;
         updatePlayers = players;
+
     }
 
     @Override
@@ -424,8 +424,8 @@ public class Gui extends ViewObservable implements View {
         }finally {
             //Gameboard currentGameBoard = gameBoardSceneController.getReducedGameBoard();
             Gameboard currentGameBoard = updateGameBoard ;
-            List<Dashboard> listOfDashBoards = gameBoardSceneController.getReducedDashboards();
-            List<Player> listOfPlayers = gameBoardSceneController.getListOfPlayer();
+            List<Dashboard> listOfDashBoards = updateDashBoards;
+            List<Player> listOfPlayers = updatePlayers;
             getStudentFromCardController.setGameBoard(currentGameBoard,listOfDashBoards,listOfPlayers);
             GetStudentFromCardController finalGetStudentFromCardController = getStudentFromCardController;
             if (currentGameBoard.getToReset().contains(ExpertDeck.MUSICIAN)) {

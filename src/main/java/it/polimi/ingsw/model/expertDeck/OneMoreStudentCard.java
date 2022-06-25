@@ -77,6 +77,7 @@ public class OneMoreStudentCard extends Character{
             turnController.checkProfessors(c);
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
+            removeEffect();
         }
     }
 
