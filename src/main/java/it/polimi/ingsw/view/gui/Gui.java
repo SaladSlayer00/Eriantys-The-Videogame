@@ -50,7 +50,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
-        Gameboard actualGameBoard = getGameSceneController().getReducedGameBoard();
+        Gameboard actualGameBoard = gameBoardSceneController.getReducedGameBoard();
         if (actualGameBoard.getToReset().size() > 0) {
             GetStudentFromCard getStudentFromCard = new GetStudentFromCard(playerName);
             getStudentFromCard.addAllObservers(observers);
@@ -75,14 +75,14 @@ public class Gui extends ViewObservable implements View {
                 Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to put the student on.\n"));
                 getStudentFromCard.setExpertDeck(ExpertDeck.TAVERNER);
                 getStudentFromCard.setExpertImage();
-                if (atomicExpert == 0) {
+                if (atomicExpert == 1) {
                     getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND);
                     getStudentFromCard.setQuestion();
-                    atomicExpert = 1;
+                    atomicExpert = 0;
                 }
 
             }
-            Platform.runLater(() -> SceneController.changeRootPane(getStudentFromCard, "get_from_card_scene.fxml"));
+            //Platform.runLater(() -> SceneController.changeRootPane(getStudentFromCard, "get_from_card_scene.fxml"));
             return;
             }
 
@@ -351,15 +351,15 @@ public class Gui extends ViewObservable implements View {
                 getStudentFromCard.setQuestion();
                 atomicExpert = 0;
             }
-        } else if(currentGameBoard.getToReset().contains(ExpertDeck.JOKER)) {
+        }else if(currentGameBoard.getToReset().contains(ExpertDeck.JOKER)) {
             getStudentFromCard.setExpertDeck(ExpertDeck.JOKER);
             getStudentFromCard.setExpertImage();
             if (atomicExpert == 0) {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
+                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL);
                 getStudentFromCard.setQuestion();
                 atomicExpert = 1;
             } else {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL);
+                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
                 getStudentFromCard.setQuestion();
                 atomicExpert = 0;
             }
@@ -367,7 +367,7 @@ public class Gui extends ViewObservable implements View {
             getStudentFromCard.setExpertDeck(ExpertDeck.TAVERNER);
             getStudentFromCard.setExpertImage();
             if (atomicExpert == 0){
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ROW);
+                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
                 getStudentFromCard.setQuestion();
                 atomicExpert = 1;
             }
@@ -409,7 +409,7 @@ public class Gui extends ViewObservable implements View {
             gBSC = new GameBoardSceneController(playerName);
             gBSC.addAllObservers(observers);
             GameBoardSceneController finalGBSC = gBSC;
-            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
+            //Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
         }
         return gBSC;
     }
