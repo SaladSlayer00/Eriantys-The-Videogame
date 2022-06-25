@@ -17,6 +17,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -104,6 +105,13 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private Button previousDashBoardButton;
     @FXML
     private Button nextDashBoardButton;
+    @FXML
+    private Button useExpert;
+    @FXML
+    private Label numberOfCoin;
+    @FXML
+    private AnchorPane expertSection;
+
 
 
     public GameBoardSceneController(String playerNickname){
@@ -136,17 +144,20 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         islandTen = new TilePane();
         islandEleven = new TilePane();
         islandTwelve = new TilePane();
-        redProfessor = new ImageView();
         greenProfessor = new ImageView();
         yellowProfessor = new ImageView();
         redProfessor = new ImageView();
         blueProfessor = new ImageView();
         greenProfessor = new ImageView();
+        pinkProfessor = new ImageView();
+        numberOfCoin = new Label();
+        expertSection = new AnchorPane();
     }
 
 
     public void initialize() throws noTowerException {
         updateAll();
+        displayExpertSection();
         previousDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
         nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
         reducedHall.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onStudentClicked);
@@ -156,6 +167,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         pinkRow.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onPinkRowClicked());
         blueRow.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onBlueRowClicked());
         archipelago.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onIslandClicked);
+        useExpert.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onUseExpertClicked);
+        couldItBeDisabled(previousDashBoardButton, 0);
+        couldItBeDisabled(nextDashBoardButton, reducedDashboards.size() - 1);
 
 
 
@@ -286,6 +300,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             index++;
         }
         mergeIslands();
+        numberOfCoin.setText("coins :" +getPlayer(getYourDashBoard()).getCoins());
+
+
     }
 
     private void onPreviousDashBoardButtonClicked(Event mouseEvent)  {
@@ -404,12 +421,22 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    private void onUseExpertClicked(MouseEvent event){
+        ExpertCardsSceneController eCSController = new ExpertCardsSceneController(reducedGameBoard,this);
+        eCSController.addAllObservers(observers);
+        Platform.runLater(()->SceneController.changeRootPane(eCSController,"expert_choice.fxml"));
+
+    }
     public Dashboard getYourDashBoard(){
         for(Dashboard dashboard:reducedDashboards){
             if(dashboard.getOwner().equals(playerNickname))
                 return dashboard;
         }
         return null;
+    }
+
+    public Gameboard getReducedGameBoard(){
+        return reducedGameBoard;
     }
 
     private int getIslandIndex(TilePane island){
@@ -422,7 +449,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         return 0;
     }
 
-    private Player getPlayer(Dashboard dashboard){
+    public Player getPlayer(Dashboard dashboard){
         for(Player player :listOfPlayer){
             if(player.getName().equals(dashboard.getOwner()))
                 return player;
@@ -509,6 +536,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             }
             reducedHall.setDisable(true);
             archipelago.setDisable(true);
+            useExpert.setDisable(true);
             disabledRows();
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_ON_ISLAND_ROW)){
             for(GuiStudent guiStudent: hallList){
@@ -517,6 +545,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             reducedHall.setDisable(true);
             enabledRows();
             archipelago.setDisable(false);
+            useExpert.setDisable(true);
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_STUDENT)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(false);
@@ -524,7 +553,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             reducedHall.setDisable(false);
             disabledRows();
             archipelago.setDisable(true);
-
+            useExpert.setDisable(false);
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_MOTHER)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(true);
@@ -532,6 +561,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             reducedHall.setDisable(true);
             disabledRows();
             archipelago.setDisable(false);
+            useExpert.setDisable(true);
         }
     }
 
@@ -617,6 +647,21 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             archipelago.getChildren().get(index).setEffect(null);
         }
     }
+    public List<Player> getListOfPlayer(){
+        return listOfPlayer;
+    }
+
+    private void displayExpertSection(){
+        if(!(reducedGameBoard.getExperts().size()>0)){
+            expertSection.setDisable(true);
+            expertSection.setVisible(false);
+        }
 
     }
+
+    public List<Dashboard> getReducedDashboards(){
+        return reducedDashboards;
+    }
+
+}
 

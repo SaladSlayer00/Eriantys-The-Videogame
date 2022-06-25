@@ -11,7 +11,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
    <children>
-      <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
+      <ImageView fitHeight="360.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
          <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
          </image>
@@ -31,14 +31,13 @@
             <Bloom threshold="0.6" />
          </effect>
       </ImageView>
-      <Button fx:id="playButton" layoutX="326.0" layoutY="295.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="107.0" text="Play" textAlignment="CENTER">
+      <Button fx:id="playButton" layoutX="326.0" layoutY="295.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Play" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>
-      <Button fx:id="quitButton" layoutX="165.0" layoutY="295.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="107.0" text="Exit">
+      <Button fx:id="quitButton" layoutX="165.0" layoutY="295.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Exit">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>
    </children>
 </AnchorPane>
-

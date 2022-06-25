@@ -3,6 +3,10 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.board.Gameboard;
+import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.enums.ExpertDeck;
+import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
@@ -14,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SceneController extends ViewObservable  {
@@ -157,23 +163,5 @@ public class SceneController extends ViewObservable  {
         winSController.setWinnerNick(whosTheWinner);
         winSController.winnerOnDisplay();
     }
-
-    public static void showingExpertCards(){
-        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/expert_scene.fxml"));
-        Parent parent;
-        try{
-            parent = fxmlLoader.load();
-        }catch (IOException ioException){
-            Client.LOGGER.severe(ioException.getMessage());
-            return;
-        }
-        ExpertCardsSceneController eSController = fxmlLoader.getController();
-        Scene expertCardsScene = new Scene(parent);
-        eSController.setScene(expertCardsScene);
-        eSController.displayAlert();
-
-
-    }
-
 
 }

@@ -25,3 +25,9 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+.dashboard{
+    -fx-background-image:url("../images/gameboard/Plancia_DEF.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
