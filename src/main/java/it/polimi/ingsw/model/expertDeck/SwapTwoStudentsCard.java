@@ -99,15 +99,19 @@ public class SwapTwoStudentsCard extends Character{
             } catch (emptyDecktException e) {
                 e.printStackTrace();
             } catch (noMoreStudentsException e) {
-                e.printStackTrace();
+                vv.showGenericMessage("No more students!\n");
+                return;
             } catch (fullTowersException e) {
-                e.printStackTrace();
+                gameController.draw();
+                return;
             } catch (noTowerException e) {
-                e.printStackTrace();
+                gameController.win();
+                return;
             } catch (invalidNumberException e) {
                 e.printStackTrace();
             } catch (noTowersException e) {
-                e.printStackTrace();
+                gameController.win();
+                return;
             }
             hall = null;
             if (calls < 2) {

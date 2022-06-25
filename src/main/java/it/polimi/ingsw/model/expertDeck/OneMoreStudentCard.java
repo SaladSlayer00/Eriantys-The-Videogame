@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
-import it.polimi.ingsw.exceptions.noMoreStudentsException;
-import it.polimi.ingsw.exceptions.notEnoughMoneyException;
-import it.polimi.ingsw.exceptions.studentUnavailableException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Sack;
@@ -56,7 +54,7 @@ public class OneMoreStudentCard extends Character{
         vv.showGenericMessage("Effect's over!\n");
     }
 
-    public void addStudent(Color c){
+    public void addStudent(Color c) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;
         for(Student s : students){
@@ -69,7 +67,13 @@ public class OneMoreStudentCard extends Character{
             useEffect();
         }
         else{
-            gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall().add(st);
+            try {
+                gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().addStudent(st);
+            } catch (maxSizeException e) {
+                vv.showGenericMessage("Row is full!\n");
+                return;
+            }
+            turnController.checkProfessors(c);
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
