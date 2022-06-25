@@ -19,10 +19,15 @@ public class Gui extends ViewObservable implements View {
     private static final String ERROR_STR = "ERRROR";
     private static final String MENU_STR_FXML = "menu_scene.fxml";
     private static String playerName;
+    //helper
     private static List<Cloud> clouds;
     private static String cloudChoice ;
     private static int atomicExpert  = 0 ;
+    //update scene
     private GameBoardSceneController gameBoardSceneController;
+    private Gameboard updateGameBoard;
+    private List<Dashboard> updateDashBoards;
+    private List<Player> updatePlayers;
 
     @Override
     public void askNickname(){
@@ -31,8 +36,15 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askStart(String nickname, String answer) {
-        setPlayerName(nickname);
-        Platform.runLater(() -> SceneController.changeRootPane(observers, "start_scene.fxml"));
+        GetStudentFromCardController getStudentFromCardController= null;
+        try{
+            getStudentFromCardController = (GetStudentFromCardController) SceneController.getSceneController();
+            Platform.runLater(()->SceneController.showingContinuePopUp(observers,gameBoardSceneController));
+        }catch(ClassCastException e){
+            setPlayerName(nickname);
+            Platform.runLater(() -> SceneController.changeRootPane(observers, "start_scene.fxml"));
+        }
+
     }
 
     @Override
@@ -50,44 +62,58 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
-        Gameboard actualGameBoard = gameBoardSceneController.getReducedGameBoard();
+        boolean alreadyExist = false;
+        //Gameboard actualGameBoard = gameBoardSceneController.getReducedGameBoard();
+        Gameboard actualGameBoard = updateGameBoard;
+        GetStudentFromCardController getStudentFromCard = null;
         if (actualGameBoard.getToReset().size() > 0) {
-            GetStudentFromCard getStudentFromCard = new GetStudentFromCard(playerName);
-            getStudentFromCard.addAllObservers(observers);
-            List<Dashboard> listOfDashBoards = getGameSceneController().getReducedDashboards();
-            List<Player> listOfPlayers = getGameSceneController().getListOfPlayer();
-            getStudentFromCard.setGameBoard(actualGameBoard, listOfDashBoards, listOfPlayers);
-            if (actualGameBoard.getToReset().contains(ExpertDeck.HERALD)) {
-                Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to calculate influence on.\n"));
-                    getStudentFromCard.setExpertDeck(ExpertDeck.HERALD);
-                    getStudentFromCard.setExpertImage();
-                    getStudentFromCard.setQuestion();
-                    getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND);
+            try{
+               getStudentFromCard = (GetStudentFromCardController) SceneController.getSceneController();
+               alreadyExist = true;
+            }catch (ClassCastException e){
+                getStudentFromCard = new GetStudentFromCardController(playerName,gameBoardSceneController);
+                getStudentFromCard.addAllObservers(observers);
+                List<Dashboard> listOfDashBoards = getGameSceneController().getReducedDashboards();
+                List<Player> listOfPlayers = getGameSceneController().getListOfPlayer();
+                getStudentFromCard.setGameBoard(actualGameBoard, listOfDashBoards, listOfPlayers);
+            }finally {
+                GetStudentFromCardController finalGetStudentFromCard = getStudentFromCard;
+                if (actualGameBoard.getToReset().contains(ExpertDeck.HERALD)) {
+                    Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to calculate influence on.\n"));
+                    Platform.runLater(()-> finalGetStudentFromCard.setExpertDeck(ExpertDeck.HERALD));
+                    Platform.runLater(()->finalGetStudentFromCard.setExpertImage());
+                    Platform.runLater(()->finalGetStudentFromCard.setQuestion());
+                    Platform.runLater(()->finalGetStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND));
 
-            } else if (actualGameBoard.getToReset().contains(ExpertDeck.HERBALIST)) {
-                Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to ban.\n"));
-                getStudentFromCard.setExpertDeck(ExpertDeck.HERBALIST);
-                getStudentFromCard.setExpertImage();
-                getStudentFromCard.setQuestion();
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND);
+                } else if (actualGameBoard.getToReset().contains(ExpertDeck.HERBALIST)) {
+                    Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to ban.\n"));
+                    Platform.runLater(()-> finalGetStudentFromCard.setExpertDeck(ExpertDeck.HERBALIST));
+                    Platform.runLater(()->finalGetStudentFromCard.setExpertImage());
+                    Platform.runLater(()->finalGetStudentFromCard.setQuestion());
+                    Platform.runLater(()->finalGetStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND));
 
-            } else if (actualGameBoard.getToReset().contains((ExpertDeck.TAVERNER))) {
-                Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to put the student on.\n"));
-                getStudentFromCard.setExpertDeck(ExpertDeck.TAVERNER);
-                getStudentFromCard.setExpertImage();
-                if (atomicExpert == 1) {
-                    getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND);
-                    getStudentFromCard.setQuestion();
-                    atomicExpert = 0;
+                } else if (actualGameBoard.getToReset().contains((ExpertDeck.TAVERNER))) {
+                    Platform.runLater(() -> SceneController.alertShown("Message", "Please choose the island to put the student on.\n"));
+                    Platform.runLater(()-> finalGetStudentFromCard.setExpertDeck(ExpertDeck.TAVERNER));
+                    Platform.runLater(()-> finalGetStudentFromCard.setExpertImage());
+                    if (atomicExpert == 1) {
+                        Platform.runLater(()-> finalGetStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ISLAND));
+                        Platform.runLater(()-> finalGetStudentFromCard.setQuestion());
+                        atomicExpert = 0;
+                    }
+
                 }
-
+                Platform.runLater(() -> finalGetStudentFromCard.setDisabledItems());
             }
-            //Platform.runLater(() -> SceneController.changeRootPane(getStudentFromCard, "get_from_card_scene.fxml"));
+            if(alreadyExist==false){
+                GetStudentFromCardController finalGetStudentFromCard = getStudentFromCard;
+                Platform.runLater(() -> SceneController.changeRootPane(finalGetStudentFromCard, "get_from_card_scene.fxml"));
+            }
             return;
             }
-
             Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
             GameBoardSceneController gBSC = getGameSceneController();
+            gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
             gBSC.setMainPhase(PhaseType.YOUR_MOVE);
             gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
             Platform.runLater(() -> {
@@ -122,12 +148,12 @@ public class Gui extends ViewObservable implements View {
     public void askCloud(String nickname, List<Cloud> availableClouds) {
         Platform.runLater(()-> {
             try {
-                getGameSceneController().updateAll();
+                gameBoardSceneController.updateAll();
             } catch (noTowerException ex) {
                 ex.printStackTrace();
             }
         });
-        if(getGameSceneController().getReducedGameBoard().getEmptyClouds().size()==2){
+        if(gameBoardSceneController.getReducedGameBoard().getEmptyClouds().size()==2){
             cloudChoice = "firstPick";
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
@@ -141,7 +167,7 @@ public class Gui extends ViewObservable implements View {
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
                 try {
-                    getGameSceneController().updateAll();
+                    gameBoardSceneController.updateAll();
                 } catch (noTowerException e) {
                     e.printStackTrace();
                 }
@@ -151,7 +177,7 @@ public class Gui extends ViewObservable implements View {
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
                 try {
-                    getGameSceneController().updateAll();
+                    gameBoardSceneController.updateAll();
                 } catch (noTowerException e) {
                     e.printStackTrace();
                 }
@@ -263,6 +289,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){
+        /*
         GameBoardSceneController gBSC;
         try {
             gBSC = (GameBoardSceneController) SceneController.getSceneController();
@@ -292,6 +319,60 @@ public class Gui extends ViewObservable implements View {
             });
         }
         clouds = gameboard.getClouds();
+
+         */
+
+        GameBoardSceneController gBSC;
+        GetStudentFromCardController gSFC;
+        try {
+            gBSC = (GameBoardSceneController) SceneController.getSceneController();
+            gBSC.setGameBoard(gameboard,dashboards,players);
+            GameBoardSceneController finalGBSC1 = gBSC;
+            gameBoardSceneController = gBSC;
+            Platform.runLater(()-> {
+                try {
+                    finalGBSC1.updateAll();
+                } catch (noTowerException e) {
+                    e.printStackTrace();
+                }
+            });
+        }catch (ClassCastException ex){
+            try {
+                gSFC = (GetStudentFromCardController) SceneController.getSceneController();
+                gSFC.setGameBoard(gameboard,dashboards,players);
+                /*
+                Platform.runLater(()-> {
+                    try {
+                        gSFC.updateAll();
+                    } catch (noTowerException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                 */
+            }catch (ClassCastException e){
+                gBSC = new GameBoardSceneController(playerName);
+                gBSC.addAllObservers(observers);
+                gBSC.setGameBoard(gameboard,dashboards,players);
+                GameBoardSceneController finalGBSC = gBSC;
+                gameBoardSceneController = gBSC;
+                updateGameBoard = gameboard;
+                Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
+                Platform.runLater(()-> {
+                    try {
+                        finalGBSC.updateAll();
+                    } catch (noTowerException nTE) {
+                        nTE.printStackTrace();
+                    }
+                });
+
+            }
+
+        }
+        clouds = gameboard.getClouds();
+        updateGameBoard = gameboard;
+        updateDashBoards = dashboards;
+        updatePlayers = players;
     }
 
     @Override
@@ -332,62 +413,66 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askColor() {
+        boolean alreadyExist = false;
+        GetStudentFromCardController getStudentFromCardController = null;
+        try {
+            getStudentFromCardController = (GetStudentFromCardController) SceneController.getSceneController();
+            alreadyExist = true;
+        }catch (ClassCastException e){
+           getStudentFromCardController = new GetStudentFromCardController(playerName,gameBoardSceneController);
+            getStudentFromCardController.addAllObservers(observers);
+        }finally {
+            //Gameboard currentGameBoard = gameBoardSceneController.getReducedGameBoard();
+            Gameboard currentGameBoard = updateGameBoard ;
+            List<Dashboard> listOfDashBoards = gameBoardSceneController.getReducedDashboards();
+            List<Player> listOfPlayers = gameBoardSceneController.getListOfPlayer();
+            getStudentFromCardController.setGameBoard(currentGameBoard,listOfDashBoards,listOfPlayers);
+            GetStudentFromCardController finalGetStudentFromCardController = getStudentFromCardController;
+            if (currentGameBoard.getToReset().contains(ExpertDeck.MUSICIAN)) {
+                Platform.runLater(()-> finalGetStudentFromCardController.setExpertDeck(ExpertDeck.MUSICIAN));
+                Platform.runLater(()->finalGetStudentFromCardController.setExpertImage());
+                if (atomicExpert == 0) {
+                    Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL));
+                    Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+                    atomicExpert = 1;
+                } else {
+                    Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_ROW));
+                    Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+                    atomicExpert = 0;
+                }
+            } else if (currentGameBoard.getToReset().contains(ExpertDeck.JOKER)) {
+                Platform.runLater(()-> finalGetStudentFromCardController.setExpertDeck(ExpertDeck.JOKER));
+                Platform.runLater(()->finalGetStudentFromCardController.setExpertImage());
+                if (atomicExpert == 0) {
+                    Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL));
+                    Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+                    atomicExpert = 1;
+                } else {
+                    Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT));
+                    Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+                    atomicExpert = 0;
+                }
+            } else if (currentGameBoard.getToReset().contains(ExpertDeck.TAVERNER)) {
+                Platform.runLater(()-> finalGetStudentFromCardController.setExpertDeck(ExpertDeck.TAVERNER));
+                Platform.runLater(()->finalGetStudentFromCardController.setExpertImage());
+                if (atomicExpert == 0) {
+                    Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT));
+                    Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+                    atomicExpert = 1;
+                }
+            } else if (currentGameBoard.getToReset().contains((ExpertDeck.BARBARIAN))) {
+                Platform.runLater(()-> finalGetStudentFromCardController.setExpertDeck(ExpertDeck.BARBARIAN));
+                Platform.runLater(()->finalGetStudentFromCardController.setExpertImage());
+                Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT));
+                Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+            }
+            Platform.runLater(() -> finalGetStudentFromCardController.setDisabledItems());
 
-        GetStudentFromCard getStudentFromCard = new GetStudentFromCard(playerName);
-        getStudentFromCard.addAllObservers(observers);
-        Gameboard currentGameBoard = gameBoardSceneController.getReducedGameBoard();
-        List<Dashboard> listOfDashBoards = gameBoardSceneController.getReducedDashboards();
-        List<Player> listOfPlayers = gameBoardSceneController.getListOfPlayer();
-        getStudentFromCard.setGameBoard(currentGameBoard,listOfDashBoards,listOfPlayers);
-        if(currentGameBoard.getToReset().contains(ExpertDeck.MUSICIAN)) {
-            getStudentFromCard.setExpertDeck(ExpertDeck.MUSICIAN);
-            getStudentFromCard.setExpertImage();
-            if (atomicExpert == 0) {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 1;
-            } else {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ROW);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 0;
+            if(alreadyExist==false){
+                Platform.runLater(() -> SceneController.changeRootPane(finalGetStudentFromCardController, "get_from_card_scene.fxml"));
             }
-        }else if(currentGameBoard.getToReset().contains(ExpertDeck.JOKER)) {
-            getStudentFromCard.setExpertDeck(ExpertDeck.JOKER);
-            getStudentFromCard.setExpertImage();
-            if (atomicExpert == 0) {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 1;
-            } else {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 0;
-            }
-        } else if(currentGameBoard.getToReset().contains(ExpertDeck.TAVERNER)) {
-            getStudentFromCard.setExpertDeck(ExpertDeck.TAVERNER);
-            getStudentFromCard.setExpertImage();
-            if (atomicExpert == 0){
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 1;
-            }
+
         }
-        else if(currentGameBoard.getToReset().contains((ExpertDeck.BARBARIAN))) {
-            getStudentFromCard.setExpertDeck(ExpertDeck.BARBARIAN);
-            getStudentFromCard.setExpertImage();
-            if (atomicExpert == 0) {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 1;
-            } else {
-                getStudentFromCard.setPhase(ExpertDeckPhaseType.SELECT_ROW);
-                getStudentFromCard.setQuestion();
-                atomicExpert = 0;
-            }
-
-        }
-
-        Platform.runLater(()->SceneController.changeRootPane(getStudentFromCard,"get_from_card_scene.fxml"));
 
     }
 

@@ -164,4 +164,23 @@ public class SceneController extends ViewObservable  {
         winSController.winnerOnDisplay();
     }
 
+    public static void showingContinuePopUp( List<ViewObserver> obs,GameBoardSceneController gameBoardSceneController){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/continue_scene.fxml"));
+
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+        }catch(IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        ContinueSceneController cSController = fxmlLoader.getController();
+        Scene assistantScene = new Scene(parent);
+        cSController.setScene(assistantScene);
+        cSController.addAllObservers(obs);
+        cSController.setNextScene(gameBoardSceneController);
+        cSController.displayAlert();
+    }
+
+
 }
