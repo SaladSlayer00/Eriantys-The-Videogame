@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
-import it.polimi.ingsw.exceptions.noStudentException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
@@ -44,7 +44,7 @@ public class RemoveAColorCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.BANKER);
     }
 
-    public void setColor(Color color) {
+    public void setColor(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Everyone puts back "+color.getText()+" students!\n");
 
@@ -53,13 +53,14 @@ public class RemoveAColorCard extends Character{
         for(Player p:gameController.getGame().getPlayers()){
             for(int i = 0;i<3;i++){
                 try {
-                    sack.putStudent(p.getDashboard().takeStudent(color));
+                    sack.putStudent(p.getDashboard().getRow(color).removeStudent());
                 } catch (noStudentException e) {
                     vv.showGenericMessage(p.getName()+" has less than 3 students for " + color.getText() +"\n");
                     break;
                 }
             }
         }
+        turnController.checkProfessors(color);
         removeEffect();
     }
 

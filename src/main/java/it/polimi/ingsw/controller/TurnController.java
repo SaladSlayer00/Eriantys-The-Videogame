@@ -766,7 +766,7 @@ public class TurnController implements Serializable {
     }
 
 //TODO fix cost bug
-    public void effectHandler(EffectMessage message){
+    public void effectHandler(EffectMessage message) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         VirtualView vv = virtualViewMap.get(activePlayer);
         Character chosen = null;
         for(Character c : toReset){
@@ -812,9 +812,9 @@ public class TurnController implements Serializable {
                     try {
                         swapTwoStudentsCard.getColorRow(message.getColor());
                     } catch (noStudentException e) {
-                        e.printStackTrace();
+                        gameController.draw();
                     } catch (maxSizeException e) {
-                        e.printStackTrace();
+                        return;
                     }
                 }
                 else{

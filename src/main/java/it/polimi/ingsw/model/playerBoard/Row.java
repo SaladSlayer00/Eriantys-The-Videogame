@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.playerBoard;
 import it.polimi.ingsw.exceptions.alreadyAProfessorException;
 import it.polimi.ingsw.exceptions.maxSizeException;
 import it.polimi.ingsw.exceptions.noProfessorException;
+import it.polimi.ingsw.exceptions.noStudentException;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
@@ -71,7 +72,9 @@ public class Row  implements Serializable {
         return students;
     }
 
-    public Student removeStudent(){
-        return students.remove(0);
+    public Student removeStudent() throws noStudentException {
+        if(students.size()>0)
+            return students.remove(0);
+        throw new noStudentException();
     }
 }
