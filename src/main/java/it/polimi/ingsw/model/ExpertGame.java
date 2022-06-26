@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.expertDeck.Character;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * game instance for the expert version of Eriantys
+ */
 
 public class ExpertGame implements Mode{
     private Gameboard gameBoard;

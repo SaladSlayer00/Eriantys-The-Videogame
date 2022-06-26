@@ -4,6 +4,12 @@ import it.polimi.ingsw.model.enums.modeEnum;
 
 import java.io.Serializable;
 
+/**
+ * class that allows for the creation of the correct game instance
+ * according to the mode chosen by the player
+ */
+
+
 public class GameFactory implements Serializable {
     private static final long serialVersionUID = -3704504226997118508L;
     private modeEnum type;
@@ -17,7 +23,13 @@ public class GameFactory implements Serializable {
         return type;
     }
 
-    //eccezione nel factory non necessaria, si fa nel controller al massimo
+    /**
+     * actual implementation of factory method
+     * @param type mode chosen by player
+     * @param players number of players
+     * @return correct value according to the argumets
+     * @throws invalidNumberException if the number is not allowed
+     */
     public Mode getMode (modeEnum type, int players) throws invalidNumberException {
         Mode retval = null;
         if(players > 4 || players < 2){

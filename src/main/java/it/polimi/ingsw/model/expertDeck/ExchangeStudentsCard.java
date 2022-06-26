@@ -55,7 +55,7 @@ public class ExchangeStudentsCard extends Character{
     public void removeEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Effect was removed!\n");
-        turnController.getToReset().remove(this);
+        //turnController.getToReset().remove(this);
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.JOKER);
         gameController.getGame().updateGameboard();
         vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());

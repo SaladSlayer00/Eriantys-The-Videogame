@@ -134,7 +134,7 @@ public class TurnController implements Serializable {
             for(Character c : toReset){
                 c.removeEffect();
             }
-            toReset=new ArrayList<>();
+            //toReset=new ArrayList<>();
         }
 
         setMainPhase(MainPhase.PLANNING);
@@ -402,11 +402,21 @@ public class TurnController implements Serializable {
 
         if(set==1){
             active.setInfluence(influence);
+            if(active.getTower() && !(active.getTeam().equals(owner.getDashboard().getTeam()))){
+                for(Player p : game.getPlayers()){
+                    if(p.getDashboard().getTeam().equals(active.getTeam())){
+                        try {
+                            p.putTower();
+                        } catch (fullTowersException e) {
+                            break;
+                        }
+                    }
+                }
+            }
             active.setTower(owner.getDashboard().getTower());
             VirtualView vv = virtualViewMap.get(owner.getName());
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
-            //islandMerger(active);
         }
         else{
             return 0;
@@ -633,7 +643,6 @@ public class TurnController implements Serializable {
                     break;
                 case BARBARIAN:
                     OneMoreStudentCard activeOM = null;
-                    if(game.getGameBoard().getToReset().contains(ExpertDeck.BARBARIAN)) {
                         for (Character c : toReset) {
                             if (c.getName().equals(ExpertDeck.BARBARIAN)) {
                                 activeOM = (OneMoreStudentCard) c;
@@ -644,7 +653,6 @@ public class TurnController implements Serializable {
                                 return;
                             }
                         }
-                    }
                     try {
                         activeOM = new OneMoreStudentCard(gameController, this);
                     } catch (noMoreStudentsException e) {
@@ -695,6 +703,16 @@ public class TurnController implements Serializable {
                     break;
                 case JOKER:
                     ExchangeStudentsCard activeES = null;
+                    for (Character c : toReset) {
+                        if (c.getName().equals(ExpertDeck.JOKER)) {
+                            activeES = (ExchangeStudentsCard) c;
+                            game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost()+cost);
+                            price.put(card, price.get(card)+1);
+                            game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
+                            activeES.useEffect();
+                            return;
+                        }
+                    }
                     try {
                         activeES = new ExchangeStudentsCard(gameController, this);
                     } catch (noMoreStudentsException e) {
@@ -760,7 +778,6 @@ public class TurnController implements Serializable {
                         //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
-
 
                     }
     }

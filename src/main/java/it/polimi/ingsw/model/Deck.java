@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import it.polimi.ingsw.exceptions.emptyDecktException;
 import it.polimi.ingsw.model.enums.Mage;
 
-//This class represents the player's deck
+/**
+ * class deck represents the single instance of a deck that the player can use,
+ * contains a List of Assistants and the name of the chosen mage
+ */
 public class Deck implements Serializable {
     //attributes
     private static final long serialVersionUID = -3704504226997118508L;
@@ -25,10 +28,17 @@ public class Deck implements Serializable {
             }
         }
     }
-    //methods
+
     public int getNumCards() {
         return numCards;
     }
+
+    /**
+     * method to draw the chosen assistant from deck
+     * @param indexCard the number of the card chosen
+     * @return the chosen assistant or throws exception
+     * @throws emptyDecktException
+     */
 
     public Assistant draw(int indexCard) throws emptyDecktException{
         if (numCards > 0 ){
@@ -40,11 +50,6 @@ public class Deck implements Serializable {
                     return drawnCard;
                 }
             }
-//        {
-//            Assistant drawnCard = cards.get(indexCard-1);
-//            cards.remove(indexCard-1);
-//            numCards = numCards-1;
-//            return drawnCard;
         }else{
             throw new emptyDecktException();
         }

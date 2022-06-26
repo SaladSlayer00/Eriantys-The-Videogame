@@ -13,6 +13,10 @@ import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observable;
 
+/** This class represents the instance of the game,
+ * contains the list of players, the chosen mode,
+ * mostly getters and setters that will be used by the controller
+ */
 
 public class EasyGame extends Observable implements Serializable, Mode{
     private static final long serialVersionUID =  4405183481677036856L; //da cambiare
@@ -26,6 +30,10 @@ public class EasyGame extends Observable implements Serializable, Mode{
     private boolean noMoreStudents;
     private int numCurrentActivePlayers = 0;
 
+    /**Constructor of game, takes the number of players as parameter
+     *
+     * @param numPlayers the number of players chosen
+     */
 
     public EasyGame(int numPlayers) {
         this.chosenPlayerNumber = numPlayers;
@@ -34,14 +42,12 @@ public class EasyGame extends Observable implements Serializable, Mode{
         this.dashboards=new ArrayList<>();
         this.noMoreStudents= false;
     }
-    public boolean getNoMoreStudents(){
-        return this.noMoreStudents;
-    }
 
-    public void setNoMoreStudents(boolean ans){
-        this.noMoreStudents=ans;
-    }
-
+    /**
+     * method that initializes the parameters of the gameboard according
+     * to the player's input and sets it up
+     * @throws noMoreStudentsException
+     */
     public void initializeGameboard() throws noMoreStudentsException {
         this.gameBoard = new Gameboard(this.chosenPlayerNumber);
         this.gameBoard.getSack().initializeSack();
@@ -52,6 +58,12 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     }
 
+    /**
+     * method that inserts the player in the player list and creates its
+     * dashboard
+     * @param p the player to add
+     */
+
     public void initializePlayer(Player p) {
         this.players.add(p);
         this.activeplayers.add(p);
@@ -59,6 +71,12 @@ public class EasyGame extends Observable implements Serializable, Mode{
         p.setDashboard(new Dashboard(this.chosenPlayerNumber,p.getName()));
         lobbyUpdate();
     }
+
+    /**
+     * method that initializes the player's dashboard adding students on it
+     * from the sack
+     * @throws maxSizeException if there's too many students
+     */
 
 
     public void initializeDashboards() throws maxSizeException {
@@ -73,9 +91,44 @@ public class EasyGame extends Observable implements Serializable, Mode{
 
     }
 
+    /**
+     * method that notifies every model observer of the updates made
+     * by the controller
+     */
+
     public void updateGameboard(){
         notifyObserver(new BoardMessage(gameBoard,dashboards,players));
     }
+
+    /**
+     * method that notifies every observer of the updates
+     * caused by the connection of a new player
+     */
+
+    @Override
+    public void lobbyUpdate(){
+        notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
+    }
+
+    /**
+     * persistence method, sets up the current parameters
+     * with the ones from the save file that are passed by the controller
+     * @param board
+     * @param players
+     * @param chosenPlayersNumber
+     */
+
+    @Override
+    public void restoreGame(Gameboard board, List<Player> players, int chosenPlayersNumber) {
+        this.gameBoard = board;
+        this.players = players;
+        this.chosenPlayerNumber = chosenPlayersNumber;
+        dashboards = new ArrayList<>();
+        for(Player p: players){
+            dashboards.add(p.getDashboard());
+        }
+    }
+
 
     public int getChosenPlayerNumber() {
         return this.chosenPlayerNumber;
@@ -161,34 +214,23 @@ public class EasyGame extends Observable implements Serializable, Mode{
     public List<ExpertDeck> getExperts() {
         return gameBoard.getExperts();
     }
-    @Override
-    public void lobbyUpdate(){
-        notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayerNumber));
-    }
 
-    @Override
-    public void restoreGame(Gameboard board, List<Player> players, int chosenPlayersNumber) {
-        this.gameBoard = board;
-        this.players = players;
-        this.chosenPlayerNumber = chosenPlayersNumber;
-        dashboards = new ArrayList<>();
-        for(Player p: players){
-            dashboards.add(p.getDashboard());
-        }
-    }
 
     @Override
     public void setActives(int number) {
         this.numCurrentActivePlayers=this.numCurrentActivePlayers+number;
     }
 
-    //    public void initializeDashboardsTower() throws fullTowersException {
-//        for(Player p : players){
-//            for(int i = 0 ; i < p.getDashboard().getNumTowers(); i++){
-//                p.getDashboard().putTower();
-//            }
-//        }
-//    }
+
+
+    public boolean getNoMoreStudents(){
+        return this.noMoreStudents;
+    }
+
+    public void setNoMoreStudents(boolean ans){
+        this.noMoreStudents=ans;
+    }
+
 
     public static EasyGame getInstance() {
         if (instance == null)
