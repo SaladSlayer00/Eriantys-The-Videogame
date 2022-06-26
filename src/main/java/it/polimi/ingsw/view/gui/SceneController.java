@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,6 +181,24 @@ public class SceneController extends ViewObservable  {
         cSController.addAllObservers(obs);
         cSController.setNextScene(gameBoardSceneController);
         cSController.displayAlert();
+    }
+
+    public static void showingColorChoicePopUp(List<ViewObserver> obs , GameBoardSceneController gameBoardSceneController, ExpertDeck expertDeck){
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/colorChoice_scene.fxml"));
+        Parent parent;
+        try{
+            parent = fxmlLoader.load();
+        }catch(IOException ioException){
+            Client.LOGGER.severe(ioException.getMessage());
+            return;
+        }
+        ColorChoiceSceneController cCSController = fxmlLoader.getController();
+        Scene colorChoiceScene = new Scene(parent);
+        cCSController.addAllObservers(obs);
+        cCSController.setScene(colorChoiceScene);
+        cCSController.setgBSC(gameBoardSceneController);
+        cCSController.setExpertChosen(expertDeck);
+        cCSController.displayAlert();
     }
 
 
