@@ -297,6 +297,15 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
                 tower.setFitHeight(30);
                 selectedIsland.getChildren().add(tower);
             }
+
+            if (island.isBlocked()){
+                Image image = new Image(getClass().getResourceAsStream("/images/gameboard/deny_island_icon.png"));
+                ImageView denyIslandIcon = new ImageView(image);
+                denyIslandIcon.setFitHeight(30);
+                denyIslandIcon.setFitWidth(30);
+                selectedIsland.getChildren().add(denyIslandIcon);
+            }
+
             index++;
         }
         mergeIslands();

@@ -9,21 +9,21 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.ColorChoiceSceneController">
+<AnchorPane fx:id="rootAP" prefHeight="455.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.ColorChoiceSceneController">
    <children>
       <ImageView fitHeight="483.0" fitWidth="785.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
        <image>
-           <Image url="@../images/gameboard/hjdtyu.png" />
+           <Image url="@../images/gradient.png" />
        </image>
        </ImageView>
       <AnchorPane layoutX="-1.0" layoutY="-1.0" prefHeight="482.0" prefWidth="607.0">
          <children>
-            <Label layoutX="235.0" layoutY="39.0" prefHeight="38.0" prefWidth="138.0" text="Choose a color" textAlignment="CENTER">
+            <Label layoutX="291.0" layoutY="43.0" prefHeight="38.0" prefWidth="138.0" text="Choose a color" textAlignment="CENTER">
                <font>
                   <Font name="Comic Sans MS Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="notOkayButton" layoutX="130.0" layoutY="389.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="138.0" text="Deselect">
+            <Button fx:id="notOkayButton" layoutX="153.0" layoutY="389.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="138.0" text="Deselect">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Bloom threshold="1.0" />
                </effect>
             </Button>
-            <Button fx:id="okayButton" layoutX="361.0" layoutY="389.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="138.0" text="Confirm">
+            <Button fx:id="okayButton" layoutX="449.0" layoutY="389.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="138.0" text="Confirm">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Bloom threshold="1.0" />
                </effect>
             </Button>
-            <TilePane fx:id="tP" layoutX="61.0" layoutY="108.0" prefHeight="237.0" prefWidth="466.0" />
+            <TilePane fx:id="tP" alignment="CENTER" layoutX="4.0" layoutY="108.0" prefHeight="237.0" prefWidth="716.0" />
          </children>
       </AnchorPane>
    </children>

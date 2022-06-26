@@ -54,6 +54,7 @@ public class OneMoreStudentCard extends Character{
         vv.showGenericMessage("Effect's over!\n");
     }
 
+
     public void addStudent(Color c) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;

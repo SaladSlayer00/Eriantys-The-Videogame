@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="rootBPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.ContinueSceneController">
+    <top>
+        <AnchorPane prefHeight="273.0" prefWidth="540.0">
+            <children>
+                <Label fx:id="titleLabel" alignment="CENTER" layoutX="179.0" layoutY="38.0" prefHeight="22.0" prefWidth="180.0" styleClass="customText" text="MESSAGE :">
+                    <font>
+                        <Font name="Comic Sans MS Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="messageLabel" alignment="CENTER" layoutX="84.0" layoutY="83.0" prefHeight="85.0" prefWidth="370.0" styleClass="alertText" text="Would you like to choose another?" wrapText="true">
+                    <font>
+                        <Font name="Comic Sans MS" size="15.0" />
+                    </font>
+                </Label>
+                <Button fx:id="buttonForOkay" layoutX="285.0" layoutY="189.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="YES">
+                    <font>
+                        <Font name="Comic Sans MS" size="14.0" />
+                    </font></Button>
+            <Button fx:id="quitButton" layoutX="39.0" layoutY="189.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="204.0" styleClass="smallButton" text="NO">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </Button>
+            </children>
+        </AnchorPane>
+    </top>
+</BorderPane>

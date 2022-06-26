@@ -25,11 +25,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 
-import javax.swing.text.Style;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetStudentFromCard extends ViewObservable implements BasicSceneController {
+public class GetStudentFromCardController extends ViewObservable implements BasicSceneController {
 
     private List<Dashboard> reducedDashboards;
     private List<GuiStudent> hallList;
@@ -43,6 +42,7 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
     private GuiStudent chosenStudent;
     private ExpertDeck expertDeck;
     private ExpertDeckPhaseType phase;
+    private GameBoardSceneController currentGameBoardSceneController;
     //dashBoard
     @FXML
     private AnchorPane dashBoard;
@@ -93,7 +93,7 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
     @FXML
     private ImageView chosenExpert;
 
-    public GetStudentFromCard(String playerNickname) {
+    public GetStudentFromCardController(String playerNickname,GameBoardSceneController gBSC) {
         currentDashboard = 0;
         currentIslandIndex = 0;
         this.playerNickname = playerNickname;
@@ -121,6 +121,7 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
         chosenExpert = new ImageView();
         title = new Label();
         phase = ExpertDeckPhaseType.IDLE;
+        currentGameBoardSceneController = gBSC;
 
 
     }
@@ -131,6 +132,7 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
         updateExpertStudents();
         setQuestion();
         setExpertImage();
+        setDisabledItems();
         previousDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousDashBoardButtonClicked);
         nextDashBoardButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextDashBoardButtonClicked);
         expertStudents.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onExpertStudentClicked);
@@ -147,6 +149,12 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
         previousIslandButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onPreviousIslandButtonClicked);
         nextIslandButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onNextIslandButtonClicked);
         currentIsland.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onIslandClicked);
+    }
+
+    public void updateAll() throws noTowerException {
+        updateDashBoard();
+        updateExpertStudents();
+        setDisabledItems();
     }
 
 
@@ -335,22 +343,30 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
         if(reducedGameBoard.getIslands().get(currentIslandIndex).isMotherNature()){
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/mother_nature.png"));
             ImageView motherNature = new ImageView(image);
-            motherNature.setFitWidth(30);
-            motherNature.setFitHeight(30);
+            motherNature.setFitWidth(45);
+            motherNature.setFitHeight(45);
             currentIsland.getChildren().add(motherNature);
         }
         if(reducedGameBoard.getIslands().get(currentIslandIndex).getTower()){
             try {
                 Image image = new Image(getClass().getResourceAsStream("/images/towers/"+reducedGameBoard.getIslands().get(currentIslandIndex).getTeam().toString()+"_tower.png"));
                 ImageView tower = new ImageView(image);
-                tower.setFitWidth(30);
-                tower.setFitHeight(30);
+                tower.setFitWidth(45);
+                tower.setFitHeight(45);
                 currentIsland.getChildren().add(tower);
             }catch (noTowerException e){}
+        }
+        if(reducedGameBoard.getIslands().get(currentIslandIndex).isBlocked()){
+            Image image = new Image(getClass().getResourceAsStream("/images/gameboard/deny_island_icon.png"));
+            ImageView denyIslandIcon = new ImageView(image);
+            denyIslandIcon.setFitWidth(45);
+            denyIslandIcon.setFitHeight(45);
+            currentIsland.getChildren().add(denyIslandIcon);
         }
     }
 
     private void updateExpertStudents() {
+        expertStudents.getChildren().clear();
         switch (expertDeck) {
             case TAVERNER:
                 ToIslandCard taverner = (ToIslandCard) getCharacter(expertDeck);
@@ -477,10 +493,13 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
             theChosenOne.getChildren().add(chosenStudent);
             if(expertDeck.equals(ExpertDeck.JOKER)){
                 new Thread(()->notifyObserver(obs->obs.OnUpdateEffectJoker(chosenStudent.getStudent().getColor()))).start();
-            }else if(expertDeck.equals(ExpertDeck.BARBARIAN)){
-                new Thread(()->notifyObserver(obs->obs.OnUpdateEffectBarbarian(chosenStudent.getStudent().getColor()))).start();
             }else if(expertDeck.equals(ExpertDeck.TAVERNER)){
                 new Thread(()->notifyObserver(obs-> obs.OnUpdateEffectTaverner(chosenStudent.getStudent().getColor()))).start();
+            }else if(expertDeck.equals(ExpertDeck.BARBARIAN)){
+                setPhase(ExpertDeckPhaseType.SELECT_ROW);
+                setDisabledItems();
+                setQuestion();
+                Platform.runLater(() -> SceneController.alertShown("Message:", "Place the student in the dining room"));
             }
 
         }
@@ -573,12 +592,28 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
     private void notifyGameController(TilePane selectedRow){
         if(expertDeck.equals(ExpertDeck.BARBARIAN)){
             try{
+                /*
                 Color studentColor = chosenStudent.getStudent().getColor();
+                chosenStudent.setFitWidth(40);
+                chosenStudent.setFitHeight(40);
                 selectedRow.getChildren().add(chosenStudent);
                 theChosenOne.getChildren().remove(chosenStudent);
                 setDisabledItems();
                 chosenStudent = null;
                 new Thread(() -> notifyObserver(obs -> obs.OnUpdateEffectBarbarian(studentColor))).start();
+                 */
+                if(selectedRow.equals(redRow)){
+                    new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.RED))).start();
+                }else if(selectedRow.equals(greenRow)){
+                    new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.GREEN))).start();
+                }else if(selectedRow.equals(blueRow)){
+                    new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.BLUE))).start();
+                }else if(selectedRow.equals(yellowRow)){
+                    new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.YELLOW))).start();
+                }else if(selectedRow.equals(pinkRow)){
+                    new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.PINK))).start();
+                }
+                Platform.runLater(()->SceneController.changeRootPane(currentGameBoardSceneController,"gameboard2_scene.fxml"));
             }catch (NullPointerException e){
                 Platform.runLater(() -> SceneController.alertShown("Message:", "Please select a student"));
             }
@@ -604,17 +639,21 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
         switch(expertDeck){
             case HERALD:
                 new Thread(()->notifyObserver(obs -> obs.OnUpdateEffectHerald(currentIslandIndex))).start();
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
                 break;
             case HERBALIST:
                 new Thread(() -> notifyObserver(obs->obs.OnUpdateEffectHerbalist(currentIslandIndex))).start();
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
                 break;
             case TAVERNER:
                 new Thread(()-> notifyObserver(obs->obs.OnUpdateEffectTaverner(currentIslandIndex))).start();
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+                break;
         }
 
     }
 
-   private void setDisabledItems(){
+   public void setDisabledItems(){
         if(phase.equals(ExpertDeckPhaseType.IDLE)){
             reducedHall.setDisable(true);
             currentIsland.setDisable(true);
@@ -631,14 +670,14 @@ public class GetStudentFromCard extends ViewObservable implements BasicSceneCont
             expertStudents.setDisable(true);
             disabledRows();
         }else if(phase.equals(ExpertDeckPhaseType.SELECT_STUDENT_FROM_THE_HALL)) {
-            reducedHall.setDisable(true);
-            currentIsland.setDisable(false);
-            expertStudents.setDisable(false);
+            reducedHall.setDisable(false);
+            currentIsland.setDisable(true);
+            expertStudents.setDisable(true);
             disabledRows();
         }else if(phase.equals(ExpertDeckPhaseType.SELECT_ROW)){
             reducedHall.setDisable(true);
-            currentIsland.setDisable(false);
-            expertStudents.setDisable(false);
+            currentIsland.setDisable(true);
+            expertStudents.setDisable(true);
             enabledRows();
         }
 
