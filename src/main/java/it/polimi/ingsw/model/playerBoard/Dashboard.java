@@ -10,7 +10,11 @@ import it.polimi.ingsw.observer.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//The following class represents the player's dashboard
+/**
+ * represents a single instance of a player's dashbboard, contains
+ * all the needed parameters and some methods to act on the hall and rows,
+ * to set and remove towers and
+ */
 public class Dashboard extends Observable implements Serializable {
     //attributes of the class dashboard
     private static final long serialVersionUID = -3704504226997118508L;

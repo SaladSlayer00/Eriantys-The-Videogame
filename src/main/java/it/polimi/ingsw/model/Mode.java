@@ -9,6 +9,10 @@ import it.polimi.ingsw.model.expertDeck.Character;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * enumm for the different methods callable from the game classes
+ * that implement this interface
+ */
 
 public interface Mode {
 
