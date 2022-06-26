@@ -63,7 +63,6 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         boolean alreadyExist = false;
-        //Gameboard actualGameBoard = gameBoardSceneController.getReducedGameBoard();
         Gameboard actualGameBoard = updateGameBoard;
         GetStudentFromCardController getStudentFromCard = null;
         if (actualGameBoard.getToReset().size() > 0) {
@@ -110,23 +109,10 @@ public class Gui extends ViewObservable implements View {
             }
             return;
             }
-            Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
-            GameBoardSceneController gBSC = getGameSceneController();
-            gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
-            gBSC.setMainPhase(PhaseType.YOUR_MOVE);
-            gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
-            Platform.runLater(() -> {
-                try {
-                    gBSC.updateAll();
-                } catch (noTowerException e) {
-                    e.printStackTrace();
-                }
-            });
+           askGameBoardMoves();
         }
     @Override
-    public void askIslandMoves(Color student, List<Island> islands) {
-
-    }
+    public void askIslandMoves(Color student, List<Island> islands) {}
 
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
@@ -244,19 +230,13 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void effectEnabled(String summoner) {
-
-    }
+    public void effectEnabled(String summoner) {}
 
     @Override
-    public void showMatchInfo(int chosen, int actual) {
-
-    }
+    public void showMatchInfo(int chosen, int actual) {}
 
     @Override
-    public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {
-
-    }
+    public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {}
 
     @Override
     public void winCommunication(String winner) {
@@ -282,45 +262,10 @@ public class Gui extends ViewObservable implements View {
 
 
     @Override
-    public void showAssistant(int index) {
-
-    }
+    public void showAssistant(int index) {}
 
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){
-        /*
-        GameBoardSceneController gBSC;
-        try {
-            gBSC = (GameBoardSceneController) SceneController.getSceneController();
-            gBSC.setGameBoard(gameboard,dashboards,players);
-            GameBoardSceneController finalGBSC1 = gBSC;
-            gameBoardSceneController = gBSC;
-            Platform.runLater(()-> {
-                try {
-                    finalGBSC1.updateAll();
-                } catch (noTowerException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (ClassCastException e) {
-            gBSC = new GameBoardSceneController(playerName);
-            gBSC.addAllObservers(observers);
-            gBSC.setGameBoard(gameboard,dashboards,players);
-            GameBoardSceneController finalGBSC = gBSC;
-            gameBoardSceneController = gBSC;
-            Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
-            Platform.runLater(()-> {
-                try {
-                    finalGBSC.updateAll();
-                } catch (noTowerException ex) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        clouds = gameboard.getClouds();
-
-         */
-
         GameBoardSceneController gBSC;
         GetStudentFromCardController gSFC;
         try {
@@ -339,16 +284,6 @@ public class Gui extends ViewObservable implements View {
             try {
                 gSFC = (GetStudentFromCardController) SceneController.getSceneController();
                 gSFC.setGameBoard(gameboard,dashboards,players);
-                /*
-                Platform.runLater(()-> {
-                    try {
-                        gSFC.updateAll();
-                    } catch (noTowerException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                 */
             }catch (ClassCastException e){
                 gBSC = new GameBoardSceneController(playerName);
                 gBSC.addAllObservers(observers);
@@ -394,22 +329,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void askExpert() {
-        /*
-        Platform.runLater(()-> {
-            try {
-                getGameSceneController().updateAll();
-            } catch (noTowerException ex) {
-                ex.printStackTrace();
-            }
-        });
-        Gameboard actualGameBoard = getGameSceneController().getReducedGameBoard();
-        ExpertCardsSceneController eCSController = new ExpertCardsSceneController(actualGameBoard,getGameSceneController());
-        eCSController.addAllObservers(observers);
-        Platform.runLater(()->SceneController.changeRootPane(eCSController,"expert_choice.fxml"));
-
-         */
-    }
+    public void askExpert() {}
 
     @Override
     public void askColor() {
@@ -465,6 +385,13 @@ public class Gui extends ViewObservable implements View {
                 Platform.runLater(()->finalGetStudentFromCardController.setExpertImage());
                 Platform.runLater(()->finalGetStudentFromCardController.setPhase(ExpertDeckPhaseType.SELECT_STUDENT_FROM_EXPERT));
                 Platform.runLater(()->finalGetStudentFromCardController.setQuestion());
+
+            }else if(currentGameBoard.getToReset().contains(ExpertDeck.BANKER)) {
+                Platform.runLater(()->SceneController.showingColorChoicePopUp(observers,gameBoardSceneController,ExpertDeck.BANKER));
+                return;
+            }else  if(currentGameBoard.getToReset().contains(ExpertDeck.SELLER)){
+                Platform.runLater(()->SceneController.showingColorChoicePopUp(observers,gameBoardSceneController,ExpertDeck.SELLER));
+                return;
             }
             Platform.runLater(() -> finalGetStudentFromCardController.setDisabledItems());
 
@@ -508,14 +435,20 @@ public class Gui extends ViewObservable implements View {
             cloudChoice = "get";
         }
     }
-/*
-    public static void setAtomicExpert(){
-        if(atomicExpert==0){
-            atomicExpert =1;
-        }else if(atomicExpert ==1){
-            atomicExpert = 0;
-        }
+
+    private void askGameBoardMoves(){
+        Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
+        GameBoardSceneController gBSC = getGameSceneController();
+        gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
+        gBSC.setMainPhase(PhaseType.YOUR_MOVE);
+        gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
+        Platform.runLater(() -> {
+            try {
+                gBSC.updateAll();
+            } catch (noTowerException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
- */
 }
