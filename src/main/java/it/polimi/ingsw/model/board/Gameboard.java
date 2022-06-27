@@ -15,6 +15,10 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.observer.Observable;
 
+/**
+ * Gameboard class is the gameboard of the game
+ * @author  Beatrice Insalata, Teka Kimbi, Alice Maccarini
+ */
 public class Gameboard extends Observable implements Serializable {
 
     //attributes of the class Gameboard
@@ -33,6 +37,10 @@ public class Gameboard extends Observable implements Serializable {
 
     private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.PINK, Color.YELLOW};
 
+    /**
+     * constructor of the class
+     * @param numClouds is the number of clouds needed for the match (given by the number of players)
+     */
     public Gameboard(int numClouds) {
         this.numClouds = numClouds;
         for (Color c : colors) {
@@ -42,20 +50,35 @@ public class Gameboard extends Observable implements Serializable {
         this.sack = new Sack();
     }
 
+    /**
+     * setMode method setter for the game mode
+     * @param mode is the game mode chosen for the match
+     */
     public void setMode(modeEnum mode) {
         this.mode = mode;
     }
 
+    /**
+     * modeEnum method getter of the game mode
+     * @return the game mode chosen of the match
+     */
     public modeEnum getMode() {
         return mode;
     }
 
+    /**
+     * getSack method getter for the sack
+     * @return the sack as it is in the very match
+     */
     public Sack getSack() {
         return sack;
     }
 
     //methods of the Gameboard
-    //it places Mother Nature on a random island
+
+    /**
+     * placeMother method puts Mother Nature's paw on a random island at the beginning of the match
+     */
     public void placeMother() {
         int random = (int) (Math.random() * 11);
         //islands.get(random).motherNature = true;
@@ -63,7 +86,10 @@ public class Gameboard extends Observable implements Serializable {
         motherNature = random;
     }
 
-    //it initializes the gameboard TO CHECK
+    /**
+     * initializeIslands method initializes the islands for the match
+     * @throws noMoreStudentsException if there are no students' paws
+     */
     public void initializeIslands() throws noMoreStudentsException {
         islands = new ArrayList<Island>();
         for (int i = 0; i < 12; i++) {
@@ -90,7 +116,10 @@ public class Gameboard extends Observable implements Serializable {
         //sack.initializeSack();
     }
 
-    //it checks that there is JUST ONE Mother Nature on the Gameboard
+    /**
+     * checkMother method it checks if there is just one Mother Nature's paw on the game board
+     * @throws tooManyMotherNatureException if there is more than one Mother Nature's paw on the field
+     */
     public void checkMother() throws tooManyMotherNatureException {
         int counter = 0;
         for (Island i : islands) {
@@ -103,7 +132,11 @@ public class Gameboard extends Observable implements Serializable {
         }
     }
 
-    //it merges two island together
+    /**
+     * mergeIsland method to merge two island together
+     * @param active is the island where there is Mother Nature's paw
+     * @throws noTowerException if there is no tower on the active island (hence, the merge cannot be done)
+     */
     public void mergeIslands(Island active) throws noTowerException {
         Island before;
         Island after;
@@ -158,7 +191,12 @@ public class Gameboard extends Observable implements Serializable {
     }
 
 
-    //it calculates the influence of a player on an island
+    /**
+     * calculateInfluence method calculates the influence of a player on an island
+     * @param player is the player whom it is calculates the influence
+     * @param island is the island where the influence has to be calculated
+     * @return a boolean that tells whether the player can put a tower on the island
+     */
     public boolean calculateInfluence(Player player, int island) {
         int playerInfluence = islands.get(island).calculateInfluence(player);
         //for(Color c : islands.get(island).students.keySet()){
@@ -178,42 +216,84 @@ public class Gameboard extends Observable implements Serializable {
         return false;
     }
 
+    /**
+     * createClouds method creates the clouds for the match (given the number of players)
+     */
     public void createClouds(){
         for (int i = 0; i < this.numClouds; i++) {
             clouds.add(new Cloud(numClouds , i));
         }
     }
 
+    /**
+     * getClouds method is the getter for the clouds of the match
+     * @return an arraylist with the clouds
+     */
     public ArrayList<Cloud> getClouds() {
         return clouds;
     }
 
+    /**
+     * getIslands method is a getter for the islands of the match
+     * @return an arraylist with the islands of the match
+     */
     public ArrayList<Island> getIslands() {
         return islands;
     }
 
+    /**
+     * placeStudent method places a student's paw on an island
+     * @param c is the color of the student that has to be placed
+     * @param s is the student's paw
+     * @param island is the index of the island where the student has to be put
+     */
     public void placeStudent(Color c, Student s, int island){
         islands.get(island).addStudentOnIsland(c, s);
     }
 
+    /**
+     * getMotherNature method is a getter for Mother Nature's paw
+     * @return the index of the island where Mother Nature's paw is in that very moment of the match
+     */
     public int getMotherNature() {
         return motherNature;
     }
 
+    /**
+     * setMotherNature method is the setter that puts Mother Nature's paw on a certain island
+     * @param motherNature is the index of the island where Mother nature's paw has to be placed
+     */
     public void setMotherNature(int motherNature) {
         this.motherNature = motherNature;
     }
 
+    /**
+     * chooseCloud method for choosing which cloud to pick at the end of the turn
+     * @param index is the index of the cloud
+     * @return the cloud chosen by the player
+     */
     public Cloud chooseCloud(int index){
         return clouds.remove(index);
     }
 
+    /**
+     * getCloud method is the getter for a certain cloud
+     * @param index is the index of the cloud to get
+     * @return
+     */
     public Cloud getCloud(int index) {return clouds.get(index);}
 
+    /**
+     * removeCoin method removes a coin from the coins' pit
+     */
     public void removeCoin(){
         coins=coins-1;
     }
 
+    /**
+     *
+     * @param color
+     */
     public void removeProfessor(Color color) {
         Professor chosenProfessor = null;
         for (Professor professor : professors) {
