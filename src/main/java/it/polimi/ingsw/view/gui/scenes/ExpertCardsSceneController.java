@@ -131,7 +131,9 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
 
     private void onLessGoButtonClick(Event event) {
         new Thread(() -> notifyObserver((observers -> observers.OnUpdateExpert(chosenOne)))).start();
-
+        if(chosenOne.equals(ExpertDeck.COOK) || chosenOne.equals(ExpertDeck.KNIGHT) || chosenOne.equals(ExpertDeck.GAMBLER) || chosenOne.equals(ExpertDeck.CUSTOMER)){
+            Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+        }
     }
     private void onExitButtonClick(Event event){
         Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
@@ -153,8 +155,8 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
             System.out.println("");
             Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + actualGameBoard.getExperts().get(i).getText()+ ".jpg"));
             ImageView imageVw = new ImageView(image);
-            imageVw.setFitWidth(350d);
-            imageVw.setFitHeight(540d);
+            imageVw.setFitWidth(240);
+            imageVw.setFitHeight(356);
             Platform.runLater(() -> tilePane.getChildren().add(imageVw));
             cards[i] = imageVw;
         }

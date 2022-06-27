@@ -156,10 +156,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         if(typeOfChoice == "firstPick"){
             new Thread(() -> notifyObserver(obs -> obs.OnUpdatePickCloud(chosenCloud))).start();
             Gui.setCloudPhase();
-        }else if (typeOfChoice == "secondPick"){
-            new Thread(() -> notifyObserver(obs -> obs.OnUpdatePickCloud(chosenCloud))).start();
-            Gui.setCloudPhase();
-        }else{
+        }else if(typeOfChoice == "get"){
             new Thread(() -> notifyObserver(obs -> obs.OnUpdateGetFromCloud(chosenCloud))).start();
             Gui.setCloudPhase();
         }

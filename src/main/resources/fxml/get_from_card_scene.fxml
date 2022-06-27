@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1281.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../css/expert_scene.css" />
     </stylesheets>
@@ -17,38 +17,47 @@
         <URL value="@../css/gameBoard_scene.css" />
     </stylesheets>
    <children>
-      <ImageView fx:id="chosenExpert" fitHeight="612.0" fitWidth="400.0" layoutX="123.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" />
-      <TilePane fx:id="currentIsland" alignment="CENTER" layoutX="1047.0" layoutY="34.0" prefHeight="452.0" prefWidth="505.0" styleClass="anchorPaneIslandOne" />
-      <AnchorPane fx:id="Dashboard" layoutX="757.0" layoutY="534.0" prefHeight="448.0" prefWidth="1024.0" styleClass="dashboard">
+      <ImageView fx:id="chosenExpert" fitHeight="336.0" fitWidth="224.0" layoutX="71.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true" />
+      <TilePane fx:id="currentIsland" alignment="CENTER" layoutX="646.0" layoutY="53.0" prefHeight="292.0" prefWidth="307.0" styleClass="anchorPaneIslandOne" />
+      <AnchorPane fx:id="Dashboard" layoutX="478.0" layoutY="390.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="305.0" prefWidth="642.0" styleClass="dashboard">
          <children>
-            <TilePane id="reducedHall" fx:id="reducedHall" hgap="10.0" layoutX="24.0" layoutY="114.0" prefHeight="244.0" prefWidth="103.0" vgap="10.0">
+            <TilePane id="reducedHall" fx:id="reducedHall" hgap="10.0" layoutX="7.0" layoutY="40.0" prefHeight="198.0" prefWidth="81.0" vgap="10.0">
                <padding>
                   <Insets top="50.0" />
                </padding>
             </TilePane>
-            <TilePane id="greenRow" fx:id="greenRow" hgap="20.0" layoutX="197.0" layoutY="62.0" prefHeight="36.0" prefWidth="485.0" />
-            <TilePane id="redRow" fx:id="redRow" hgap="20.0" layoutX="199.0" layoutY="137.0" prefHeight="36.0" prefWidth="478.0" />
-            <TilePane id="yellowRow" fx:id="yellowRow" hgap="20.0" layoutX="196.0" layoutY="209.0" prefHeight="36.0" prefWidth="478.0" />
-            <TilePane id="pinkRow" fx:id="pinkRow" hgap="20.0" layoutX="198.0" layoutY="284.0" prefHeight="36.0" prefWidth="478.0" />
-            <TilePane id="blueRow" fx:id="blueRow" hgap="20.0" layoutX="197.0" layoutY="355.0" prefHeight="36.0" prefWidth="478.0" />
-            <TilePane fx:id="towersSpot" hgap="15.0" layoutX="841.0" layoutY="121.0" prefHeight="173.0" prefWidth="132.0" />
-            <ImageView id="greenProfessor" fx:id="greenProfessor" fitHeight="43.0" fitWidth="43.0" layoutX="727.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="redPorfessor" fx:id="redProfessor" fitHeight="43.0" fitWidth="43.0" layoutX="730.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="yellowProfessor" fx:id="yellowProfessor" fitHeight="43.0" fitWidth="43.0" layoutX="730.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="pinkProfessor" fx:id="pinkProfessor" fitHeight="43.0" fitWidth="43.0" layoutX="728.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="blueProfessor" fx:id="blueProfessor" fitHeight="43.0" fitWidth="43.0" layoutX="730.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
+            <TilePane id="greenRow" fx:id="greenRow" hgap="6.0" layoutX="118.0" layoutY="40.0" prefHeight="25.0" prefWidth="308.0" />
+            <TilePane id="redRow" fx:id="redRow" hgap="6.0" layoutX="120.0" layoutY="89.0" prefHeight="25.0" prefWidth="304.0" />
+            <TilePane id="yellowRow" fx:id="yellowRow" hgap="6.0" layoutX="119.0" layoutY="140.0" prefHeight="25.0" prefWidth="309.0" />
+            <TilePane id="pinkRow" fx:id="pinkRow" hgap="6.0" layoutX="120.0" layoutY="190.0" prefHeight="26.0" prefWidth="306.0" />
+            <TilePane id="blueRow" fx:id="blueRow" hgap="6.0" layoutX="119.0" layoutY="239.0" prefHeight="26.0" prefWidth="306.0" />
+            <TilePane fx:id="towersSpot" hgap="15.0" layoutX="524.0" layoutY="66.0" prefHeight="155.0" prefWidth="97.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </TilePane>
+            <ImageView id="greenProfessor" fx:id="greenProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="453.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="redPorfessor" fx:id="redProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="451.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="yellowProfessor" fx:id="yellowProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="453.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="pinkProfessor" fx:id="pinkProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="451.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="blueProfessor" fx:id="blueProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="453.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Button fx:id="previousIslandButton" layoutX="870.0" layoutY="224.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="136.0" rotate="180.0" style="-fx-background-color: #8fbfe1;" styleClass="buttonSkin" />
-      <Button fx:id="nextIslandButton" layoutX="1568.0" layoutY="232.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="136.0" style="-fx-background-color: #a1c6d3;" styleClass="buttonSkin" />
-      <Button fx:id="previousDashBoardButton" layoutX="614.0" layoutY="705.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="136.0" rotate="180.0" style="-fx-background-color: #aecdcb;" styleClass="buttonSkin" />
-      <Button fx:id="nextDashBoardButton" layoutX="1782.0" layoutY="702.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="136.0" style="-fx-background-color: #bcd4bc;" styleClass="buttonSkin" />
-      <TilePane fx:id="expertStudents" layoutX="113.0" layoutY="480.0" prefHeight="224.0" prefWidth="408.0" />
-      <Label fx:id="title" layoutX="34.0" layoutY="51.0" prefHeight="53.0" prefWidth="764.0" textAlignment="CENTER">
+      <Button fx:id="previousIslandButton" layoutX="537.0" layoutY="174.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" rotate="180.0" style="-fx-background-color: #8fbfe1;" styleClass="buttonSkin" />
+      <Button fx:id="nextIslandButton" layoutX="952.0" layoutY="174.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" style="-fx-background-color: #99c3d9;" styleClass="buttonSkin" />
+      <Button fx:id="previousDashBoardButton" layoutX="380.0" layoutY="493.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" rotate="180.0" style="-fx-background-color: #aecdcb;" styleClass="buttonSkin" />
+      <TilePane fx:id="expertStudents" alignment="CENTER" layoutX="75.0" layoutY="313.0" prefHeight="103.0" prefWidth="211.0" />
+      <Label fx:id="title" layoutX="284.0" layoutY="14.0" prefHeight="53.0" prefWidth="764.0" textAlignment="CENTER">
          <font>
-            <Font size="36.0" />
+            <Font name="Comic Sans MS Bold" size="36.0" />
          </font>
       </Label>
-      <TilePane fx:id="theChosenOne" alignment="CENTER" layoutX="217.0" layoutY="827.0" prefHeight="200.0" prefWidth="200.0" />
+      <TilePane fx:id="theChosenOne" alignment="CENTER" layoutX="133.0" layoutY="531.0" prefHeight="103.0" prefWidth="110.0" />
+      <Button fx:id="nextDashBoardButton" layoutX="1135.0" layoutY="503.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" style="-fx-background-color: #b8d1c2;" styleClass="buttonSkin" />
+      <Label fx:id="islandIndex" layoutX="730.0" layoutY="341.0" prefHeight="23.0" prefWidth="132.0">
+         <font>
+            <Font name="Comic Sans MS Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
