@@ -3,6 +3,7 @@ import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.enums.*;
+import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.view.View;
@@ -231,15 +232,24 @@ public class InputController implements Serializable{
         MoveMotherMessage moveMotherMessage = ((MoveMotherMessage) message);
         int chosenMoves = moveMotherMessage.getMoves();
         Assistant chosenAssistant = moveMotherMessage.getChosenAssistant();
-        if (chosenMoves > 0 && chosenMoves <= chosenAssistant.getMove()) {
-            return true;
-        } else {
-            virtualView.showGenericMessage("move not allowed");
-            virtualView.askMotherMoves(message.getNickname(),chosenAssistant.getMove());
-            return false;
+        int extra = 0;
+        for(Character c : gameController.getTurnController().getToReset())
+        {
+            if(c.getName().equals(ExpertDeck.GAMBLER)){
+                extra = 2;
+
+            }
+        }
+        if (chosenMoves > 0 && chosenMoves <= chosenAssistant.getMove()+extra) {
+                return true;
+            } else {
+                virtualView.showGenericMessage("move not allowed");
+                virtualView.askMotherMoves(message.getNickname(),chosenAssistant.getMove()+extra);
+                return false;
+            }
         }
 
-    }
+
 
     public boolean checkUser(Message receivedMessage) {
         return receivedMessage.getNickname().equals(gameController.getTurnController().getActivePlayer());

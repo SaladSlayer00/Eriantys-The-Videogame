@@ -119,7 +119,7 @@ public class Gui extends ViewObservable implements View {
     public void askMotherMoves(String nickname, int possibleSteps) {
         GameBoardSceneController gBSC = getGameSceneController();
         gBSC.setSecondaryPhase(PhaseType.MOVE_MOTHER);
-        Platform.runLater(()->gBSC.enabledGlowEffectIsland());
+        Platform.runLater(()->gBSC.enabledGlowEffectIsland(possibleSteps));
         Platform.runLater(()-> {
             try {
                 gBSC.updateAll();

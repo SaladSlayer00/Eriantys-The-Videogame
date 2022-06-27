@@ -28,6 +28,8 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.*;
 
+import static java.lang.Math.abs;
+
 /* this is the class that controls the scene of the gameboard
  * the paws moves on the gameboard, so this class is pretty important for all the various method
  * that are in charge of the moves of the paws/ professors/ these things...
@@ -39,6 +41,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private List<Player> listOfPlayer;
     private List<TilePane> listOfIslands;
     private int currentDashboard;
+    private int possibleMotherNatureMoves;
     private Gameboard reducedGameBoard;
     private Dashboard reducedDashBoard;
     private String playerNickname;
@@ -400,7 +403,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private void onIslandClicked(MouseEvent event){
         Node clickedNode = event.getPickResult().getIntersectedNode();
         TilePane chosenIsland;
-        int index;
+        int index = 0;
         int indexOfIsland;
         switch (secondaryPhase) {
             case MOVE_ON_ISLAND_ROW:
@@ -418,14 +421,24 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
                 int possibleMoves = getPlayer(getYourDashBoard()).getCardChosen().getMove();
                 if(clickedNode instanceof TilePane) {
                     chosenIsland = (TilePane) clickedNode;
-                    index = getIslandIndex(chosenIsland) - reducedGameBoard.getMotherNature();
-                    if (index < 1 || index > possibleMoves) {
+                    if((possibleMotherNatureMoves+reducedGameBoard.getMotherNature())> (reducedGameBoard.getIslands().size()-1)){
+                        if(getIslandIndex(chosenIsland)<reducedGameBoard.getMotherNature()){
+                            index = (reducedGameBoard.getIslands().size()-reducedGameBoard.getMotherNature())+getIslandIndex(chosenIsland);
+                        }else{
+                            index = getIslandIndex(chosenIsland) - reducedGameBoard.getMotherNature();
+                    }
+                    }else{
+                        index = getIslandIndex(chosenIsland) - reducedGameBoard.getMotherNature();
+                    }
+
+                    if (index < 1 || index > possibleMotherNatureMoves) {
                         Platform.runLater(() -> SceneController.alertShown("Message:", "Select the right island"));
                     } else {
                         mainPhase = PhaseType.WAITING;
                         setDisabledItems();
-                        disableGlowEffectIsland();
-                       new Thread(() ->notifyObserver(obs -> obs.OnUpdateMoveMother(index,new Assistant(0,possibleMoves)))).start();
+                        disableGlowEffectIsland(possibleMotherNatureMoves);
+                        int finalIndex = index;
+                        new Thread(() ->notifyObserver(obs -> obs.OnUpdateMoveMother(finalIndex,new Assistant(0,possibleMoves)))).start();
                     }
                 }
                 break;
@@ -642,9 +655,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
-    public void enabledGlowEffectIsland() {
+    public void enabledGlowEffectIsland(int possibleMoves) {
         Glow glow = new Glow();
-        for(int i = 0; i < getPlayer(getYourDashBoard()).getCardChosen().getMove();i++){
+        possibleMotherNatureMoves = possibleMoves;
+        for(int i = 0; i < possibleMoves;i++){
                 int index = (reducedGameBoard.getMotherNature()+i+1) % reducedGameBoard.getIslands().size();
                 archipelago.getChildren().get(index).setEffect(glow);
 
@@ -652,8 +666,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
-    private void disableGlowEffectIsland() {
-        for (int i = 0; i < getPlayer(getYourDashBoard()).getCardChosen().getMove(); i++) {
+    private void disableGlowEffectIsland(int possibleMoves) {
+        for (int i = 0; i < possibleMoves; i++) {
             int index = (reducedGameBoard.getMotherNature()+i+1) % reducedGameBoard.getIslands().size();
             archipelago.getChildren().get(index).setEffect(null);
         }
