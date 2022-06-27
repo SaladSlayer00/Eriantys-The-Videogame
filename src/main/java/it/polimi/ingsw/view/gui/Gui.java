@@ -21,7 +21,7 @@ public class Gui extends ViewObservable implements View {
     private static String playerName;
     //helper
     private static List<Cloud> clouds;
-    private static String cloudChoice ;
+    private static String cloudChoice = "firstPick";
     private static int atomicExpert  = 0 ;
     //update scene
     private GameBoardSceneController gameBoardSceneController;
@@ -41,7 +41,6 @@ public class Gui extends ViewObservable implements View {
             getStudentFromCardController = (GetStudentFromCardController) SceneController.getSceneController();
             Platform.runLater(()->SceneController.showingContinuePopUp(observers,gameBoardSceneController));
         }catch(ClassCastException e){
-            setPlayerName(nickname);
             Platform.runLater(() -> SceneController.changeRootPane(observers, "start_scene.fxml"));
         }
 
@@ -52,6 +51,7 @@ public class Gui extends ViewObservable implements View {
         DeckChoiceSceneController dCSController = new DeckChoiceSceneController();
         dCSController.addAllObservers(observers);
         dCSController.setAvailableDecks(availableDecks);
+        setPlayerName(nickname);
         Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deckChoice_scene.fxml"));
     }
 
@@ -63,6 +63,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         boolean alreadyExist = false;
+        cloudChoice = "get";
         Gameboard actualGameBoard = updateGameBoard;
         GetStudentFromCardController getStudentFromCard = null;
         if (actualGameBoard.getToReset().size() > 0) {
@@ -118,7 +119,7 @@ public class Gui extends ViewObservable implements View {
     public void askMotherMoves(String nickname, int possibleSteps) {
         GameBoardSceneController gBSC = getGameSceneController();
         gBSC.setSecondaryPhase(PhaseType.MOVE_MOTHER);
-        Platform.runLater(()->gBSC.enabledGlowEffectIsland());
+        Platform.runLater(()->gBSC.enabledGlowEffectIsland(possibleSteps));
         Platform.runLater(()-> {
             try {
                 gBSC.updateAll();
@@ -148,16 +149,6 @@ public class Gui extends ViewObservable implements View {
                     e.printStackTrace();
                 }
             });
-        }else if(cloudChoice.equals("secondPick")){
-            Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
-            Platform.runLater(()-> {
-                try {
-                    gameBoardSceneController.updateAll();
-                } catch (noTowerException e) {
-                    e.printStackTrace();
-                }
-            });
-
         }else if(cloudChoice.equals("get")){
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
@@ -169,8 +160,7 @@ public class Gui extends ViewObservable implements View {
             });
         }
 
-
-    }
+        }
 
     @Override
     public void askPlayersNumber(){
@@ -427,11 +417,9 @@ public class Gui extends ViewObservable implements View {
     }
 
     public static void setCloudPhase(){
-        if(cloudChoice.equals("firstPick")){
-            cloudChoice = "secondPick";
-        }else if(cloudChoice.equals("secondPick")){
-            cloudChoice = "get";
-        }else{
+        if(cloudChoice.equals("get")){
+            cloudChoice = "firstPick";
+        }else if(cloudChoice.equals("firstPick")){
             cloudChoice = "get";
         }
     }

@@ -9,32 +9,33 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="1080.0" prefWidth="1920.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1281.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../css/expert_scene.css" />
     </stylesheets>
 
    <children>
-      <Button fx:id="lessGoButton" layoutX="1479.0" layoutY="673.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="372.0" text="Confirm">
+      <Button fx:id="lessGoButton" layoutX="925.0" layoutY="483.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="257.0" text="Confirm">
          <effect>
             <Bloom threshold="1.0" />
          </effect>
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font></Button>
-      <Button fx:id="exit" layoutX="1481.0" layoutY="808.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="364.0" text="Exit">
+      <Button fx:id="exit" layoutX="925.0" layoutY="547.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="257.0" text="Exit">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
          <effect>
             <Bloom threshold="1.0" />
          </effect></Button>
-      <Label layoutX="476.0" layoutY="46.0" prefHeight="199.0" prefWidth="869.0" text="             Choose a card :" textAlignment="CENTER">
+      <Label layoutX="295.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="692.0" text="             Choose a card :" textAlignment="CENTER">
          <font>
-            <Font name="Comic Sans MS Bold" size="49.0" />
+            <Font name="Comic Sans MS Bold" size="38.0" />
          </font>
       </Label>
-      <ImageView fx:id="selectedCard" fitHeight="460.0" fitWidth="303.0" layoutX="1504.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
-      <TilePane fx:id="tilePane" layoutX="35.0" layoutY="254.0" prefHeight="506.0" prefWidth="1390.0" />
+      <ImageView fx:id="selectedCard" fitHeight="294.0" fitWidth="205.0" layoutX="957.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" />
+      <TilePane fx:id="tilePane" alignment="CENTER" layoutX="38.0" layoutY="168.0" prefHeight="360.0" prefWidth="829.0" />
    </children>
 </AnchorPane>
+

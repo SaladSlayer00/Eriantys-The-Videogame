@@ -92,6 +92,8 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     private Label title;
     @FXML
     private ImageView chosenExpert;
+    @FXML
+    private Label islandIndex;
 
     public GetStudentFromCardController(String playerNickname,GameBoardSceneController gBSC) {
         currentDashboard = 0;
@@ -180,6 +182,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     public void setExpertImage(){
         Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" +expertDeck.getText()+".jpg"));
         chosenExpert.setImage(image);
+
     }
 
     public void setPhase(ExpertDeckPhaseType newPhase){
@@ -259,6 +262,8 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         for (Student student : selectedDashBoard.getHall()) {
             GuiStudent studentImage = addGuiStudent(student);
             hallList.add(studentImage);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             reducedHall.getChildren().add(studentImage);
         }
         //towers
@@ -266,65 +271,75 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         for (int i = 0; i < numberOfTowers; i++) {
             Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.toString() + "_tower.png"));
             ImageView addedTower = new ImageView(tower);
-            addedTower.setFitWidth(46);
-            addedTower.setFitHeight(41);
+            addedTower.setFitWidth(30);
+            addedTower.setFitHeight(30);
             towersSpot.getChildren().add(addedTower);
         }
         //Row
         for (Student student : selectedDashBoard.getRow(Color.GREEN).getStudents()) {
             GuiStudent studentImage = addGuiStudent(student);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             greenRow.getChildren().add(studentImage);
         }
 
         for (Student student : selectedDashBoard.getRow(Color.RED).getStudents()) {
             GuiStudent studentImage = addGuiStudent(student);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             redRow.getChildren().add(studentImage);
         }
         for (Student student : selectedDashBoard.getRow(Color.YELLOW).getStudents()) {
             GuiStudent studentImage = addGuiStudent(student);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             yellowRow.getChildren().add(studentImage);
         }
         for (Student student : selectedDashBoard.getRow(Color.PINK).getStudents()) {
             GuiStudent studentImage = addGuiStudent(student);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             pinkRow.getChildren().add(studentImage);
         }
         for (Student student : selectedDashBoard.getRow(Color.BLUE).getStudents()) {
             GuiStudent studentImage = addGuiStudent(student);
+            studentImage.setFitWidth(25);
+            studentImage.setFitHeight(25);
             blueRow.getChildren().add(studentImage);
         }
         //professors
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.GREEN)) {
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString() + ".png"));
-            greenProfessor.setFitHeight(36);
-            greenProfessor.setFitHeight(40);
+            greenProfessor.setFitHeight(33);
+            greenProfessor.setFitHeight(33);
             greenProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.RED)) {
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString() + ".png"));
-            redProfessor.setFitHeight(36);
-            redProfessor.setFitHeight(40);
+            redProfessor.setFitHeight(33);
+            redProfessor.setFitHeight(33);
             redProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.YELLOW)) {
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString() + ".png"));
-            yellowProfessor.setFitHeight(36);
-            yellowProfessor.setFitHeight(40);
+            yellowProfessor.setFitHeight(33);
+            yellowProfessor.setFitHeight(33);
             yellowProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.PINK)) {
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString() + ".png"));
-            pinkProfessor.setFitHeight(36);
-            pinkProfessor.setFitHeight(40);
+            pinkProfessor.setFitHeight(33);
+            pinkProfessor.setFitHeight(33);
             pinkProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.BLUE)) {
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString() + ".png"));
-            blueProfessor.setFitHeight(36);
-            blueProfessor.setFitHeight(40);
+            blueProfessor.setFitHeight(33);
+            blueProfessor.setFitHeight(33);
             blueProfessor.setImage(image);
 
         }
@@ -343,26 +358,28 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         if(reducedGameBoard.getIslands().get(currentIslandIndex).isMotherNature()){
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/mother_nature.png"));
             ImageView motherNature = new ImageView(image);
-            motherNature.setFitWidth(45);
-            motherNature.setFitHeight(45);
+            motherNature.setFitWidth(30);
+            motherNature.setFitHeight(30);
             currentIsland.getChildren().add(motherNature);
         }
         if(reducedGameBoard.getIslands().get(currentIslandIndex).getTower()){
             try {
                 Image image = new Image(getClass().getResourceAsStream("/images/towers/"+reducedGameBoard.getIslands().get(currentIslandIndex).getTeam().toString()+"_tower.png"));
                 ImageView tower = new ImageView(image);
-                tower.setFitWidth(45);
-                tower.setFitHeight(45);
+                tower.setFitWidth(30);
+                tower.setFitHeight(30);
                 currentIsland.getChildren().add(tower);
             }catch (noTowerException e){}
         }
         if(reducedGameBoard.getIslands().get(currentIslandIndex).isBlocked()){
             Image image = new Image(getClass().getResourceAsStream("/images/gameboard/deny_island_icon.png"));
             ImageView denyIslandIcon = new ImageView(image);
-            denyIslandIcon.setFitWidth(45);
-            denyIslandIcon.setFitHeight(45);
+            denyIslandIcon.setFitWidth(30);
+            denyIslandIcon.setFitHeight(30);
             currentIsland.getChildren().add(denyIslandIcon);
         }
+
+        islandIndex.setText("   Island :" +currentIslandIndex);
     }
 
     private void updateExpertStudents() {
@@ -372,8 +389,8 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 ToIslandCard taverner = (ToIslandCard) getCharacter(expertDeck);
                 for (Student student : taverner.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
-                    studentImage.setFitHeight(68);
-                    studentImage.setFitWidth(68);
+                    studentImage.setFitHeight(34);
+                    studentImage.setFitWidth(34);
                     expertStudents.getChildren().add(studentImage);
                 }
                     break;
@@ -381,8 +398,8 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 ExchangeStudentsCard joker = (ExchangeStudentsCard) getCharacter(expertDeck);
                 for (Student student : joker.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
-                    studentImage.setFitHeight(68);
-                    studentImage.setFitWidth(68);
+                    studentImage.setFitHeight(34);
+                    studentImage.setFitWidth(34);
                     expertStudents.getChildren().add(studentImage);
                 }
                     break;
@@ -390,8 +407,8 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 OneMoreStudentCard barbarian = (OneMoreStudentCard) getCharacter(expertDeck);
                 for (Student student : barbarian.getStudents()) {
                     GuiStudent studentImage = addGuiStudent(student);
-                    studentImage.setFitHeight(68);
-                    studentImage.setFitWidth(68);
+                    studentImage.setFitHeight(34);
+                    studentImage.setFitWidth(34);
                     expertStudents.getChildren().add(studentImage);
                 }
                     break;
