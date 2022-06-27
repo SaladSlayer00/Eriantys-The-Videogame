@@ -1,4 +1,3 @@
-//serve n try catch dove c'è la no more students exception
 
 
 package it.polimi.ingsw.controller;
@@ -21,7 +20,13 @@ import java.util.*;
 import static it.polimi.ingsw.message.MessageType.PLAYERNUMBER_REPLY;
 import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 
-//il game controller può occuparsi delle azioni che riguardano l'azione sul gioco complessivo
+
+/**
+ * this class represents the action handler of the game, and is responsible for the management of
+ * the players' input, calls to the turn controller, setup and endgame
+ */
+
+
 public class GameController implements Serializable {
     private InputController inputController;
     private transient Map<String, VirtualView> virtualViewMap;
@@ -35,10 +40,18 @@ public class GameController implements Serializable {
     public static int moves;
 
 
+    /**
+     * constructor calls the method to setup parameters
+     */
+
     public GameController(){
         initGameController();
     }
 
+
+    /**
+     * initialization method to setup base game parameters
+     */
 
     public void initGameController() {
         this.gameFactory = new GameFactory();
@@ -47,6 +60,7 @@ public class GameController implements Serializable {
         setGameState(GameState.SET_MODE);
 
     }
+
 
     public modeEnum getGameMode() {
         return gameMode;
@@ -59,6 +73,21 @@ public class GameController implements Serializable {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
+
+
+    /**
+     * state machine to call the right method based on the state te game's in
+     *
+     * @param receivedMessage the message sent by the player
+     * @throws invalidNumberException forbidden input number
+     * @throws noMoreStudentsException empty sack
+     * @throws fullTowersException too manytowers on dashboard
+     * @throws noStudentException no students in sack
+     * @throws noTowerException no towers on dashboard
+     * @throws maxSizeException max size reached for players
+     * @throws emptyDecktException player's deck is empty
+     */
+
 
     public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
 
@@ -86,6 +115,13 @@ public class GameController implements Serializable {
         }
     }
 
+
+    /**
+     * state of the game in which the parameter for the game mode is initialized
+     *
+     * @param receivedMessage it's a GAMEMODE_REPLY that contains the selected gameMode
+     */
+
     private void setModeState(Message receivedMessage){
          if (receivedMessage.getMessageType() == GAMEMODE_REPLY) {
             if(inputController.verifyReceivedData(receivedMessage)){
@@ -100,6 +136,13 @@ public class GameController implements Serializable {
          }
 
     }
+
+    /**
+     * state of the game in which the parameter for the players number is initialized
+     *
+     * @param receivedMessage a PLAYERNUMBER_REPLY that contains the selected player number
+     * @throws invalidNumberException if the number of players is not allowed
+     */
 
     private void loginState(Message receivedMessage) throws invalidNumberException {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
@@ -127,7 +170,16 @@ public class GameController implements Serializable {
     }
 
 
-    //login handler sets the state to INIT
+    /**
+     * method that handles the connection of a new client, adds a player to the virtualView list
+     * and sets the saved matches
+     * @param nickname nickname of the player
+     * @param ID player id
+     * @param virtualView virtual view of the player
+     * @throws noMoreStudentsException if there's no more students in the sack
+     */
+
+
     public void loginHandler(String nickname, int ID, VirtualView virtualView) throws noMoreStudentsException {
 
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
@@ -135,7 +187,7 @@ public class GameController implements Serializable {
             virtualView.showLoginResult(true, true, "server");
             virtualView.askGameMode(nickname, modeEnum.availableGameModes());
 
-        } else if (game.getNumCurrentActivePlayers() < game.getChosenPlayerNumber() ) {
+        } else if (game.getActives() < game.getChosenPlayerNumber() ) {
             if(virtualViewMap.get(nickname)!=null){
                 Server.LOGGER.info("Player present");
                 turnController.getNicknameQueue().add(nickname);
@@ -152,7 +204,7 @@ public class GameController implements Serializable {
 
             if (game.getNumCurrentActivePlayers() == game.getChosenPlayerNumber()) { // If all players logged
 
-                // check saved matches.
+
                 StorageData storageData = new StorageData();
                 GameController savedGameController = storageData.restore();
                 if (savedGameController != null &&
@@ -170,6 +222,10 @@ public class GameController implements Serializable {
         }
     }
 
+    /**
+     * broadcasts restore messages when a saved game is found
+     */
+
     private void broadcastRestoreMessages() {
         for (VirtualView vv : virtualViewMap.values()) {
             ArrayList<Dashboard> dashboards = new ArrayList<Dashboard>();
@@ -185,6 +241,8 @@ public class GameController implements Serializable {
         }
     }
 
+
+    //TODO rimuovi
     private void broadcastUpdateMessages() {
         for(VirtualView vv: virtualViewMap.values()) {
 
@@ -200,7 +258,10 @@ public class GameController implements Serializable {
 
     }
 
-
+    /**
+     * method to initialize the game when the number of players is reached,
+     * calls the method to ask the first player for their deck
+     */
 
     private void initGame() {
         setGameState(GameState.INIT);
@@ -213,6 +274,15 @@ public class GameController implements Serializable {
         virtualView.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
     }
 
+
+    /**
+     * switch on message type for the first phase of the game so that the right method's called
+     * @param receivedMessage the message received form client
+     * @param virtualView the client's virtual view
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the dashboard's full
+     * @throws maxSizeException if the max size's reached
+     */
 
     private void initState(Message receivedMessage, VirtualView virtualView) throws noMoreStudentsException, fullTowersException, maxSizeException {
         switch (receivedMessage.getMessageType()) {
@@ -238,16 +308,19 @@ public class GameController implements Serializable {
         }
     }
 
+    /**
+     * sets the deck for the player that sent the message, calls to the next one or to the
+     * next parameter
+     * @param receivedMessage the message received from the player
+     */
 
     private void deckHandler(DeckMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if (Mage.notChosen().size()>4-game.getChosenPlayerNumber()+1){
-            //4-game.getChosenPlayerNumber()
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
             virtualView.showGenericMessage("You chose your deck. Please wait for the other players to pick!");
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             askDeckToNextPlayer();
         }
         else if(Mage.notChosen().size()==1){
@@ -260,30 +333,41 @@ public class GameController implements Serializable {
             player.setDeck(receivedMessage.getMage());
             Mage.choose(receivedMessage.getMage());
             virtualView.showGenericMessage("You chose your deck");
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             virtualView.showGenericMessage("It's your turn now. Please pick your team.");
             virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
         }
 
     }
 
+    /**
+     * sends a deck request to the next client
+     */
+
     private void askDeckToNextPlayer() {
         turnController.next();
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his deck...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.showGenericMessage("It's your turn. Please pick your deck.");
         virtualView.askInitDeck(turnController.getActivePlayer(),Mage.notChosen());
     }
 
+    /**
+     * asks the tower to the next player
+     */
+
     private void askTowerToNextPlayer(){
 
         turnController.next();
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing his team...", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.showGenericMessage("It's your turn. Please pick your team.");
         virtualView.askInitType(turnController.getActivePlayer(),Type.notChosen());
 
     }
+
+    /**
+     * sets the tower to the player that called the method, asks to start the game when
+     * everyone's set
+     * @param receivedMessage the message received from the player
+     */
 
     private void towerHandler(TowerMessage receivedMessage) {
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
@@ -292,41 +376,47 @@ public class GameController implements Serializable {
             player.getDashboard().setTeam(receivedMessage.getType());
             Type.choose(receivedMessage.getType());
             virtualView.showGenericMessage("You chose your team. Please wait for the other players to pick!");
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their team.", turnController.getActivePlayer());
             askTowerToNextPlayer();
 
         }
-        //supporta solo per 2-3
         else{
             virtualView.showGenericMessage("Your towers call you! You're in the " + Type.notChosen().get(0) + " team!");
             player.getDashboard().setTeam(Type.notChosen().get(0));
             broadcastGenericMessage("All decks and teams are set! The mode of the game is " + gameMode +
                     " and the number of players is "+ this.game.getChosenPlayerNumber() + ".");
             virtualView.showGenericMessage("Are you sure you want to start the game with these settings?");
-            //yes or no
             virtualView.askStart(turnController.getActivePlayer(), "START");
         }
 
     }
 
+    /**
+     * asks the player if they're ready to start the game
+     * @param receivedMessage the message received from the player
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the towers are full
+     * @throws maxSizeException if max size's reached
+     */
+
     private void startHandler(StartMessage receivedMessage) throws noMoreStudentsException, fullTowersException, maxSizeException {
-            //turnController.next();
             game.initializeGameboard();
             game.initializeDashboards();
             broadcastGenericMessage("Students in hall: " + game.getPlayerByNickname(receivedMessage.getNickname()).getDashboard().getHall().size());
             startGame();
-
-//        else {
-//            VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
-//            vv.askStart(turnController.getActivePlayer(), "START");
-//
-//        }
 
     }
 
     public void setGameMode(modeEnum gameMode) {
         this.gameMode = gameMode;
     }
+
+
+    /**
+     * method that starts the game initializing the expert mode (if present), updating the gameboard
+     * and notifying the players
+     * @throws noMoreStudentsException if there's no more students in the sack
+     */
+
 
     private void startGame() throws noMoreStudentsException {
         setGameState(GameState.IN_GAME);
@@ -341,6 +431,19 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * state switching over the two game phases
+     * @param receivedMessage the message received from the client
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws noStudentException if no students match the selected color
+     * @throws noTowerException if there's no tower on the dashboard
+     * @throws maxSizeException if max size's reached
+     * @throws noTowersException if there are no towers left
+     * @throws emptyDecktException if the deck's empty
+     * @throws fullTowersException if there are all towers on the dashboard
+     * @throws invalidNumberException if the chosen number is invalid
+     */
+
     private void inGameState(Message receivedMessage) throws noMoreStudentsException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException, fullTowersException, invalidNumberException {
         switch (turnController.getMainPhase()){
             case PLANNING:
@@ -352,6 +455,15 @@ public class GameController implements Serializable {
 
         }
     }
+
+    /**
+     * state switching over the different planning phase sections based on the message received
+     * from client
+     * @param receivedMessage the message received from the client
+     * @throws noMoreStudentsException if there are no more students in the sack
+     * @throws emptyDecktException if the player'sdeck is empty
+     */
+
 
     private void planningState(Message receivedMessage) throws noMoreStudentsException, emptyDecktException {
         switch(receivedMessage.getMessageType()){
@@ -368,18 +480,27 @@ public class GameController implements Serializable {
         }
     }
 
-//gli handler della azione richiamano il turnController
+    /**
+     * state switching over the different action phase sections based on the message received
+     * from client
+     * @param receivedMessage the message received from client
+     * @throws noTowerException if there's no tower on island
+     * @throws noStudentException if there's no students matching
+     * @throws maxSizeException if max size's reached
+     * @throws noTowersException if there are notowers left
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws emptyDecktException if the player's deck is empty
+     * @throws fullTowersException if the tower's number is full
+     * @throws invalidNumberException if the selected number is invalid
+     */
+
     private void actionState(Message receivedMessage) throws noTowerException, noStudentException, maxSizeException, noTowersException, noMoreStudentsException, emptyDecktException, fullTowersException, invalidNumberException {
         switch (receivedMessage.getMessageType()) {
             case MOVE_ON_ISLAND:
-                //if (inputController.verifyReceivedData(receivedMessage)) {
                     moveHandler((MoveMessage) receivedMessage);
-                //}
                 break;
             case MOVE_ON_BOARD:
-                //if (inputController.verifyReceivedData(receivedMessage)) {
                     moveHandler((MoveMessage) receivedMessage);
-                //}
                 break;
             case MOVE_MOTHER:
                 if (inputController.verifyReceivedData(receivedMessage)) {
@@ -427,38 +548,41 @@ public class GameController implements Serializable {
         }
     }
 
-    //la prima volta è richiamato nello startTurn, questo è quando arriva l'altro messaggio
+    /**
+     * method that initializes the cloud selected by the player and asks for another one
+     * or calls the method to initialize drawing phase
+     * @param receivedMessage the message received from the client
+     * @throws noMoreStudentsException if there's no more students in the sack
+     */
     private void pickCloudHandler(PickCloudMessage receivedMessage) throws noMoreStudentsException {
-        //Player player = game.getPlayerByNickname(receivedMessage.getNickname());
-        //quello che manda deve essere activeplayer dove lo controlla??
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        turnController.cloudInitializer(receivedMessage.getCloudIndex());//metodo per prendere l'indice cloud nel messaggio;
+        turnController.cloudInitializer(receivedMessage.getCloudIndex());
         game.updateGameboard();
         if(game.getNoMoreStudents()){
             broadcastGenericMessage("There are no more students in the sack! The game's over.");
             draw();
         }
-        //sarà da scrivere il messaggio col giusto formato
         if(game.getEmptyClouds().size() >= 1){
             virtualView.showGenericMessage("Please pick the cloud you want to setup. ");
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is picking the clouds.", turnController.getActivePlayer());
-            //non è sempre lo stesso player ad inizzializzare ?
-            //turnController.next();
             turnController.pickCloud();
-
         }
 
         else if (game.getEmptyClouds().size() == 0) {
-            virtualView.showGenericMessage("You chose every cloud! Get ready to choose your assistant");
             broadcastGenericMessage("All clouds are set! Ready to initiate drawing phase!");
             turnController.resetChosen();
             turnController.drawAssistant();
 
         }
 
-
-
     }
+
+    /**
+     * method that sets the assistant selected from the player and asks the next one or initiates
+     * the action with a call to turnController, notifies the game's observers
+     * @param receivedMessage the message received from client
+     * @throws emptyDecktException if the deck's empty
+     */
+
     private void drawAssistantHandler(AssistantMessage receivedMessage) throws emptyDecktException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
@@ -469,21 +593,17 @@ public class GameController implements Serializable {
         turnController.getChosen().add(card);
         virtualView.showGenericMessage("Assistant chosen: " + card.getNumOrder());
         if(player.getDeck().getNumCards()==0){
-            //broadcastDrawMessage();
             broadcastGenericMessage("Game finished! It's a draw!");
             draw();
         }
 
-        //check sulla carta uguale la facciamo nell'input controller
         if(turnController.getChosen().size() < game.getActives()){
-            virtualView.showGenericMessage("You chose your assistant. Please wait for the other players to pick!");
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             turnController.next();
             turnController.drawAssistant();
         }
         else{
             broadcastGenericMessage("All assistants are set! Please wait for the game to decide the turn order!");
-            //yes or no
             turnController.determineOrder();
             initiateAction();
         }
@@ -491,12 +611,29 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * sends a message to the views indicating the playing client and calls turnController
+     * method for moves
+     */
+
     public void initiateAction(){
-        broadcastGenericMessage(turnController.getNicknameQueue().get(0) + " " + turnController.getNicknameQueue().get(1));
         broadcastGenericMessage("Now playing "+ turnController.getActivePlayer());
         turnController.moveMaker();
     }
 
+    /**
+     * checks the move made from the player and calls the appropriate turnController methods,
+     * asks the player for next action
+     * @param moveMessage the message received from client
+     * @throws noStudentException if there's no selected student
+     * @throws maxSizeException if max size's reached
+     * @throws emptyDecktException if the player's deck is empty
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the tower's number is full
+     * @throws noTowerException if there's no tower on island
+     * @throws invalidNumberException if the selected number is invalid
+     * @throws noTowersException if there's no towers on dashboard
+     */
 
     public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException, emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their moves", turnController.getActivePlayer());
@@ -526,10 +663,15 @@ public class GameController implements Serializable {
             turnController.setMoved(0);
             game.updateGameboard();
         }
-        //game.updateGameboard();
     }
 
-    //bisogna fare un controllo su
+    /**
+     * method that handles the moves for mother nature selected by the player, including the
+     * winning scenario
+     * @param message the message received from client
+     * @throws noTowerException if there's no tower on island
+     * @throws noTowersException if there's no towers on the player's dashboard
+     */
     public void motherHandler(MoveMotherMessage message) throws noTowerException, noTowersException {
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         int result = turnController.moveMother(message.getMoves());
@@ -537,10 +679,8 @@ public class GameController implements Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
 
         if(result == 2){
-
             virtualView.showGenericMessage("You've placed the last tower! You're the winner");
             win();
-
         }
         else if(result == 1){
             turnController.islandMerger(game.getGameBoard().getIslands().get(game.getGameBoard().getMotherNature()));
@@ -561,11 +701,17 @@ public class GameController implements Serializable {
         }
         vv.showGenericMessage(text);
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
-        //passo le vuote poi la gestisco
         game.updateGameboard();
 
     }
 
+
+    /**
+     * method that handles the cloud choice from the player and transfers students from cloud
+     * to dashboard, starting a new turn or asking the next player for moves
+     * @param message the message received from client
+     * @throws noMoreStudentsException if there's no more students in sack
+     */
 
     public void getFromCloudHandler(PickCloudMessage message) throws noMoreStudentsException {
 
@@ -586,6 +732,11 @@ public class GameController implements Serializable {
 
     }
 
+    /**
+     * method that calls the turnController method for expert handling when an expert card is
+     * selected from player
+     * @param expertMessage the message received from client
+     */
 
     public void expertHandler(ExpertMessage expertMessage){
         VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
@@ -593,11 +744,18 @@ public class GameController implements Serializable {
         turnController.useExpertEffect(expertMessage.getCard());
     }
 
+    /**
+     * endgame method to broadcast winning messages
+     */
+
     public void win(){
         broadcastWinMessage(turnController.getActivePlayer());
         endGame();
     }
 
+    /**
+     * endgame method that determines the winning player and broadcasts winning messages
+     */
 
     public void draw(){
         int max = 0;
@@ -612,8 +770,13 @@ public class GameController implements Serializable {
         win();
     }
 
+    /**
+     * if expert mode is selected, this method initializes the list of expert cards and
+     * gives one coin to the players
+     */
+
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.TAVERNER);
+        ExpertDeck.choose(ExpertDeck.HERALD);
         ExpertDeck.choose(ExpertDeck.BARBARIAN);
         ExpertDeck.choose(ExpertDeck.BANKER);
         for(int i=0;i<0;i++) {
@@ -625,11 +788,11 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.TAVERNER);
+        game.getExperts().add(ExpertDeck.HERALD);
         game.getExperts().add(ExpertDeck.BARBARIAN);
         game.getExperts().add(ExpertDeck.BANKER);
 
-        turnController.getPrice().put(ExpertDeck.TAVERNER,0);
+        turnController.getPrice().put(ExpertDeck.HERALD,0);
         turnController.getPrice().put(ExpertDeck.BARBARIAN,0);
         turnController.getPrice().put(ExpertDeck.BANKER,0);
 
@@ -639,6 +802,10 @@ public class GameController implements Serializable {
         }
 
     }
+
+    /**
+     * endgame method that resets the game and the savefile for it
+     */
 
     public void endGame() {
         game.resetInstance();
@@ -652,9 +819,21 @@ public class GameController implements Serializable {
         return turnController;
     }
 
+    /**
+     * method that calls the inputController to check if the nickname's allowed
+     * @param nickname the nickname chosen by the player
+     * @param view the view for the player
+     * @return true if the nickname's allowed, false otherwise
+     */
     public boolean checkLoginNickname(String nickname, View view) {
         return inputController.checkLoginNickname(nickname, view);
     }
+
+    /**
+     * method that sends a message to every player in the game excluding one
+     * @param messageToNotify the message to send
+     * @param excludeNickname the nickname to exclude
+     */
 
     public void broadcastGenericMessage(String messageToNotify, String excludeNickname) {
         virtualViewMap.entrySet().stream()
@@ -663,25 +842,43 @@ public class GameController implements Serializable {
                 .forEach(vv -> vv.showGenericMessage(messageToNotify));
     }
 
+    /**
+     * variant of other method that sends the message to every player in game
+     * @param messageToNotify
+     */
     public void broadcastGenericMessage(String messageToNotify) {
         for (VirtualView vv : virtualViewMap.values()) {
             vv.showGenericMessage(messageToNotify);
         }
     }
 
+    /**
+     * method that removes a player's nickname when disconnecting, removes 1 from the player
+     * number
+     * @param nickname the nickname to remove from playing list
+     */
+
     public void removeNickname(String nickname){
         turnController.getNicknameQueue().remove(nickname);
         game.setActives(-1);
     }
 
-    //METODI VV
+    /**
+     * method that removes a virtualView when disconnecting
+     * @param nickname the nickname of the player to remove
+     * @param notifyEnabled boolean to notify observers
+     */
     public void removeVirtualView(String nickname, boolean notifyEnabled) {
         VirtualView vv = virtualViewMap.remove(nickname);
-        //non mettiamo observer sul game ma sulla gameboard e sul player e sul cloud.....
-        //game.removeObserver(vv);
         game.getGameBoard().removeObserver(vv);
         game.removePlayerByNickname(nickname, notifyEnabled);
     }
+
+    /**
+     * method that adds a player's virtualView to the game as an observer
+     * @param nickname the player's nickname
+     * @param virtualView the player's virtualView
+     */
 
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
@@ -695,16 +892,32 @@ public class GameController implements Serializable {
         return virtualViewMap;
     }
 
+    /**
+     * broadcast of disconnection message for every player
+     * @param nicknameDisconnected the nickname of the disconnected player
+     * @param text the text of the message
+     */
+
     public void broadcastDisconnectionMessage(String nicknameDisconnected, String text) {
         for (VirtualView vv : virtualViewMap.values()) {
             vv.showDisconnectionMessage(nicknameDisconnected, text);
         }
     }
+
+    /**
+     * broadcast of win message that shpws the name of the player
+     * @param winningPlayer
+     */
     private void broadcastWinMessage(String winningPlayer) {
         for (VirtualView vv : virtualViewMap.values()) {
             vv.showWinMessage(winningPlayer);
         }
     }
+
+    /**
+     * method that restores controllers after a server's disconnection when a saved game is found
+     * @param savedGameController the saved game controller
+     */
 
     private void restoreControllers(GameController savedGameController) {
         Gameboard restoredBoard = savedGameController.game.getGameBoard();
@@ -729,5 +942,4 @@ public class GameController implements Serializable {
     }
 
     public GameState getGameState() {return this.gameState;}
-//TODO aggiungere di mandare aggiornamento all'altro player prima di expert card
 }

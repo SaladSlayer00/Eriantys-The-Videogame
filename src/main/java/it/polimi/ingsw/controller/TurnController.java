@@ -17,11 +17,13 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 
-//si occupa della fase iniziale per settare l'ordine e richiama le azioni per la
-//fase azione
+/**
+ * class that handles every mechanic of the game's turn, including calls to the views
+ * it returns and takes values from the gameController
+ */
 
 public class TurnController implements Serializable {
-    private static final long serialVersionUID = -5987205913389392005L; //non so che cazzo è
+    private static final long serialVersionUID = -5987205913389392005L;
     private  Mode game;
     private List<String> nicknameQueue;
     private String activePlayer;
@@ -35,11 +37,17 @@ public class TurnController implements Serializable {
     private List<Color> banned = new ArrayList<>();
     private Map<ExpertDeck, Integer> price = new HashMap<>();
 
+
+    /**
+     * class constructor
+     * @param virtualViewMap map of virtual views for the players
+     * @param gameController the gameController
+     * @param game the game instance
+     */
     public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Mode game) {
         this.game = game;
         this.nicknameQueue = new ArrayList<>(game.getPlayersNicknames());
-
-        this.activePlayer = nicknameQueue.get(0); // set first active player
+        this.activePlayer = nicknameQueue.get(0);
         this.virtualViewMap = virtualViewMap;
         this.gameController = gameController;
         this.mainPhase = MainPhase.PLANNING;
@@ -49,16 +57,13 @@ public class TurnController implements Serializable {
         return activePlayer;
     }
 
-    /**
-     * Set the active player.
-     *
-     * @param activePlayer the active Player to be set.
-     */
     public void setActivePlayer(String activePlayer) {
         this.activePlayer = activePlayer;
     }
 
-
+    /**
+     * resets the chosen assistants for a new turn
+     */
     public void resetChosen(){
         chosen = new ArrayList<Assistant>();
     }
@@ -75,10 +80,8 @@ public class TurnController implements Serializable {
         this.moved = moved;
     }
 
-
-    //TODO implementare correttamente lo show match info
+    //TODO
     public void broadcastMatchInfo() {
-
         for (VirtualView vv : virtualViewMap.values()) {
             vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentActivePlayers());
         }
@@ -86,9 +89,8 @@ public class TurnController implements Serializable {
 
 
     /**
-     * Set next active player.
+     * sets next active player.
      */
-    //TODO rimuovere solo il nickname dalla lista game
     public void next() {
         int currentActive = nicknameQueue.indexOf(activePlayer);
         if (currentActive + 1 < game.getActives()) {
@@ -105,9 +107,6 @@ public class TurnController implements Serializable {
         this.mainPhase = turnMainPhase;
     }
 
-    /**
-     * @return the current Phase Type.
-     */
     public MainPhase getMainPhase() {
         return mainPhase;
     }
@@ -116,13 +115,15 @@ public class TurnController implements Serializable {
         this.phaseType = turnPhaseType;
     }
 
-
-    /**
-     * @return the current Phase Type.
-     */
     public PhaseType getPhaseType() {
         return phaseType;
     }
+
+    /**
+     * initializes a new turn for the game, removing the expert cards effects and saving the game on
+     * storage files
+     * @throws noMoreStudentsException if there's no more students left in sack
+     */
 
     public void newTurn() throws noMoreStudentsException {
         setActivePlayer(nicknameQueue.get(0));
@@ -134,7 +135,6 @@ public class TurnController implements Serializable {
             for(Character c : toReset){
                 c.removeEffect();
             }
-            //toReset=new ArrayList<>();
         }
 
         setMainPhase(MainPhase.PLANNING);
@@ -146,10 +146,14 @@ public class TurnController implements Serializable {
 
 
         pickCloud();
-        //drawAssistant();
     }
 
-    //quelle di turno le rimuove qua, quelle di metodo le devo rimuovere io
+    /**
+     * method to show message to the virtualViews
+     * @param messageToNotify the message to send
+     * @param excludeNickname the nickname of the player to exclude
+     */
+
     public void turnControllerNotify(String messageToNotify, String excludeNickname) {
         virtualViewMap.values().forEach(vv -> vv.showMatchInfo(game.getChosenPlayerNumber(), game.getNumCurrentPlayers()));
         virtualViewMap.entrySet().stream()
@@ -158,19 +162,23 @@ public class TurnController implements Serializable {
                 .forEach(vv -> vv.showGenericMessage(messageToNotify));
     }
 
+    /**
+     * metod that asks the views for cloud input
+     */
 
-
-    //il player SCEGLIE LE CAZZO DI NUVOLE era pickpositions mi pare
-    //i controlli sul valore valido penso li farà inputController...???
     public void pickCloud(){
-        //lista che si passava come parametro per fare scegliere il player
         ArrayList<Cloud> cloudList = game.getEmptyClouds();
         VirtualView virtualView = virtualViewMap.get(activePlayer);
 
-        virtualView.askCloud(activePlayer,cloudList); //da chiedere sugli indici spacchettando?? non so sto metodo che fa
-        //manderà un messaggio al player con la lista di disponibili booh poi vedremo
+        virtualView.askCloud(activePlayer,cloudList);
     }
 
+
+    /**
+     * method that puts students on a cloud
+     * @param cloudIndex the selected cloud's index
+     * @throws noMoreStudentsException if there's no more students in the sack
+     */
     public void cloudInitializer(int cloudIndex) throws noMoreStudentsException {
         Cloud cloud = game.getGameBoard().getClouds().get(cloudIndex);
         Sack sack = game.getGameBoard().getSack();
@@ -184,54 +192,30 @@ public class TurnController implements Serializable {
 
         for(int i = 0; i < var; i++){
            Student s = sack.drawStudent();
-           for(VirtualView virtualView: virtualViewMap.values())
-               virtualView.showGenericMessage(s.getColor() +" Student on cloud n° "+ cloudIndex);
+           //for(VirtualView virtualView: virtualViewMap.values())
+               //virtualView.showGenericMessage(s.getColor() +" Student on cloud n° "+ cloudIndex);
             if(s == null){
-                game.setNoMoreStudents(true);
-                break;
+                throw new noMoreStudentsException();
             }
             cloud.addStudent(s);
         }
 
-    }
-    //passa quelle da non mettere
+    }//TODO catch sulle eccezioni
+
+    /**
+     * method that asks the virtualView for an assistant to draw
+     */
     public void drawAssistant(){
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Please choose which card to draw!");
-        //lista che si passava come parametro per fare scegliere il player
         vv.askAssistant(activePlayer,chosen);
     }
 
+    /**
+     * method that determines the order for the game's turn, switches phase to action
+     */
+
     public void determineOrder(){
-//        Vector<Integer> order = new Vector<Integer>();
-//        int i = 0;
-//        for(Assistant a : chosen){
-//            order.set(i, a.getNumOrder());
-//            i++;
-//        }
-//        Collections.sort(order);
-//        for(Player p : game.getActivePlayers()){
-//            for(i=0;i< game.getNumCurrentActivePlayers(); i++){
-//                if(p.getCardChosen().getNumOrder()==order.get(i)){
-//                    this.nicknameQueue.set(i, p.getName());
-//                }
-//            }
-//        }
-
-        /*
-        for(Player p : game.getPlayers()) {
-            if (chosen.isEmpty()) {
-                nicknameQueue.add(p.getName());
-            } else {
-
-                for (int i = 0; i < chosen.size(); i++) {
-                    if (p.getCardChosen().getNumOrder() > game.getPlayerByNickname(nicknameQueue.get(i)).getCardChosen().getNumOrder()) {
-                        nicknameQueue.add(i, p.getName());
-                    }
-                }
-            }
-        }
-         */
         if(chosen.isEmpty()){
             for(Player p : game.getPlayers()) {
                 nicknameQueue.add((p.getName()));}
@@ -246,30 +230,39 @@ public class TurnController implements Serializable {
             }
         }
 
-        for(VirtualView virtualView : virtualViewMap.values()){
-            virtualView.showGenericMessage("Order : ");
-            for(String name : nicknameQueue){
-                virtualView.showGenericMessage("-> " + nicknameQueue.size());
-                virtualView.showGenericMessage("-> " + name);
-            }
-        }
         setActivePlayer(nicknameQueue.get(0));
         this.resetChosen();
         mainPhase = MainPhase.ACTION;
 
     }
 
+    /**
+     * method that asks the virtualView for moves
+     */
+
     public void moveMaker(){
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("You have moved "+ moved + " students!");
         vv.showGenericMessage("Please choose a student and where do you want to move it!");
-        //lista che si passava come parametro per fare scegliere il player
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
+    /**
+     * method that handles the choice to move student on row
+     * @param color the color to move
+     * @param row the row to move it on
+     * @throws noStudentException if there's no matching student
+     * @throws maxSizeException if the row's full
+     * @throws emptyDecktException if player's deck is empty
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the towers are full
+     * @throws noTowerException if there's no tower on the island
+     * @throws invalidNumberException if the number of moves's invalid
+     * @throws noTowersException if there's no towers on the dashboard
+     */
+
     public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException,  emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         Player player = game.getPlayerByNickname(getActivePlayer());
-        VirtualView vv = virtualViewMap.get(player);
         player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
         checkProfessors(color);
         if(gameController.getGameMode().equals(modeEnum.EXPERT)){
@@ -281,11 +274,26 @@ public class TurnController implements Serializable {
         moved++;
     }
 
-    public void moveOnIsland(Color color, int index) throws noStudentException, noTowerException {
+
+    /**
+     * method that hndles the choice to move the student on island
+     * @param color the student to move
+     * @param index the index of the island
+     * @throws noStudentException if there's no matching student
+     */
+    public void moveOnIsland(Color color, int index) throws noStudentException {
         Player player = game.getPlayerByNickname(getActivePlayer());
         game.getGameBoard().placeStudent(color, player.getDashboard().takeStudent(color), index);
         moved++;
     }
+
+    /**
+     * method that handles the moves of motherNature on the gameboard
+     * @param moves
+     * @return
+     * @throws noTowerException
+     * @throws noTowersException
+     */
 
     public int moveMother(int moves) throws noTowerException, noTowersException {
         int extra = 0;
