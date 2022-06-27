@@ -69,6 +69,8 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         confirmButton.setDisable(true);
         if(availableClouds.size()<3){
             cloudOne.setDisable(true);
+        }else{
+            cloudOne.setDisable(false);
         }
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
@@ -79,13 +81,13 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
     }
     private void createListOfClouds(List<Cloud> availableClouds) {
-        int numOfClouds;
-        if (availableClouds.size() == 9) {
-            numOfClouds = 3;
+        int numOfStudents;
+        if (availableClouds.size() == 2) {
+            numOfStudents = 3;
         } else {
-            numOfClouds = 4;
+            numOfStudents = 4;
         }
-        for (int i = 0; i < numOfClouds; i++) {
+        for (int i = 0; i < numOfStudents; i++) {
             studentsImagesZero.add((ImageView) anchorPaneCloudZero.getChildren().get(i));
             studentsImagesTwo.add((ImageView) anchorPaneCloudTwo.getChildren().get(i));
             studentsImagesOne.add((ImageView) anchorPaneCloudOne.getChildren().get(i));
@@ -93,14 +95,14 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     }
 
     private void setListOfClouds(List<Cloud> availableClouds){
-        int numOfClouds;
+        int numOfStudents;
         if (availableClouds.size() == 2) {
-            numOfClouds = 3;
+            numOfStudents = 3;
         } else {
-            numOfClouds = 4;
+            numOfStudents = 4;
         }
         if(availableClouds.get(0).getStudents().size()!=0){
-                for(int i = 0; i<numOfClouds;i++){
+                for(int i = 0; i< numOfStudents; i++){
                 String color = availableClouds.get(0).getStudents().get(i).getColor().toString();
                 Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_"+color+".png"));
                 studentsImagesZero.get(i).setImage(image);
@@ -108,15 +110,15 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
         }
         if(availableClouds.get(1).getStudents().size()!=0) {
-            for (int i = 0; i < numOfClouds; i++) {
+            for (int i = 0; i < numOfStudents; i++) {
                 String color = availableClouds.get(1).getStudents().get(i).getColor().toString();
                 Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
                 studentsImagesTwo.get(i).setImage(image);
             }
         }
 
-        if(numOfClouds==4 &&  availableClouds.get(2).getStudents().size()!=0){
-            for(int i =0; i<numOfClouds;i++) {
+        if(numOfStudents ==4 &&  availableClouds.get(2).getStudents().size()!=0){
+            for(int i = 0; i< numOfStudents; i++) {
             String color = availableClouds.get(2).getStudents().get(i).getColor().toString();
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
             studentsImagesOne.get(i).setImage(image);
@@ -148,17 +150,15 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     private void onCloudOneClicked(List<Cloud> availableClouds){
         chosenCloud = availableClouds.get(2).getIndex();
         cloudOne.setDisable(true);
-        cloudTwo.setDisable(true);
+        cloudTwo.setDisable(false);
         cloudZero.setDisable(false);
         confirmButton.setDisable(false);
     }
     private void OnConfirmButtonClicked(){
         if(typeOfChoice == "firstPick"){
             new Thread(() -> notifyObserver(obs -> obs.OnUpdatePickCloud(chosenCloud))).start();
-            Gui.setCloudPhase();
         }else if(typeOfChoice == "get"){
             new Thread(() -> notifyObserver(obs -> obs.OnUpdateGetFromCloud(chosenCloud))).start();
-            Gui.setCloudPhase();
         }
         actualStage.close();
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.scenes;
 
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
+import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 
 public class LoginSceneController extends ViewObservable implements BasicSceneController {
 
+    private String nicknameChosen;
+    private Gui gui;
     @FXML
     private TextField nickname;
 
@@ -21,6 +24,10 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
 
     @FXML
     private Button backToMainButton;
+
+    public LoginSceneController(Gui gui){
+        this.gui = gui;
+    }
 
     @FXML
     public void initialize(){
@@ -32,7 +39,8 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
     private void onJoinTheMatchButtonClicked(Event mouseEvent){
 
         joinTheMatchButton.setDisable(true);
-        String nicknameChosen = nickname.getText();
+        nicknameChosen = nickname.getText();
+        gui.setPlayerNickname(nicknameChosen);
         new Thread(() -> notifyObserver(observers -> observers.onUpdateNickname(nicknameChosen))).start();
     }
 
@@ -45,4 +53,5 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
         new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
         SceneController.changeRootPane(observers, mouseEvent, "menu_scene.fxml");
     }
+
 }

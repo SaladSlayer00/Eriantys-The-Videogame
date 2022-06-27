@@ -18,20 +18,22 @@ public class Gui extends ViewObservable implements View {
 
     private static final String ERROR_STR = "ERRROR";
     private static final String MENU_STR_FXML = "menu_scene.fxml";
-    private static String playerName;
     //helper
     private static List<Cloud> clouds;
-    private static String cloudChoice = "firstPick";
-    private static int atomicExpert  = 0 ;
     //update scene
     private GameBoardSceneController gameBoardSceneController;
     private Gameboard updateGameBoard;
     private List<Dashboard> updateDashBoards;
     private List<Player> updatePlayers;
+    private  String playerName;
+    private  int atomicExpert  = 0 ;
+    private String cloudChoice = "firstPick";
 
     @Override
     public void askNickname(){
-        Platform.runLater(() -> SceneController.changeRootPane(observers, "login_scene.fxml"));
+        LoginSceneController loginSceneController = new LoginSceneController(this);
+        loginSceneController.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeRootPane(loginSceneController, "login_scene.fxml"));
     }
 
     @Override
@@ -139,8 +141,7 @@ public class Gui extends ViewObservable implements View {
                 ex.printStackTrace();
             }
         });
-        if(gameBoardSceneController.getReducedGameBoard().getEmptyClouds().size()==2){
-            cloudChoice = "firstPick";
+        if(cloudChoice.equals("firstPick")){
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
                 try {
@@ -149,6 +150,7 @@ public class Gui extends ViewObservable implements View {
                     e.printStackTrace();
                 }
             });
+            cloudChoice = "get";
         }else if(cloudChoice.equals("get")){
             Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
             Platform.runLater(()-> {
@@ -158,6 +160,7 @@ public class Gui extends ViewObservable implements View {
                     e.printStackTrace();
                 }
             });
+            cloudChoice = "firstPock";
         }
 
         }
@@ -416,12 +419,8 @@ public class Gui extends ViewObservable implements View {
         return gBSC;
     }
 
-    public static void setCloudPhase(){
-        if(cloudChoice.equals("get")){
-            cloudChoice = "firstPick";
-        }else if(cloudChoice.equals("firstPick")){
-            cloudChoice = "get";
-        }
+    public void setPlayerNickname(String playerNickname){
+        playerName = playerNickname;
     }
 
     private void askGameBoardMoves(){
@@ -438,5 +437,6 @@ public class Gui extends ViewObservable implements View {
             }
         });
     }
+
 
 }
