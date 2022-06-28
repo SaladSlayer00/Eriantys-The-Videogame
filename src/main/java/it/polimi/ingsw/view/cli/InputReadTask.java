@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Utility class to read the player's input from the terminal.
+ */
 public class InputReadTask implements Callable<String> {
     private final BufferedReader br;
 
