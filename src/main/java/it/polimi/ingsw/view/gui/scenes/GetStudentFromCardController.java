@@ -28,6 +28,13 @@ import javafx.scene.layout.TilePane;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GetStudentFromCardController class to handle the scene that display
+ * the choice to get the paws that are on the various expert cards
+ * that have some paws on them
+ * this scene is displayed just in case of a match played on expert mode
+ * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
+ */
 public class GetStudentFromCardController extends ViewObservable implements BasicSceneController {
 
     private List<Dashboard> reducedDashboards;
@@ -95,6 +102,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     @FXML
     private Label islandIndex;
 
+    /**
+     * class constructor
+     * @param playerNickname is the nickname of the player that have to make the choice
+     * @param gBSC is the gameboardscenecontroller of the actual match
+     */
     public GetStudentFromCardController(String playerNickname,GameBoardSceneController gBSC) {
         currentDashboard = 0;
         currentIslandIndex = 0;
@@ -128,6 +140,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * this method initializes the class setting all the various parameter to display the scene
+     * on the player's screen in the proper way
+     */
     public void initialize() {
         updateDashBoard();
         updateIsland();
@@ -153,6 +169,12 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         currentIsland.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onIslandClicked);
     }
 
+    /**
+     * this method updates all the various elements of the gameboard when something happened
+     * (such a paw moved during a turn)
+     * this metod just calls more specific methods
+     * @throws noTowerException in case there are no more towers (end of the match)
+     */
     public void updateAll() throws noTowerException {
         updateDashBoard();
         updateExpertStudents();
@@ -160,6 +182,12 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     }
 
 
+    /**
+     * setter of the gameboard as it is during that moment in the match
+     * @param gameboard is the gameboard that has to be displayed
+     * @param dashboards is the list of dashboards that have to be displayed
+     * @param players is the list of the players that are playing the match
+     */
     public void setGameBoard(Gameboard gameboard, List<Dashboard> dashboards, List<Player> players) {
         reducedGameBoard = gameboard;
         reducedDashboards = dashboards;
@@ -167,10 +195,19 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         listOfPlayer = players;
 
     }
+
+    /**
+     * setter of the expert deck with the cards that are available during that match (which are three randomly chosen from the deck)
+     * @param selectedExpert is the deck chosen for the match
+     */
     public void setExpertDeck(ExpertDeck selectedExpert){
         expertDeck = selectedExpert;
     }
 
+    /**
+     * getter for the dashboard of the player that is playing the turn
+     * @return the dashboard of the active player
+     */
     public Dashboard getYourDashBoard() {
         for (Dashboard dashboard : reducedDashboards) {
             if (dashboard.getOwner().equals(playerNickname))
@@ -179,16 +216,27 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         return null;
     }
 
+    /**
+     * setter for the images of the expert deck
+     */
     public void setExpertImage(){
         Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" +expertDeck.getText()+".jpg"));
         chosenExpert.setImage(image);
 
     }
 
+    /**
+     * setter for the phase of the turn
+     * @param newPhase is the new phase that has to be set as the actual one
+     */
     public void setPhase(ExpertDeckPhaseType newPhase){
         phase = newPhase;
     }
 
+    /**
+     * this method allows the player to switch dashboards so to look at the dashboards of the other players
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onPreviousDashBoardButtonClicked(Event mouseEvent) {
         if (currentDashboard > 0) {
             currentDashboard--;
@@ -202,6 +250,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * this method allows the player to switch dashboards so to look at the dashboards of the other players
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onNextDashBoardButtonClicked(Event mouseEvent) {
         if (currentDashboard < reducedDashboards.size() - 1) {
             currentDashboard++;
@@ -216,6 +268,12 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * this method checks whether a dashboard can be disabled
+     * @param button is the button that has to be checked
+     * @param index is the index of the actual dashboard displayed
+     * @return a boolean variable that tells whether the button may be disabled
+     */
     private boolean couldItBeDisabledDashBoard(Button button, int index) {
         if (currentDashboard == index) {
             button.setDisable(true);
@@ -226,6 +284,12 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     }
 
 
+    /**
+     * this method checks whether a button can be disabled
+     * @param button is the button that has to be checked
+     * @param index is the index of the actual dashboard displayed
+     * @return a boolean variable that tells whether the button may be disabled
+     */
     private boolean couldItBeDisabled(Button button, int index){
         if(currentIslandIndex== index){
             button.setDisable(true);
@@ -235,6 +299,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         return false;
     }
 
+    /**
+     * this method allows the player to switch islands so to look at the various islands that can be chosen for
+     * applying the effect of the expert card they are playing
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onPreviousIslandButtonClicked(Event mouseEvent) {
         if(currentIslandIndex > 0){
             currentIslandIndex--;
@@ -244,7 +313,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         updateIsland();
     }
 
-    //handling the clicks on the button of the next mage
+    /**
+     * this method handles the clicks on the button of the next mage
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onNextIslandButtonClicked(Event mouseEvent) {
         if(currentIslandIndex < reducedGameBoard.getIslands().size() - 1){
             currentIslandIndex++;
@@ -254,6 +326,9 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         updateIsland();
     }
 
+    /**
+     * this method handles the update of the dashboard after something has happened
+     */
     private void updateDashBoard() {
         clearDashBoard();
         Dashboard selectedDashBoard = reducedDashBoard;
@@ -347,6 +422,9 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         checkOwnership(selectedDashBoard);
     }
 
+    /**
+     * this method handles the update of the islands after something has happened
+     */
     private void updateIsland()  {
         currentIsland.getChildren().clear();
         for (Color color : reducedGameBoard.getIslands().get(currentIslandIndex).getStudents().keySet()) {
@@ -382,6 +460,9 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         islandIndex.setText("   Island :" +currentIslandIndex);
     }
 
+    /**
+     * this method handles the update of the expert card used after a paw on it has been moved
+     */
     private void updateExpertStudents() {
         expertStudents.getChildren().clear();
         switch (expertDeck) {
@@ -415,7 +496,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 }
 }
 
-
+    /**
+     * this method add a gui student (the image) on the screen
+     * @param student is the student that has to be added
+     * @return the gui student (the image on the screen)
+     */
     private GuiStudent addGuiStudent(Student student) {
         Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString() + ".png"));
         GuiStudent studentImage = new GuiStudent(student);
@@ -433,6 +518,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         return null;
     }
 
+    /**
+     * this method check whom students own the dashboard that is displayed on the screen at the moment
+     * @param dashboard is the dashboard that is displayed
+     */
     private void checkOwnership(Dashboard dashboard) {
         setDisabledItems();
         if (!dashboard.getOwner().equals(playerNickname)) {
@@ -456,6 +545,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+
+    /**
+     * this method disabled the rows of a dashboard so that they cannot be modified by the player
+     */
     private void disabledRows(){
         blueRow.setDisable(true);
         greenRow.setDisable(true);
@@ -464,6 +557,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         pinkRow.setDisable(true);
     }
 
+    /**
+     * this method enables the various rows of a dashboard so that the player can interact with them
+     * during thier turn
+     */
     private void enabledRows(){
         blueRow.setDisable(false);
         greenRow.setDisable(false);
@@ -472,6 +569,9 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         pinkRow.setDisable(false);
     }
 
+    /**
+     * this method clears the dashboard removing the various items that were on it
+     */
     private void clearDashBoard(){
         reducedHall.getChildren().clear();
         towersSpot.getChildren().clear();
@@ -488,6 +588,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         blueProfessor.setImage(null);
     }
 
+    /**
+     * this method handles the clicks on a student's paw when the player clicks it during their turn
+     * @param event is the input given by the player's mouse
+     */
     private void onStudentClicked(MouseEvent event){
         Dashboard playerDashBoard = getYourDashBoard();
         Node clickedNode = event.getPickResult().getIntersectedNode();
@@ -503,6 +607,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
 
     }
+
+    /**
+     * this method handles the clicks on a student's paw on an expert card when the player clicks it
+     * @param event is the input given by the player's mouse
+     */
     private void onExpertStudentClicked(MouseEvent event){
         Node clickedNode = event.getPickResult().getIntersectedNode();
         if(clickedNode instanceof  GuiStudent) {
@@ -531,6 +640,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         return null;
     }
 
+    /**
+     * setter method for the question to ask the player
+     * this message is different from each card of the expert deck
+     */
     public void setQuestion(){
         if(expertDeck.equals(ExpertDeck.HERALD)){
             title.setText("Please choose the island to calculate influence on");
@@ -559,6 +672,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
     }
 
+    /**
+     * method that handles the clicks on the row for the green paws
+     * if the row is the right one the method works properly,
+     * else it shows a message to retry the operation in the right place
+     */
     private void onGreenRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.GREEN)&&expertDeck.equals(ExpertDeck.BARBARIAN))
         {
@@ -568,6 +686,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
     }
 
+    /**
+     * method that handles the clicks on the row for the red paws
+     * if the row is the right one the method works properly,
+     * else it shows a message to retry the operation in the right place
+     */
     private void onRedRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.RED)&&expertDeck.equals(ExpertDeck.BARBARIAN))
         {
@@ -578,6 +701,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * method that handles the clicks on the row for the yellow paws
+     *if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onYellowRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.YELLOW)&&expertDeck.equals(ExpertDeck.BARBARIAN))
         {
@@ -587,6 +715,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
     }
 
+    /**
+     * method that handles the clicks on the row for the pink paws
+     * if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onPinkRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.PINK)&&expertDeck.equals(ExpertDeck.BARBARIAN))
         {
@@ -597,6 +730,11 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * method that handles the clicks on the row for the blue paws
+     * if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onBlueRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.BLUE)&&expertDeck.equals(ExpertDeck.BARBARIAN))
         {
@@ -606,6 +744,12 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
 
     }
+
+
+    /**
+     * this method notifies the game controller of the various operation made on the dashboard's rows
+     * @param selectedRow is the row that has been selected during the turn
+     */
     private void notifyGameController(TilePane selectedRow){
         if(expertDeck.equals(ExpertDeck.BARBARIAN)){
             try{
@@ -651,6 +795,10 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * this method handles the clicks on an island of the gameboard when the player clicks it during their turn
+     * @param event is the input given by the player's mouse
+     */
     private void onIslandClicked(MouseEvent event){
         setDisabledItems();
         switch(expertDeck){
@@ -670,6 +818,9 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
 
     }
 
+    /**
+     * setter that disabled the possible operations on the gameboard so that the player cannot do them
+     */
    public void setDisabledItems(){
         if(phase.equals(ExpertDeckPhaseType.IDLE)){
             reducedHall.setDisable(true);

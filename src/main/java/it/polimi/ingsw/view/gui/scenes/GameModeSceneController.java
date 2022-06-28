@@ -14,8 +14,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
-/* here the first player logged chooses the gamemode
-*
+/**
+* GameModeSceneController class for the choice of the game mode (the first player logged has to make this choice)
+ * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GameModeSceneController extends ViewObservable implements BasicSceneController {
 
@@ -34,6 +35,10 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
     @FXML
     private ToggleGroup tG;
 
+    /**
+     * this method initializes the class setting all the various parameter to display the scene
+     * on the player's screen in the proper way
+     */
     @FXML
     public void initialize(){
         radioButtonEasyMode.setText("Easy Mode");
@@ -44,8 +49,11 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
     }
 
 
-    //this is to handle the event of clicking on the confirm button with the mouse
-    //parameter is the mouse click itself
+    /**
+     * this method is to handle the event of clicking on the button that confirm the choice
+     * of the mode with the mouse
+     * @param event is the input given by the player's mouse
+     */
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
@@ -61,8 +69,11 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
         }
     }
 
-    //this is to handle the event of clicking on the back to menu button with the mouse
-    //parameter is the mouse click itself
+    /**
+     * this method is to handle the event of clicking on the button that makes the player get back to
+     * the main menu with the mouse
+     * @param event is the input given by the player's mouse
+     */
     private void onBackToMainButtonClick(Event event){
         backToMainButton.setDisable(true);
         new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
