@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * represents a single instance of a player's dashbboard, contains
  * all the needed parameters and some methods to act on the hall and rows,
- * to set and remove towers and
+ * to set and remove towers
  */
 public class Dashboard extends Observable implements Serializable {
     //attributes of the class dashboard

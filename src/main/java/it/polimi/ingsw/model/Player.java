@@ -9,6 +9,12 @@ import it.polimi.ingsw.model.enums.Type;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.exceptions.*;
 
+/**
+ * single instance of a player, contains all the
+ * parameters needed for the game flow, mostly setters and getters
+ */
+
+
 public class Player implements Serializable {
     private static final long serialVersionUID = -3704504226997118508L;
     private int playerID;
@@ -30,6 +36,7 @@ public class Player implements Serializable {
     public void setDashboard(Dashboard playerDashboard){
         dashboard = playerDashboard;
     }
+
     public void setDeck(Mage mage){
         deck = new Deck(mage);
     }
@@ -66,7 +73,6 @@ public class Player implements Serializable {
         return group;
     }
 
-    //we assume that the card is chosen through the passage of the index of the card inside the deck
     public void setCard(Assistant card) {
         cardChosen = card;
     }
@@ -116,7 +122,6 @@ public class Player implements Serializable {
             return false;
     }
 
-    //no oggetti solo colori ????
     public ArrayList<Color> getProfessors() {
         return professors;
     }
