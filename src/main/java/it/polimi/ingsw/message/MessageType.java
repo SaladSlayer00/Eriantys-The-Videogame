@@ -1,5 +1,8 @@
 package it.polimi.ingsw.message;
 
+/**Enumeration with the different kinds of messages sent and received by the client and server
+ *
+ */
 public enum MessageType {
         LOGIN_REQUEST,
         LOGIN_REPLY,
@@ -10,16 +13,16 @@ public enum MessageType {
         LOBBY,
         INIT_DECK,
         ASK_DECK,
-        ASK_TEAM, //BOH
+        ASK_TEAM,
         INIT_TOWERS,
-        ASK_TOWER, //???
+        ASK_TOWER,
         INIT_GAMEBOARD,
         ISLAND_MESSAGE,
         PICK_CLOUD,
         SHOW_ASSISTANT,
-        PICKCLOUD_REQUEST, //???
+        PICKCLOUD_REQUEST,
         DRAW_ASSISTANT,
-        ASSISTANT_REQUEST, //???
+        ASSISTANT_REQUEST,
         MOVE,
         ASK_MOVE,
         MOVE_ON_ISLAND,

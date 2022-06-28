@@ -79,51 +79,107 @@ public interface ViewObserver {
     /**
      * Sends a message to the server with the move chosen by the user.
      *
-     * @param moves
-     * @param chosenAssistant
+     * @param moves number of moves
+     * @param chosenAssistant the assistant selected
      */
     void OnUpdateMoveMother(int moves ,Assistant chosenAssistant);
 
     /**
      * Sends a message to the server with the cloud chosen by the user.
      *
-     * @param index
+     * @param index index of cloud chosen
      */
     void OnUpdatePickCloud(int index);
 
     /**
      * Sends a message to the server with the cloud chosen by the user.
      *
-     * @param index
+     * @param index index from cloud chosen
      */
     void OnUpdateGetFromCloud(int index);
 
     /**
      * Handles a disconnection wanted by the user.
+     *
      * (e.g. a click on the back button into the GUI).
      */
     void onDisconnection();
 
+    /**
+     * Updates the answer of the player to the start of the game
+     *
+     * @param answer answer to be sent
+     */
     void OnStartAnswer(String answer);
 
+    /**
+     * Updates the expert to be sent to the server
+     *
+     * @param c expert card
+     */
     void OnUpdateExpert(ExpertDeck c);
 
+    /**
+     * Updates the effect for herald
+     *
+     * @param island index of island chosen
+     */
     void OnUpdateEffectHerald(int island);
 
+    /**
+     * Updates the effect for herbalist
+     *
+     * @param island index of island chosen
+     */
     void OnUpdateEffectHerbalist(int island);
 
+    /**
+     * Updates the effect for seller
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectSeller(Color c);
 
+    /**
+     * Updates the effect for banker
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectBanker(Color c);
 
+    /**
+     * Updates the effect for barbarian
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectBarbarian(Color c);
 
+    /**
+     * Updates the effect for musician
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectMusician(Color c);
 
+    /**
+     * Updates the effect for joker
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectJoker(Color c);
 
+    /**
+     * Updates the effect for taverner (color version)
+     *
+     * @param c color chosen
+     */
     void OnUpdateEffectTaverner(Color c);
 
+    /**
+     * Updates the effect for taverner (island version)
+     *
+     * @param index idex of island chosen
+     */
     void OnUpdateEffectTaverner(int index);
 
 }

@@ -23,7 +23,6 @@ public class Dashboard extends Observable implements Serializable {
     private final ArrayList<Row> rows = new ArrayList<>();
     private final ArrayList<Student> hall = new ArrayList<>();
     private Type team;
-    //private static final int NUM_ROWS = 5;
     private int hallDimension;
     private String owner;
 

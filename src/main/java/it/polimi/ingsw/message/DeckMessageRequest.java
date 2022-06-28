@@ -4,9 +4,10 @@ import it.polimi.ingsw.model.enums.Mage;
 
 import java.util.List;
 
-
+/**
+ * Class used to ask the player for the deck choice
+ */
 public class DeckMessageRequest extends Message{
-    //ID thing??
     private List<Mage> availableDecks;
 
     public DeckMessageRequest(String nickname, List<Mage> gameDecks){

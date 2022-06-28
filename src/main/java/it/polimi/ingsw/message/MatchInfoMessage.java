@@ -1,10 +1,11 @@
 package it.polimi.ingsw.message;
 
-
 import java.util.List;
 
+/**
+ * Class used to send match info update messages with the number of active and chosen players
+ */
 public class MatchInfoMessage extends Message{
-        //ID?
         private static final long serialVersionUID = 1L;
         private  List<String> activePlayers;
         private  String activePlayerNickname;

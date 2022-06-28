@@ -1,7 +1,8 @@
 package it.polimi.ingsw.message;
 
-import it.polimi.ingsw.model.enums.Mage;
-
+/**
+ * Class used to send the player's answer when asked to start the game
+ */
 public class StartMessage extends Message{
     private static final long serialVersionUID = -3704504226997118509L;
     private final String answer;

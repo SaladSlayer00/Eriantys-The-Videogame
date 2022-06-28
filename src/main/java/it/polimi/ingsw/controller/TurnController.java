@@ -87,7 +87,6 @@ public class TurnController implements Serializable {
         }
     }
 
-
     /**
      * sets next active player.
      */
@@ -115,10 +114,6 @@ public class TurnController implements Serializable {
         this.phaseType = turnPhaseType;
     }
 
-    public PhaseType getPhaseType() {
-        return phaseType;
-    }
-
     /**
      * initializes a new turn for the game, removing the expert cards effects and saving the game on
      * storage files
@@ -142,8 +137,6 @@ public class TurnController implements Serializable {
 
         StorageData storageData = new StorageData();
         storageData.store(gameController);
-
-
 
         pickCloud();
     }
@@ -192,8 +185,6 @@ public class TurnController implements Serializable {
 
         for(int i = 0; i < var; i++){
            Student s = sack.drawStudent();
-           //for(VirtualView virtualView: virtualViewMap.values())
-               //virtualView.showGenericMessage(s.getColor() +" Student on cloud n° "+ cloudIndex);
             if(s == null){
                 throw new noMoreStudentsException();
             }
@@ -243,7 +234,6 @@ public class TurnController implements Serializable {
     public void moveMaker(){
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("You have moved "+ moved + " students!");
-        vv.showGenericMessage("Please choose a student and where do you want to move it!");
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
@@ -261,10 +251,20 @@ public class TurnController implements Serializable {
      * @throws noTowersException if there's no towers on the dashboard
      */
 
-    public void moveOnBoard(Color color, Color row) throws noStudentException, maxSizeException,  emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
+    public void moveOnBoard(Color color, Color row) throws noStudentException,maxSizeException,  emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
         Player player = game.getPlayerByNickname(getActivePlayer());
-        player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
-        checkProfessors(color);
+        try {
+            player.getDashboard().addStudent(player.getDashboard().takeStudent(color));
+        } catch (maxSizeException e) {
+            moveMaker();
+            return;
+        }
+        try {
+            checkProfessors(color);
+        } catch (maxSizeException e) {
+            moveMaker();
+            return;
+        }
         if(gameController.getGameMode().equals(modeEnum.EXPERT)){
             if(player.getDashboard().getRow(row).getStudents().size()%3==0){
                 player.addCoin(1);
@@ -276,7 +276,7 @@ public class TurnController implements Serializable {
 
 
     /**
-     * method that hndles the choice to move the student on island
+     * method that handles the choice to move the student on island
      * @param color the student to move
      * @param index the index of the island
      * @throws noStudentException if there's no matching student
@@ -289,10 +289,10 @@ public class TurnController implements Serializable {
 
     /**
      * method that handles the moves of motherNature on the gameboard
-     * @param moves
-     * @return
-     * @throws noTowerException
-     * @throws noTowersException
+     * @param moves the number of moves selected by the player
+     * @return integer value to signal the different cases for the action's outcomes
+     * @throws noTowerException if there's no tower on the island
+     * @throws noTowersException if there's no towers on the dashboard
      */
 
     public int moveMother(int moves) throws noTowerException, noTowersException {
@@ -323,6 +323,15 @@ public class TurnController implements Serializable {
         }
         return checkInfluence(actual);
     }
+
+    /**
+     * method to check the influece a player has on the island, includes various effects for the
+     * expert cards
+     * @param actual index of active island
+     * @return integer value to symbolize the result of the operation
+     * @throws noTowerException if there's no tower on the island
+     * @throws noTowersException if there's no towers on the player's dashboard
+     */
 
     public int checkInfluence(int actual) throws noTowerException, noTowersException {
         Player player = game.getPlayerByNickname(activePlayer);
@@ -432,6 +441,19 @@ public class TurnController implements Serializable {
 
     }
 
+    /**
+     * method to check the position of the game professors and give them to the players
+     * @param color the color the influence is calculated for
+     * @throws emptyDecktException if there's no cards in the deck
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if there's too many towers
+     * @throws noStudentException if there's no student of the selected color
+     * @throws noTowerException if there's notower on island
+     * @throws invalidNumberException if thenumber is invalid
+     * @throws maxSizeException if the size of the row is too big
+     * @throws noTowersException if there's no towers on dashboard
+     */
+
     public void checkProfessors(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         Player chosenPlayer = gameController.getGame().getPlayerByNickname(activePlayer);
         boolean draw = false;
@@ -474,8 +496,10 @@ public class TurnController implements Serializable {
     }
 
 
-
-
+    /**
+     * method to check if the player's positioned their last tower
+     * @return integer value to notify the result of the operation
+     */
     public int towerChecker(){
         Player p = game.getPlayerByNickname(activePlayer);
         if(p.getDashboard().getNumTowers()==0){
@@ -484,12 +508,21 @@ public class TurnController implements Serializable {
         return 1;
     }
 
+
+    /**
+     * method that calls the islandMerger of the gameboard
+     * @param active the index of the active island
+     * @throws noTowerException if there's no tower on the island
+     */
     public void islandMerger(Island active) throws noTowerException {
         game.getGameBoard().mergeIslands(active);
 
     }
 
-
+    /**
+     * method to get students from a cloud
+     * @param index the cloud selected by the player
+     */
 
     public void getFromCloud(int index){
         Player p = game.getPlayerByNickname(activePlayer);
@@ -498,6 +531,12 @@ public class TurnController implements Serializable {
             p.getDashboard().addToHall(s);
         }
     }
+
+    /**
+     * method to activate the expert card selected by the player, it inserts the expert
+     * in two lists, one for control and the other one for view purposes
+     * @param card the selected expert card
+     */
 
     public void useExpertEffect(ExpertDeck card){
         int cost = price.get(card);
@@ -515,7 +554,6 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(active.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //active.addCoin();
                         active.useEffect();
                         toReset.add(active);
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
@@ -547,7 +585,6 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeTC.addCoin();
                         activeTC.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -562,7 +599,6 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeTP.addCoin();
                         activeTP.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -578,13 +614,9 @@ public class TurnController implements Serializable {
                         } else {
                             game.getPlayerByNickname(activePlayer).removeCoin(activeII.getCost()+cost);
                             price.put(card, price.get(card)+1);
-                            //activeII.addCoin();
-                            //per chiamare effetto
                             toReset.add(activeII);
-                            //per vedere da vv
                             game.getGameBoard().getToReset().add(ExpertDeck.HERALD);
                             game.updateGameboard();
-                            //activeII.useEffect();
                             vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                         }
                         break;
@@ -598,13 +630,9 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeIB.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeIB.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeIB);
-                        //per vedere da vv
                         game.getGameBoard().getToReset().add(ExpertDeck.HERBALIST);
                         game.updateGameboard();
-                        //activeII.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
@@ -619,14 +647,10 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeNC.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeNC.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeNC);
-                        //per vedere da vv
                         game.getGameBoard().getToReset().add(ExpertDeck.SELLER);
                         game.updateGameboard();
                         activeNC.useEffect();
-                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
                 case BANKER:
@@ -639,14 +663,10 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeRC.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeRC.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeRC);
-                        //per vedere da vv
                         game.getGameBoard().getToReset().add(ExpertDeck.BANKER);
                         game.updateGameboard();
                         activeRC.useEffect();
-                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
                 case BARBARIAN:
@@ -676,15 +696,11 @@ public class TurnController implements Serializable {
 
                         game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeOM.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeOM);
-                        //per vedere da vv
                         game.getGameBoard().getActiveCards().add(activeOM);
                         game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
                         game.updateGameboard();
                         activeOM.useEffect();
-                            //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
 
@@ -699,14 +715,10 @@ public class TurnController implements Serializable {
                     else{
                         game.getPlayerByNickname(activePlayer).removeCoin(activeSS.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeSS.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeSS);
-                        //per vedere da vv
                         game.getGameBoard().getToReset().add(ExpertDeck.MUSICIAN);
                         game.updateGameboard();
                         activeSS.useEffect();
-                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
                 case JOKER:
@@ -736,15 +748,11 @@ public class TurnController implements Serializable {
 
                         game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeES.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeES);
-                        //per vedere da vv
                         game.getGameBoard().getActiveCards().add(activeES);
                         game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
                         game.updateGameboard();
                         activeES.useEffect();
-                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
 
@@ -775,23 +783,31 @@ public class TurnController implements Serializable {
                     else{
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeTI.addCoin();
-                        //per chiamare effetto
                         toReset.add(activeTI);
-                        //per vedere da vv
                         game.getGameBoard().getActiveCards().add(activeTI);
                         game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
                         game.updateGameboard();
                         activeTI.useEffect();
-                        //vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
 
                     }
     }
 
-//TODO fix cost bug
-    public void effectHandler(EffectMessage message) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+    /**
+     * method that handles the effects of an expert card that requires an input from the player
+     * @param message the message sent from the client
+     * @throws emptyDecktException if there's no more cards in the deck
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the number of tower's full
+     * @throws noStudentException if there's no matching student
+     * @throws noTowerException if there's no tower
+     * @throws invalidNumberException if the selected number is invalid
+     * @throws maxSizeException if the max size's reached
+     * @throws noTowersException if there's no tower on dashboard
+     */
+
+    public void effectHandler(EffectMessage message) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, invalidNumberException, maxSizeException, noTowersException, noTowerException {
         VirtualView vv = virtualViewMap.get(activePlayer);
         Character chosen = null;
         for(Character c : toReset){
@@ -812,7 +828,6 @@ public class TurnController implements Serializable {
                 InfluenceBansCard c = (InfluenceBansCard) chosen;
                 c.setIndex(message.getIndex());
                 c.useEffect();
-                //non ha più herbalist questa volta non chiede input
                 gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.HERBALIST);
                 game.updateGameboard();
                 break;

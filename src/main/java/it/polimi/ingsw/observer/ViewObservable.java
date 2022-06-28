@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-//TODO DA RICONTROLLARE
 public abstract class ViewObservable {
     protected final List<ViewObserver> observers = new ArrayList<>();
 

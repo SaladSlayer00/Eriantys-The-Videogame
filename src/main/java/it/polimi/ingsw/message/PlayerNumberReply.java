@@ -1,5 +1,8 @@
 package it.polimi.ingsw.message;
 
+/**
+ * Class used to send player number update messages
+ */
 public class PlayerNumberReply extends Message{
 
         private static final long serialVersionUID = -4419241297635925047L; //boh

@@ -3,7 +3,9 @@ package it.polimi.ingsw.message.observation;
 import it.polimi.ingsw.message.Message;
 import it.polimi.ingsw.message.MessageType;
 
-/**Messaggio che indica alla view dove posizionare la mother**/
+/**
+ * Class used to send mother nature update messages
+ */
 public class MotherPositionMessage extends Message {
     private static final long serialVersionUID = -3704504226997118508L;
     private final int mother;

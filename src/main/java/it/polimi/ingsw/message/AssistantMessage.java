@@ -2,6 +2,9 @@ package it.polimi.ingsw.message;
 
 import it.polimi.ingsw.model.Assistant;
 
+/**
+ * Class used to send assistant update messages
+ */
 public class AssistantMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;
     private final Assistant assistant;
@@ -21,7 +24,7 @@ public class AssistantMessage extends Message{
     public int getIndex(){
         return this.assistant.getNumOrder();
     }
-    //forse sarebbe utile anche un mettere un metodo getter che ritorna direttamente l'assistente ?
+
     public Assistant getAssistant(){
         return this.assistant;
     }

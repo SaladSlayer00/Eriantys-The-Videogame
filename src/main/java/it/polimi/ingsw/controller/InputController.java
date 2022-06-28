@@ -18,7 +18,10 @@ import java.util.Map;
 
 import static java.util.Objects.isNull;
 
-//This class verifies that all messages sent by client contain valid information
+/**
+ * This class is used to verify the player's input, and represents the second and most extensive check
+ * on it. It signals the gameController with boolena return values of the operation's outcome
+ */
 public class InputController implements Serializable{
     private static final long serialVersionUID = 1L;
     private Mode game;
@@ -82,6 +85,12 @@ public class InputController implements Serializable{
 
     }
 
+    /**
+     * validity check for the player's nickname
+     * @param nickname the player's nickname
+     * @param view the player's view
+     * @return boolean value for the operation's outcome
+     */
     public boolean checkLoginNickname(String nickname, View view) {
         if (nickname.isEmpty() || nickname.equalsIgnoreCase(EasyGame.SERVER_NICKNAME)) {
             view.showGenericMessage("Forbidden name.");
@@ -98,6 +107,11 @@ public class InputController implements Serializable{
         return true;
     }
 
+    /**
+     * validity check for the player number
+     * @param message message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean playerNumberReplyCheck(Message message) {
         PlayerNumberReply playerNumberReply = (PlayerNumberReply) message;
         if (playerNumberReply.getPlayerNumber() <= 3 && playerNumberReply.getPlayerNumber() > 1) {
@@ -109,6 +123,11 @@ public class InputController implements Serializable{
         }
     }
 
+    /**
+     * validity check for the board move
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean moveOnBoard(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         MoveMessage moveMessage = ((MoveMessage) message);
@@ -132,6 +151,11 @@ public class InputController implements Serializable{
         }
     }
 
+    /**
+     * validity check for the island move
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean moveOnIsland(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         MoveMessage moveMessage = ((MoveMessage) message);
@@ -152,6 +176,11 @@ public class InputController implements Serializable{
         }
     }
 
+    /**
+     * validity check for the gameMode
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean gameModeReplyCheck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         GameModeReply gameModeReply = ((GameModeReply) message);
@@ -166,6 +195,11 @@ public class InputController implements Serializable{
 
     }
 
+    /**
+     * validity check for the cloud's choice
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean pickCloudCheck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         PickCloudMessage pickCloudMessage = ((PickCloudMessage) message);
@@ -200,22 +234,18 @@ public class InputController implements Serializable{
             }
         }
     }
+
+    /**
+     * validity check for the assistant card
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean drawAssistantCheck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         AssistantMessage assistantMessage = ((AssistantMessage) message);
         Assistant chosenAssistant = assistantMessage.getAssistant();
         String activePlayerNickname = gameController.getTurnController().getActivePlayer();
         Deck activePlayerDeck = game.getPlayerByNickname(activePlayerNickname).getDeck();
-        /*
-        if (activePlayerDeck.getCards().contains(chosenAssistant)) {
-            return true;
-        } else {
-            virtualView.showGenericMessage("The chosen card is not present in the deck");
-            virtualView.askAssistant(message.getNickname(), activePlayerDeck.getCards());
-            return false;
-        }
-
-         */
         for(Assistant assistant : activePlayerDeck.getCards()){
             if(assistant.getNumOrder() == chosenAssistant.getNumOrder())
                 return true;
@@ -227,6 +257,11 @@ public class InputController implements Serializable{
 
     }
 
+    /**
+     * validity check for the mother moves
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean moveMotherCheck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         MoveMotherMessage moveMotherMessage = ((MoveMotherMessage) message);
@@ -250,11 +285,20 @@ public class InputController implements Serializable{
         }
 
 
-
+    /**
+     * validity check for the user
+     * @param receivedMessage the message received from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean checkUser(Message receivedMessage) {
         return receivedMessage.getNickname().equals(gameController.getTurnController().getActivePlayer());
     }
 
+    /**
+     * validity check for expert card
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean checkExpert(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         ExpertMessage expertMessage = ((ExpertMessage) message);
@@ -273,6 +317,12 @@ public class InputController implements Serializable{
         }
 
     }
+
+    /**
+     * validity check for the tower
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean checkInitTower(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         TowerMessage towerMessage = ((TowerMessage) message);
@@ -293,6 +343,11 @@ public class InputController implements Serializable{
 
     }
 
+    /**
+     * validity check for the chosen deck
+     * @param message the message sent from client
+     * @return boolean value for the operation's outcome
+     */
     public boolean checkInitDeck(Message message) {
         VirtualView virtualView = virtualViewMap.get(message.getNickname());
         DeckMessage deckMessage = ((DeckMessage) message);
@@ -311,7 +366,6 @@ public class InputController implements Serializable{
             virtualView.askInitDeck(message.getNickname() ,Mage.notChosen());
             return false;
         }
-
 
     }
 

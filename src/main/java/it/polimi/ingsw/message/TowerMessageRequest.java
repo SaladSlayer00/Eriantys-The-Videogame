@@ -4,8 +4,10 @@ import it.polimi.ingsw.model.enums.Type;
 
 import java.util.List;
 
+/**
+ * Class used to ask the player for tower input
+ */
 public class TowerMessageRequest extends Message{
-    //the ID thing???
     List<Type> availableTypes;
 
     public TowerMessageRequest(String nickname, List<Type> availableTypes){

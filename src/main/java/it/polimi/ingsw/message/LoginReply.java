@@ -1,5 +1,8 @@
 package it.polimi.ingsw.message;
 
+/**
+ * Class used to send login update messages
+ */
 public class LoginReply extends Message{
     private static final long serialVersionUID = -1423312065079102467L;
     private final boolean nicknameAccepted;

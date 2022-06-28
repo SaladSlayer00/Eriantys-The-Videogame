@@ -2,6 +2,9 @@ package it.polimi.ingsw.message;
 
 import it.polimi.ingsw.model.enums.modeEnum;
 
+/**
+ * Class used to send gameMode update messages
+ */
 public class GameModeReply extends Message{
     private static final long serialVersionUID = -4419241297635925047L; //boh
     private final modeEnum mode;

@@ -83,7 +83,6 @@ public class EasyGame extends Observable implements Serializable, Mode{
         for(Player p : this.players){
             for(int i = 0; i < p.getDashboard().getHallDimension(); i++){
                 Student s = gameBoard.getSack().drawStudent();
-                //p.getDashboard().addStudent(s);
                 p.getDashboard().addToHall(s);
             }
             dashboards.add(p.getDashboard());

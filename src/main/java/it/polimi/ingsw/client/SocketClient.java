@@ -15,6 +15,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class that enables the comunication between client and server side,
+ * listening to the messages the server's sending
+ */
+
 public class SocketClient extends Client{
 
     private final Socket socket;

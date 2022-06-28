@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.enums.Color;
 
 import java.util.List;
 
+/**
+ * Class used to send chose move update messages, it comes both in the move on island version
+ * and the move on board version, calling two different constructors
+ */
 public class MoveMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;
     private final Color color;

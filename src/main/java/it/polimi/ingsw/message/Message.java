@@ -2,6 +2,11 @@ package it.polimi.ingsw.message;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class that represents the information exchanged between the client and the server
+ * contains the sender's nickname and the message type that's determined to call methods and
+ * initiate actions in both the client and server side
+ */
 public abstract class Message implements Serializable {
     private static final long serialVersionUID = 6589184250663958343L;
 

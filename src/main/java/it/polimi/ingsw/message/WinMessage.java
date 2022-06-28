@@ -1,5 +1,8 @@
 package it.polimi.ingsw.message;
 
+/**
+ * Class used to send win update messages
+ */
 public class WinMessage extends Message{
     private static final long serialVersionUID = 4516402749630283459L;
 

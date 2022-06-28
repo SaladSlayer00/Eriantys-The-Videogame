@@ -1,32 +1,10 @@
 package it.polimi.ingsw.message;
 import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.enums.Color;
-/*
-public class MoveMotherMessage extends Message{
 
-    private final int moves;
-
-    public MoveMotherMessage(String nickname, int moves) {
-        super(nickname, MessageType.MOVE_MOTHER);
-        this.moves = moves;
-    }
-
-    public String toString() {
-        return "MoveMotherMessage{" +
-                "nickname=" + getNickname() +
-                "moves=" + this.getMoves() +'}';
-    }
-
-    public int getMoves(){
-        return this.moves;
-    }
-
-}
-*/
-
-//Da controllare. Ho pensato che all'input controller servissero informazioni relative al numero di passi
-//che deve fare madre natura e all'assistente scelto. In questo modo possiamo controllare che il numero di passi sia
-//compatibile con il numero sulla carta assistente
+/**
+ * Class used to send mother moves update messages
+ */
 public class MoveMotherMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;
     private final int moves;

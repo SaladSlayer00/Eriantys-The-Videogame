@@ -2,6 +2,9 @@ package it.polimi.ingsw.message;
 import it.polimi.ingsw.model.EasyGame;
 import java.util.List;
 
+/**
+ * Class used to send lobby update messages, shows the players the ones connected at the moment
+ */
 public class LobbyMessage extends Message {
     private static final long serialVersionUID = -6886305903361404798L;
     private final List<String> nicknameList;

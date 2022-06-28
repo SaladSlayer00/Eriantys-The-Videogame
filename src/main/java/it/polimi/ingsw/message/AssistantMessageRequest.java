@@ -4,8 +4,10 @@ import it.polimi.ingsw.model.Assistant;
 
 import java.util.List;
 
+/**
+ * Class used to ask the player for an assistant input
+ */
 public class AssistantMessageRequest extends Message{
-    //ID???
     private List<Assistant> availableAssistants;
 
     public AssistantMessageRequest(String nickname, List<Assistant> availableAssistants){

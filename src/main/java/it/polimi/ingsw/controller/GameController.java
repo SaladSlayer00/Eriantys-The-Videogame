@@ -584,7 +584,6 @@ public class GameController implements Serializable {
      */
 
     private void drawAssistantHandler(AssistantMessage receivedMessage) throws emptyDecktException {
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their assistant", turnController.getActivePlayer());
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         Assistant card = player.getDeck().draw(receivedMessage.getIndex());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -598,7 +597,6 @@ public class GameController implements Serializable {
         }
 
         if(turnController.getChosen().size() < game.getActives()){
-            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " picked their deck.", turnController.getActivePlayer());
             turnController.next();
             turnController.drawAssistant();
         }
@@ -636,7 +634,6 @@ public class GameController implements Serializable {
      */
 
     public void moveHandler(MoveMessage moveMessage) throws noStudentException, maxSizeException, emptyDecktException, noMoreStudentsException, fullTowersException, noTowerException, invalidNumberException, noTowersException {
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is choosing their moves", turnController.getActivePlayer());
         if (moveMessage.getMessageType() == MessageType.MOVE_ON_BOARD) {
             turnController.moveOnBoard(moveMessage.getColor(), moveMessage.getRow());
             game.updateGameboard();
@@ -692,13 +689,6 @@ public class GameController implements Serializable {
         virtualView.showGenericMessage("Please choose the cloud you want to take!");
         VirtualView vv = virtualViewMap.get(turnController.getActivePlayer());
         String text = "Please choose between ";
-        for(int i=0;i<game.getGameBoard().getClouds().size();i++) {
-            text= text +"Cloud " +i+" :[";
-            for(Student s : game.getGameBoard().getClouds().get(i).getStudents()){
-                text = text + (s.getColor().getText() + ";");
-            }
-            text = text + "]\n";
-        }
         vv.showGenericMessage(text);
         virtualView.askCloud(turnController.getActivePlayer(),game.getEmptyClouds());
         game.updateGameboard();
@@ -724,7 +714,6 @@ public class GameController implements Serializable {
 
         }
         else{
-            broadcastGenericMessage("Player finished their turn!");
             turnController.next();
             initiateAction();
 

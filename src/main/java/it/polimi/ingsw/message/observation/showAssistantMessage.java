@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 
 import java.util.List;
-
+/**
+ * Class used to send assistant update messages
+ */
 public class showAssistantMessage extends Message {
     private static final long serialVersionUID = -8014575220371739730L;
     private int index;

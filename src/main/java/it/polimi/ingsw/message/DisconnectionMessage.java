@@ -2,7 +2,9 @@ package it.polimi.ingsw.message;
 
 import it.polimi.ingsw.model.EasyGame;
 
-//Message to notify a disconnection to the other players
+/**
+ * Class used to send disconnection notify messages
+ */
 public class DisconnectionMessage extends Message {
     private static final long  serialVersionUID = 1L;
     private final String nicknameDisconnected;

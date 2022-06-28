@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.enums.Color;
 
 import java.util.List;
 
+/**
+ * Class used to ask the player for moves
+ */
 public class AskMoveMessage extends Message{
     private static final long serialVersionUID = -3704504226997118508L;
     private List<Student> students = null;

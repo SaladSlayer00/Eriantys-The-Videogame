@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.List;
 
+/**
+ * Class used to send gameboard update messages
+ */
 public class BoardMessage extends Message {
     private static final long serialVersionUID = -8014575220371739730L;
     private final Gameboard board;

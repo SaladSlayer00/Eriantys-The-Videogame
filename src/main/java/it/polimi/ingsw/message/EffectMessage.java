@@ -3,6 +3,9 @@ package it.polimi.ingsw.message;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 
+/**
+ * Class used to send expert effect update messages
+ */
 public class EffectMessage extends Message{
 
     private static final long serialVersionUID = -3704504226997118508L;
