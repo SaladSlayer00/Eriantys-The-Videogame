@@ -44,7 +44,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     @FXML
     private Button lessGoButton;
     @FXML
-    private Button exit;
+    private Button back;
     @FXML
     private ImageView selectedCard;
 
@@ -82,7 +82,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
             onExpertCardsClick(actualGameBoard.getExperts().get(2).getText());
         });
         lessGoButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onLessGoButtonClick);
-        exit.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onExitButtonClick);
+        back.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onBackButtonClick);
     }
 
     /*don't think that we need to disable cards to be honest...
@@ -163,7 +163,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
      * the match keeps going as normal
      * @param event is the input given by the player's mouse
      */
-    private void onExitButtonClick(Event event){
+    private void onBackButtonClick(Event event){
         Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
         currentGameBoardSceneController.setMainPhase(PhaseType.YOUR_MOVE);
         currentGameBoardSceneController.setSecondaryPhase(PhaseType.MOVE_STUDENT);
@@ -183,7 +183,6 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
      */
     public void createExpertCards() {
         for (int i = 0; i < 3; i++) {
-            System.out.println("");
             Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + actualGameBoard.getExperts().get(i).getText()+ ".jpg"));
             ImageView imageVw = new ImageView(image);
             imageVw.setFitWidth(240);
