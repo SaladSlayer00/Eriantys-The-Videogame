@@ -174,7 +174,7 @@ public class VirtualView implements View, Observer {
 
     /**
      * Ends the comunication when an error occurs.
-     * 
+     *
      * @param nickname the player's nickname
      */
     @Override
@@ -184,45 +184,87 @@ public class VirtualView implements View, Observer {
     }
 
 
+    /**
+     * Shows the info for the match.
+     *
+     * @param chosen players chosen
+     * @param actual active players
+     */
     @Override
     public void showMatchInfo(int chosen, int actual) {
         clientHandler.sendMessage(new MatchInfoMessage(chosen,actual));
     }
 
+    /**
+     * Shows the info for the match (second version).
+     *
+     * @param activePlayers list of active player.
+     *
+     * @param activePlayerNickname list of nickname of active player
+     */
+    @Override
     public void showMatchInfo(List<String> activePlayers , String activePlayerNickname) {
         clientHandler.sendMessage(new MatchInfoMessage(EasyGame.SERVER_NICKNAME , MessageType.MATCH_INFO,activePlayers , activePlayerNickname));
 
     }
 
+
+    /**
+     * Sends update to the view as observer.
+     *
+     *
+     * @param message the message sent from the server
+     */
     @Override
     public void update(Message message){
         clientHandler.sendMessage(message);
     }
 
+    /**
+     * Shows the winner.
+     *
+     * @param winner nickname of winner
+     */
     @Override
     public void showWinMessage(String winner) {
         clientHandler.sendMessage(new WinMessage(winner));
     }
 
 
+    /**
+     * Updates the table allowing the view to show it correctly.
+     *
+     * @param gameBoard the gameboard
+     * @param dashboards the instance of the dashboards
+     * @param players the player list
+     */
     @Override
     public void updateTable(Gameboard gameBoard, List<Dashboard> dashboards,List<Player> players){
         clientHandler.sendMessage(new BoardMessage(gameBoard,dashboards,players));
     }
 
-    public void showAssistant(int index){
-        clientHandler.sendMessage(new showAssistantMessage(index));
-    }
-
+    /**
+     * Shows the players connected before the game starts.
+     *
+     * @param nicknameList list of nicknames for players
+     * @param maxPlayers max number of players available
+     */
     @Override
     public void showLobby(List<String> nicknameList, int maxPlayers) {
         clientHandler.sendMessage(new LobbyMessage(nicknameList,maxPlayers));
     }
 
+    /**
+     * Asks the player for an expert card.
+     *
+     */
     public void askExpert(){
         clientHandler.sendMessage(new ExpertMessage(EasyGame.SERVER_NICKNAME, null));
     }
 
+    /**
+     * Asks the player to input a color.
+     */
     public void askColor(){
         clientHandler.sendMessage((new ColorMessage(EasyGame.SERVER_NICKNAME, null)));
     }
