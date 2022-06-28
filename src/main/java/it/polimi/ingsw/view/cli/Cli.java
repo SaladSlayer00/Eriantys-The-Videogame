@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.view.cli.Constants.ISLAND;
 
+/**
+ * Command line interface for the game, it allows the visualizaton of the game components and
+ * interacts with the player to receive input and show the server's comunication.
+ * Notifies the observers to update the server side when the player is acting.
+ */
 public class Cli extends ViewObservable implements View {
     private Gameboard gameboard;
     private List<Dashboard> dashboards = new ArrayList<>();
@@ -137,6 +142,9 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
     }
 
+    /**
+     * Asks the player for a nickname.
+     */
     @Override
     public void askNickname() {
         out.print("Enter your nickname: ");
@@ -148,6 +156,12 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Asks the player to input the gameMode.
+     *
+     * @param nickname the player's nickname
+     * @param gameModes the modes of the game
+     */
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameModes) {
         modeEnum game;
@@ -156,8 +170,9 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.OnUpdateGameMode(game));
     }
 
-
-    //metodo chiamato quando il gamecontroller richiede dichiedere il numero di players
+    /**
+     * Asks the player to input the number of players.
+     */
     @Override
     public void askPlayersNumber() {
         int playerNumber;
@@ -167,6 +182,12 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
     }
 
+    /**
+     * Asks the player a deck to choose from the available ones.
+     *
+     * @param nickname the player's nickname
+     * @param availableDecks the decks available for choosing
+     */
     @Override
     public void askInitDeck(String nickname, List<Mage> availableDecks) {
         clearCli();
@@ -176,8 +197,6 @@ public class Cli extends ViewObservable implements View {
 
             out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
                 mage = mageInput(availableDecks, question);
-                //Mage.choose(mage);
-
                 notifyObserver(obs -> obs.OnUpdateInitDeck(mage));
         }
         else if(availableDecks.size() ==1){
@@ -191,6 +210,12 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Asks the player to choose a tower color.
+     *
+     * @param nickname the player's nickname
+     * @param availableTeams
+     */
     @Override
     public void askInitType(String nickname, List<Type> availableTeams) {
         clearCli();
@@ -199,8 +224,6 @@ public class Cli extends ViewObservable implements View {
             String question = "Please "+ nickname + ", select a team from the list!";
             out.println("Please, enter the name in LOWERCASE and confirm with ENTER.");
             team = teamInput(availableTeams, question);
-                //Type.choose(team);
-
             notifyObserver(obs -> obs.OnUpdateInitTower(team));
         }
         else if(availableTeams.size() ==1){
@@ -214,7 +237,12 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-
+    /**
+     * Asks the player if they're ready to start the game.
+     *
+     * @param nickname player's nickname
+     * @param answer player's answer
+     */
     @Override
     public void askStart(String nickname, String answer){
         clearCli();
@@ -231,6 +259,12 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Asks the player to input a cloud index to choose it.
+     *
+     * @param nickname the player's nickname
+     * @param availableClouds the list of available clouds
+     */
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds){
         clearCli();
@@ -241,13 +275,10 @@ public class Cli extends ViewObservable implements View {
             out.println("Please, enter the cloud's index and press ENTER.");
                 index = cloudInput(availableClouds, question);
                 notifyObserver(obs -> obs.OnUpdatePickCloud(index));
-                //showTable();
-
         }
         else if(availableClouds.size() ==1){
             out.println(nickname + ", you're the last player, your cloud is: "+availableClouds.get(0).getIndex());
             notifyObserver(obs -> obs.OnUpdatePickCloud(availableClouds.get(0).getIndex()));
-            //showTable();
         }
         else if(availableClouds.size()==0 && clouds == 1){
             index = intInput(question);
@@ -260,6 +291,12 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Asks the player to choose an assistant for the turn.
+     *
+     * @param nickname the player's nickname
+     * @param unavailableAssistants
+     */
     @Override
     public void askAssistant(String nickname, List<Assistant> unavailableAssistants){
         clearCli();
@@ -271,7 +308,6 @@ public class Cli extends ViewObservable implements View {
             assistant = assistantInput(unavailableAssistants, question);
             out.println("Chosen Assistant: "+assistant.getNumOrder() + "\n");
             notifyObserver(obs -> obs.OnUpdateAssistant(assistant));
-                //showTable();
         }
         else{
             showErrorAndExit("no assistants found in the request.");
@@ -279,6 +315,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Asks the player to input an expert card to activate.
+     */
     public void askExpert() {
             String answer;
             ExpertDeck c = null;
@@ -308,10 +347,11 @@ public class Cli extends ViewObservable implements View {
             }
     }
 
+    /**
+     * Asks the player to choose a color, can send messages to activate expert cards.
+     */
     @Override
     public void askColor() {
-        //clearCli();
-        //showTable();
         Color color = null;
         String in;
         List<Color> colors = new ArrayList<Color>();
@@ -350,10 +390,15 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Asks the player to choose a move considering the game state shown by the islands and students.
+     *
+     * @param students the list of available students
+     * @param islands the list of islands
+     */
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         clearCli();
-        //showTable();
         Color student;
         String location;
         if(gameboard.getToReset().size()>0 && gameboard.getToReset().contains(ExpertDeck.HERALD)){
@@ -401,7 +446,6 @@ public class Cli extends ViewObservable implements View {
                 else if("ROW".equalsIgnoreCase(location)){
                     out.println("ROW");
                     notifyObserver(obs -> obs.OnUpdateMoveOnBoard(student,student));
-                    //showTable();
                 }
         }
         else{
@@ -409,36 +453,41 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Asks the player the island to move the student on.
+     *
+     * @param student the color of the selected student
+     * @param islands the list of islands
+     */
     @Override
     public void askIslandMoves(Color student, List<Island> islands){
         clearCli();
-        //showTable();
         String question = "Please, choose where do you want to move your student!";
         int location;
         location = islandInput(question, islands);
         out.println("LOC: "+location);
         notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
-        //showTable();
-        //try {
-          //  location = islandInput(question, student, islands);
-           // notifyObserver(obs -> obs.OnUpdateMoveOnIsland(student,location, islands));
-        //}catch(ExecutionException e) {
-            //out.println(STR_INPUT_CANCELED);
-        //}
 
     }
 
+    /**
+     * Asks the player to choose mother nature's moves.
+     *
+     * @param nickname the player's nickname
+     * @param possibleMoves
+     */
     public void askMotherMoves(String nickname, int possibleMoves) {
         clearCli();
-        //showTable();
         int number;
         number = motherInput(possibleMoves);
         out.println("MOVES: "+number);
         notifyObserver(obs -> obs.OnUpdateMoveMother(number, new Assistant(0, possibleMoves)));
         clouds = 1;
-        //showTable();
     }
 
+    /**
+     * Clears the cli.
+     */
     public void clearCli() {
         out.print(ColorCli.CLEAR);
         out.flush();
@@ -446,6 +495,13 @@ public class Cli extends ViewObservable implements View {
 
     //INPUT METHODS
 
+    /**
+     * Gets the gameMode from input.
+     *
+     * @param modeEnums the modes available
+     * @param question question asked to the player
+     * @return the selected modeEnum
+     */
     public modeEnum modeInput(List<modeEnum> modeEnums, String question){
         modeEnum mode = null;
         String in;
@@ -472,6 +528,12 @@ public class Cli extends ViewObservable implements View {
         return mode;
     }
 
+    /**
+     * Gets the moves for mother nature from input.
+     *
+     * @param possibleMoves the moves available
+     * @return the selevted moves number
+     */
     public int motherInput(int possibleMoves){
         int number = 0;
         do{
@@ -504,6 +566,12 @@ public class Cli extends ViewObservable implements View {
         return number;
     }
 
+    /**
+     * Gets a number from input.
+     *
+     * @param question the question asked to the player
+     * @return the selected number
+     */
     public int numberInput(String question){
         int number = 0;
         do{
@@ -524,6 +592,13 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Gets the mage from input.
+     *
+     * @param available the available mages
+     * @param question the question to ask the player
+     * @return the selected mage
+     */
     public Mage mageInput(List<Mage> available, String question){
         Mage mage = null;
         String in;
@@ -551,6 +626,13 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Gets the team from input.
+     *
+     * @param available the available towers
+     * @param question the question to ask the player
+     * @return the selected tower
+     */
     public Type teamInput(List<Type> available, String question){
         Type team = null;
         String in;
@@ -577,6 +659,12 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Gets an answer from input.
+     *
+     * @param question the question to ask the player
+     * @return the selected answer
+     */
     public String answerInput(String question){
         String answer = null;
         do{
@@ -600,6 +688,13 @@ public class Cli extends ViewObservable implements View {
         return answer;
     }
 
+    /**
+     * Gets the cloud from input.
+     *
+     * @param available the list of available clouds
+     * @param question the question to ask the player
+     * @return the selected cloud index
+     */
     public int cloudInput(List<Cloud> available, String question){
         clearCli();
         showTable();
@@ -625,6 +720,13 @@ public class Cli extends ViewObservable implements View {
         return number;
     }
 
+    /**
+     * Gets the assistant from input.
+     *
+     * @param unavailable list of available assistant
+     * @param question the question to ask the player
+     * @return the selected assistant
+     */
     public Assistant assistantInput(List<Assistant> unavailable, String question){
         clearCli();
         showTable();
@@ -659,6 +761,13 @@ public class Cli extends ViewObservable implements View {
         return assistant;
     }
 
+    /**
+     * Gets the student from input.
+     *
+     * @param question the question to ask the player
+     * @param students the list of available students
+     * @return the selected color
+     */
     public Color studentInput(String question, List<Student> students){
         clearCli();
         showTable();
@@ -690,6 +799,12 @@ public class Cli extends ViewObservable implements View {
         return color;
     }
 
+    /**
+     * Gets the location from input.
+     *
+     * @param question the question to ask the player
+     * @return the location between row and island
+     */
     public String locationInput(String question){
         clearCli();
         showTable();
@@ -711,6 +826,13 @@ public class Cli extends ViewObservable implements View {
         return answer;
     }
 
+    /**
+     * Gets the index of the island from input.
+     *
+     * @param question the question to ask the player
+     * @param islands the list of islands
+     * @return the index of selected island
+     */
     public int islandInput(String question, List<Island> islands){
         clearCli();
         showTable();
@@ -736,15 +858,30 @@ public class Cli extends ViewObservable implements View {
        return index;
     }
 
+    /**
+     * Shows a generic message on the terminal.
+     *
+     * @param genericMessage the text message to show
+     */
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
     }
 
+    /**
+     * Shows the message with the winner name in it.
+     *
+     * @param winner nickname of winner
+     */
     public void showWinMessage(String winner) {
         out.println("Game finished: " + winner + " WINS!");
         System.exit(0);
     }
 
+    /**
+     * Shows the error message on the terminal.
+     *
+     * @param error the name of the error
+     */
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
         out.println("\nERROR: " + error);
@@ -753,6 +890,13 @@ public class Cli extends ViewObservable implements View {
         System.exit(1);
     }
 
+    /**
+     * Updates the table parameters with the ones received from the server message.
+     *
+     * @param gameboard the instance of the gameoard
+     * @param dashboards the instance of the dashboards
+     * @param players the player list
+     */
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){
         this.gameboard=gameboard;
@@ -760,8 +904,10 @@ public class Cli extends ViewObservable implements View {
         this.players = players;
     }
 
+    /**
+     * Shows the islands on the terminal.
+     */
     public void showIsland(){
-        //showDashboard();
         List<String> islands = buildIslands(gameboard);
         for(int i=0;i<islands.size();i++){
             out.print("\rIsland: "+i+"\n");
@@ -769,6 +915,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Shows the gameboard on the terminal.
+     */
     public void showTable(){
         clearCli();
         showDashboards(dashboards);
@@ -779,6 +928,11 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Shows the dashboards on the terminal.
+     *
+     * @param dashboards the list of the dashboards
+     */
     public void showDashboards(List<Dashboard> dashboards){
         String leftAlignFormat = "| %-10s | %-4d | %-5b%n";
         String format = "| %-10s | %-4d | %-5s%n";
@@ -799,8 +953,12 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-
-
+    /**
+     * Method to build the island shapes.
+     *
+     * @param gameboard the gameboard
+     * @return the list of strings with the built islands
+     */
     public List<String> buildIslands(Gameboard gameboard) {
         List<Island> gameIslands = gameboard.getIslands();
         List<String> islands = new ArrayList<>();
@@ -872,6 +1030,11 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Signals if there's an error and disconnects the player.
+     *
+     * @param nickname the player's nickname
+     */
     @Override
     public void errorCommunicationAndExit(String nickname) {
         inputThread.interrupt();
@@ -882,16 +1045,33 @@ public class Cli extends ViewObservable implements View {
     }
 
 
+    /**
+     * Shows the match infos.
+     *
+     * @param chosen players chosen
+     * @param actual active players
+     */
     @Override
     public void showMatchInfo(int chosen, int actual) {
         out.println("MATCH INFO1");
     }
 
+    /**
+     * Shows the match infos (second version)
+     * @param activePlayers list of active player
+     * @param activePlayerNickname list of nickname of active player
+     */
     @Override
     public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {
         out.println("SHOW INFO2");
     }
 
+    /**
+     * Shows the players in the lobby.
+     *
+     * @param nicknameList list of nicknames for players
+     * @param numPlayers the number of chosen players
+     */
     @Override
     public void showLobby(List<String> nicknameList, int numPlayers) {
         out.println("LOBBY:");
