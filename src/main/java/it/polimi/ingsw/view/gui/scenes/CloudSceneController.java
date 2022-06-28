@@ -66,12 +66,8 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     public void initialize(){
         Platform.runLater(()->createListOfClouds(availableClouds));
         Platform.runLater(()->setListOfClouds(availableClouds));
+        Platform.runLater(()->setNumberOfClouds(availableClouds));
         confirmButton.setDisable(true);
-        if(availableClouds.size()==3){
-            cloudOne.setDisable(false);
-        }else{
-            cloudOne.setDisable(true);
-        }
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
         cloudZero.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onCloudZeroClicked(availableClouds));
@@ -192,5 +188,13 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
     public void setTypeOfChoice(String choice) {
         typeOfChoice = choice;
+    }
+
+    public void setNumberOfClouds(List<Cloud> availableClouds){
+        if(availableClouds.size()==3){
+            cloudOne.setDisable(false);
+        }else{
+            cloudOne.setDisable(true);
+        }
     }
 }
