@@ -23,7 +23,7 @@
             <Font name="Comic Sans MS Bold" size="29.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="313.0" layoutY="397.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="171.0" text="exit">
+      <Button fx:id="quitButton" layoutX="313.0" layoutY="397.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="171.0" text="Quit">
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
