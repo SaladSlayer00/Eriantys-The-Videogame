@@ -222,8 +222,7 @@ public class Gui extends ViewObservable implements View {
         });
     }
 
-    @Override
-    public void effectEnabled(String summoner) {}
+
 
     @Override
     public void showMatchInfo(int chosen, int actual) {}
@@ -231,10 +230,6 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {}
 
-    @Override
-    public void winCommunication(String winner) {
-
-    }
 
     /*
     @Override
@@ -253,9 +248,6 @@ public class Gui extends ViewObservable implements View {
         });
     }
 
-
-    @Override
-    public void showAssistant(int index) {}
 
     @Override
     public void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players){

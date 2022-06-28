@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/* this card gives two more influence points to the summoner
+/**Class for KNIGHT card: this card gives two more influence points to the summoner
 * many ways to implement this and maybe it would be better to discuss it before just writing
 * stuffs and then delete everything because it doesn't work
  */
@@ -40,7 +40,11 @@ public class TwoMorePointsCard extends Character{
         turnController.getToReset().remove(this);
     }
 
-
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

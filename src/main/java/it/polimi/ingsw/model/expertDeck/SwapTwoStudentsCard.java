@@ -13,8 +13,8 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 
-/* the player that summons this card can swap two of their students from the row to the dashboard
-* NOTE is AT LEAST TWO which means that they can also swap JUST ONE student (which is not very smart i guess...)
+/**Class for MUSICIAN card: the player that summons this card can swap two of their
+ * students from the row to the dashboard
  */
 public class SwapTwoStudentsCard extends Character{
     private ExpertDeck name = ExpertDeck.MUSICIAN;
@@ -57,8 +57,12 @@ public class SwapTwoStudentsCard extends Character{
 
     }
 
-    //al prossimo askmoves si resetta
-    //gli posso mandare un null, sceltanellhandler di turn
+    /**
+     * Method that asks the player for a student to take from the row while receiving the one selected
+     * from the hall and checking it.
+     *
+     * @param c the selected hall student
+     */
     public void getColorHall(Color c){
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         List<Student> students = gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall();
@@ -80,6 +84,13 @@ public class SwapTwoStudentsCard extends Character{
 
     }
 
+    /**
+     * Mehtod that receives the selected row student and executes the swap between the two.
+     *
+     * @param c selected row student color
+     * @throws noStudentException if there's no students in the sack
+     * @throws maxSizeException if the max size's reached
+     */
     public void getColorRow(Color c) throws noStudentException, maxSizeException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Dashboard d = gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard();
@@ -126,6 +137,11 @@ public class SwapTwoStudentsCard extends Character{
         return hall;
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

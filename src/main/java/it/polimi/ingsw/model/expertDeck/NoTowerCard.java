@@ -9,9 +9,9 @@ import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/*when a player summons this card at the moment of the calculation of the influence the towers on the island
+/**Class for CUSTOMER card: when a player summons this card at the moment of the
+ * calculation of the influence the towers on the island
 * are not to be taken in consideration
-* JUST KEEP IN MIND: if the influence is calculated on a group of island all the towers on it are not considered
  */
 public class NoTowerCard extends Character{
     private ExpertDeck name = ExpertDeck.CUSTOMER;
@@ -24,8 +24,6 @@ public class NoTowerCard extends Character{
         this.gameController = gameController;
         this.turnController = turnController;
     }
-
-
 
 
     public ExpertDeck getName() {
@@ -45,6 +43,11 @@ public class NoTowerCard extends Character{
         turnController.getToReset().remove(this);
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

@@ -22,7 +22,7 @@ import static it.polimi.ingsw.message.MessageType.GAMEMODE_REPLY;
 
 
 /**
- * this class represents the action handler of the game, and is responsible for the management of
+ * This class represents the action handler of the game, and is responsible for the management of
  * the players' input, calls to the turn controller, setup and endgame
  */
 
@@ -89,7 +89,7 @@ public class GameController implements Serializable {
      */
 
 
-    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, maxSizeException, noTowersException, emptyDecktException {
+    public void onMessageReceived(Message receivedMessage) throws invalidNumberException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, noTowersException, emptyDecktException {
 
         VirtualView virtualView = virtualViewMap.get(receivedMessage.getNickname());
         switch (gameState) {
@@ -101,12 +101,22 @@ public class GameController implements Serializable {
                 break;
             case INIT:
                 if (inputController.checkUser(receivedMessage)) {
-                    initState(receivedMessage, virtualView);
+                    try {
+                        initState(receivedMessage, virtualView);
+                    } catch (maxSizeException e) {
+                        turnController.moveMaker();
+                        return;
+                    }
                 }
                 break;
             case IN_GAME:
                 if (inputController.checkUser(receivedMessage)) {
-                    inGameState(receivedMessage);
+                    try {
+                        inGameState(receivedMessage);
+                    } catch (maxSizeException e) {
+                        turnController.moveMaker();
+                        return;
+                    }
                 }
                 break;
             default: // Should never reach this condition

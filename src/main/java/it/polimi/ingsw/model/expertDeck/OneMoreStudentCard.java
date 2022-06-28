@@ -12,7 +12,9 @@ import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 
-/* carta che fa passare uno studente da lei alla hall
+/**
+ * Class for BARBARIAN card: this cards allows a player to transfer one of the students on it
+ * to their row. Another student is picked from the sack to replace it.
  */
 public class OneMoreStudentCard extends Character{
     //this card has an array as attribute for the four students
@@ -21,7 +23,6 @@ public class OneMoreStudentCard extends Character{
     private TurnController turnController;
     private ExpertDeck name = ExpertDeck.BARBARIAN;
 
-    //initialization of the card: the initial cost is 1 PLUS the four students are added randomly
     public OneMoreStudentCard(GameController gameController, TurnController turnController) throws noMoreStudentsException {
         super(2);
         this.gameController = gameController;
@@ -54,8 +55,19 @@ public class OneMoreStudentCard extends Character{
         vv.showGenericMessage("Effect's over!\n");
     }
 
-
-    public void addStudent(Color c) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
+    /**
+     * Method that adds the student to the row from the card, calls for check on influence.
+     *
+     * @param c the selected student from the card
+     * @throws emptyDecktException if the player's deck is empty
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the tower's number is full
+     * @throws noStudentException if there's no student on the island
+     * @throws noTowerException if there's no tower on the island
+     * @throws invalidNumberException if the chose number is not allowed
+     * @throws maxSizeException if the max size's reached
+     */
+    public void addStudent(Color c) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;
         for(Student s : students){
@@ -74,13 +86,22 @@ public class OneMoreStudentCard extends Character{
                 vv.showGenericMessage("Row is full!\n");
                 return;
             }
-            turnController.checkProfessors(c);
+            try {
+                turnController.checkProfessors(c);
+            } catch (noTowersException e) {
+                gameController.win();
+            }
             students.remove(st);
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
             removeEffect();
         }
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

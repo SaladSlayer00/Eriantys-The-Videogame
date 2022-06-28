@@ -10,11 +10,10 @@ import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/* This card allows the player who summons it to decide an island where they can calculate the
+/** Class for HERALD card: this card allows the player who summons it to decide an island where they can calculate the
 * influence even if Mother Nature has not finished there her movement
-* !!!KEEP NOTICE!!!
-* It STILL must be calculated the influence on the island where Mother Nature ends up to be!!!
  */
+
 public class ImproperInfluenceCard extends Character{
     private ExpertDeck name = ExpertDeck.HERALD;
     private GameController gameController;
@@ -59,6 +58,11 @@ public class ImproperInfluenceCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.HERALD);
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

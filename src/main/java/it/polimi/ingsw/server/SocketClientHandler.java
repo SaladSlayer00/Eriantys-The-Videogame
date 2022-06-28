@@ -10,6 +10,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Socket client handler receives the messages from the client side and sends them to the server,
+ * while also communicating with the client the server's updates and requests via socket.
+ */
 public class SocketClientHandler implements ClientHandler, Runnable{
     private ArrayList<Object> ids;
     private final Socket client;
@@ -23,6 +27,11 @@ public class SocketClientHandler implements ClientHandler, Runnable{
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
+    /**
+     * Constructor for the class, uses output and input locks.
+     * @param socketServer the instance of the server socket.
+     * @param client the client to listen to.
+     */
     public SocketClientHandler(SocketServer socketServer, Socket client) {
         this.socketServer = socketServer;
         this.client = client;
@@ -40,11 +49,19 @@ public class SocketClientHandler implements ClientHandler, Runnable{
         }
     }
 
+    /**
+     * True if the client's connected
+     *
+     * @return boolean value for the operation's outcome.
+     */
     @Override
     public boolean isConnected() {
         return connected;
     }
 
+    /**
+     * Disconnects client from server and notifies the controller.
+     */
     @Override
     public void disconnect() {
         if (connected) {
@@ -62,6 +79,11 @@ public class SocketClientHandler implements ClientHandler, Runnable{
         }
     }
 
+    /**
+     * Sends message to the client from stream.
+     *
+     * @param message the message to be sent.
+     */
     @Override
     public void sendMessage(Message message) {
         try {
@@ -76,6 +98,9 @@ public class SocketClientHandler implements ClientHandler, Runnable{
         }
     }
 
+    /**
+     * Method to activate socket and listen to the client
+     */
     @Override
     public void run() {
         try {

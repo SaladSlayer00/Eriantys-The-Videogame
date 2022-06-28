@@ -8,17 +8,12 @@ import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/* this card has four ban paws on it
+/** Class for HERBALIST card: this card has four ban paws on it
 * when a player summon the card they can put one of these paw on an island of their choice
 * when Mother Nature ends her journey on that island, the paw is put again on the card and
-* the influence IT IS NOT CALCULATED
+* the influence is NOT calculated
  */
 
-/* we have two choice here:
-* - ONE -> we create an arraylist of proper islands
-* - TWO -> we create an arraylist that contains the index of the islands. maybe it's easier in this way... (?)
-*          THIS METHOD SEEMS MORE LOGICAL TO ME TBH
- */
 public class InfluenceBansCard extends Character{
 
     private ExpertDeck name = ExpertDeck.HERBALIST;

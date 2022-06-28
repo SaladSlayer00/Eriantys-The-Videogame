@@ -10,9 +10,8 @@ import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.view.VirtualView;
 
-/* the player that summons this card can choose a color and every player (themselves included) has to take
+/**Class for BANKER card: the player that summons this card can choose a color and every player (themselves included) has to take
 * three students from the row of the chosen color and put them back in the sack
-* KEEP IN MIND that if a player hasn't got enough students of that color they have to put back all the students thay got
  */
 public class RemoveAColorCard extends Character{
     private ExpertDeck name = ExpertDeck.BANKER;
@@ -44,6 +43,18 @@ public class RemoveAColorCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.BANKER);
     }
 
+    /**
+     * Method that sets the color to remove from every player's row
+     *
+     * @param color the chosen color
+     * @throws emptyDecktException if the player's deck is empty
+     * @throws noMoreStudentsException if there's no more students in the sack
+     * @throws fullTowersException if the tower's number is full
+     * @throws noStudentException if there's no student on the island
+     * @throws noTowerException if there's no tower on the island
+     * @throws invalidNumberException if the chose number is not allowed
+     * @throws maxSizeException if the max size's reached
+     */
     public void setColor(Color color) throws emptyDecktException, noMoreStudentsException, fullTowersException, noStudentException, noTowerException, invalidNumberException, maxSizeException, noTowersException {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Everyone puts back "+color.getText()+" students!\n");
@@ -68,6 +79,11 @@ public class RemoveAColorCard extends Character{
         return color;
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

@@ -9,7 +9,10 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.*;
 import java.util.logging.Logger;
 
-
+/**
+ * Main class that implements the network utility for the server side. Handles connections,
+ * disconnections and sends messages toand from the client and server side.
+ */
 public class Server {
     private final GameController gameController;
 
@@ -32,7 +35,6 @@ public class Server {
      * @param clientHandler the ClientHandler associated with the client.
      */
 
-    //gestire assegnamento id
     public void addClient(String nickname, int id, ClientHandler clientHandler) throws noMoreStudentsException {
         VirtualView vv = new VirtualView(clientHandler);
 

@@ -13,7 +13,8 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 
-/* when a player summons this card they can choose a color that will have no influence in the calculation
+/** Class for SELLER card: when a player summons this card they can
+ * choose a color that will have no influence in the calculation
 * of the influence
  */
 public class NullColorCard extends Character{
@@ -46,6 +47,11 @@ public class NullColorCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.SELLER);
     }
 
+    /**
+     * Class that sets the color to the banned color list for the turnController to check
+     *
+     * @param color the banned color
+     */
     public void setColor(Color color) {
         this.color = color;
         turnController.getBanned().add(color);
@@ -58,6 +64,11 @@ public class NullColorCard extends Character{
         return color;
     }
 
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

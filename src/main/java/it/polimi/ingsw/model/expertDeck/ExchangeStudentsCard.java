@@ -13,12 +13,11 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 
-/* At the beginning of the match six students must be drawn and put on this card
+/** Class for JOKER card: At the beginning of the match six students must be drawn and put on this card
 * The summoner can exchange as much as three students in their hall with three students on the card
  */
 public class ExchangeStudentsCard extends Character{
 
-    //ArrayList for the students of the card
     private ArrayList<Student> students = new ArrayList<Student>();
     private ExpertDeck name = ExpertDeck.JOKER;
     private GameController gameController;
@@ -35,7 +34,6 @@ public class ExchangeStudentsCard extends Character{
             students.add(gameController.getGame().getGameBoard().getSack().drawStudent());
         }
     }
-
 
     public ExpertDeck getName() {
         return name;
@@ -55,13 +53,18 @@ public class ExchangeStudentsCard extends Character{
     public void removeEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage("Effect was removed!\n");
-        //turnController.getToReset().remove(this);
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.JOKER);
         gameController.getGame().updateGameboard();
         vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
 
     }
 
+    /**
+     * This method allows for the player to choose a student in their hall and asks the client
+     * to input a student to choose from the card
+     *
+     * @param c the selected color for the hall student
+     */
 
     public void getColorHall(Color c){
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
@@ -87,6 +90,11 @@ public class ExchangeStudentsCard extends Character{
 
     }
 
+    /**
+     * This method allows for the swap between the student on the card and the one on the hall
+     *
+     * @param c the color of the selected student to take from the card
+     */
     public void swapStudent(Color c){
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;
@@ -123,11 +131,17 @@ public class ExchangeStudentsCard extends Character{
         return hall;
     }
 
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
 }

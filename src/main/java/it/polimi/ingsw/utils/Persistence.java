@@ -4,6 +4,9 @@ import it.polimi.ingsw.controller.GameController;
 
 import java.io.Serializable;
 
+/**
+ * Class that implements the persistence of the game to disconnections from the server side.
+ */
 public class Persistence implements Serializable {
     private static final long serialVersionUID = 6970123627732910952L;
     private final GameController gameController;

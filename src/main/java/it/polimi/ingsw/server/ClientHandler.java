@@ -2,6 +2,10 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.message.Message;
 
+/**
+ * Interface for handling the messages sent to the client and its disconnection.
+ */
+
 public interface ClientHandler {
     /**
      * Returns the connection status.

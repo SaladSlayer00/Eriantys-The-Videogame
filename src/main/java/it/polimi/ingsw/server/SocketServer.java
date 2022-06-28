@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Socket server is the main way the SocketClientHandler uses to communicate with the server,
+ * both sending and receiving messages.
+ */
 public class SocketServer implements Runnable{
     private final Server server;
     private final int port;

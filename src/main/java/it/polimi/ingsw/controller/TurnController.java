@@ -501,9 +501,11 @@ public class TurnController implements Serializable {
      * @return integer value to notify the result of the operation
      */
     public int towerChecker(){
-        Player p = game.getPlayerByNickname(activePlayer);
-        if(p.getDashboard().getNumTowers()==0){
-            return 2;
+        for(Player p : game.getPlayers()) {
+            if (p.getDashboard().getNumTowers() == 0) {
+                activePlayer = p.getName();
+                return 2;
+            }
         }
         return 1;
     }

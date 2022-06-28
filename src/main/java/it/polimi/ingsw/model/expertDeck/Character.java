@@ -8,7 +8,13 @@ import it.polimi.ingsw.model.enums.ExpertDeck;
 import java.io.Serializable;
 
 
-//class representing the character cards of the expert game mode
+/**Class representing the character cards of the expert game mode
+ * it has turnController and gameController attributes to allow every card operation,
+ * and keeps track of the card's cost and name.
+ *
+ * The effect of every card is called by the useEffect method that every subclass implements,
+ * together with the removeEffect that resets the action of the card
+ */
 public abstract class Character implements Serializable {
     //attributes of the class Character
     private int cost;
@@ -27,16 +33,9 @@ public abstract class Character implements Serializable {
         return cost;
     }
 
-
-    public void addCoin() {
-        this.cost = this.cost +1;
-    }
-//TODO non rimuovere le carte da cui si pesca
-
     public ExpertDeck getName() {
         return name;
     }
-
 
     public abstract void useEffect();
 

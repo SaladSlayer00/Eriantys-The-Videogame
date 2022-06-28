@@ -736,14 +736,6 @@ public class Cli extends ViewObservable implements View {
        return index;
     }
 
-//    public void expertEffect(ExpertDeck expert){
-//        switch(expert){
-//            case TAVERNER:
-//                studentInput()
-//        }
-//    }
-
-
     public void showGenericMessage(String genericMessage) {
         out.println(genericMessage);
     }
@@ -752,8 +744,6 @@ public class Cli extends ViewObservable implements View {
         out.println("Game finished: " + winner + " WINS!");
         System.exit(0);
     }
-
-
 
     public void showErrorAndExit(String error) {
         inputThread.interrupt();
@@ -809,14 +799,6 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-    @Override
-    public void showAssistant(int number){
-        showTable();
-        String leftAlignFormat = "| %-6d |%n";
-        System.out.format("+------+%n");
-        System.out.format(leftAlignFormat, number);
-        System.out.format("+------+%n");
-    }
 
 
     public List<String> buildIslands(Gameboard gameboard) {
@@ -899,10 +881,6 @@ public class Cli extends ViewObservable implements View {
         System.exit(1);
     }
 
-    @Override
-    public void effectEnabled(String summoner) {
-        out.println(summoner);
-    }
 
     @Override
     public void showMatchInfo(int chosen, int actual) {
@@ -914,11 +892,6 @@ public class Cli extends ViewObservable implements View {
         out.println("SHOW INFO2");
     }
 
-    @Override
-    public void winCommunication(String winner) {
-        out.println("Game finished: " + winner + " WINS!");
-        System.exit(0);
-    }
     @Override
     public void showLobby(List<String> nicknameList, int numPlayers) {
         out.println("LOBBY:");

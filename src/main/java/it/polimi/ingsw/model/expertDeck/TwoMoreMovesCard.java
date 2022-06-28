@@ -7,7 +7,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/* This card allows the summoner to move Mother Nature of two more islands than the number that is
+/** Class for GAMBLER card: this card allows the summoner to move Mother Nature
+ * of two more islands than the number that is
 * written on the Assistant card they have played
  */
 public class TwoMoreMovesCard extends Character{
@@ -40,7 +41,11 @@ public class TwoMoreMovesCard extends Character{
         turnController.getToReset().remove(this);
     }
 
-
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

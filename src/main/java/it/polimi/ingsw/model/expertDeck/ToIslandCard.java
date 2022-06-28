@@ -13,7 +13,8 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 
-/* da carta  a isola
+/** Class for TAVERNER card: this cards allows the player to transfer a student from this card to an
+ * island they can choose.
  */
 public class ToIslandCard extends Character{
     private ExpertDeck name = ExpertDeck.TAVERNER;
@@ -51,7 +52,6 @@ public class ToIslandCard extends Character{
 
     @Override
     public void removeEffect() {
-        //rimuovo dalla lista ma non elimino l'istanza
         chosen = null;
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.TAVERNER);
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
@@ -65,7 +65,12 @@ public class ToIslandCard extends Character{
         return text;
     }
 
-
+    /**
+     * Method to receive the selected student from the card and ask for the island the player
+     * will put it on.
+     *
+     * @param c the selected student color
+     */
     public void getStudent(Color c) {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         Student st=null;
@@ -88,6 +93,11 @@ public class ToIslandCard extends Character{
 
     }
 
+    /**
+     * Method to set the chosen island and move the student on it.
+     *
+     * @param index the selected island index
+     */
     public void getIsland(int index){
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
         vv.showGenericMessage(("Island chosen: "+index+"\n"));
@@ -101,7 +111,11 @@ public class ToIslandCard extends Character{
         return chosen;
     }
 
-
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.Server;
 import java.io.*;
 import java.nio.file.Files;
 
+/**
+ * Class that handles the saving of the current game state on a file, and restores it when the
+ * conditions are met.
+ */
 public class StorageData {
     /**
      * Save current Game Controller on a file.

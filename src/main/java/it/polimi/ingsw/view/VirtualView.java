@@ -17,6 +17,12 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.List;
 
+/**
+ * Instance of virtual view associated to the player that the server side
+ * uses to simulate the actions it has on the client. Implements the main methods to act on
+ * the real view.
+ */
+
 public class VirtualView implements View, Observer {
     private final ClientHandler clientHandler;
 
@@ -24,95 +30,159 @@ public class VirtualView implements View, Observer {
         this.clientHandler = clientHandler;
     }
 
-    public ClientHandler getClientHandler(){
-        return clientHandler;
-    }
 
+    /**
+     * Asks the player for a nickname.
+     */
     @Override
     public void askNickname() {
         clientHandler.sendMessage(new LoginReply(false, true));
     }
 
+    /**
+     * Asks the player for a start answer.
+     *
+     * @param nickname player's nickname
+     * @param answer player's answer
+     */
     @Override
     public void askStart(String nickname, String answer) {
         clientHandler.sendMessage(new StartMessage(nickname, answer));
     }
 
-    //this is for the choice of the deck at the beginning of the game
-    //JUST A QUESTION what should go instead of gamefactory??? I'm a bit lost...
+    /**
+     * Asks the player for the deck choice.
+     *
+     * @param nickname the player's nickname
+     * @param availableDecks the decks available for choosing
+     */
     @Override
     public void askInitDeck(String nickname, List<Mage> availableDecks) {
         clientHandler.sendMessage(new DeckMessageRequest(nickname, availableDecks));
     }
 
+    /**
+     * Asks the player to choose an assistant from those available.
+     *
+     * @param nickname the player's nickname
+     * @param availableAssistants the assistants available for choosing
+     */
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
         clientHandler.sendMessage(new AssistantMessageRequest(nickname, availableAssistants));
     }
 
 
-
+    /**
+     * Asks the player for the student moves.
+     *
+     * @param students the list of available students
+     * @param islands the list of islands
+     */
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         clientHandler.sendMessage(new AskMoveMessage(EasyGame.SERVER_NICKNAME, students, islands));
     }
 
+    /**
+     * Asks the player for the island moves.
+     *
+     * @param student the color of the selected student
+     * @param islands the list of islands
+     */
     @Override
     public void askIslandMoves(Color student, List<Island> islands){}
+
+    /**
+     * Asks the player for the mother nature moves.
+     *
+     * @param nickname the player's nickname
+     * @param possibleSteps the possible steps mother nature can do
+     */
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
         clientHandler.sendMessage(new MoveMotherMessage(nickname, possibleSteps, new Assistant(0, possibleSteps)));
     }
 
+    /**
+     * Asks the player for the cloud selection.
+     *
+     * @param nickname the player's nickname
+     * @param availableClouds the list of available clouds
+     */
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds) {
         clientHandler.sendMessage(new PickCloudMessageRequest(nickname, availableClouds));
     }
 
-    //TODO
+    /**
+     * Asks the player for the number of clients they want to have connected.
+     */
     @Override
     public void askPlayersNumber() {
         clientHandler.sendMessage(new PlayerNumberRequest());
     }
 
-    //TODO
+    /**
+     * Asks the player to input the preferred gameMode.
+     *
+     * @param nickname the player's nickname
+     * @param gameModes the modes of the game
+     */
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameModes) {
         clientHandler.sendMessage(new GameModeRequest(nickname, gameModes));
     }
 
-    //TODO
+    /**
+     * Asks the player for the tower color.
+     *
+     * @param nickname the player's nickname
+     * @param teams the list of available teams
+     */
     @Override
     public void askInitType(String nickname, List<Type> teams){
         clientHandler.sendMessage(new TowerMessageRequest(nickname, teams));
     }
 
+    /**
+     * Sends the player a generic message in text format.
+     *
+     * @param genericMessage
+     */
     @Override
     public void showGenericMessage(String genericMessage) {
         clientHandler.sendMessage(new GenericMessage(genericMessage));
     }
 
-
+    /**
+     * Shows the login outcome to the player.
+     *
+     * @param nicknameAccepted
+     * @param connectionResult if the connection's successful
+     * @param nickname player's nickname
+     */
     @Override
     public void showLoginResult(boolean nicknameAccepted, boolean connectionResult, String nickname) {
         clientHandler.sendMessage(new LoginReply(nicknameAccepted, connectionResult));
     }
 
-    //TODO
+
     @Override
     public void showDisconnectionMessage(String playerDisconnected, String text) {
     }
 
+    /**
+     * Ends the comunication when an error occurs.
+     * 
+     * @param nickname the player's nickname
+     */
     @Override
     public void errorCommunicationAndExit(String nickname) {
         clientHandler.sendMessage(new ErrorMessage(nickname, "Error comunication"));
 
     }
 
-    @Override
-    public void effectEnabled(String summoner) {
-
-    }
 
     @Override
     public void showMatchInfo(int chosen, int actual) {
@@ -121,11 +191,6 @@ public class VirtualView implements View, Observer {
 
     public void showMatchInfo(List<String> activePlayers , String activePlayerNickname) {
         clientHandler.sendMessage(new MatchInfoMessage(EasyGame.SERVER_NICKNAME , MessageType.MATCH_INFO,activePlayers , activePlayerNickname));
-
-    }
-
-    @Override
-    public void winCommunication(String winner) {
 
     }
 

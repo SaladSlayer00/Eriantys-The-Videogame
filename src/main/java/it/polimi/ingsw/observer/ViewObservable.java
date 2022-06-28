@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Abstract class that allows for the model to be observed by various agents that
+ * will react according to the notified changes
+ */
 public abstract class ViewObservable {
     protected final List<ViewObserver> observers = new ArrayList<>();
 

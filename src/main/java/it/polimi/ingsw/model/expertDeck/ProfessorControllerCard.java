@@ -17,9 +17,8 @@ import it.polimi.ingsw.view.VirtualView;
 import java.util.ArrayList;
 import java.util.List;
 
-/* This card allows the player who summons it to control the professor even if they have the same number
+/** Class for COOK card: this card allows the player who summons it to control the professor even if they have the same number
 * students of the player who has it in that very moment
-* This is quite ambiguous BUT probably the player needs to have THE SAME number of students, not less!!!
  */
 public class ProfessorControllerCard extends Character{
     private ExpertDeck name = ExpertDeck.COOK;
@@ -38,7 +37,7 @@ public class ProfessorControllerCard extends Character{
     public ExpertDeck getName() {
         return name;
     }
-    //TODO fa un update di ritardo controllare perchè
+
     @Override
     public void useEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
@@ -86,10 +85,11 @@ public class ProfessorControllerCard extends Character{
     }
     //TODO rimuovere a fine turno
 
-    public Player getCaller() {
-        return caller;
-    }
-
+    /**
+     * Method that checks if the player has enough money to play the card
+     * @param p the player that called the card's effect
+     * @return boolean value to notify the operation's outcome
+     */
     public boolean checkMoney(Player p){
         return p.getCoins() >= getCost()+turnController.getPrice().get(this.getName());
     }

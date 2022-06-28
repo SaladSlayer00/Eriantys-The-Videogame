@@ -17,127 +17,180 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-/* this is the general view interface that contains (it should at least) all the methods that are going to
-* be used by the various view types (such as cli and friends)
-* in general these are all the various stuffs needed for user/game communications (kinda)
+/** The general view interface that contains (it should at least) all the methods that are going to
+* be used by the various view types (such as cli and gui)
+* in general these are all the various stuffs needed for user/game communications.
  */
 
 public interface View {
 
-    //asks the player to choose a nickname
+    /** Asks the player to choose a nickname
+     *
+     */
     void askNickname();
 
-
-    //player reply and request from server to start game
+    /** Player reply and request from server to start game
+     *
+     * @param nickname player's nickname
+     * @param answer player's answer
+     */
     void askStart(String nickname, String answer);
 
-    //asks the player to choose a deck from the ones available
-    //the parameter of the method is the list of the deck which the player can choose from
+    /**
+     * Asks the player to choose a deck from the ones available
+     * the parameter of the method is the list of the deck which the player can choose from.
+     *
+     * @param nickname the player's nickname
+     * @param availableDecks the decks available for choosing
+     */
     void askInitDeck(String nickname, List<Mage> availableDecks);
 
-    //asks the player to choose an assistant's card from the ones that are still in the deck
-    //the parameter of the method is the list of the cards in the deck which the player can choose from
-    void askAssistant(String nickname, List<Assistant> availableAssistants);
+    /**
+     * Asks the player to choose an assistant's card from the ones that are still in the deck
+     * the parameter of the method is the list of the cards in the
+     * deck which the player can choose from.
+     *
+     * @param nickname the player's nickname
+     * @param availableAssistants the assistants available for choosing
+     */
+
+     void askAssistant(String nickname, List<Assistant> availableAssistants);
 
 
-    //asks where the player wants to move the paw they have chosen
-    //the parameter is the list of admitted positions
+    /**
+     * Asks where the player wants to move the paw they have chosen
+     * the parameter is the list of admitted positions
+     *
+     * @param students the list of available students
+     * @param islands the list of islands
+     */
     void askMoves(List<Student> students, List<Island> islands);
 
-    //asks the player where on the islands they want to move the students
+    /**
+     * Asks the player where on the islands they want to move the students
+     *
+     * @param student the color of the selected student
+     * @param islands the list of islands
+     */
     void askIslandMoves(Color student, List<Island> islands);
 
 
-    //asks the player how many steps they want Mother Nature to do
-    //the parameter of the method is the number of admitted steps (???)
+    /**
+     * Asks the player where on the islands they want to move the students
+     *
+     * @param nickname the player's nickname
+     * @param possibleSteps the possible steps mother nature can do
+     */
     void askMotherMoves(String nickname, int possibleSteps);
 
-    //asks the player which cloud they want to pick the students from
-    //the parameter of the method is the list of the remaining cloud
+    /**
+     * Asks the player which cloud they want to pick the students from
+     * the parameter of the method is the list of the remaining cloud
+     *
+     * @param nickname the player's nickname
+     * @param availableClouds the list of available clouds
+     */
     void askCloud(String nickname, List<Cloud> availableClouds);
 
-    //asks for the number of players that are going to play
+    /**
+     * Asks for the number of players that are going to play
+     */
     void askPlayersNumber();
 
-    //asks for the game mode
+    /**
+     * Asks for the game mode
+     *
+     * @param nickname the player's nickname
+     * @param gameModes the modes of the game
+     */
     void askGameMode(String nickname, List<modeEnum> gameModes);
 
+    /**
+     * Asks the player toselect a team
+     *
+     * @param nickname the player's nickname
+     * @param teams the list of available teams
+     */
     void askInitType(String nickname, List<Type> teams);
 
-    /* THESE THINGS NEED TO BE DISCUSS A BIT I THINK!!!
-    * TODO
-    * then we should implement all the various things that have to do with the exceptions, connections and these
-    * stuffs.
-    * These stuffs include
-    *  - successful login                                            TO BE CHECKED ((okay???))
-    *  - disconnection message                                       TO BE CHECKED ((okay???))
-    *  - error and exit                                              TO BE CHECKED
-    *  - lobby (?)                                                   TO BE WRITTEN
-    *  - enable effects (for the expert mode????)                    TO BE DISCUSSED THIS THINGGGGG
-    *  - match infos                                                 TO BE CHECKED
-    *  - win message                                                 TO BE CHECKED
-    *
-    * we should also consider the idea to do two different methods for the action of moving the students
-    * one method for moving the students on an island and another one for moving the students in the right row!!!
-    *
-    * the main problem in these methods are the parameter 'cuz I don't know if they are right!!!!!
-     */
 
-    // here the beginning of the implementation of the methods listed above
-    //sends a generic message
+     /**
+      * Sends a generic message
+      *
+     * @param genericMessage
+     */
     void showGenericMessage(String genericMessage);
 
-    //communicates the successful login of the player (should check the order of the parameters!!!)
-    //the parameters are two boolean and the nickname of the player
+    /**
+     * Communicates the successful login of the player (should check the order of the parameters!!!)
+     * the parameters are two boolean and the nickname of the player
+     *
+     * @param nicknameAccepter if the nickname's accepted
+     * @param connectionResult if the connection's successful
+     * @param nickname player's nickname
+     */
     void showLoginResult(boolean nicknameAccepter, boolean connectionResult, String nickname);
 
-    //TODO
-    //communicates the disconnection of the player
-    //the parameters are the nicknames of the player who has been disconnected and a boolean (???)
-    //maybe it needs another parameter???
+    /**Communicates the disconnection of the player
+     *
+     * @param playerDisconnected disconnected player
+     * @param text message to send
+     */
     default void showDisconnectionMessage(String playerDisconnected, String text) {
     }
 
-    //TODO
-    //communicates that an error has occurred and exits form the game
-    //the parameter is the nick of the player who's going to be kicked out (???)
-    //same thing here as for showDisconnectionMessage: should we add a parameter?????
+    /** Communicates that an error has occurred and exits form the game
+     *
+     * @param nickname the player's nickname
+     */
     void errorCommunicationAndExit(String nickname);
 
-    //TODO
-    //communicates that the wanted effect has been activated
-    //tbh i'm not 100% sure of this method because i don't really know if this is going to work out for our code...
-    //also a thing to pass the card that has been summoned???????????
-    //should we add a parameter here too????????
-    void effectEnabled(String summoner);
-
-    //TODO
-    //shows the information of the match played
-    //the parameters should be a list of players and things like these... i think???
+    /**Shows the information of the match played
+     *
+     * @param chosen players chosen
+     * @param actual active players
+     */
     void showMatchInfo(int chosen, int actual);
 
+    /**
+     * Second verson with every player present
+     * @param activePlayers list of active player
+     * @param activePlayerNickname list of nickname of active player
+     */
     void showMatchInfo(List<String> activePlayers , String activePlayerNickname);
 
-
-    //TODO
-    //communicates to the winner they have won
-    //should we pass the nick of the player or the REAL player???
-    //this should be right (((i think)))
-    void winCommunication(String winner);
-
-    //TODO
-    //tells the player which player has won
+    /** Tells the player which player has won
+     *
+     * @param winner nickname of winner
+     */
     void showWinMessage(String winner);
 
+    /**
+     * Method to update the needed parameters to show the gameboard and dashboard status from the cli
+     *
+     * @param gameboard the instance of the gameoard
+     * @param dashboards the instance of the dashboards
+     * @param players the player list
+     * @throws noTowersException if there's no towers on the dashboard
+     */
     void updateTable(Gameboard gameboard, List<Dashboard> dashboards,List<Player> players) throws noTowersException;
 
-    //shows the assistants chosen
-    void showAssistant(int index);
-
+    /**
+     * Shows the players in the lobby before the game starts
+     *
+     * @param nicknameList list of nicknames for players
+     * @param maxPlayers max number of players available
+     */
     void showLobby(List<String> nicknameList, int maxPlayers);
 
+    /**
+     * Asks to input an expert card
+     */
     void askExpert();
 
+    /**
+     * Asks to input a color
+     */
     void askColor();
 
 }
