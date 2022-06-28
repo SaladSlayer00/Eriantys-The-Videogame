@@ -26,6 +26,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * ExpertCardSceneController class for the handling of the scene that is displayed for the selection of the expert card
+ * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
+ */
 public class ExpertCardsSceneController extends ViewObservable implements BasicSceneController {
 
     String chosenOneName;
@@ -44,6 +48,11 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     @FXML
     private ImageView selectedCard;
 
+    /**
+     * class constructor
+     * @param gameboard is the actual gameboard of the match
+     * @param gBSC is the gameboard scene controller of the match
+     */
     public ExpertCardsSceneController(Gameboard gameboard,GameBoardSceneController gBSC) {
         selectedCard = new ImageView();
         cards = new ImageView[3];
@@ -54,6 +63,10 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
 
     }
 
+    /**
+     * this method initializes the class setting all the various parameter to display the scene
+     * on the player's screen in the proper way
+     */
     @FXML
     public void initialize() {
         createExpertCards();
@@ -78,6 +91,11 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     }
  */
 
+    /**
+     * this method handles the clicks on the various expert cards and handles all the possible situations given by the
+     * differences between the various cards of the expert deck
+     * @param nameOfTheCard is the name of the card that has been clicked
+     */
     private void onExpertCardsClick(String nameOfTheCard) {
         lessGoButton.setDisable(false);
         setExpertCardImage(nameOfTheCard);
@@ -129,12 +147,22 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         }
     }
 
+    /**
+     * this method handles the click on the button that confirms the choice of the card
+     * @param event is the input given by the player's mouse
+     */
     private void onLessGoButtonClick(Event event) {
         new Thread(() -> notifyObserver((observers -> observers.OnUpdateExpert(chosenOne)))).start();
         if(chosenOne.equals(ExpertDeck.COOK) || chosenOne.equals(ExpertDeck.KNIGHT) || chosenOne.equals(ExpertDeck.GAMBLER) || chosenOne.equals(ExpertDeck.CUSTOMER)){
             Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
         }
     }
+
+    /**
+     * this method handles the clicks on the button that exit form the scene of the choice of the card
+     * the match keeps going as normal
+     * @param event is the input given by the player's mouse
+     */
     private void onExitButtonClick(Event event){
         Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
         currentGameBoardSceneController.setMainPhase(PhaseType.YOUR_MOVE);
@@ -150,6 +178,9 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
 
     }
 
+    /**
+     * this method creates the various expert cards (which are three for each match)
+     */
     public void createExpertCards() {
         for (int i = 0; i < 3; i++) {
             System.out.println("");
@@ -162,6 +193,10 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         }
     }
 
+    /**
+     * setter for the image of an expert card
+     * @param nameOfTheCard is the string indicating the name of the expert card that has to be displayed
+     */
     private void setExpertCardImage(String nameOfTheCard) {
         Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + nameOfTheCard + ".jpg"));
         selectedCard.setImage(image);

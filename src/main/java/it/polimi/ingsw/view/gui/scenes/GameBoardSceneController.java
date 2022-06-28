@@ -30,9 +30,10 @@ import java.util.*;
 
 import static java.lang.Math.abs;
 
-/* this is the class that controls the scene of the gameboard
- * the paws moves on the gameboard, so this class is pretty important for all the various method
- * that are in charge of the moves of the paws/ professors/ these things...
+/**
+ *  GameboardSceneController class that controls the scene of the gameboard
+ * here there are all the main elements of the game such as islands, paws and dashboards
+ * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GameBoardSceneController extends ViewObservable implements BasicSceneController {
 
@@ -119,7 +120,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private Label currentPlayer;
 
 
-
+    /**
+     * class constructor
+     * @param playerNickname is the nickname player who is going to have the game displayed on their screen
+     */
     public GameBoardSceneController(String playerNickname){
         currentDashboard = 0;
         this.playerNickname = playerNickname;
@@ -162,6 +166,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     }
 
 
+    /**
+     * this method initializes the class setting all the various parameter to display the scene
+     * on the player's screen in the proper way
+     * @throws noTowerException if there are no towers available
+     */
     public void initialize() throws noTowerException {
         updateAll();
         displayExpertSection();
@@ -181,6 +190,13 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
 
     }
+
+    /**
+     * setter for the actual gameboard of the match
+     * @param gameboard is the gameboard that has to be displayed
+     * @param dashboards is the dashboard that has to be displayes
+     * @param players is the list of players that are playing the match
+     */
     public void setGameBoard(Gameboard gameboard,List<Dashboard> dashboards,List<Player> players) {
         reducedGameBoard= gameboard;
         reducedDashboards = dashboards;
@@ -189,13 +205,21 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
 
     }
+
+    /**
+     * this method updates the match after something has happened (for example a player has just moved a paw)
+     * this method just called the other method more specialized with all the various elements of the scene that may be updated
+     * @throws noTowerException if there are no more towers (end of match)
+     */
     public void updateAll() throws noTowerException {
         updateDashBoard();
         updateGameBoard();
         setDisabledItems();
     }
 
-
+    /**
+     * this method handles the update of the dashboard after something has happened
+     */
     private void updateDashBoard(){
         clearDashBoard();
         Dashboard selectedDashBoard = reducedDashBoard;
@@ -280,7 +304,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     }
 
 
-
+    /**
+     * this method handles the updates of the gameboard (here specified as the islands) after something has happened
+     * (such the move of a paw)
+     * @throws noTowerException if there are no more towers (end of game)
+     */
     public void updateGameBoard() throws noTowerException {
         clearArchipelago();
         int index = 0;
@@ -323,6 +351,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * this method allows the player to switch dashboards so to look at the dashboards of the other players
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onPreviousDashBoardButtonClicked(Event mouseEvent)  {
         if(currentDashboard > 0){
             currentDashboard--;
@@ -340,7 +372,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
-    //handling the clicks on the button of the next mage
+    /**
+     * this method allows the player to switch dashboards so to look at the dashboards of the other players
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onNextDashBoardButtonClicked(Event mouseEvent){
         if(currentDashboard < reducedDashboards.size() - 1){
             currentDashboard++;
@@ -359,6 +394,12 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * this method check whether a button may be disabled
+     * @param button is the button which have to be checked
+     * @param index is the index of the dashboard
+     * @return a boolean variable that indicates whether the button can actually be disabled
+     */
     private boolean couldItBeDisabled(Button button, int index){
         if(currentDashboard == index){
             button.setDisable(true);
@@ -369,6 +410,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     }
 
 
+    /**
+     * this method check whom students own the dashboard that is displayed on the screen at the moment
+     * @param dashboard is the dashboard that is displayed
+     */
     private void checkOwnership(Dashboard dashboard){
         setDisabledItems();
         if(!dashboard.getOwner().equals(playerNickname)){
@@ -410,6 +455,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
 
     }
+
+    /**
+     * this method handles the clicks on a student's paw when the player clicks it during their turn
+     * @param event is the input given by the player's mouse
+     */
     private void onStudentClicked(MouseEvent event){
         Dashboard playerDashBoard = getYourDashBoard();
         Node clickedNode = event.getPickResult().getIntersectedNode();
@@ -424,6 +474,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * this method handles the clicks on an island of the gameboard when the player clicks it during their turn
+     * @param event is the input given by the player's mouse
+     */
     private void onIslandClicked(MouseEvent event){
         Node clickedNode = event.getPickResult().getIntersectedNode();
         TilePane chosenIsland;
@@ -469,12 +523,23 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * this method handles the clicks when the player chooses to use an expert card during a match played
+     * in the expert mode
+     * this method send to the scene that displays the various option of expert cards available during the actual match
+     * @param event is the input given by the player's mouse
+     */
     private void onUseExpertClicked(MouseEvent event){
         ExpertCardsSceneController eCSController = new ExpertCardsSceneController(reducedGameBoard,this);
         eCSController.addAllObservers(observers);
         Platform.runLater(()->SceneController.changeRootPane(eCSController,"expert_choice.fxml"));
 
     }
+
+    /**
+     * getter of the dashboard of the player's who is the owner of the screen
+     * @return the dashboard corresponding to the owner of the computer
+     */
     public Dashboard getYourDashBoard(){
         for(Dashboard dashboard:reducedDashboards){
             if(dashboard.getOwner().equals(playerNickname))
@@ -483,10 +548,19 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         return null;
     }
 
+    /**
+     * getter for the gameboard
+     * @return the gameboard displayed
+     */
     public Gameboard getReducedGameBoard(){
         return reducedGameBoard;
     }
 
+    /**
+     * getter of the index of the island that has been clicked on the screen
+     * @param island is the image of the island
+     * @return the index of the island that is passed as a parameter
+     */
     private int getIslandIndex(TilePane island){
         for(int i = 0; i<archipelago.getChildren().size();i++)
         {
@@ -497,6 +571,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         return 0;
     }
 
+    /**
+     * getter of the player given a dashboard
+     * @param dashboard is the dashboard of the player that it has to be get
+     * @return the actual owner of the dashboard
+     */
     public Player getPlayer(Dashboard dashboard){
         for(Player player :listOfPlayer){
             if(player.getName().equals(dashboard.getOwner()))
@@ -505,6 +584,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         return null;
     }
 
+    /**
+     * method that handles the clicks on the row for the green paws
+     * if the row is the right one the method works properly,
+     * else it shows a message to retry the operation in the right place
+     */
     private void onGreenRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.GREEN))
         {
@@ -514,6 +598,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * method that handles the clicks on the row for the red paws
+     * if the row is the right one the method works properly,
+     * else it shows a message to retry the operation in the right place
+     */
     private void onRedRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.RED))
         {
@@ -524,6 +613,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * method that handles the clicks on the row for the yellow paws
+     *if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onYellowRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.YELLOW))
         {
@@ -533,6 +627,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * method that handles the clicks on the row for the pink paws
+     * if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onPinkRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.PINK))
         {
@@ -543,6 +642,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * method that handles the clicks on the row for the blue paws
+     * if the row is the right one the method works properly,
+     *else it shows a message to retry the operation in the right place
+     */
     private void onBlueRowClicked(){
         if(!chosenStudent.getStudent().getColor().equals(Color.BLUE))
         {
@@ -554,6 +658,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * this method notifies the game controller of the various operation made on the dashboard's rows
+     * @param selectedRow is the row that has been selected during the turn
+     */
     private void notifyGameController(TilePane selectedRow){
         try{
             Color studentColor = chosenStudent.getStudent().getColor();
@@ -568,6 +676,11 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * this method add a gui student (the image) on the screen
+     * @param student is the student that has to be added
+     * @return the gui student (the image on the screen)
+     */
     private GuiStudent addGuiStudent(Student student){
         Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString() + ".png"));
         GuiStudent studentImage = new GuiStudent(student);
@@ -577,6 +690,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         return studentImage;
     }
 
+    /**
+     * setter that disabled the possible operations on the gameboard so that the player cannot do them
+     */
     public void setDisabledItems(){
         if(mainPhase.equals(PhaseType.WAITING)){
             for(GuiStudent guiStudent: hallList){
@@ -613,14 +729,25 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * setter for the secondary game phase
+     * @param phaseType is the phase that has to be set
+     */
     public void setSecondaryPhase(PhaseType phaseType){
         secondaryPhase = phaseType;
     }
 
+    /**
+     * setter for the main phase of the turn
+     * @param phaseType is the phase that has to be set
+     */
     public void setMainPhase(PhaseType phaseType){
         mainPhase = phaseType;
     }
 
+    /**
+     * this method clears the dashboard removing the various items that were on it
+     */
     private void clearDashBoard(){
         reducedHall.getChildren().clear();
         towersSpot.getChildren().clear();
@@ -637,6 +764,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         blueProfessor.setImage(null);
     }
 
+    /**
+     * this method clears a cluster of island (archipelago) from the various items that were on it
+     */
     private void clearArchipelago(){
         islandOne.getChildren().clear();
         islandTwo.getChildren().clear();
@@ -653,6 +783,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * this method disabled the rows of a dashboard so that they cannot be modified by the player
+     */
     private void disabledRows(){
         blueRow.setDisable(true);
         greenRow.setDisable(true);
@@ -661,6 +794,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         pinkRow.setDisable(true);
     }
 
+    /**
+     * this method enables the various rows of a dashboard so that the player can interact with them
+     * during thier turn
+     */
     private void enabledRows(){
         blueRow.setDisable(false);
         greenRow.setDisable(false);
@@ -669,6 +806,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         pinkRow.setDisable(false);
     }
 
+    /**
+     * this method merges the islands so to form a cluster when there are two towers of the same colors
+     * of neighbour islands and an archipelago is displayed on the screen after the operation
+     */
     private void mergeIslands(){
         int numberOfIsland = reducedGameBoard.getIslands().size();
         if(numberOfIsland<12){
@@ -679,6 +820,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * this method makes the islands on the screen glow in case they can be chosen to put Mother Nature on them
+     * @param possibleMoves are the possible moves that the player can make to move Mother Nature during their turn
+     */
     public void enabledGlowEffectIsland(int possibleMoves) {
         Glow glow = new Glow();
         possibleMotherNatureMoves = possibleMoves;
@@ -690,16 +835,29 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
     }
 
+    /**
+     * this method disables the glow of the islands that the player could have chosen when they were in the phase of the game
+     * when they had to move Mother nature
+     * @param possibleMoves is the integer that indicates the moves that the player could have chosen to move Mother Nature
+     */
     private void disableGlowEffectIsland(int possibleMoves) {
         for (int i = 0; i < possibleMoves; i++) {
             int index = (reducedGameBoard.getMotherNature()+i+1) % reducedGameBoard.getIslands().size();
             archipelago.getChildren().get(index).setEffect(null);
         }
     }
+
+    /**
+     * getter for the list of player that are playing the match
+     * @return a list of the players that are playing the match
+     */
     public List<Player> getListOfPlayer(){
         return listOfPlayer;
     }
 
+    /**
+     * this method handles the display of the expert cards that are available during the actual match
+     */
     private void displayExpertSection(){
         if(!(reducedGameBoard.getExperts().size()>0)){
             expertSection.setDisable(true);
@@ -708,6 +866,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
 
     }
 
+    /**
+     * getter of the  dashboards of the various players that are playing the match
+     * @return the list of the various players' dashboards
+     */
     public List<Dashboard> getReducedDashboards(){
         return reducedDashboards;
     }

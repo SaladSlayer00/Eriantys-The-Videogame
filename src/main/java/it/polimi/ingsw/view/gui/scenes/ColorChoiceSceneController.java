@@ -32,7 +32,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//should decide how to display the choice;
+/**
+ * ColorChoiceSceneController is the controller that sets the scene for the moment of the game when the player have to choose
+ * a color for certain effects of the expert mode
+ * the two cards that need this choice are banker and seller that use the chosen color to give advantages or disadvantages
+ * to the players
+ */
 
 public class ColorChoiceSceneController extends ViewObservable implements BasicSceneController{
 
@@ -53,6 +58,9 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
     @FXML
     private Button notOkayButton;
 
+    /**
+     * class constructor
+     */
     public ColorChoiceSceneController(){
 
         actualStage = new Stage();
@@ -70,6 +78,10 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         }
     }
 
+    /**
+     * this method initializes the class setting all the various parameter to display the scene on the player's
+     * screen in the proper way
+     */
     @FXML
     public void initialize(){
         okayButton.setDisable(true);
@@ -81,14 +93,26 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         rootAP.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootAPMouseDragged);
     }
 
+    /**
+     * setter for the gameboard
+     * @param gBSC is the gameboard of the match that it is played at the moment of the selection
+     */
     public void setgBSC(GameBoardSceneController gBSC) {
         this.gBSC = gBSC;
     }
 
+    /**
+     * setter that tells which expert card has been played
+     * @param ec is the expert card chosen by the player
+     */
     public void setExpert(ExpertDeck ec){
         expertChosen = ec;
     }
 
+    /**
+     * this method handles the clicks on the various images of the paws
+     * @param event is the input given by the player's mouse
+     */
     private void onColorClicked(MouseEvent event){
         Node clickedNode = event.getPickResult().getIntersectedNode();
         if(clickedNode instanceof  GuiStudent) {
@@ -105,6 +129,11 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         }
     }
 
+    /**
+     * this method add the gui student to the scene
+     * @param color is the color of the student
+     * @return a gui student to be added to the scene
+     */
     private GuiStudent addGuiStudent(Color color) {
         Image colorImage = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color.getText() + ".png"));
         Student student = new Student(color);
@@ -115,6 +144,11 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         return studentImage;
     }
 
+    /**
+     * this method handles the clicks on the button that gives the confirmation of the choice of the color
+     * the controller is notified with the proper card chosen so that it knows how to react
+     * @param event is the input given by the player's mouse
+     */
     private void onOkayButtonClicked(MouseEvent event){
         if(expertChosen.equals(ExpertDeck.BANKER)) {
             new Thread(() -> notifyObserver(observers -> observers.OnUpdateEffectBanker(chosenColor.getStudent().getColor()))).start();
@@ -129,6 +163,11 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         actualStage.close();
     }
 
+    /**
+     * this is the method that the handles the clicks on the button that deselect the choice of the color
+     * that was previously clicked
+     * @param event is the input given by the player's mouse
+     */
     private void onNotOkayButtonClicked(MouseEvent event){
         for(Node node: tP.getChildren()){
             GuiStudent currentGuiStudent = (GuiStudent) node;
@@ -140,25 +179,44 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
         notOkayButton.setDisable(true);
     }
 
+    /**
+     * this method handles the pressing on the window that display the scene
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onRootAPMousePressed(MouseEvent mouseEvent){
         offsetX = actualStage.getX() - mouseEvent.getScreenX();
         offsetY = actualStage.getY() - mouseEvent.getScreenY();
     }
 
+    /**
+     * this method handles the dragging of the scene
+     * @param mouseEvent is the input given by the player's mouse
+     */
     private void onRootAPMouseDragged(MouseEvent mouseEvent){
         actualStage.setX(mouseEvent.getScreenX() + offsetX);
         actualStage.setY(mouseEvent.getScreenY() + offsetY);
     }
 
+    /**
+     * setter of the scene
+     * @param scene is the proper scene
+     */
     public void setScene(Scene scene){
         actualStage.setScene(scene);
     }
 
 
+    /**
+     * setter of the expert card chosen by the player
+     * @param expertChosen
+     */
     public void setExpertChosen(ExpertDeck expertChosen){
         this.expertChosen = expertChosen;
     }
 
+    /**
+     * method that displays the message for the choice so that the player can read it
+     */
     public void displayAlert(){
         actualStage.showAndWait();
     }

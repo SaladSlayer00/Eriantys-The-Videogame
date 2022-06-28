@@ -3,7 +3,10 @@ package it.polimi.ingsw.model.enums;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//enumeration for the paws' color
+/**
+ * Color enum class for the students' paws' colors
+ * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
+ */
 public enum Color{
     RED("red"),
     GREEN("green"),
@@ -14,15 +17,26 @@ public enum Color{
     private String color;
     private static final ArrayList<Color> available = new ArrayList<Color>(Arrays.asList(Color.GREEN,Color.RED,Color.YELLOW,Color.PINK,Color.BLUE));
 
-    //constructor that initializes the enum of the wanted color
+    /**
+     * class constructor
+     * @param color is the string corresponding to one of the colors of the enum
+     */
     Color(String color){
         this.color = color;
     }
 
+    /**
+     * getText method is a getter of the string indicating the color of a specific enum type
+     * @return the color of the enum type as a string
+     */
     public String getText(){
         return color;
     }
 
+    /**
+     * getAvailable method is a getter of the available colors type
+     * @return an arraylist with the colors available in the specific moment
+     */
     public static ArrayList getAvailable(){
         return available;
     }
