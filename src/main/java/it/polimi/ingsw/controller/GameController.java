@@ -613,9 +613,9 @@ public class GameController implements Serializable {
     }
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.TAVERNER);
-        ExpertDeck.choose(ExpertDeck.BARBARIAN);
-        ExpertDeck.choose(ExpertDeck.BANKER);
+        ExpertDeck.choose(ExpertDeck.GAMBLER);
+        ExpertDeck.choose(ExpertDeck.CUSTOMER);
+        ExpertDeck.choose(ExpertDeck.KNIGHT);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
@@ -625,13 +625,13 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.TAVERNER);
-        game.getExperts().add(ExpertDeck.BARBARIAN);
-        game.getExperts().add(ExpertDeck.BANKER);
+        game.getExperts().add(ExpertDeck.GAMBLER);
+        game.getExperts().add(ExpertDeck.CUSTOMER);
+        game.getExperts().add(ExpertDeck.KNIGHT);
 
-        turnController.getPrice().put(ExpertDeck.TAVERNER,0);
-        turnController.getPrice().put(ExpertDeck.BARBARIAN,0);
-        turnController.getPrice().put(ExpertDeck.BANKER,0);
+        turnController.getPrice().put(ExpertDeck.GAMBLER,0);
+        turnController.getPrice().put(ExpertDeck.CUSTOMER,0);
+        turnController.getPrice().put(ExpertDeck.KNIGHT,0);
 
         for(Player p : game.getPlayers()){
             p.addCoin(10);

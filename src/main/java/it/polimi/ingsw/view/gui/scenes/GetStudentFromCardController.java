@@ -630,7 +630,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 }else if(selectedRow.equals(pinkRow)){
                     new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.PINK))).start();
                 }
-                Platform.runLater(()->SceneController.changeRootPane(currentGameBoardSceneController,"gameboard2_scene.fxml"));
+                Platform.runLater(()->SceneController.changeRootPane(currentGameBoardSceneController,"gameboard_scene.fxml"));
             }catch (NullPointerException e){
                 Platform.runLater(() -> SceneController.alertShown("Message:", "Please select a student"));
             }
@@ -656,15 +656,15 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         switch(expertDeck){
             case HERALD:
                 new Thread(()->notifyObserver(obs -> obs.OnUpdateEffectHerald(currentIslandIndex))).start();
-                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
                 break;
             case HERBALIST:
                 new Thread(() -> notifyObserver(obs->obs.OnUpdateEffectHerbalist(currentIslandIndex))).start();
-                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
                 break;
             case TAVERNER:
                 new Thread(()-> notifyObserver(obs->obs.OnUpdateEffectTaverner(currentIslandIndex))).start();
-                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+                Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
                 break;
         }
 

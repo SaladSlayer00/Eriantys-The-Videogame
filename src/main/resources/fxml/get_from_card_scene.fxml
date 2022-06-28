@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1281.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
-        <URL value="@../css/expert_scene.css" />
+        <URL value="@../css/backgrounds.css" />
     </stylesheets>
     <stylesheets>
         <URL value="@../css/gameBoard_scene.css" />

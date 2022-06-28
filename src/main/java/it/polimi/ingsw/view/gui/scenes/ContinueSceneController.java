@@ -80,7 +80,7 @@ public class ContinueSceneController extends ViewObservable implements BasicScen
     public void onQuitButtonClicked(MouseEvent mouseEvent){
         String inputWord = "NO";
         notifyObserver(obs -> obs.OnStartAnswer(inputWord));
-        Platform.runLater(()->SceneController.changeRootPane(gBSC,"gameboard2_scene.fxml"));
+        Platform.runLater(()->SceneController.changeRootPane(gBSC,"gameboard_scene.fxml"));
         actualStage.close();
     }
 

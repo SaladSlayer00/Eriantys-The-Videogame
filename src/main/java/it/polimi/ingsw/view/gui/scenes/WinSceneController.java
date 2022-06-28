@@ -7,34 +7,35 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Objects;
+
 public class WinSceneController implements BasicSceneController{
 
     private Stage actualStage;
-
     private double offsetX;
     private double offsetY;
+    private String winnerNickName;
 
     @FXML
-    private BorderPane borderRPane;
-
+    private AnchorPane anchorPane;
     @FXML
-    private Label labelForTheTitle;
-
+    private Label winnerName;
     @FXML
-    private Label labelForTheNick;
-
+    private Button exitButton;
     @FXML
-    private Button confirmButton;
+    private ImageView statusImage;
 
     //the constructor for the scene (the basic one)
     public WinSceneController(){
-
         actualStage = new Stage();
         actualStage.initOwner(SceneController.getActiveScene().getWindow());
         actualStage.initModality(Modality.APPLICATION_MODAL);
@@ -42,13 +43,16 @@ public class WinSceneController implements BasicSceneController{
         actualStage.setAlwaysOnTop(true);
         offsetX = 0;
         offsetY = 0;
+        statusImage = new ImageView();
+        winnerName = new Label();
+
     }
 
     @FXML
-    public void initialization(){
-        borderRPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onBorderRPanePressed);
-        borderRPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onBorderRPaneDragged);
-        confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConfirmButtonClicked);
+    public void initialize(){
+        anchorPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onBorderRPanePressed);
+        anchorPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onBorderRPaneDragged);
+        exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onExitButtonClicked);
     }
 
     //handles the pressing of the pane
@@ -64,13 +68,15 @@ public class WinSceneController implements BasicSceneController{
     }
 
     //handles the clicking on the confirm button
-    private void onConfirmButtonClicked(MouseEvent event){
+    private void onExitButtonClicked(MouseEvent event){
         actualStage.close();
+        System.exit(0);
     }
 
     //it sets the nickname of the winner of the match
     public void setWinnerNick(String nickOfTheWinner){
-        labelForTheNick.setText(nickOfTheWinner + " is the winner of this match!");
+        winnerName.setText(nickOfTheWinner);
+        winnerNickName = nickOfTheWinner;
     }
 
     //it sets the win scene on the display (theoretically???)
@@ -81,6 +87,14 @@ public class WinSceneController implements BasicSceneController{
     //it actually really sets the scene on the stage
     public void setScene(Scene theScene){
         actualStage.setScene(theScene);
+    }
+
+    public void isWinner(String player){
+        if (winnerNickName.equals(player)){
+            statusImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/winner.png"))));
+        }else{
+            statusImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/lose.png"))));
+        }
     }
 
 }

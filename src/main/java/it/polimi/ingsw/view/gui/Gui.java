@@ -160,7 +160,7 @@ public class Gui extends ViewObservable implements View {
                     e.printStackTrace();
                 }
             });
-            cloudChoice = "firstPock";
+            cloudChoice = "firstPick";
         }
 
         }
@@ -248,7 +248,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void showWinMessage(String winner) {
         Platform.runLater(() -> {
-            SceneController.showingTheWinningPopup(winner);
+            SceneController.showingTheWinningPopup(winner,playerName);
             SceneController.changeRootPane(observers, MENU_STR_FXML);
         });
     }
@@ -284,7 +284,7 @@ public class Gui extends ViewObservable implements View {
                 GameBoardSceneController finalGBSC = gBSC;
                 gameBoardSceneController = gBSC;
                 updateGameBoard = gameboard;
-                Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
+                Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
                 Platform.runLater(()-> {
                     try {
                         finalGBSC.updateAll();
@@ -414,7 +414,7 @@ public class Gui extends ViewObservable implements View {
             gBSC = new GameBoardSceneController(playerName);
             gBSC.addAllObservers(observers);
             GameBoardSceneController finalGBSC = gBSC;
-            //Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard2_scene.fxml"));
+            //Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
         }
         return gBSC;
     }

@@ -114,6 +114,9 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     private Label numberOfCoin;
     @FXML
     private AnchorPane expertSection;
+    //Labels
+    @FXML
+    private Label currentPlayer;
 
 
 
@@ -155,6 +158,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         pinkProfessor = new ImageView();
         numberOfCoin = new Label();
         expertSection = new AnchorPane();
+        currentPlayer = new Label();
     }
 
 
@@ -271,7 +275,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             blueProfessor.setImage(image);
 
         }
-
+        currentPlayer.setText(selectedDashBoard.getOwner());
         checkOwnership(selectedDashBoard);
     }
 
@@ -370,18 +374,38 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         if(!dashboard.getOwner().equals(playerNickname)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(true);
-                guiStudent.setOpacity(0.5);
+                guiStudent.setOpacity(0.75);
             }
             reducedHall.setDisable(true);
             disabledRows();
-
-
+            towersSpot.setOpacity(0.75);
+            redRow.setOpacity(0.75);
+            greenRow.setOpacity(0.75);
+            blueRow.setOpacity(0.75);
+            yellowRow.setOpacity(0.75);
+            pinkRow.setOpacity(0.75);
+            redProfessor.setOpacity(0.75);
+            greenProfessor.setOpacity(0.75);
+            yellowProfessor.setOpacity(0.75);
+            pinkProfessor.setOpacity(0.75);
+            blueProfessor.setOpacity(0.75);
         }else{
             for(GuiStudent guiStudent : hallList){
                 guiStudent.setDisable(false);
             }
             reducedHall.setDisable(false);
             enabledRows();
+            towersSpot.setOpacity(1);
+            redRow.setOpacity(1);
+            greenRow.setOpacity(1);
+            blueRow.setOpacity(1);
+            yellowRow.setOpacity(1);
+            pinkRow.setOpacity(1);
+            redProfessor.setOpacity(1);
+            greenProfessor.setOpacity(1);
+            yellowProfessor.setOpacity(1);
+            pinkProfessor.setOpacity(1);
+            blueProfessor.setOpacity(1);
 
         }
 

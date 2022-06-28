@@ -123,7 +123,7 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
             new Thread(() -> notifyObserver(observers -> observers.OnUpdateEffectSeller(chosenColor.getStudent().getColor()))).start();
         }
         Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
-        Platform.runLater(()->SceneController.changeRootPane(gBSC,"gameboard2_scene.fxml"));
+        Platform.runLater(()->SceneController.changeRootPane(gBSC,"gameboard_scene.fxml"));
         gBSC.setMainPhase(PhaseType.YOUR_MOVE);
         gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
         actualStage.close();

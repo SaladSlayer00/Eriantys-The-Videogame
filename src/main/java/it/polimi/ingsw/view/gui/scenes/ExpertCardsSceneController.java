@@ -132,7 +132,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
     private void onLessGoButtonClick(Event event) {
         new Thread(() -> notifyObserver((observers -> observers.OnUpdateExpert(chosenOne)))).start();
         if(chosenOne.equals(ExpertDeck.COOK) || chosenOne.equals(ExpertDeck.KNIGHT) || chosenOne.equals(ExpertDeck.GAMBLER) || chosenOne.equals(ExpertDeck.CUSTOMER)){
-            Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+            Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
         }
     }
     private void onExitButtonClick(Event event){
@@ -146,7 +146,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
                 e.printStackTrace();
             }
         });
-        Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard2_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeRootPane(currentGameBoardSceneController, "gameboard_scene.fxml"));
 
     }
 

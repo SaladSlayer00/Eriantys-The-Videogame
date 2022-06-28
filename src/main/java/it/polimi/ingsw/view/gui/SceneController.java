@@ -148,7 +148,7 @@ public class SceneController extends ViewObservable  {
     }
 
     //this is the thing that controls the popup for the winning message
-    public static void showingTheWinningPopup(String whosTheWinner){
+    public static void showingTheWinningPopup(String whosTheWinner,String playerNickname){
         FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/win_scene.fxml"));
 
         Parent parente;
@@ -162,6 +162,7 @@ public class SceneController extends ViewObservable  {
         Scene winningScene = new Scene(parente);
         winSController.setScene(winningScene);
         winSController.setWinnerNick(whosTheWinner);
+        winSController.isWinner(playerNickname);
         winSController.winnerOnDisplay();
     }
 

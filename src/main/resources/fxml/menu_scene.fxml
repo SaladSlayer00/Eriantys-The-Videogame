@@ -9,6 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
    <children>
       <ImageView fitHeight="360.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
@@ -40,4 +41,7 @@
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>
    </children>
+   <stylesheets>
+      <URL value="@../css/backgrounds.css" />
+   </stylesheets>
 </AnchorPane>
