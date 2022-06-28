@@ -159,6 +159,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         numberOfCoin = new Label();
         expertSection = new AnchorPane();
         currentPlayer = new Label();
+        useExpert = new Button();
     }
 
 
@@ -673,8 +674,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         int numberOfIsland = reducedGameBoard.getIslands().size();
         if(numberOfIsland<12){
             for(int i = numberOfIsland; i<archipelago.getChildren().size();i++){
-                archipelago.getChildren().get(numberOfIsland).setVisible(false);
-                archipelago.getChildren().get(numberOfIsland).setDisable(true);
+                archipelago.getChildren().get(i).setVisible(false);
+                archipelago.getChildren().get(i).setDisable(true);
             }
         }
     }

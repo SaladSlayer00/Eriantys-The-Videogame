@@ -67,10 +67,10 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         Platform.runLater(()->createListOfClouds(availableClouds));
         Platform.runLater(()->setListOfClouds(availableClouds));
         confirmButton.setDisable(true);
-        if(availableClouds.size()<3){
-            cloudOne.setDisable(true);
-        }else{
+        if(availableClouds.size()==3){
             cloudOne.setDisable(false);
+        }else{
+            cloudOne.setDisable(true);
         }
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
