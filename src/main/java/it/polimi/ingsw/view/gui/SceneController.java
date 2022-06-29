@@ -5,12 +5,14 @@ import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.scenes.*;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -109,7 +111,7 @@ public class SceneController extends ViewObservable  {
     }
 
 
-    public static void showingAssistantPopup(List<Assistant> availableAssistants, List<ViewObserver> obs){
+    public static void showingAssistantPopup(List<Assistant> availableAssistants, List<ViewObserver> obs,GameBoardSceneController gameBoardSceneController, String choice,String player){
         FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/assistantChoice_scene.fxml"));
 
         Parent parent;
@@ -124,10 +126,13 @@ public class SceneController extends ViewObservable  {
         aSController.setScene(assistantScene);
         aSController.addAllObservers(obs);
         aSController.setAssistantDeck(availableAssistants);
+        aSController.setTypeOfChoice(choice);
+        aSController.setPlayerNickname(player);
+        aSController.setGameBoardSceneController(gameBoardSceneController);
         aSController.displayAlert();
     }
 
-    public static void showingCloudsPopup(List<Cloud> emptyClouds,List<Cloud> availableClouds, List<ViewObserver> obs,String choice){
+    public static void showingCloudsPopup(List<Cloud> emptyClouds, List<Cloud> availableClouds, List<ViewObserver> obs, String choice, GameBoardSceneController gBSC){
         FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/clouds_scene.fxml"));
 
         Parent parent;
@@ -144,6 +149,7 @@ public class SceneController extends ViewObservable  {
         cSController.setAvailableClouds(availableClouds);
         cSController.setEmptyClouds(emptyClouds);
         cSController.setTypeOfChoice(choice);
+        cSController.setGameBoardSceneController(gBSC);
         cSController.displayAlert();
     }
 

@@ -21,7 +21,7 @@ public class Gui extends ViewObservable implements View {
     //helper
     private static List<Cloud> clouds;
     //update scene
-    private GameBoardSceneController gameBoardSceneController;
+    private GameBoardSceneController gameBoardSceneController = null;
     private Gameboard updateGameBoard;
     private List<Dashboard> updateDashBoards;
     private List<Player> updatePlayers;
@@ -59,7 +59,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
-        Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants,observers));
+        String mode = "noReadOnly";
+        Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants,observers,gameBoardSceneController,mode,playerName));
     }
 
     @Override
@@ -142,7 +143,7 @@ public class Gui extends ViewObservable implements View {
             }
         });
         if(cloudChoice.equals("firstPick")){
-            Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
+            Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice,gameBoardSceneController));
             Platform.runLater(()-> {
                 try {
                     getGameSceneController().updateAll();
@@ -152,7 +153,7 @@ public class Gui extends ViewObservable implements View {
             });
             cloudChoice = "get";
         }else if(cloudChoice.equals("get")){
-            Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice));
+            Platform.runLater(()->SceneController.showingCloudsPopup(availableClouds,clouds,observers,cloudChoice,gameBoardSceneController));
             Platform.runLater(()-> {
                 try {
                     gameBoardSceneController.updateAll();
