@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * CloudSceneController class handles the scene that is displayed fot the choice of the cloud to fill at the beginning of the turn
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class CloudSceneController  extends ViewObservable implements BasicSceneController{
 

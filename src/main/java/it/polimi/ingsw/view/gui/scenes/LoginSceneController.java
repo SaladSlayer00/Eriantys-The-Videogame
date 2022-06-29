@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-
+/**
+ * LoginSceneController class handles the scene that shows the player the login window
+ */
 
 public class LoginSceneController extends ViewObservable implements BasicSceneController {
 

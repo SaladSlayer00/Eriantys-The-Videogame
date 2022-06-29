@@ -18,6 +18,11 @@ import javafx.stage.StageStyle;
 
 import java.util.Objects;
 
+/**
+ * WinSceneController class handles the scene that displays on the screen the message that tells the end of the game
+ * to the winner
+ */
+
 public class WinSceneController implements BasicSceneController{
 
     private Stage actualStage;
@@ -34,7 +39,9 @@ public class WinSceneController implements BasicSceneController{
     @FXML
     private ImageView statusImage;
 
-    //the constructor for the scene (the basic one)
+    /**
+     * class constructor
+     */
     public WinSceneController(){
         actualStage = new Stage();
         actualStage.initOwner(SceneController.getActiveScene().getWindow());
@@ -55,7 +62,7 @@ public class WinSceneController implements BasicSceneController{
         exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onExitButtonClicked);
     }
 
-    //handles the pressing of the pane
+
     private void onBorderRPanePressed(MouseEvent mouseEvent){
         offsetX = actualStage.getX() - mouseEvent.getScreenX();
         offsetY = actualStage.getY() - mouseEvent.getScreenY();

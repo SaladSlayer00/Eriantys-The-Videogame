@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 /**
  * Cloud class for the clouds on the gameboard
- * @author Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class Cloud implements Serializable {
     //attribute of class Cloud

@@ -5,7 +5,6 @@ import java.util.List;
 
 /**
  * modeEnum class for the game mode
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 
 public enum modeEnum {

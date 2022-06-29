@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * AssistantChoiceSceneController class for the game phase when the player choose their assistants' deck
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class AssistantChoiceSceneController extends ViewObservable implements BasicSceneController {
     private List<Assistant> notAvailableAssistants;

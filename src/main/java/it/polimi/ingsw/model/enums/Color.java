@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 /**
  * Color enum class for the students' paws' colors
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public enum Color{
     RED("red"),

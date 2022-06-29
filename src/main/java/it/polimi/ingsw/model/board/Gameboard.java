@@ -17,7 +17,6 @@ import it.polimi.ingsw.observer.Observable;
 
 /**
  * Gameboard class is the gameboard of the game
- * @author  Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class Gameboard extends Observable implements Serializable {
 

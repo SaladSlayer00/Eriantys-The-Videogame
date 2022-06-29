@@ -28,7 +28,6 @@ import javafx.stage.StageStyle;
 
 /**
  * ExpertCardSceneController class for the handling of the scene that is displayed for the selection of the expert card
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class ExpertCardsSceneController extends ViewObservable implements BasicSceneController {
 

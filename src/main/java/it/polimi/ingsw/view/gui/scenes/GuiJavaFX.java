@@ -17,6 +17,9 @@ import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.IOException;
 
+/**
+ * GuiJavaFX class for handling the actual match
+ */
 public class GuiJavaFX extends Application {
 
     @Override

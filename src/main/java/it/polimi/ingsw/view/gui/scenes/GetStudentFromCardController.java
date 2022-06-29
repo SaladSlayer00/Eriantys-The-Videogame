@@ -33,7 +33,6 @@ import java.util.List;
  * the choice to get the paws that are on the various expert cards
  * that have some paws on them
  * this scene is displayed just in case of a match played on expert mode
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GetStudentFromCardController extends ViewObservable implements BasicSceneController {
 

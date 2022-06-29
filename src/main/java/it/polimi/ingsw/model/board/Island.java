@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * Island class for the islands on the gameboard
- * @author Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class Island implements Serializable {
     //attributes of the class Island

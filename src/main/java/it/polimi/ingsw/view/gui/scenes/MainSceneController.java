@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.scenes;
 
-//this is the main menu of the game for starting a match or just quit (quite stupid but still...)
+/**
+ * MainSceneController class handles the display of the scene that shows the player the main menu at the beginning of the game
+ */
 
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
