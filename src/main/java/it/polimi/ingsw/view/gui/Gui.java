@@ -14,6 +14,9 @@ import javafx.application.Platform;
 import it.polimi.ingsw.model.Player;
 import java.util.List;
 
+/**
+ * Gui class that handles the graphic parts of the game
+ */
 public class Gui extends ViewObservable implements View {
 
     private static final String ERROR_STR = "ERRROR";
@@ -29,6 +32,9 @@ public class Gui extends ViewObservable implements View {
     private  int atomicExpert  = 0 ;
     private String cloudChoice = "firstPick";
 
+    /**
+     * asks the nickname to the player
+     */
     @Override
     public void askNickname(){
         LoginSceneController loginSceneController = new LoginSceneController(this);
@@ -36,6 +42,11 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.changeRootPane(loginSceneController, "login_scene.fxml"));
     }
 
+    /**
+     * asks the player whether they wants to start a match
+     * @param nickname is the player's nickname
+     * @param answer is the player's answer
+     */
     @Override
     public void askStart(String nickname, String answer) {
         GetStudentFromCardController getStudentFromCardController= null;
@@ -48,6 +59,11 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+    /**
+     * asks the player which deck they wants to use during the game
+     * @param nickname is the player's nickname
+     * @param availableDecks is the decks available for choosing
+     */
     @Override
     public void askInitDeck(String nickname, List<Mage> availableDecks) {
         DeckChoiceSceneController dCSController = new DeckChoiceSceneController();
@@ -57,12 +73,22 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.changeRootPane(dCSController, "deckChoice_scene.fxml"));
     }
 
+    /**
+     * asks the player the assistant they wants to play
+     * @param nickname is the player's nickname
+     * @param availableAssistants is the assistants available for choosing
+     */
     @Override
     public void askAssistant(String nickname, List<Assistant> availableAssistants) {
         String mode = "noReadOnly";
         Platform.runLater(() -> SceneController.showingAssistantPopup(availableAssistants,observers,gameBoardSceneController,mode,playerName));
     }
 
+    /**
+     * asks the player which moves they wants to make
+     * @param students is the list of available students
+     * @param islands is the list of islands
+     */
     @Override
     public void askMoves(List<Student> students, List<Island> islands) {
         boolean alreadyExist = false;
@@ -115,9 +141,19 @@ public class Gui extends ViewObservable implements View {
             }
            askGameBoardMoves();
         }
+
+    /** asks the player which moves they wants to do on the board
+     * @param student is the color of the selected student
+     * @param islands is the list of islands
+     */
     @Override
     public void askIslandMoves(Color student, List<Island> islands) {}
 
+    /**
+     * asks the players how many moves they wants to make Mother Nature do
+     * @param nickname is the player's nickname
+     * @param possibleSteps is the possible steps mother nature can do
+     */
     @Override
     public void askMotherMoves(String nickname, int possibleSteps) {
         GameBoardSceneController gBSC = getGameSceneController();
@@ -133,6 +169,11 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.alertShown("Message:", "Please choose a number of mother nature moves between 1 and "+ possibleSteps));
     }
 
+    /**
+     * asks the player which cloud they wants to select
+     * @param nickname is the player's nickname
+     * @param availableClouds is the list of available clouds
+     */
     @Override
     public void askCloud(String nickname, List<Cloud> availableClouds) {
         Platform.runLater(()-> {
@@ -166,6 +207,9 @@ public class Gui extends ViewObservable implements View {
 
         }
 
+    /**
+     * asks the number of players for the match
+     */
     @Override
     public void askPlayersNumber(){
         PlayersNumberSceneController playersNumSC = new PlayersNumberSceneController();
@@ -174,8 +218,11 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.changeRootPane(playersNumSC, "players_number_scene.fxml"));
     }
 
-    //is this thing right???????
-    //TODO (but it's actually a TO CHECK)
+    /**
+     * asks the game mode for the match
+     * @param nickname is the player's nickname
+     * @param gameMode is the list of available game modes
+     */
     @Override
     public void askGameMode(String nickname, List<modeEnum> gameMode){
         GameModeSceneController gameModeSC = new GameModeSceneController();
@@ -183,6 +230,11 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> SceneController.changeRootPane(gameModeSC, "gameMode_scene.fxml"));
     }
 
+    /**
+     * asks the player the towers' color
+     * @param nickname is the player's nickname
+     * @param teams is the list of available teams
+     */
     @Override
     public void askInitType(String nickname, List<Type> teams) {
         TowerChoiceSceneController tCSController = new TowerChoiceSceneController();
@@ -192,7 +244,10 @@ public class Gui extends ViewObservable implements View {
 
     }
 
-
+    /**
+     * shows a message on the player's screen
+     * @param genericMessage
+     */
     @Override
     public void showGenericMessage(String genericMessage) {
         Platform.runLater(() -> SceneController.alertShown("Message:", genericMessage));
@@ -241,6 +296,10 @@ public class Gui extends ViewObservable implements View {
     }
     */
 
+    /**
+     * displays the message for the winning to the winner
+     * @param winner is the nickname of winner
+     */
     @Override
     public void showWinMessage(String winner) {
         Platform.runLater(() -> {
@@ -319,6 +378,11 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void askExpert() {}
 
+    /**
+     * this method is called in the expert mode only and it is used for the expert cards that have students' paws on
+     * them
+     * asks the player to choose a paw on the card
+     */
     @Override
     public void askColor() {
         boolean alreadyExist = false;
@@ -429,6 +493,9 @@ public class Gui extends ViewObservable implements View {
     }
 
 
+    /**
+     * asks the moves the player wants to do on the gameboard
+     */
     private void askGameBoardMoves(){
         GameBoardSceneController gBSC;
         try {
