@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /** Class for TAVERNER card: this cards allows the player to transfer a student from this card to an
  * island they can choose.

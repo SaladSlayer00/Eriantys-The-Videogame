@@ -1,17 +1,11 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
-import it.polimi.ingsw.exceptions.noTowerException;
-import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /** Class for SELLER card: when a player summons this card they can
  * choose a color that will have no influence in the calculation

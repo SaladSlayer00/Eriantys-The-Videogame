@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
@@ -7,13 +7,12 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
-import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.view.VirtualView;
 
 /**Class for BANKER card: the player that summons this card can choose a color and every player (themselves included) has to take
 * three students from the row of the chosen color and put them back in the sack
  */
-public class RemoveAColorCard extends Character{
+public class RemoveAColorCard extends Character {
     private ExpertDeck name = ExpertDeck.BANKER;
     private GameController gameController;
     private TurnController turnController;

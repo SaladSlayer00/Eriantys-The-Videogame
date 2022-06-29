@@ -1,17 +1,13 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.alreadyAProfessorException;
 import it.polimi.ingsw.exceptions.noProfessorException;
-import it.polimi.ingsw.exceptions.notEnoughMoneyException;
 import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.enums.Color;
-import it.polimi.ingsw.model.ExpertGame;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.ExpertDeck;
-import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;

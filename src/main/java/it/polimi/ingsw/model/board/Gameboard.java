@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.Professor;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.enums.modeEnum;
-import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.controller.expertDeck.Character;
 import it.polimi.ingsw.observer.Observable;
 
 /**
