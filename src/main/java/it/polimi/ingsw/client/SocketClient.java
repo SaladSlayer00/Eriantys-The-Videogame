@@ -31,6 +31,13 @@ public class SocketClient extends Client{
 
     private static final int SOCKET_TIMEOUT = 10000;
 
+    /**
+     * Class constructor for socket client
+     *
+     * @param address address of the client
+     * @param port port of the client
+     * @throws IOException if there's a disconnection
+     */
     public SocketClient(String address, int port) throws IOException {
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress(address, port), SOCKET_TIMEOUT);

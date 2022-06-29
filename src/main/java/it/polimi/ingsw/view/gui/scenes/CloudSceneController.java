@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.scenes;
 
+import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.board.Cloud;
+import it.polimi.ingsw.model.enums.PhaseType;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneController;
@@ -34,7 +36,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     private List<ImageView> studentsImagesOne;
     private List<ImageView> studentsImagesTwo;
     private String typeOfChoice;
-
+    private GameBoardSceneController gameBoardSceneController;
     @FXML
     private AnchorPane rootBPane;
     @FXML
@@ -51,7 +53,8 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     private Button cloudTwo;
     @FXML
     private Button confirmButton;
-
+    @FXML
+    private Button quitButton;
     /**
      * class constructor
      */
@@ -77,16 +80,18 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
      */
     @FXML
     public void initialize(){
+        Platform.runLater(()->isReadOnly());
+        confirmButton.setDisable(true);
         Platform.runLater(()->createListOfClouds(availableClouds));
         Platform.runLater(()->setListOfClouds(availableClouds));
         Platform.runLater(()->setNumberOfClouds(availableClouds));
-        confirmButton.setDisable(true);
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
         cloudZero.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onCloudZeroClicked(availableClouds));
         cloudOne.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onCloudOneClicked(availableClouds));
         cloudTwo.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onCloudTwoClicked(availableClouds));
         confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED,event->OnConfirmButtonClicked());
+        quitButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onQuitButtonClicked);
 
     }
 
@@ -264,8 +269,60 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     public void setNumberOfClouds(List<Cloud> availableClouds){
         if(availableClouds.size()==3){
             cloudOne.setDisable(false);
+            cloudOne.setVisible(true);
+            anchorPaneCloudOne.setVisible(true);
         }else{
             cloudOne.setDisable(true);
+            cloudOne.setVisible(false);
+            anchorPaneCloudOne.setVisible(false);
         }
+    }
+    public void setGameBoardSceneController(GameBoardSceneController gBSC){
+        gameBoardSceneController = gBSC;
+    }
+
+    /**
+     * method that checks if we are accessing in read-only state
+     *
+     */
+    private void isReadOnly() {
+        if (typeOfChoice == "readOnly") {
+            quitButton.setDisable(false);
+            quitButton.setVisible(true);
+            confirmButton.setDisable(true);
+            confirmButton.setVisible(false);
+            cloudZero.setDisable(true);
+            cloudTwo.setDisable(true);
+            cloudOne.setDisable(true);
+            cloudZero.setVisible(false);
+            cloudOne.setVisible(false);
+            cloudTwo.setVisible(false);
+        } else {
+            quitButton.setVisible(false);
+            quitButton.setDisable(true);
+        }
+    }
+
+    /**
+     * method that handles the clicks on the button that Handles click on Quit button.
+     * @param event the mouse click event
+     */
+
+    private void onQuitButtonClicked(MouseEvent event){
+        PhaseType mainPhase = gameBoardSceneController.getMainPhase();
+        PhaseType secondaryPhase = gameBoardSceneController.getSecondaryPhase();
+        if(mainPhase.equals(PhaseType.YOUR_MOVE)) {
+           if(secondaryPhase.equals(PhaseType.MOVE_STUDENT)){
+               gameBoardSceneController.setMainPhase(PhaseType.YOUR_MOVE);
+               gameBoardSceneController.setSecondaryPhase(PhaseType.MOVE_STUDENT);
+               Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
+           }else if(secondaryPhase.equals(PhaseType.MOVE_MOTHER)){
+               gameBoardSceneController.setMainPhase(PhaseType.YOUR_MOVE);
+               gameBoardSceneController.setSecondaryPhase(PhaseType.MOVE_MOTHER);
+               Platform.runLater(() -> SceneController.alertShown("Message:", "Please choose the island on which to move mother nature"));
+           }
+        }
+        actualStage.close();
+
     }
 }

@@ -111,6 +111,10 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     @FXML
     private Button useExpert;
     @FXML
+    private Button cloudButton;
+    @FXML
+    private Button assistantButton;
+    @FXML
     private Label numberOfCoin;
     @FXML
     private AnchorPane expertSection;
@@ -162,7 +166,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         numberOfCoin = new Label();
         expertSection = new AnchorPane();
         currentPlayer = new Label();
-        useExpert = new Button();
+
     }
 
 
@@ -186,6 +190,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         useExpert.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onUseExpertClicked);
         couldItBeDisabled(previousDashBoardButton, 0);
         couldItBeDisabled(nextDashBoardButton, reducedDashboards.size() - 1);
+        cloudButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onCloudButtonClicked);
+        assistantButton.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onAssistantButtonClicked);
 
 
 
@@ -535,6 +541,21 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         Platform.runLater(()->SceneController.changeRootPane(eCSController,"expert_choice.fxml"));
 
     }
+    /**
+     * this method handles the clicks on cloud button
+     * this method send to the scene that displays the various cloud available during the actual match
+     * @param event is the input given by the player's mouse
+     */
+    private void onCloudButtonClicked(MouseEvent event){
+        String mode = "readOnly";
+        Platform.runLater(()->SceneController.showingCloudsPopup(reducedGameBoard.getEmptyClouds(),reducedGameBoard.getClouds(),observers,mode,this));
+    }
+
+    private void onAssistantButtonClicked(MouseEvent event){
+        String mode = "readOnly";
+        List<Assistant> assistants = new ArrayList<>();
+        Platform.runLater(()->SceneController.showingAssistantPopup(assistants,observers,this,mode,playerNickname));
+    }
 
     /**
      * getter of the dashboard of the player's who is the owner of the screen
@@ -701,6 +722,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             reducedHall.setDisable(true);
             archipelago.setDisable(true);
             useExpert.setDisable(true);
+            cloudButton.setDisable(false);
+            assistantButton.setDisable(false);
             disabledRows();
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_ON_ISLAND_ROW)){
             for(GuiStudent guiStudent: hallList){
@@ -710,6 +733,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             enabledRows();
             archipelago.setDisable(false);
             useExpert.setDisable(true);
+            cloudButton.setDisable(true);
+            assistantButton.setDisable(true);
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_STUDENT)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(false);
@@ -718,6 +743,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             disabledRows();
             archipelago.setDisable(true);
             useExpert.setDisable(false);
+            cloudButton.setDisable(false);
+            assistantButton.setDisable(false);
         }else if(mainPhase.equals(PhaseType.YOUR_MOVE)&&secondaryPhase.equals(PhaseType.MOVE_MOTHER)){
             for(GuiStudent guiStudent: hallList){
                 guiStudent.setDisable(true);
@@ -726,6 +753,8 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
             disabledRows();
             archipelago.setDisable(false);
             useExpert.setDisable(true);
+            cloudButton.setDisable(false);
+            assistantButton.setDisable(false);
         }
     }
 
@@ -743,6 +772,20 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
      */
     public void setMainPhase(PhaseType phaseType){
         mainPhase = phaseType;
+    }
+
+
+    /**
+     * getter for the main phase of the turn
+     */
+    public PhaseType getMainPhase(){
+        return mainPhase;
+    }
+    /**
+     * getter for the secondary game phase
+     */
+    public PhaseType getSecondaryPhase(){
+        return secondaryPhase;
     }
 
     /**
@@ -873,6 +916,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
     public List<Dashboard> getReducedDashboards(){
         return reducedDashboards;
     }
+
 
 }
 

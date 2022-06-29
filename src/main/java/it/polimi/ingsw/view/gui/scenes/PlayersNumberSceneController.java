@@ -4,6 +4,7 @@ package it.polimi.ingsw.view.gui.scenes;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,9 +61,13 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
-        int playersNum = Character.getNumericValue(selectedRadioButton.getText().charAt(0));
-
-        new Thread(() -> notifyObserver(observer -> observer.onUpdatePlayersNumber(playersNum))).start();
+        if(selectedRadioButton!=null) {
+            int playersNum = Character.getNumericValue(selectedRadioButton.getText().charAt(0));
+            new Thread(() -> notifyObserver(observer -> observer.onUpdatePlayersNumber(playersNum))).start();
+        }else{
+            Platform.runLater(()->SceneController.alertShown("Message:", "Please select the number of players "));
+            confirmButton.setDisable(false);
+        }
     }
 
     /**

@@ -48,6 +48,13 @@ public class InfluenceBansCard extends Character{
         gameController.getGame().getGameBoard().getIslands().get(index).setBlocked(true);
     }
 
+    public void removeEffect(int island){
+        Island active = gameController.getGame().getGameBoard().getIslands().get(island);
+        active.setBlocked(false);
+        turnController.getToReset().remove(this);
+        VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
+        vv.showGenericMessage("Effect's over!\n");
+    }
     @Override
     public void removeEffect() {
         Island active = gameController.getGame().getGameBoard().getIslands().get(gameController.getGame().getGameBoard().getMotherNature());

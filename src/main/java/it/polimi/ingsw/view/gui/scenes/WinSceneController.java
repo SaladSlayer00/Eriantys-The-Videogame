@@ -35,7 +35,7 @@ public class WinSceneController implements BasicSceneController{
     @FXML
     private Label winnerName;
     @FXML
-    private Button exitButton;
+    private Button quitButton;
     @FXML
     private ImageView statusImage;
 
@@ -59,7 +59,7 @@ public class WinSceneController implements BasicSceneController{
     public void initialize(){
         anchorPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onBorderRPanePressed);
         anchorPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onBorderRPaneDragged);
-        exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onExitButtonClicked);
+        quitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuitButtonClicked);
     }
 
 
@@ -75,7 +75,7 @@ public class WinSceneController implements BasicSceneController{
     }
 
     //handles the clicking on the confirm button
-    private void onExitButtonClicked(MouseEvent event){
+    private void onQuitButtonClicked(MouseEvent event){
         actualStage.close();
         System.exit(0);
     }

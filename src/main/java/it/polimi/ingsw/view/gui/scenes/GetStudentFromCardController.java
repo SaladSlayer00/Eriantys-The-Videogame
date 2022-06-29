@@ -136,7 +136,6 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         phase = ExpertDeckPhaseType.IDLE;
         currentGameBoardSceneController = gBSC;
 
-
     }
 
     /**
@@ -572,6 +571,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
      * this method clears the dashboard removing the various items that were on it
      */
     private void clearDashBoard(){
+        theChosenOne.getChildren().clear();
         reducedHall.getChildren().clear();
         towersSpot.getChildren().clear();
         hallList.clear();

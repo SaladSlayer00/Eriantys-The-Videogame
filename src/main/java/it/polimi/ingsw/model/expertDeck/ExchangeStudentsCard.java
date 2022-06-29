@@ -56,7 +56,7 @@ public class ExchangeStudentsCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.JOKER);
         gameController.getGame().updateGameboard();
         vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
-
+        calls = 0;
     }
 
     /**

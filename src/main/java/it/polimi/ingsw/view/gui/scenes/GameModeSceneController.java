@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.enums.modeEnum;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,15 +57,19 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
-        //tbh i don't really know what to put here...
-        //also not quite sure this is the right way to use the modeEnum...seems quite redundant (???)
-        if(selectedRadioButton.equals(radioButtonEasyMode)){
-           modeEnum selectedMode = modeEnum.EASY;
-            new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
-        }
-        else if(selectedRadioButton.equals(radioButtonExpertMode)){
-            modeEnum selectedMode = modeEnum.EXPERT;
-            new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
+        if (selectedRadioButton!=null) {
+            //tbh i don't really know what to put here...
+            //also not quite sure this is the right way to use the modeEnum...seems quite redundant (???)
+            if (selectedRadioButton.equals(radioButtonEasyMode)) {
+                modeEnum selectedMode = modeEnum.EASY;
+                new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
+            } else if (selectedRadioButton.equals(radioButtonExpertMode)) {
+                modeEnum selectedMode = modeEnum.EXPERT;
+                new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();
+            }
+        }else{
+            Platform.runLater(()->SceneController.alertShown("Message:", "Please select a game mode "));
+            confirmButton.setDisable(false);
         }
     }
 
