@@ -36,10 +36,12 @@ public class TurnController implements Serializable {
     private List<Character> toReset = new ArrayList<>();
     private List<Color> banned = new ArrayList<>();
     private Map<ExpertDeck, Integer> price = new HashMap<>();
+    private int restored = 0;
 
 
     /**
-     * class constructor
+     * Class constructor
+     *
      * @param virtualViewMap map of virtual views for the players
      * @param gameController the gameController
      * @param game the game instance
@@ -53,29 +55,52 @@ public class TurnController implements Serializable {
         this.mainPhase = MainPhase.PLANNING;
     }
 
+    /**
+     * Getter for activePlayer
+     *
+     * @return nickname of the playing person
+     */
     public String getActivePlayer() {
         return activePlayer;
     }
 
+    /**
+     * Setter for activePlayer
+     *
+     * @param activePlayer nickname of next active
+     */
     public void setActivePlayer(String activePlayer) {
         this.activePlayer = activePlayer;
     }
 
     /**
-     * resets the chosen assistants for a new turn
+     * Resets the chosen assistants for a new turn
      */
     public void resetChosen(){
         chosen = new ArrayList<Assistant>();
     }
 
+    /**
+     * Gets the list of chosen assistants
+     *
+     * @return assistants chosen in this turn
+     */
     public ArrayList<Assistant> getChosen() {
         return chosen;
     }
 
+    /**
+     * Getter for the number of moves made by the player
+     *
+     * @return the number of moves
+     */
     public int getMoved() {
         return moved;
     }
 
+    /**
+     * Setter for moves made by the player
+     */
     public void setMoved(int moved) {
         this.moved = moved;
     }
@@ -88,7 +113,7 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * sets next active player.
+     * Sets next active player.
      */
     public void next() {
         int currentActive = nicknameQueue.indexOf(activePlayer);
@@ -102,21 +127,37 @@ public class TurnController implements Serializable {
     }
 
 
+    /**
+     * Setter for main phase
+     *
+     * @param turnMainPhase the phase of the turn
+     */
     public void setMainPhase(MainPhase turnMainPhase) {
         this.mainPhase = turnMainPhase;
     }
 
+    /**
+     * Getter for main phase
+     *
+     * @return the phase of the turn
+     */
     public MainPhase getMainPhase() {
         return mainPhase;
     }
 
+    /**
+     * Setter for phaseType
+     *
+     * @param turnPhaseType secondary turn phase
+     */
     public void setPhaseType(PhaseType turnPhaseType) {
         this.phaseType = turnPhaseType;
     }
 
     /**
-     * initializes a new turn for the game, removing the expert cards effects and saving the game on
+     * Initializes a new turn for the game, removing the expert cards effects and saving the game on
      * storage files
+     *
      * @throws noMoreStudentsException if there's no more students left in sack
      */
 
@@ -125,11 +166,17 @@ public class TurnController implements Serializable {
         turnControllerNotify("Turn of " + activePlayer, activePlayer);
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Initiate the game! Pick your clouds. . .");
-
-        if(toReset.size()>0){
-            for(Character c : toReset){
-                c.removeEffect();
+        if(restored==0) {
+            if (toReset.size() > 0) {
+                for (Character c : toReset) {
+                    c.removeEffect();
+                }
             }
+        }
+        else if(restored==1){
+            restored = 0;
+            toReset=new ArrayList<>();
+            game.getGameBoard().setActiveCards(new ArrayList<>());
         }
 
         setMainPhase(MainPhase.PLANNING);
@@ -142,7 +189,8 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method to show message to the virtualViews
+     * Method to show message to the virtualViews
+     *
      * @param messageToNotify the message to send
      * @param excludeNickname the nickname of the player to exclude
      */
@@ -156,7 +204,7 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * metod that asks the views for cloud input
+     * Method that asks the views for cloud input
      */
 
     public void pickCloud(){
@@ -168,7 +216,8 @@ public class TurnController implements Serializable {
 
 
     /**
-     * method that puts students on a cloud
+     * Method that puts students on a cloud
+     *
      * @param cloudIndex the selected cloud's index
      * @throws noMoreStudentsException if there's no more students in the sack
      */
@@ -191,19 +240,18 @@ public class TurnController implements Serializable {
             cloud.addStudent(s);
         }
 
-    }//TODO catch sulle eccezioni
+    }
 
     /**
-     * method that asks the virtualView for an assistant to draw
+     * Method that asks the virtualView for an assistant to draw
      */
     public void drawAssistant(){
         VirtualView vv = virtualViewMap.get(getActivePlayer());
-        vv.showGenericMessage("Please choose which card to draw!");
         vv.askAssistant(activePlayer,chosen);
     }
 
     /**
-     * method that determines the order for the game's turn, switches phase to action
+     * Method that determines the order for the game's turn, switches phase to action
      */
 
     public void determineOrder(){
@@ -228,7 +276,7 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method that asks the virtualView for moves
+     * Method that asks the virtualView for moves
      */
 
     public void moveMaker(){
@@ -238,7 +286,8 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method that handles the choice to move student on row
+     * Method that handles the choice to move student on row
+     *
      * @param color the color to move
      * @param row the row to move it on
      * @throws noStudentException if there's no matching student
@@ -276,7 +325,8 @@ public class TurnController implements Serializable {
 
 
     /**
-     * method that handles the choice to move the student on island
+     * Method that handles the choice to move the student on island
+     *
      * @param color the student to move
      * @param index the index of the island
      * @throws noStudentException if there's no matching student
@@ -288,7 +338,8 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method that handles the moves of motherNature on the gameboard
+     * Method that handles the moves of motherNature on the gameboard
+     *
      * @param moves the number of moves selected by the player
      * @return integer value to signal the different cases for the action's outcomes
      * @throws noTowerException if there's no tower on the island
@@ -325,8 +376,9 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method to check the influece a player has on the island, includes various effects for the
+     * Method to check the influence a player has on the island, includes various effects for the
      * expert cards
+     *
      * @param actual index of active island
      * @return integer value to symbolize the result of the operation
      * @throws noTowerException if there's no tower on the island
@@ -345,7 +397,8 @@ public class TurnController implements Serializable {
                     c.removeEffect();
                 }
                 if(c.getName().equals(ExpertDeck.HERBALIST)){
-                    c.removeEffect();
+                    InfluenceBansCard ci = (InfluenceBansCard) c;
+                    ci.removeEffect(actual);
                     return 0;
                 }
             }
@@ -430,7 +483,9 @@ public class TurnController implements Serializable {
                     }
                 }
             }
-            active.setTower(owner.getDashboard().getTower());
+            if(!active.getTower() || (active.getTower() && !(active.getTeam().equals(owner.getDashboard().getTeam())))) {
+                active.setTower(owner.getDashboard().getTower());
+            }
             VirtualView vv = virtualViewMap.get(owner.getName());
             vv.showGenericMessage("The island is yours!");
             return towerChecker();
@@ -442,7 +497,8 @@ public class TurnController implements Serializable {
     }
 
     /**
-     * method to check the position of the game professors and give them to the players
+     * Method to check the position of the game professors and give them to the players
+     *
      * @param color the color the influence is calculated for
      * @throws emptyDecktException if there's no cards in the deck
      * @throws noMoreStudentsException if there's no more students in the sack
@@ -497,7 +553,8 @@ public class TurnController implements Serializable {
 
 
     /**
-     * method to check if the player's positioned their last tower
+     * Method to check if the player's positioned their last tower
+     *
      * @return integer value to notify the result of the operation
      */
     public int towerChecker(){
@@ -512,7 +569,8 @@ public class TurnController implements Serializable {
 
 
     /**
-     * method that calls the islandMerger of the gameboard
+     * Method that calls the islandMerger of the gameboard
+     *
      * @param active the index of the active island
      * @throws noTowerException if there's no tower on the island
      */
@@ -543,7 +601,7 @@ public class TurnController implements Serializable {
     public void useExpertEffect(ExpertDeck card){
         int cost = price.get(card);
         VirtualView vv = virtualViewMap.get(activePlayer);
-        vv.showGenericMessage("Your money: "+game.getPlayerByNickname(activePlayer).getCoins()+"\n");
+        //vv.showGenericMessage("Your money: "+game.getPlayerByNickname(activePlayer).getCoins()+"\n");
             switch(card) {
                 case COOK:
                     ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
@@ -676,11 +734,20 @@ public class TurnController implements Serializable {
                         for (Character c : toReset) {
                             if (c.getName().equals(ExpertDeck.BARBARIAN)) {
                                 activeOM = (OneMoreStudentCard) c;
-                                game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost()+cost);
-                                price.put(card, price.get(card)+1);
-                                game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
-                                activeOM.useEffect();
-                                return;
+                                if (!activeOM.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                                    vv.showGenericMessage("You haven't enough money for this!");
+                                    vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                                    vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                                    return;
+                                }
+                                else {
+
+                                    game.getPlayerByNickname(activePlayer).removeCoin(activeOM.getCost() + cost);
+                                    price.put(card, price.get(card) + 1);
+                                    game.getGameBoard().getToReset().add(ExpertDeck.BARBARIAN);
+                                    activeOM.useEffect();
+                                    return;
+                                }
                             }
                         }
                     try {
@@ -728,11 +795,20 @@ public class TurnController implements Serializable {
                     for (Character c : toReset) {
                         if (c.getName().equals(ExpertDeck.JOKER)) {
                             activeES = (ExchangeStudentsCard) c;
-                            game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost()+cost);
-                            price.put(card, price.get(card)+1);
-                            game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
-                            activeES.useEffect();
-                            return;
+                            if (!activeES.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                                vv.showGenericMessage("You haven't enough money for this!");
+                                vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                                vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                                return;
+                            }
+                            else {
+                                game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost() + cost);
+                                price.put(card, price.get(card) + 1);
+                                game.getGameBoard().getToReset().add(ExpertDeck.JOKER);
+                                game.updateGameboard();
+                                activeES.useEffect();
+                                return;
+                            }
                         }
                     }
                     try {
@@ -747,7 +823,6 @@ public class TurnController implements Serializable {
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     else{
-
                         game.getPlayerByNickname(activePlayer).removeCoin(activeES.getCost()+cost);
                         price.put(card, price.get(card)+1);
                         toReset.add(activeES);
@@ -762,13 +837,21 @@ public class TurnController implements Serializable {
                     ToIslandCard activeTI=null;
                     for (Character c : toReset) {
                         if (c.getName().equals(ExpertDeck.TAVERNER)) {
-                            game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
-                            game.updateGameboard();
                             activeTI = (ToIslandCard) c;
-                            game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost()+cost);
-                            price.put(card, price.get(card)+1);
-                            activeTI.useEffect();
-                            return;
+                            if (!activeTI.checkMoney(game.getPlayerByNickname(activePlayer))) {
+                                vv.showGenericMessage("You haven't enough money for this!");
+                                vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
+                                vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
+                                return;
+                            }
+                            else {
+                                game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
+                                game.updateGameboard();
+                                game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost() + cost);
+                                price.put(card, price.get(card) + 1);
+                                activeTI.useEffect();
+                                return;
+                            }
                         }
                     }
                     try {
@@ -919,5 +1002,9 @@ public class TurnController implements Serializable {
 
     public void setVirtualViewMap(Map<String, VirtualView> virtualViewMap) {
         this.virtualViewMap = virtualViewMap;
+    }
+
+    public void setRestored(int set){
+        restored = set;
     }
 }

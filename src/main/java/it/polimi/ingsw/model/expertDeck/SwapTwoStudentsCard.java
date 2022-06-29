@@ -54,7 +54,7 @@ public class SwapTwoStudentsCard extends Character{
         gameController.getGame().getGameBoard().getToReset().remove(ExpertDeck.MUSICIAN);
         gameController.getGame().updateGameboard();
         vv.askMoves(gameController.getGame().getPlayerByNickname(turnController.getActivePlayer()).getDashboard().getHall(), gameController.getGame().getGameBoard().getIslands());
-
+        calls = 0;
     }
 
     /**

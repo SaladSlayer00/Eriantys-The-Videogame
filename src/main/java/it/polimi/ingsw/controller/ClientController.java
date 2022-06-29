@@ -31,7 +31,8 @@ public class ClientController implements ViewObserver, Observer {
     private final ExecutorService taskQueue;
 
     /**
-     * class constructor
+     * Class constructor
+     *
      * @param view an instance of view to check
      */
 
