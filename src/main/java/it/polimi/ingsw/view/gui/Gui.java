@@ -287,11 +287,13 @@ public class Gui extends ViewObservable implements View {
 
             }
 
+        }finally {
+            clouds = gameboard.getClouds();
+            updateGameBoard = gameboard;
+            updateDashBoards = dashboards;
+            updatePlayers = players;
         }
-        clouds = gameboard.getClouds();
-        updateGameBoard = gameboard;
-        updateDashBoards = dashboards;
-        updatePlayers = players;
+
 
     }
 
@@ -323,6 +325,16 @@ public class Gui extends ViewObservable implements View {
         try {
             getStudentFromCardController = (GetStudentFromCardController) SceneController.getSceneController();
             alreadyExist = true;
+            if(atomicExpert==0){
+                GetStudentFromCardController finalGetStudentFromCardController1 = getStudentFromCardController;
+                Platform.runLater(() -> {
+                    try {
+                        finalGetStudentFromCardController1.updateAll();
+                    } catch (noTowerException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         }catch (ClassCastException e){
            getStudentFromCardController = new GetStudentFromCardController(playerName,gameBoardSceneController);
             getStudentFromCardController.addAllObservers(observers);
@@ -415,20 +427,41 @@ public class Gui extends ViewObservable implements View {
         playerName = playerNickname;
     }
 
-    private void askGameBoardMoves(){
-        Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
-        GameBoardSceneController gBSC = getGameSceneController();
-        gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
-        gBSC.setMainPhase(PhaseType.YOUR_MOVE);
-        gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
-        Platform.runLater(() -> {
-            try {
-                gBSC.updateAll();
-            } catch (noTowerException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
+    private void askGameBoardMoves(){
+        GameBoardSceneController gBSC;
+        try {
+            gBSC = (GameBoardSceneController) SceneController.getSceneController();
+            gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
+            gBSC.setMainPhase(PhaseType.YOUR_MOVE);
+            gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
+            GameBoardSceneController finalGBSC1 = gBSC;
+            gameBoardSceneController = gBSC;
+            Platform.runLater(()-> {
+                try {
+                    finalGBSC1.updateAll();
+                } catch (noTowerException e) {
+                    e.printStackTrace();
+                }
+            });
+        }catch (ClassCastException ex){
+                gBSC = new GameBoardSceneController(playerName);
+                gBSC.addAllObservers(observers);
+                gBSC.setGameBoard(updateGameBoard,updateDashBoards,updatePlayers);
+                GameBoardSceneController finalGBSC = gBSC;
+                 Platform.runLater(() -> SceneController.alertShown("Message:", "Please, choose a student to move!"));
+                gBSC.setMainPhase(PhaseType.YOUR_MOVE);
+                gBSC.setSecondaryPhase(PhaseType.MOVE_STUDENT);
+                Platform.runLater(() -> SceneController.changeRootPane(finalGBSC, "gameboard_scene.fxml"));
+                Platform.runLater(()-> {
+                    try {
+                        finalGBSC.updateAll();
+                    } catch (noTowerException nTE) {
+                        nTE.printStackTrace();
+                    }
+                });
+                gameBoardSceneController = gBSC;
+            }
+    }
 
 }

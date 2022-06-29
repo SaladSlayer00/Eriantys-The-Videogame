@@ -265,8 +265,12 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
     public void setNumberOfClouds(List<Cloud> availableClouds){
         if(availableClouds.size()==3){
             cloudOne.setDisable(false);
+            cloudOne.setVisible(true);
+            anchorPaneCloudOne.setVisible(true);
         }else{
             cloudOne.setDisable(true);
+            cloudOne.setVisible(false);
+            anchorPaneCloudOne.setVisible(false);
         }
     }
 }
