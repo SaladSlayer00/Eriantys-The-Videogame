@@ -282,8 +282,8 @@ public class AssistantChoiceSceneController extends ViewObservable implements Ba
                 }
             }
             if (found == false) {
-                imagesView[(i)].setOpacity(0.3);
-                imagesView[(i)].setDisable(true);
+                imagesView[(i-1)].setOpacity(0.3);
+                imagesView[(i-1)].setDisable(true);
             }
         }
     }
