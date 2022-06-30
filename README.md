@@ -24,8 +24,11 @@ Il segente documento presenta unma descrizione dettagliata del protocollo di ret
 La seguente documentazione include una descrizione per la maggior parte delle classi e dei metodi utilizzati, segue le tecniche di documentazione di Java.
 
 ### Testing overage
-La percentuale di testing del model del gioco è pari a 
-
+La percentuale di testing del model del gioco è pari a:
+- al 90% per le enum con una coverage dei metodi del 54.2% e delle righe di codice pari al 69.4%
+- al 100% per il package model con una coverage dei metodi del 86.2% e delle righe di codice del 86.1%
+- al 100% per il package riguardante la board con una coverage dei metodi del 77.8% e delle righe del 75.5%
+- al 100% per il package riguardante la plancia giocatore con una coverage dei metodi del 83.3% e delle righe del 80.8%
 
 ### Librerie e Plugins
 |Libreria/Plugin|Descrizione|
