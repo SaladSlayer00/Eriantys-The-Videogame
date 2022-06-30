@@ -28,7 +28,7 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.*;
 
-import static java.lang.Math.abs;
+
 
 /**
  *  GameboardSceneController class that controls the scene of the gameboard

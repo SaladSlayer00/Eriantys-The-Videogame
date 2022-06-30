@@ -752,16 +752,6 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
     private void notifyGameController(TilePane selectedRow){
         if(expertDeck.equals(ExpertDeck.BARBARIAN)){
             try{
-                /*
-                Color studentColor = chosenStudent.getStudent().getColor();
-                chosenStudent.setFitWidth(40);
-                chosenStudent.setFitHeight(40);
-                selectedRow.getChildren().add(chosenStudent);
-                theChosenOne.getChildren().remove(chosenStudent);
-                setDisabledItems();
-                chosenStudent = null;
-                new Thread(() -> notifyObserver(obs -> obs.OnUpdateEffectBarbarian(studentColor))).start();
-                 */
                 if(selectedRow.equals(redRow)){
                     new Thread(() -> notifyObserver(obs-> obs.OnUpdateEffectBarbarian(Color.RED))).start();
                 }else if(selectedRow.equals(greenRow)){

@@ -49,7 +49,6 @@ public class GuiJavaFX extends Application {
         /*
         stage.setWidth(1280d);
         stage.setHeight(720d);
-
          */
         stage.setResizable(true);
         stage.setMaximized(false);
