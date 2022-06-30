@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="894.0" prefWidth="1382.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"><children>
+<AnchorPane prefHeight="894.0" prefWidth="1382.0" styleClass="backgroundScene" stylesheets="@../css/backgrounds.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"><children>
     <ImageView fitHeight="504.0" fitWidth="516.0" layoutX="408.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="274.0" AnchorPane.leftAnchor="408.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="116.0">
         <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
@@ -18,22 +18,22 @@
             <GaussianBlur radius="3.38" />
         </effect>
     </ImageView>
-    <Text layoutX="660.0" layoutY="219.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Lobby">
+    <Text layoutX="640.0" layoutY="223.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Lobby">
         <font>
             <Font name="Comic Sans MS" size="24.0" />
         </font>
     </Text>
-    <Text fill="#451616" layoutX="560.0" layoutY="277.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Players connected: " underline="true" wrappingWidth="261.8033447265625">
+    <Text fill="#451616" layoutX="543.0" layoutY="292.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Players connected: " underline="true" wrappingWidth="261.8033447265625">
         <font>
             <Font name="Comic Sans MS" size="18.0" />
         </font>
     </Text>
-    <Label fx:id="playersLbl" alignment="TOP_LEFT" layoutX="560.0" layoutY="291.0" prefHeight="91.0" prefWidth="235.0" text="player1, player2, player3" wrapText="true">
+    <Label fx:id="playersLbl" alignment="TOP_LEFT" layoutX="543.0" layoutY="323.0" prefHeight="91.0" prefWidth="235.0" text="player1, player2, player3" wrapText="true">
         <font>
             <Font name="Comic Sans MS" size="16.0" />
         </font>
     </Label>
-    <Text fill="#451616" layoutX="514.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for other players to join:" wrappingWidth="292.4700927734375">
+    <Text fill="#451616" layoutX="502.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for other players to join:" wrappingWidth="292.4700927734375">
         <font>
             <Font name="Comic Sans MS" size="18.0" />
         </font>
@@ -43,7 +43,7 @@
             <Font name="Comic Sans MS" size="18.0" />
         </font>
     </Label>
-    <Button fx:id="backToMenuBtn" layoutX="620.0" layoutY="479.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="158.0" styleClass="smallButton" text="Back To Menu">
+    <Button fx:id="backToMenuBtn" layoutX="581.0" layoutY="480.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="158.0" styleClass="smallButton" text="Back To Menu">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>

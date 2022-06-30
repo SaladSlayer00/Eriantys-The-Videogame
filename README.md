@@ -14,11 +14,11 @@ Interazione e gameplay: linea di comando (CLI) e grafica (GUI).
 ### UML
 I seguenti diagrammi delle classi rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale nelle parti critiche riscontrate.
 - [UML Iniziali](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/19fd0f98f6f52bc3131149ba111d252107b3618b/deliveries/Initial_uml.pdf)
-- [UML Finali](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Final_UML.svg)
+- [UML Finali](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/49a73809a90d28d94fbea5ab7cc43c92a3a6b58e/deliveries/Final_UML.svg)
 
 ### Protocollo di rete
-Il segente documento presenta unma descrizione dettagliata del protocollo di rete da noi implementato:
-- [Protocollo di rete](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Protocollo-di-comunicazione.doc)
+Il seguente documento presenta una descrizione dettagliata del protocollo di rete da noi implementato:
+- [Protocollo di rete](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/49a73809a90d28d94fbea5ab7cc43c92a3a6b58e/deliveries/Protocollo-di-comunicazione.doc)
 
 ### JavaDoc
 La seguente documentazione include una descrizione per la maggior parte delle classi e dei metodi utilizzati, segue le tecniche di documentazione di Java.
@@ -56,29 +56,29 @@ Per compilare i jar autonomamente, posizionarsi nella root del progetto e lancia
 mvn clean package
 ```
 I jar compilati verranno posizionati all'interno della cartella ```target/``` con i nomi
-```eryantis-client.jar``` e ```eryantis-server.jar```.
+```eriantys-client.jar``` e ```eriantys-server.jar```.
 ### Jars
 I Jar del progetto possono essere scaricati al seguente link: [Jars]().
 ## Esecuzione
 Questo progetto richiede una versione di Java 11 o superiore per essere eseguito correttamente.
-### Santorini Client
+### Eriantys Client
 Le seguenti istruzioni descrivono come eseguire il client con interfaccia CLI o GUI.
 #### CLI
-Per lanciare Eryantis Client CLI digitare da terminale il comando:
+Per lanciare Eriantys Client CLI digitare da terminale il comando:
 ```
-java -jar eryantis-client.jar --cli
+java -jar eriantys-client.jar --cli
 ```
 #### GUI
 Per poter lanciare la modalità GUI sono disponibili due opzioni:
-- effettuare doppio click sull'eseguibile ```eryantis-client.jar```
+- effettuare doppio click sull'eseguibile ```eriantys-client.jar```
 - digitare da terminale il comando:
 ```
-java -jar eryantis-client.jar
+java -jar eriantys-client.jar
 ```
-### Eryantis Server
-Per lanciare Eryantis Server digitare da terminale il comando:
+### Erantys Server
+Per lanciare Eriantys Server digitare da terminale il comando:
 ```
-java -jar eryantis-server.jar [--port <port_number>]
+java -jar eriantys-server.jar [--port <port_number>]
 ```
 #### Parametri
 - `--port` `-p` : permette di specificare la porta del server. Se non specificato il valore di default è __16847__;
@@ -89,7 +89,7 @@ Le peer review a noi fatte:
 - [__peer review riguardante il protocollo di rete](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Peer-Review-2_G68.md)
 
 Le peer review da noi fatte:
-- [__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
+-[__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
 -[__peer review riguardante il protocollo di rete__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
 
 ## Componenti del gruppo
