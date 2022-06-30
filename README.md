@@ -75,6 +75,12 @@ java -jar eryantis-server.jar [--port <port_number>]
 ```
 #### Parametri
 - `--port` `-p` : permette di specificare la porta del server. Se non specificato il valore di default è __16847__;
+
+### Peer Review 
+Le peer review a noi fatte:
+- [__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/613fda6515ad5eca7c056ae8b4626e1ac42a8235/deliveries/Peer-review-gruppo-68.docx)
+- [__peer review riguardante il protocollo di rete]()
+
 ## Componenti del gruppo
 - [__Beatrice Insalata__](https://github.com/SaladSlayer00)
 - [__Teka Kimbi__](https://github.com/ThetaKimbi)
