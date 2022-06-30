@@ -29,7 +29,7 @@
          <effect>
             <Bloom threshold="1.0" />
          </effect></Button>
-      <Label layoutX="295.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="692.0" text="             Choose a card :" textAlignment="CENTER">
+      <Label layoutX="295.0" layoutY="83.0" maxWidth="1.7976931348623157E308" prefHeight="63.0" prefWidth="692.0" text="             Choose a card :" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS Bold" size="38.0" />
          </font>
@@ -38,4 +38,3 @@
       <TilePane fx:id="tilePane" alignment="CENTER" layoutX="38.0" layoutY="168.0" prefHeight="360.0" prefWidth="829.0" />
    </children>
 </AnchorPane>
-

@@ -286,16 +286,6 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void showMatchInfo(List<String> activePlayers, String activePlayerNickname) {}
 
-
-    /*
-    @Override
-    public void winCommunication(String winner) {
-        Platform.runLater(() -> {
-            SceneController.alertShown("CONGRATULATION!", "You have won this match!");
-        });
-    }
-    */
-
     /**
      * displays the message for the winning to the winner
      * @param winner is the nickname of winner
@@ -404,7 +394,6 @@ public class Gui extends ViewObservable implements View {
            getStudentFromCardController = new GetStudentFromCardController(playerName,gameBoardSceneController);
             getStudentFromCardController.addAllObservers(observers);
         }finally {
-            //Gameboard currentGameBoard = gameBoardSceneController.getReducedGameBoard();
             Gameboard currentGameBoard = updateGameBoard ;
             List<Dashboard> listOfDashBoards = updateDashBoards;
             List<Player> listOfPlayers = updatePlayers;

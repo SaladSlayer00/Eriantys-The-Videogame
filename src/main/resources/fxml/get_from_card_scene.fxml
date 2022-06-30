@@ -17,8 +17,9 @@
         <URL value="@../css/gameBoard_scene.css" />
     </stylesheets>
    <children>
-      <ImageView fx:id="chosenExpert" fitHeight="336.0" fitWidth="224.0" layoutX="71.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="chosenExpert" fitHeight="336.0" fitWidth="224.0" layoutX="131.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true" />
       <TilePane fx:id="currentIsland" alignment="CENTER" layoutX="667.0" layoutY="94.0" prefHeight="270.0" prefWidth="287.0" styleClass="anchorPaneIslandOne" />
+      <TilePane fx:id="expertStudents" alignment="CENTER" layoutX="138.0" layoutY="327.0" prefHeight="103.0" prefWidth="211.0" />
       <AnchorPane fx:id="Dashboard" layoutX="478.0" layoutY="402.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="305.0" prefWidth="642.0" styleClass="dashboard">
          <children>
             <TilePane id="reducedHall" fx:id="reducedHall" hgap="10.0" layoutX="7.0" layoutY="40.0" prefHeight="198.0" prefWidth="81.0" vgap="10.0">
@@ -31,11 +32,7 @@
             <TilePane id="yellowRow" fx:id="yellowRow" hgap="6.0" layoutX="119.0" layoutY="140.0" prefHeight="25.0" prefWidth="309.0" />
             <TilePane id="pinkRow" fx:id="pinkRow" hgap="6.0" layoutX="120.0" layoutY="190.0" prefHeight="26.0" prefWidth="306.0" />
             <TilePane id="blueRow" fx:id="blueRow" hgap="6.0" layoutX="119.0" layoutY="239.0" prefHeight="26.0" prefWidth="306.0" />
-            <TilePane fx:id="towersSpot" hgap="15.0" layoutX="524.0" layoutY="66.0" prefHeight="155.0" prefWidth="97.0">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </TilePane>
+            <TilePane fx:id="towersSpot" hgap="15.0" layoutX="524.0" layoutY="66.0" prefHeight="155.0" prefWidth="97.0" />
             <ImageView id="greenProfessor" fx:id="greenProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="453.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView id="redPorfessor" fx:id="redProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="451.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView id="yellowProfessor" fx:id="yellowProfessor" fitHeight="33.0" fitWidth="33.0" layoutX="453.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
@@ -46,13 +43,12 @@
       <Button fx:id="previousIslandButton" layoutX="577.0" layoutY="190.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" rotate="180.0" style="-fx-background-color: #8fbfe1;" styleClass="buttonSkin" />
       <Button fx:id="nextIslandButton" layoutX="954.0" layoutY="190.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" style="-fx-background-color: #99c3d9;" styleClass="buttonSkin" />
       <Button fx:id="previousDashBoardButton" layoutX="381.0" layoutY="515.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" rotate="180.0" style="-fx-background-color: #aecdcb;" styleClass="buttonSkin" />
-      <TilePane fx:id="expertStudents" alignment="CENTER" layoutX="75.0" layoutY="313.0" prefHeight="103.0" prefWidth="211.0" />
       <Label fx:id="title" layoutX="259.0" layoutY="68.0" prefHeight="53.0" prefWidth="764.0" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS Bold" size="36.0" />
          </font>
       </Label>
-      <TilePane fx:id="theChosenOne" alignment="CENTER" layoutX="133.0" layoutY="531.0" prefHeight="103.0" prefWidth="110.0" />
+      <TilePane fx:id="theChosenOne" alignment="CENTER" layoutX="189.0" layoutY="527.0" prefHeight="103.0" prefWidth="110.0" />
       <Button fx:id="nextDashBoardButton" layoutX="1136.0" layoutY="515.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="79.0" prefWidth="90.0" style="-fx-background-color: #b8d1c2;" styleClass="buttonSkin" />
       <Label fx:id="islandIndex" layoutX="744.0" layoutY="365.0" prefHeight="23.0" prefWidth="132.0">
          <font>

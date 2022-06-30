@@ -661,7 +661,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
                 title.setText("Please choose a student from the hall");
             }
         }else if(expertDeck.equals(ExpertDeck.BARBARIAN)){
-                title.setText("Please choose a student from the card ");
+                title.setText("Please choose a student from the card and place it in your dining room ");
         }else if(expertDeck.equals(ExpertDeck.MUSICIAN)){
             if(phase.equals(ExpertDeckPhaseType.SELECT_ROW)) {
                 title.setText("Please choose a student from the dining room");
