@@ -12,12 +12,12 @@
 
 <AnchorPane prefHeight="894.0" prefWidth="1382.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.MainSceneController">
    <children>
-      <ImageView fitHeight="894.0" fitWidth="1281.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="904.0" fitWidth="1298.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/gradient%5B853%5D.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="504.0" fitWidth="516.0" layoutX="384.0" layoutY="82.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="384.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="82.0">
+      <ImageView fitHeight="504.0" fitWidth="516.0" layoutX="408.0" layoutY="114.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="276.0" AnchorPane.leftAnchor="408.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="114.0">
          <image>
             <Image url="@../images/eriantys_banner_no_items.png" />
          </image>
@@ -29,7 +29,7 @@
             </DropShadow>
          </effect>
       </ImageView>
-      <ImageView depthTest="ENABLE" fitHeight="206.0" fitWidth="504.0" layoutX="384.0" layoutY="230.0" pickOnBounds="true">
+      <ImageView depthTest="ENABLE" fitHeight="206.0" fitWidth="504.0" layoutX="408.0" layoutY="232.0" pickOnBounds="true">
          <image>
             <Image url="@../images/eriantys_text_logo.png" />
          </image>
@@ -37,11 +37,11 @@
             <Bloom threshold="0.6" />
          </effect>
       </ImageView>
-      <Button fx:id="playButton" layoutX="446.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="116.0" text="Play" textAlignment="CENTER">
+      <Button fx:id="playButton" layoutX="462.0" layoutY="486.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="116.0" text="Play" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>
-      <Button fx:id="quitButton" layoutX="705.0" layoutY="466.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="116.0" text="Exit">
+      <Button fx:id="quitButton" layoutX="735.0" layoutY="486.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="116.0" text="Exit">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
          </font></Button>
