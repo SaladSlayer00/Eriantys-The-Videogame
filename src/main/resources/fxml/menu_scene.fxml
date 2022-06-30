@@ -32,11 +32,11 @@
             <Bloom threshold="0.6" />
          </effect>
       </ImageView>
-      <Button fx:id="playButton" layoutX="675.0" layoutY="435.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="208.0" styleClass="buttonSkin" text="Play" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="playButton" layoutX="675.0" layoutY="479.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="208.0" styleClass="buttonSkin" text="Play" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="quitButton" layoutX="443.0" layoutY="435.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="208.0" styleClass="buttonSkin" text="Exit" textFill="WHITE">
+      <Button fx:id="quitButton" layoutX="443.0" layoutY="479.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="208.0" styleClass="buttonSkin" text="Exit">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font></Button>
