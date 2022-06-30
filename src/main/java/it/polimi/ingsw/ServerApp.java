@@ -4,6 +4,9 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.SocketServer;
 
+/**
+ * Main for server app
+ */
 public class ServerApp {
 
     public static void main(String[] args) {
