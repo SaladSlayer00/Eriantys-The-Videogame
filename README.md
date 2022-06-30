@@ -86,7 +86,7 @@ java -jar eriantys-server.jar [--port <port_number>]
 ### Peer Review 
 Le peer review a noi fatte:
 - [__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/613fda6515ad5eca7c056ae8b4626e1ac42a8235/deliveries/Peer-review-gruppo-68.docx)
-- [__peer review riguardante il protocollo di rete](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Peer-Review-2_G68.md)
+- [__peer review riguardante il protocollo di rete](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/92ef29967cd1ee4c8e5b4db50afbbf4f8ed7e0d5/deliveries/Peer-Review-2_G68.mdS)
 
 Le peer review da noi fatte:
 -[__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
