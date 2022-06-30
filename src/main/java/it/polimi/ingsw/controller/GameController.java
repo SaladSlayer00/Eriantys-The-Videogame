@@ -799,7 +799,7 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
         }
         for(Player p : game.getPlayers()){
-            p.addCoin(10);
+            p.addCoin(1);
             game.getGameBoard().removeCoin();
         }
 
