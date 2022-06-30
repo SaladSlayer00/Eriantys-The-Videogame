@@ -14,7 +14,6 @@ import javafx.stage.StageStyle;
 
 /**
  * AlertSceneController class for the popup message that are displayed on the screen of the players during the match
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class AlertSceneController implements BasicSceneController {
 

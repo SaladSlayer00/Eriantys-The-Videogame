@@ -9,6 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * JoinTheMatchSceneController class is the method that handles the scene that shows to the player the
+ * window to join the match
+ */
 public class JoinTheMatchSceneController extends ViewObservable implements BasicSceneController {
 
     @FXML

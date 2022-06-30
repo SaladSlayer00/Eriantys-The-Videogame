@@ -33,7 +33,6 @@ import static java.lang.Math.abs;
 /**
  *  GameboardSceneController class that controls the scene of the gameboard
  * here there are all the main elements of the game such as islands, paws and dashboards
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GameBoardSceneController extends ViewObservable implements BasicSceneController {
 

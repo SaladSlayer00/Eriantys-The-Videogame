@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
@@ -6,21 +6,21 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 
-/**Class for KNIGHT card: this card gives two more influence points to the summoner
-* many ways to implement this and maybe it would be better to discuss it before just writing
-* stuffs and then delete everything because it doesn't work
+/** Class for GAMBLER card: this card allows the summoner to move Mother Nature
+ * of two more islands than the number that is
+* written on the Assistant card they have played
  */
-public class TwoMorePointsCard extends Character{
+public class TwoMoreMovesCard extends Character{
+    private ExpertDeck name = ExpertDeck.GAMBLER;
     private GameController gameController;
     private TurnController turnController;
-    private ExpertDeck name = ExpertDeck.KNIGHT;
-
     //constructor
-    public TwoMorePointsCard(GameController gameController, TurnController turnController){
-        super(2);
+    public TwoMoreMovesCard(GameController gameController, TurnController turnController){
+        super(1);
         this.gameController = gameController;
         this.turnController = turnController;
     }
+
 
     public ExpertDeck getName() {
         return name;
@@ -29,14 +29,14 @@ public class TwoMorePointsCard extends Character{
     @Override
     public void useEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
-        vv.showGenericMessage("You have two more points of influence!\n");
+        vv.showGenericMessage("You have two more moves for mother nature!\n");
         turnController.getToReset().add(this);
     }
 
     @Override
     public void removeEffect() {
         VirtualView vv = gameController.getVirtualViewMap().get(turnController.getActivePlayer());
-        vv.showGenericMessage("Two additional points removed!\n");
+        vv.showGenericMessage("Your 2 more moves effect was removed!\n");
         turnController.getToReset().remove(this);
     }
 

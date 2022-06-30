@@ -1,34 +1,24 @@
 package it.polimi.ingsw.view.gui.scenes;
 
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.TurnController;
-import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.exceptions.noTowerException;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.enums.PhaseType;
-import it.polimi.ingsw.model.expertDeck.*;
-import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.controller.expertDeck.*;
 import it.polimi.ingsw.observer.ViewObservable;
-import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * ExpertCardSceneController class for the handling of the scene that is displayed for the selection of the expert card
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class ExpertCardsSceneController extends ViewObservable implements BasicSceneController {
 

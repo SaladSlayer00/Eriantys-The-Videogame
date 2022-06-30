@@ -4,7 +4,6 @@ import it.polimi.ingsw.exceptions.noMoreStudentsException;
 import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.ExpertDeck;
-import it.polimi.ingsw.model.expertDeck.Character;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,25 +1,18 @@
 package it.polimi.ingsw.view.gui.scenes;
 
-import com.sun.scenario.effect.impl.prism.PrRenderInfo;
-import it.polimi.ingsw.exceptions.noTowerException;
-import it.polimi.ingsw.model.Assistant;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.model.enums.PhaseType;
-import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
 import it.polimi.ingsw.view.gui.guiElements.GuiStudent;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
@@ -27,10 +20,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * ColorChoiceSceneController is the controller that sets the scene for the moment of the game when the player have to choose

@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.board.Cloud;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.*;
-import it.polimi.ingsw.model.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.observer.ViewObservable;

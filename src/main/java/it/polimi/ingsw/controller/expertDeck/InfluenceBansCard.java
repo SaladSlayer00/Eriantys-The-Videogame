@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 
 import it.polimi.ingsw.controller.GameController;
@@ -14,7 +14,7 @@ import it.polimi.ingsw.view.VirtualView;
 * the influence is NOT calculated
  */
 
-public class InfluenceBansCard extends Character{
+public class InfluenceBansCard extends Character {
 
     private ExpertDeck name = ExpertDeck.HERBALIST;
     private GameController gameController;

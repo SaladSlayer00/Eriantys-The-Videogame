@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * Sack class for the game sack which contains the students' paws
- * @author  Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class Sack implements Serializable {
 

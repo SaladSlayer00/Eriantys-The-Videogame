@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
 * GameModeSceneController class for the choice of the game mode (the first player logged has to make this choice)
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GameModeSceneController extends ViewObservable implements BasicSceneController {
 

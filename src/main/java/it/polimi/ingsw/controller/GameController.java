@@ -6,7 +6,7 @@ import it.polimi.ingsw.message.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
-import it.polimi.ingsw.model.expertDeck.Character;
+import it.polimi.ingsw.controller.expertDeck.Character;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.StorageData;
@@ -791,8 +791,8 @@ public class GameController implements Serializable {
      */
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.JOKER);
         ExpertDeck.choose(ExpertDeck.TAVERNER);
+        ExpertDeck.choose(ExpertDeck.JOKER);
         ExpertDeck.choose(ExpertDeck.BARBARIAN);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
@@ -803,12 +803,12 @@ public class GameController implements Serializable {
             ExpertDeck.choose(card);
             broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.JOKER);
         game.getExperts().add(ExpertDeck.TAVERNER);
+        game.getExperts().add(ExpertDeck.JOKER);
         game.getExperts().add(ExpertDeck.BARBARIAN);
 
-        turnController.getPrice().put(ExpertDeck.JOKER,0);
         turnController.getPrice().put(ExpertDeck.TAVERNER,0);
+        turnController.getPrice().put(ExpertDeck.JOKER,0);
         turnController.getPrice().put(ExpertDeck.BARBARIAN,0);
 
         for(Player p : game.getPlayers()){

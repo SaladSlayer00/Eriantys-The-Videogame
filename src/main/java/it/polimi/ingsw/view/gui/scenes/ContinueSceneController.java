@@ -17,7 +17,6 @@ import java.net.PortUnreachableException;
 
 /**
  * ContinueSceneController class to handle the scene that asks the player if they wanted to keep going with their choice
- * @aouthors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class ContinueSceneController extends ViewObservable implements BasicSceneController {
 

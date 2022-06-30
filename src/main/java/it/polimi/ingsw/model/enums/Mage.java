@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Mage class for the possible type of mage that the player can choose at the beginning of the match
- * @author Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public enum Mage {
     MAGE("mage"),

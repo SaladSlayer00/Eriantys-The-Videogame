@@ -13,8 +13,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
 
-/* here the first player logged chooses the number of players that are going to play the match
-*
+/**
+ * PlayersNumberSceneController class that handles the scene that displays the window for the choice of the
+ * number of players
  */
 public class PlayersNumberSceneController extends ViewObservable implements BasicSceneController {
 
@@ -52,8 +53,10 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
     }
 
 
-    //this is to handle the clicks on the confirm button
-    //the parameter of the method is the event of the button clicked on by the mouse
+    /**
+     * this method handles the clicks on the button that confirms the choice
+     * @param event is the input given by the player with the mouse
+     */
     @FXML
     private void onConfirmButtonClick(Event event){
         confirmButton.setDisable(true);
@@ -67,8 +70,11 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
         }
     }
 
-    //this is to handle the clicks on the back to menu button
-    //the parameter of the method is the event of the button clicked on by the mouse
+    /**
+     * this method handles the clicks on the back to menu button
+     * @param event is the input given by the player's mouse
+     */
+
     @FXML
     private void onBackToMainButtonClick(Event event){
         backToMainButton.setDisable(true);
@@ -76,9 +82,11 @@ public class PlayersNumberSceneController extends ViewObservable implements Basi
         SceneController.changeRootPane(observers, event, "menu_scene.fxml");
     }
 
-    //initialization of the radiobuttons
-    //minimumPlayers is the minimum number of players
-    //maximumPlayers is the maximum number of players
+    /**
+     * initialization of the buttons that specified the number of players available
+     * @param minimumPlayers is the minimum number of players available fot the choice
+     * @param maximumPlayers is the maximum number of players available fot the choice
+     */
     public void setRangeForPlayers(int minimumPlayers, int maximumPlayers){
         this.minimumPlayers = minimumPlayers;
         this.maximumPlayers = maximumPlayers;

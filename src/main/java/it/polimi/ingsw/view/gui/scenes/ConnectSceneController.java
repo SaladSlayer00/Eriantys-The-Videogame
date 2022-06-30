@@ -13,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Map;
 
+/**
+ * ConnectSceneController class handles the scene for the connection phase to the server of the game
+ */
 public class ConnectSceneController extends ViewObservable implements  BasicSceneController  {
     private final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
     @FXML

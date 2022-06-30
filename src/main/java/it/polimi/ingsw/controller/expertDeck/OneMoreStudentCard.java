@@ -1,11 +1,10 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.Sack;
 import it.polimi.ingsw.model.enums.Color;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  * Class for BARBARIAN card: this cards allows a player to transfer one of the students on it
  * to their row. Another student is picked from the sack to replace it.
  */
-public class OneMoreStudentCard extends Character{
+public class OneMoreStudentCard extends Character {
     //this card has an array as attribute for the four students
     private ArrayList<Student> students = new ArrayList<Student>();
     private GameController gameController;

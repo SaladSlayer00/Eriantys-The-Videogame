@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;

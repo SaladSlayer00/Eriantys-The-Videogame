@@ -1,11 +1,8 @@
-package it.polimi.ingsw.model.expertDeck;
+package it.polimi.ingsw.controller.expertDeck;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnController;
-import it.polimi.ingsw.exceptions.noTowerException;
-import it.polimi.ingsw.exceptions.noTowersException;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.board.Island;
 import it.polimi.ingsw.model.enums.ExpertDeck;
 import it.polimi.ingsw.view.VirtualView;
 

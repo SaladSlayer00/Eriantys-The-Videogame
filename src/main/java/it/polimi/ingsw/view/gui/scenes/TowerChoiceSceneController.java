@@ -15,6 +15,10 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TowerChoiceSceneController class handles the scene that displays the scene that shows the towers when the player has to
+ * choose their team
+ */
 public class TowerChoiceSceneController extends ViewObservable implements BasicSceneController {
 
         private List<Type> availableColors;

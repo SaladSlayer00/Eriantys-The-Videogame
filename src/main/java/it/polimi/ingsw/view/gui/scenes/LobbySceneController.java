@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import java.util.List;
 
+/**
+ * LobbySceneController class handles the scene that displays the lobby while the player waits for other participants
+ */
 public class LobbySceneController extends ViewObservable implements BasicSceneController {
     private List<String> nicknames;
     private int maxPlayers;

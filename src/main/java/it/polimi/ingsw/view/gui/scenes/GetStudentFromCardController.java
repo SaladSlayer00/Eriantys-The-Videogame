@@ -5,10 +5,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.board.Gameboard;
 import it.polimi.ingsw.model.enums.*;
-import it.polimi.ingsw.model.expertDeck.Character;
-import it.polimi.ingsw.model.expertDeck.ExchangeStudentsCard;
-import it.polimi.ingsw.model.expertDeck.OneMoreStudentCard;
-import it.polimi.ingsw.model.expertDeck.ToIslandCard;
+import it.polimi.ingsw.controller.expertDeck.Character;
+import it.polimi.ingsw.controller.expertDeck.ExchangeStudentsCard;
+import it.polimi.ingsw.controller.expertDeck.OneMoreStudentCard;
+import it.polimi.ingsw.controller.expertDeck.ToIslandCard;
 import it.polimi.ingsw.model.playerBoard.Dashboard;
 import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.view.gui.SceneController;
@@ -33,7 +33,6 @@ import java.util.List;
  * the choice to get the paws that are on the various expert cards
  * that have some paws on them
  * this scene is displayed just in case of a match played on expert mode
- * @authors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 public class GetStudentFromCardController extends ViewObservable implements BasicSceneController {
 
