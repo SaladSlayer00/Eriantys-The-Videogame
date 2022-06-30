@@ -80,11 +80,11 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
      */
     @FXML
     public void initialize(){
-        Platform.runLater(()->isReadOnly());
         confirmButton.setDisable(true);
         Platform.runLater(()->createListOfClouds(availableClouds));
         Platform.runLater(()->setListOfClouds(availableClouds));
         Platform.runLater(()->setNumberOfClouds(availableClouds));
+        Platform.runLater(()->isReadOnly());
         rootBPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onRootBPaneMousePressed);
         rootBPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onRootBPaneMouseDragged);
         cloudZero.addEventHandler(MouseEvent.MOUSE_CLICKED,event->onCloudZeroClicked(availableClouds));
@@ -112,6 +112,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
             studentsImagesTwo.add((ImageView) anchorPaneCloudTwo.getChildren().get(i));
             studentsImagesOne.add((ImageView) anchorPaneCloudOne.getChildren().get(i));
         }
+
     }
 
     /**
@@ -149,6 +150,8 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
         }
         }
+
+
 
     }
 
