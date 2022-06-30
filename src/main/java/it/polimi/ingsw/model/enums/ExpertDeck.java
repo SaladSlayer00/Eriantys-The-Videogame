@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * ExpertDeck class for the various type of cards of the expert deck
- * @autohors Beatrice Insalata, Teka Kimbi, Alice Maccarini
  */
 
 public enum ExpertDeck {
