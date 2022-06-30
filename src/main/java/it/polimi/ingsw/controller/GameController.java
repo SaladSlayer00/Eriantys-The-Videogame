@@ -791,7 +791,7 @@ public class GameController implements Serializable {
      */
 
     public void expertSetup(){
-        for(int i=0;i<0;i++) {
+        for(int i=0;i<3;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
             game.getExperts().add(card);
