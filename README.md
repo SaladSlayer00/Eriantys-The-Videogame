@@ -14,13 +14,17 @@ Interazione e gameplay: linea di comando (CLI) e grafica (GUI).
 ### UML
 I seguenti diagrammi delle classi rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale nelle parti critiche riscontrate.
 - [UML Iniziali](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/19fd0f98f6f52bc3131149ba111d252107b3618b/deliveries/Initial_uml.pdf)
-- [UML Finali]()
+- [UML Finali](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Final_UML.svg)
+
+### Protocollo di rete
+Il segente documento presenta unma descrizione dettagliata del protocollo di rete da noi implementato:
+- [Protocollo di rete](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Protocollo-di-comunicazione.doc)
 
 ### JavaDoc
-La seguente documentazione include una descrizione per la maggior parte delle classi e dei metodi utilizzati, segue le tecniche di documentazione di Java e può essere consultata al seguente indirizzo: [Javadoc]()
+La seguente documentazione include una descrizione per la maggior parte delle classi e dei metodi utilizzati, segue le tecniche di documentazione di Java.
 
-### Coverage report
-Al seguente link è possibile consultare il report della coverage dei test effettuati con Junit: [Report]()
+### Testing overage
+La percentuale di testing del model del gioco è pari a 
 
 
 ### Librerie e Plugins
@@ -80,6 +84,10 @@ java -jar eryantis-server.jar [--port <port_number>]
 Le peer review a noi fatte:
 - [__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/613fda6515ad5eca7c056ae8b4626e1ac42a8235/deliveries/Peer-review-gruppo-68.docx)
 - [__peer review riguardante il protocollo di rete](jetbrains://idea/navigate/reference?project=ing-sw-2022-Insalata-Kimbi-Maccarini&path=deliveries/Peer-Review-2_G68.md)
+
+Le peer review da noi fatte:
+- [__peer review riguardante l'uml iniziale__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
+-[__peer review riguardante il protocollo di rete__](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/dec7869420f0f3eb2a237b133de737054356c682/deliveries/Peer_Review_PSP_67.docx)
 
 ## Componenti del gruppo
 - [__Beatrice Insalata__](https://github.com/SaladSlayer00)
