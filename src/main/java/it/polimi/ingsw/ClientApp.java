@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.gui.scenes.GuiJavaFX;
+import javafx.application.Application;
 
 import java.util.logging.Level;
 
@@ -32,7 +34,7 @@ public class ClientApp {
             view.addObserver(clientcontroller);
             view.init();
         } else {
-            //Application.launch(JavaFXGui.class);
+            //Application.launch(GuiJavaFX.class);
         }
     }
 }

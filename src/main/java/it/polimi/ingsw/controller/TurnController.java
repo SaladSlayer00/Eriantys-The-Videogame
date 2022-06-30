@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.board.*;
 import it.polimi.ingsw.model.enums.*;
 import it.polimi.ingsw.controller.expertDeck.*;
+import it.polimi.ingsw.model.playerBoard.Row;
 import it.polimi.ingsw.utils.StorageData;
 import it.polimi.ingsw.view.VirtualView;
 

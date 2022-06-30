@@ -864,11 +864,10 @@ public class GameController implements Serializable {
      */
 
     public void removeNickname(String nickname){
-        turnController.getNicknameQueue().remove(nickname);
-        game.setActives(-1);
-        if(nickname.equals(turnController.getActivePlayer())){
-            turnController.next();
+        for(VirtualView vv : virtualViewMap.values()){
+            vv.errorCommunicationAndExit(nickname + " disconnected\n");
         }
+        endGame();
     }
 
     /**

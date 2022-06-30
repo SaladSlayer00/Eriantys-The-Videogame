@@ -167,9 +167,15 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new LoginReply(nicknameAccepted, connectionResult));
     }
 
-
+    /**
+     * Shows a message to notify the player of the game's end when a player's disconnected
+     *
+     * @param playerDisconnected disconnected player
+     * @param text message to send
+     */
     @Override
     public void showDisconnectionMessage(String playerDisconnected, String text) {
+        clientHandler.sendMessage(new DisconnectionMessage(playerDisconnected, text));
     }
 
     /**

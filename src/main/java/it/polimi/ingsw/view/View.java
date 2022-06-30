@@ -117,7 +117,7 @@ public interface View {
      /**
       * Sends a generic message
       *
-     * @param genericMessage
+     * @param genericMessage a text message
      */
     void showGenericMessage(String genericMessage);
 
