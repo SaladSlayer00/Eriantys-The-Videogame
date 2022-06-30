@@ -10,9 +10,9 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.StartSceneController">
+<AnchorPane prefHeight="894.0" prefWidth="1328.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.StartSceneController">
     <children>
-        <ImageView fitHeight="359.0" fitWidth="320.0" layoutX="140.0" layoutY="40.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0">
+        <ImageView fitHeight="504.0" fitWidth="516.0" layoutX="140.0" layoutY="40.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="276.0" AnchorPane.leftAnchor="408.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="114.0">
             <image>
                 <Image url="@../images/eriantys_banner_no_items.png" />
             </image>
@@ -24,16 +24,16 @@
                 </DropShadow>
             </effect>
         </ImageView>
-        <Button fx:id="startButton" layoutX="253.0" layoutY="244.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Start" textAlignment="CENTER">
+        <Button fx:id="startButton" layoutX="633.0" layoutY="496.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="Start" textAlignment="CENTER">
             <font>
                 <Font name="Comic Sans MS Bold" size="14.0" />
             </font>
          <effect>
             <Bloom threshold="1.0" />
          </effect></Button>
-      <Label layoutX="151.0" layoutY="190.0" text="Click start when you're ready to start " textAlignment="CENTER">
+      <Label layoutX="446.0" layoutY="297.0" text="Click start when you're ready to start " textAlignment="CENTER">
          <font>
-            <Font name="Comic Sans MS Bold" size="16.0" />
+            <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
       </Label>
     </children>
