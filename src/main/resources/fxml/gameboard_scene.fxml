@@ -71,7 +71,7 @@
             <ImageView fx:id="blueProfessor" fitHeight="36.0" fitWidth="36.0" layoutX="524.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
             </children>
         </AnchorPane>
-      <Label fx:id="currentPlayer" alignment="CENTER" layoutX="515.0" layoutY="366.0" prefHeight="36.0" prefWidth="251.0">
+      <Label fx:id="currentPlayer" alignment="CENTER" layoutX="515.0" layoutY="384.0" prefHeight="36.0" prefWidth="251.0">
          <font>
             <Font name="Comic Sans MS Bold" size="21.0" />
          </font>
