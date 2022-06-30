@@ -791,26 +791,13 @@ public class GameController implements Serializable {
      */
 
     public void expertSetup(){
-        ExpertDeck.choose(ExpertDeck.TAVERNER);
-        ExpertDeck.choose(ExpertDeck.JOKER);
-        ExpertDeck.choose(ExpertDeck.BARBARIAN);
         for(int i=0;i<0;i++) {
             int random = (int) (Math.random() * ExpertDeck.notChosen().size());
             ExpertDeck card = ExpertDeck.notChosen().get(random);
             game.getExperts().add(card);
-            //card.setController(this);
-            //card.setTurnController(turnController);
+            turnController.getPrice().put(card,0);
             ExpertDeck.choose(card);
-            broadcastGenericMessage("Card chosen: " + card.getText() +"\n");
         }
-        game.getExperts().add(ExpertDeck.TAVERNER);
-        game.getExperts().add(ExpertDeck.JOKER);
-        game.getExperts().add(ExpertDeck.BARBARIAN);
-
-        turnController.getPrice().put(ExpertDeck.TAVERNER,0);
-        turnController.getPrice().put(ExpertDeck.JOKER,0);
-        turnController.getPrice().put(ExpertDeck.BARBARIAN,0);
-
         for(Player p : game.getPlayers()){
             p.addCoin(10);
             game.getGameBoard().removeCoin();
@@ -961,7 +948,7 @@ public class GameController implements Serializable {
         turnController.setGame(game);
         turnController.setToReset(savedGameController.turnController.getToReset());
         turnController.setRestored(1);
-        broadcastGenericMessage("Game restored bitch\n");
+        broadcastGenericMessage("SAVED GAME FOUND, RESTORED\n");
         game.updateGameboard();
         inputController = new InputController(this.virtualViewMap, this, this.game);
         turnController.setVirtualViewMap(this.virtualViewMap);

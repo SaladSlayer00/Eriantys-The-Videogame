@@ -599,7 +599,6 @@ public class TurnController implements Serializable {
     public void useExpertEffect(ExpertDeck card){
         int cost = price.get(card);
         VirtualView vv = virtualViewMap.get(activePlayer);
-        //vv.showGenericMessage("Your money: "+game.getPlayerByNickname(activePlayer).getCoins()+"\n");
             switch(card) {
                 case COOK:
                     ProfessorControllerCard active = new ProfessorControllerCard(this.gameController, this);
@@ -612,8 +611,10 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(active.getCost()+cost);
                         price.put(card, price.get(card)+1);
+                        game.updateGameboard();
                         active.useEffect();
                         toReset.add(active);
+                        game.updateGameboard();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
@@ -629,7 +630,7 @@ public class TurnController implements Serializable {
                         activeTM.useEffect();
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTM.getCost()+cost);
                         price.put(card, price.get(card)+1);
-                        //activeTM.addCoin();
+                        game.updateGameboard();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
                     break;
@@ -643,6 +644,7 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTC.getCost()+cost);
                         price.put(card, price.get(card)+1);
+                        game.updateGameboard();
                         activeTC.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -657,6 +659,7 @@ public class TurnController implements Serializable {
                     } else {
                         game.getPlayerByNickname(activePlayer).removeCoin(activeTP.getCost()+cost);
                         price.put(card, price.get(card)+1);
+                        game.updateGameboard();
                         activeTP.useEffect();
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
@@ -844,9 +847,9 @@ public class TurnController implements Serializable {
                             }
                             else {
                                 game.getGameBoard().getToReset().add(ExpertDeck.TAVERNER);
-                                game.updateGameboard();
                                 game.getPlayerByNickname(activePlayer).removeCoin(activeTI.getCost() + cost);
                                 price.put(card, price.get(card) + 1);
+                                game.updateGameboard();
                                 activeTI.useEffect();
                                 return;
                             }
@@ -970,38 +973,83 @@ public class TurnController implements Serializable {
         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
     }
 
+    /**
+     * Getter for the list of expert cards active in the turn
+     *
+     * @return the list of active expert cards
+     */
     public List<Character> getToReset() {
         return toReset;
     }
 
+    /**
+     * Getter for a color list of banned colors
+     *
+     * @return the colors banned by an expert card when calculating influence
+     */
     public List<Color> getBanned() {
         return banned;
     }
 
+    /**
+     * Getter for queue of active players
+     *
+     * @return the nickanmes of the active players
+     */
     public List<String> getNicknameQueue() {
         return nicknameQueue;
     }
 
+    /**
+     * Setter for the gameController
+     *
+     * @param gameController the game's controller
+     */
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
 
+    /**
+     * Setter for the active expert cards in the turn
+     *
+     * @param toReset a list of expert cards
+     */
     public void setToReset(List<Character> toReset) {
         this.toReset = toReset;
     }
 
+    /**
+     * Setter for the game instance
+     *
+     * @param game an instance of the game
+     */
     public void setGame(Mode game) {
         this.game = game;
     }
 
+    /**
+     * Map to extimate the cost of an expert cards basing on its uses
+     *
+     * @return the map that links the expert card to its calls
+     */
     public Map<ExpertDeck, Integer> getPrice() {
         return price;
     }
 
+    /**
+     * Setter for the map of the players' virtual views
+     *
+     * @param virtualViewMap
+     */
     public void setVirtualViewMap(Map<String, VirtualView> virtualViewMap) {
         this.virtualViewMap = virtualViewMap;
     }
 
+    /**
+     * Flag parameter that notifies the controller when the game's restored from save
+     *
+     * @param set integer that sets the state of the game to restored
+     */
     public void setRestored(int set){
         restored = set;
     }
