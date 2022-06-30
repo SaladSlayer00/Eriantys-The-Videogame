@@ -18,17 +18,17 @@
             <GaussianBlur radius="3.38" />
         </effect>
     </ImageView>
-    <Text layoutX="640.0" layoutY="223.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Lobby">
+    <Text layoutX="498.0" layoutY="233.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Lobby" textAlignment="CENTER" wrappingWidth="324.80859375">
         <font>
-            <Font name="Comic Sans MS" size="24.0" />
+            <Font name="Comic Sans MS Bold" size="30.0" />
         </font>
     </Text>
-    <Text fill="#451616" layoutX="543.0" layoutY="292.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Players connected: " underline="true" wrappingWidth="261.8033447265625">
+    <Text fill="#451616" layoutX="530.0" layoutY="292.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Players connected: " textAlignment="CENTER" underline="true" wrappingWidth="261.8033447265625">
         <font>
             <Font name="Comic Sans MS" size="18.0" />
         </font>
     </Text>
-    <Label fx:id="playersLbl" alignment="TOP_LEFT" layoutX="543.0" layoutY="323.0" prefHeight="91.0" prefWidth="235.0" text="player1, player2, player3" wrapText="true">
+    <Label fx:id="playersLbl" alignment="CENTER" layoutX="543.0" layoutY="323.0" prefHeight="91.0" prefWidth="235.0" text="player1, player2, player3" textAlignment="CENTER" wrapText="true">
         <font>
             <Font name="Comic Sans MS" size="16.0" />
         </font>
@@ -45,7 +45,7 @@
     </Label>
     <Button fx:id="backToMenuBtn" layoutX="581.0" layoutY="480.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="158.0" styleClass="smallButton" text="Back To Menu">
          <font>
-            <Font name="Comic Sans MS" size="12.0" />
+            <Font name="Comic Sans MS Bold" size="14.0" />
          </font></Button>
 </children>
 

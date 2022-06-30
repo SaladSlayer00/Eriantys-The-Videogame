@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="792.0" styleClass="backgroundScene" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scenes.WinSceneController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff05" height="41.0" layoutX="207.0" layoutY="345.0" stroke="BLACK" strokeType="INSIDE" width="383.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff05" height="41.0" layoutX="207.0" layoutY="345.0" stroke="#e8e815" strokeType="INSIDE" width="383.0" />
       <ImageView fitHeight="308.0" fitWidth="289.0" layoutX="252.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/badge.png" />
@@ -23,9 +23,9 @@
             <Font name="Comic Sans MS Bold" size="29.0" />
          </font>
       </Label>
-      <Button fx:id="quitButton" layoutX="313.0" layoutY="397.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="171.0" text="Quit">
+      <Button fx:id="quitButton" layoutX="300.0" layoutY="398.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="193.0" styleClass="buttonSkin" text="Quit">
          <font>
-            <Font name="Comic Sans MS Bold" size="24.0" />
+            <Font name="Comic Sans MS Bold" size="21.0" />
          </font>
       </Button>
       <Label fx:id="winnerName" alignment="CENTER" layoutX="202.0" layoutY="341.0" prefHeight="26.0" prefWidth="383.0">
@@ -33,10 +33,10 @@
             <Font name="Comic Sans MS Bold" size="34.0" />
          </font>
       </Label>
-      <Line endX="-30.0" layoutX="125.0" layoutY="17.0" startX="-100.0" strokeWidth="6.0" />
-      <Line endX="-100.0" endY="94.0" layoutX="125.0" layoutY="23.0" startX="-100.0" strokeWidth="6.0" />
-      <Line endX="-30.0" layoutX="798.0" layoutY="425.0" startX="-100.0" strokeWidth="6.0" />
-      <Line endX="-100.0" endY="94.0" layoutX="871.0" layoutY="331.0" startX="-100.0" strokeWidth="6.0" />
+      <Line endX="-30.0" layoutX="125.0" layoutY="17.0" startX="-100.0" stroke="#b3bf31" strokeWidth="6.0" />
+      <Line endX="-100.0" endY="94.0" layoutX="125.0" layoutY="23.0" startX="-100.0" stroke="#b3b920" strokeWidth="6.0" />
+      <Line endX="-30.0" layoutX="798.0" layoutY="425.0" startX="-100.0" stroke="#b3cd24" strokeWidth="6.0" />
+      <Line endX="-100.0" endY="94.0" layoutX="871.0" layoutY="331.0" startX="-100.0" stroke="#c1d71a" strokeWidth="6.0" />
       <ImageView fx:id="statusImage" fitHeight="79.0" fitWidth="94.0" layoutX="354.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
    </children>
    <stylesheets>
