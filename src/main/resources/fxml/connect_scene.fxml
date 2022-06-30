@@ -20,7 +20,7 @@
          </image>
       </ImageView>
 
-            <TextField fx:id="serverPortField" alignment="CENTER" layoutX="618.0" layoutY="407.0" prefHeight="26.0" prefWidth="124.0" text="16847">
+            <TextField fx:id="serverPortField" alignment="CENTER" layoutX="598.0" layoutY="408.0" prefHeight="26.0" prefWidth="124.0" text="16847">
                 <styleClass>
                     <String fx:value="customText" />
                     <String fx:value="menuField" />
@@ -29,7 +29,7 @@
             <Font name="Comic Sans MS" size="12.0" />
          </font>
             </TextField>
-            <TextField fx:id="serverAddressField" alignment="CENTER" layoutX="618.0" layoutY="301.0" prefHeight="26.0" prefWidth="124.0" text="127.0.0.1">
+            <TextField fx:id="serverAddressField" alignment="CENTER" layoutX="598.0" layoutY="302.0" prefHeight="26.0" prefWidth="124.0" text="127.0.0.1">
                 <styleClass>
                     <String fx:value="customText" />
                     <String fx:value="menuField" />
@@ -38,7 +38,7 @@
             <Font name="Comic Sans MS" size="12.0" />
          </font>
             </TextField>
-            <Text layoutX="522.0" layoutY="218.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Join server" textAlignment="CENTER" wrappingWidth="315.5390625">
+            <Text layoutX="502.0" layoutY="221.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Join server" textAlignment="CENTER" wrappingWidth="315.5390625">
                 <font>
                     <Font name="Comic Sans MS" size="18.0" />
                 </font>
@@ -48,13 +48,13 @@
             </Text>
             <Button fx:id="backBtn" layoutX="474.0" layoutY="496.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="110.0" styleClass="smallButton" text="Back">
          <font>
-            <Font name="Comic Sans MS" size="14.0" />
+            <Font name="Comic Sans MS Bold" size="14.0" />
          </font>
          <effect>
             <Bloom threshold="1.0" />
          </effect>
       </Button>
-      <Text layoutX="549.0" layoutY="384.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Server port" textAlignment="CENTER" wrappingWidth="261.5390625">
+      <Text layoutX="529.0" layoutY="384.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Server port" textAlignment="CENTER" wrappingWidth="261.5390625">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
@@ -64,13 +64,13 @@
       </Text>
             <Button fx:id="connectBtn" layoutX="740.0" layoutY="496.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="110.0" styleClass="smallButton" text="Connect">
          <font>
-            <Font name="Comic Sans MS" size="14.0" />
+            <Font name="Comic Sans MS Bold" size="14.0" />
          </font>
          <effect>
             <Bloom threshold="1.0" />
          </effect>
       </Button>
-      <Text layoutX="618.0" layoutY="277.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Server address" textAlignment="CENTER" wrappingWidth="123.99999999999977">
+      <Text layoutX="598.0" layoutY="278.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeWidth="0.0" text="Server address" textAlignment="CENTER" wrappingWidth="123.99999999999977">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
