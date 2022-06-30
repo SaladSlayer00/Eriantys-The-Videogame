@@ -58,8 +58,6 @@ public class GameModeSceneController extends ViewObservable implements BasicScen
         confirmButton.setDisable(true);
         RadioButton selectedRadioButton = (RadioButton) tG.getSelectedToggle();
         if (selectedRadioButton!=null) {
-            //tbh i don't really know what to put here...
-            //also not quite sure this is the right way to use the modeEnum...seems quite redundant (???)
             if (selectedRadioButton.equals(radioButtonEasyMode)) {
                 modeEnum selectedMode = modeEnum.EASY;
                 new Thread(() -> notifyObserver(observer -> observer.OnUpdateGameMode(selectedMode))).start();

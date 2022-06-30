@@ -156,7 +156,7 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         checkWhichButtonHasBeenSelected();
         Image image = new Image(getClass().getResourceAsStream("/images/cards/mage/" + thisIsTheChoice.getText().toLowerCase() + ".png"));
         chosenMage.setImage(image);
-        //updateMageChosenListView();
+
 
     }
 
@@ -169,7 +169,6 @@ public class DeckChoiceSceneController extends ViewObservable implements BasicSc
         thisIsTheChoice = null;
         checkWhichButtonHasBeenSelected();
         chosenMage.setImage(null);
-        //updateMageChosenListView();
     }
 
     /**

@@ -60,19 +60,14 @@ class PlayerTest {
     //it resturns the number of coins
     @Test
     @DisplayName("Player's coins setter and getter test")
-    void CoinsTest() throws lowerLimitException {
+    void CoinsTest() {
         playerT.addCoin(1);
         assertEquals(1, playerT.getCoins());
         playerT.removeCoin(1);
         assertEquals(0, playerT.getCoins());
-        assertThrows(lowerLimitException.class,()->playerT.removeCoin(1));
+
     }
 
-    /* dunno if this could be tested here...
-    @Test
-    void getStateTest() {
-    }
-    */
 
     //tests the getter and setter of the player's group
     @Test
@@ -89,11 +84,7 @@ class PlayerTest {
         playerT.setCard(aTest);
         assertEquals(aTest,playerT.getCardChosen());
     }
-    /* this method uses dashboard so probably not very useful to test it here ???
-    @Test
-    void takeStudent() {
-    }
-    */
+
     //it tests :
 
     @Test
@@ -102,12 +93,7 @@ class PlayerTest {
         playerT.changeState(State.ACTIVE);
         assertEquals(State.ACTIVE,playerT.getState());
     }
-    /*
-    @Test
-    void changeStateTest() {}
-    @Test
-    void setStateTest(){}
-     */
+
 
     //returns a boolean true if the player has the professor of the color's parameter
     @Test
@@ -147,26 +133,5 @@ class PlayerTest {
         }
         assertThrows(noTowersException.class,()->playerT.getTower());
     }
-    /*
 
-    static class RowTest {
-
-        @Test
-        void getName() {
-        }
-
-        @Test
-        void addProfessor() {
-        }
-
-        @Test
-        void addStudent() {
-        }
-
-        @Test
-        void removeProfessor() {
-        }
-    }
-
-     */
 }

@@ -75,11 +75,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
         back.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onBackButtonClick);
     }
 
-    /*don't think that we need to disable cards to be honest...
-    private void disabledCards(){
 
-    }
- */
 
     /**
      * this method handles the clicks on the various expert cards and handles all the possible situations given by the
