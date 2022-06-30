@@ -4,6 +4,7 @@ import it.polimi.ingsw.observer.ViewObservable;
 import it.polimi.ingsw.observer.ViewObserver;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,8 +43,13 @@ public class LoginSceneController extends ViewObservable implements BasicSceneCo
 
         joinTheMatchButton.setDisable(true);
         nicknameChosen = nickname.getText();
-        gui.setPlayerNickname(nicknameChosen);
-        new Thread(() -> notifyObserver(observers -> observers.onUpdateNickname(nicknameChosen))).start();
+        if(nickname.getText()!="") {
+            gui.setPlayerNickname(nicknameChosen);
+            new Thread(() -> notifyObserver(observers -> observers.onUpdateNickname(nicknameChosen))).start();
+        }else {
+            Platform.runLater(()->SceneController.alertShown("Message:", "Please chose a nickname"));
+            joinTheMatchButton.setDisable(false);
+        }
     }
 
 
