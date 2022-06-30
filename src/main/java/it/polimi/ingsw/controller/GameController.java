@@ -815,6 +815,7 @@ public class GameController implements Serializable {
         storageData.delete();
         initGameController();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
+        System.exit(0);
     }
 
     public TurnController getTurnController() {

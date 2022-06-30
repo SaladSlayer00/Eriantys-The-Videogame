@@ -777,9 +777,16 @@ public class TurnController implements Serializable {
 
                 case MUSICIAN:
                     SwapTwoStudentsCard activeSS = new SwapTwoStudentsCard(gameController, this);
+                    int i=0;
+                    for(Row r : game.getPlayerByNickname(activePlayer).getDashboard().getRows()){
+                        if(r.getNumOfStudents()>=1){
+                            i = 1;
+                            break;
+                        }
+                    }
                     vv.showGenericMessage("Cost: " + activeSS.getCost()+"+"+cost + "\n");
-                    if (!activeSS.checkMoney(game.getPlayerByNickname(activePlayer))) {
-                        vv.showGenericMessage("You haven't enough money for this!");
+                    if (!activeSS.checkMoney(game.getPlayerByNickname(activePlayer))||i==0) {
+                        vv.showGenericMessage("You can't play this!\n");
                         vv.showGenericMessage("You have " + game.getPlayerByNickname(activePlayer).getCoins() + "\n");
                         vv.askMoves(game.getPlayerByNickname(activePlayer).getDashboard().getHall(), game.getGameBoard().getIslands());
                     }
