@@ -58,7 +58,7 @@ mvn clean package
 I jar compilati verranno posizionati all'interno della cartella ```target/``` con i nomi
 ```eriantys-client.jar``` e ```eriantys-server.jar```.
 ### Jars
-I Jar del progetto possono essere scaricati al seguente link: [Jars](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/13eb514a42dd4832a2449b0f2995c3e5d306770f/deliveries/jar).
+I Jar del progetto possono essere scaricati al seguente link: [Jars](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/b8afe3f37c616ac4402030e7a96a6aa2fae5330c/deliveries/jar).
 ## Esecuzione
 Questo progetto richiede una versione di Java 11 o superiore per essere eseguito correttamente.
 ### Eriantys Client
