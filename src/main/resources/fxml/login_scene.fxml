@@ -23,7 +23,7 @@
             <GaussianBlur radius="3.38" />
          </effect>
       </ImageView>
-      <Text layoutX="599.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname ">
+      <Text layoutX="566.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chose a nickname " textAlignment="CENTER" wrappingWidth="188.0">
          <font>
             <Font name="Comic Sans MS" size="18.0" />
          </font>
@@ -35,7 +35,7 @@
             </DropShadow>
          </effect>
       </Text>
-      <TextField fx:id="nickname" layoutX="580.0" layoutY="324.0" prefHeight="25.0" prefWidth="188.0">
+      <TextField fx:id="nickname" layoutX="566.0" layoutY="324.0" prefHeight="25.0" prefWidth="188.0">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="36.52" radius="31.090000000000003" spread="0.7" width="89.84">
                <color>
