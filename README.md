@@ -56,7 +56,7 @@ Per compilare i jar autonomamente, posizionarsi nella root del progetto e lancia
 mvn clean package
 ```
 I jar compilati verranno posizionati all'interno della cartella ```target/``` con i nomi
-```eriantys-client.jar``` e ```eriantys-server.jar```.
+```PSP68-client.jar``` e ```PSP68-server.jar```.
 ### Jars
 I Jar del progetto possono essere scaricati al seguente link: [Jars](https://github.com/SaladSlayer00/ing-sw-2022-Insalata-Kimbi-Maccarini/blob/b8afe3f37c616ac4402030e7a96a6aa2fae5330c/deliveries/jar).
 ## Esecuzione
@@ -66,19 +66,19 @@ Le seguenti istruzioni descrivono come eseguire il client con interfaccia CLI o 
 #### CLI
 Per lanciare Eriantys Client CLI digitare da terminale il comando:
 ```
-java -jar eriantys-client.jar --cli
+java -jar PSP68-client.jar --cli
 ```
 #### GUI
 Per poter lanciare la modalità GUI sono disponibili due opzioni:
-- effettuare doppio click sull'eseguibile ```eriantys-client.jar```
+- effettuare doppio click sull'eseguibile ```PSP68-client.jar```
 - digitare da terminale il comando:
 ```
-java -jar eriantys-client.jar
+java -jar PSP68-client.jar
 ```
 ### Erantys Server
 Per lanciare Eriantys Server digitare da terminale il comando:
 ```
-java -jar eriantys-server.jar [--port <port_number>]
+java -jar PSP68-server.jar [--port <port_number>]
 ```
 #### Parametri
 - `--port` `-p` : permette di specificare la porta del server. Se non specificato il valore di default è __16847__;
