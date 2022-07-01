@@ -169,7 +169,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
      */
     public void createExpertCards() {
         for (int i = 0; i < 3; i++) {
-            Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + actualGameBoard.getExperts().get(i).getText()+ ".jpg"));
+            Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + actualGameBoard.getExperts().get(i).getText().toLowerCase()+ ".jpg"));
             ImageView imageVw = new ImageView(image);
             imageVw.setFitWidth(240);
             imageVw.setFitHeight(356);
@@ -183,7 +183,7 @@ public class ExpertCardsSceneController extends ViewObservable implements BasicS
      * @param nameOfTheCard is the string indicating the name of the expert card that has to be displayed
      */
     private void setExpertCardImage(String nameOfTheCard) {
-        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + nameOfTheCard + ".jpg"));
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" + nameOfTheCard.toLowerCase() + ".jpg"));
         selectedCard.setImage(image);
     }
 

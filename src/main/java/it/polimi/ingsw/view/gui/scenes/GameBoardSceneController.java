@@ -241,7 +241,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         //towers
         Type colorOfTower = selectedDashBoard.getTeam();
         for (int i = 0; i < numberOfTowers; i++) {
-            Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.toString() + "_tower.png"));
+            Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.getText().toLowerCase() + "_tower.png"));
             ImageView addedTower = new ImageView(tower);
             addedTower.setFitWidth(30);
             addedTower.setFitHeight(30);
@@ -271,35 +271,35 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
         }
         //professors
         if(getPlayer(selectedDashBoard).getProfessors().contains(Color.GREEN)){
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString().toLowerCase() + ".png"));
              greenProfessor.setFitHeight(36);
              greenProfessor.setFitHeight(36);
              greenProfessor.setImage(image);
 
         }
         if(getPlayer(selectedDashBoard).getProfessors().contains(Color.RED)){
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString().toLowerCase() + ".png"));
             redProfessor.setFitHeight(36);
             redProfessor.setFitHeight(36);
             redProfessor.setImage(image);
 
         }
         if(getPlayer(selectedDashBoard).getProfessors().contains(Color.YELLOW)){
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString().toLowerCase() + ".png"));
             yellowProfessor.setFitHeight(36);
             yellowProfessor.setFitHeight(36);
             yellowProfessor.setImage(image);
 
         }
         if(getPlayer(selectedDashBoard).getProfessors().contains(Color.PINK)){
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString().toLowerCase() + ".png"));
             pinkProfessor.setFitHeight(36);
             pinkProfessor.setFitHeight(36);
             pinkProfessor.setImage(image);
 
         }
         if(getPlayer(selectedDashBoard).getProfessors().contains(Color.BLUE)){
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString().toLowerCase() + ".png"));
             blueProfessor.setFitHeight(36);
             blueProfessor.setFitHeight(36);
             blueProfessor.setImage(image);
@@ -334,7 +334,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
                 selectedIsland.getChildren().add(motherNature);
             }
             if(island.getTower()){
-                Image image = new Image(getClass().getResourceAsStream("/images/towers/"+island.getTeam().toString()+"_tower.png"));
+                Image image = new Image(getClass().getResourceAsStream("/images/towers/"+island.getTeam().toString().toLowerCase()+"_tower.png"));
                 ImageView tower = new ImageView(image);
                 tower.setFitWidth(20);
                 tower.setFitHeight(20);
@@ -703,7 +703,7 @@ public class GameBoardSceneController extends ViewObservable implements BasicSce
      * @return the gui student (the image on the screen)
      */
     private GuiStudent addGuiStudent(Student student){
-        Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString() + ".png"));
+        Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().getText().toLowerCase() + ".png"));
         GuiStudent studentImage = new GuiStudent(student);
         studentImage.setImage(studentInTheHall);
         studentImage.setFitWidth(23);

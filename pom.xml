@@ -1,29 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <!-- The groupId must be the same for everybody -->
+  <!--  The groupId must be the same for everybody  -->
   <groupId>it.polimi.ingsw</groupId>
-  <!-- Change the artifactId depending on your group number
-           (example: group 99 will have artifactId PSP99 -->
+  <!--  Change the artifactId depending on your group number
+               (example: group 99 will have artifactId PSP99  -->
   <artifactId>PSP68</artifactId>
-
   <version>1.0-SNAPSHOT</version>
   <name>Eryantis</name>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
   <dependencies>
-    <!-- JUnit provides unit testing for Java applications -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.8.2</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -34,74 +21,105 @@
       <artifactId>javafx-fxml</artifactId>
       <version>18</version>
     </dependency>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.12</version>
-          <scope>test</scope>
-      </dependency>
-
-
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>18</version>
+      <classifier>win</classifier>
+    </dependency>
+    <!--  JUnit provides unit testing for Java applications  -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-
   <build>
     <plugins>
-      <!-- Compiler plugin, sets the Java version -->
+      <!--  Compiler plugin, sets the Java version  -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.10.1</version>
         <configuration>
-          <!-- Version of the Java language to use -->
+          <!--  Version of the Java language to use  -->
           <source>11</source>
-          <!-- Minimum JRE version the JAR will be compatible with -->
+          <!--  Minimum JRE version the JAR will be compatible with  -->
           <target>11</target>
         </configuration>
       </plugin>
-      <!-- Surefire plugin, responsible for running tests -->
+      <!--  Surefire plugin, responsible for running tests  -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.1</version>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.2.4</version>
         <executions>
           <execution>
-            <id>main-server</id>
+            <id>${project.artifactId}-server</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
             <configuration>
+              <finalName>${project.artifactId}-server</finalName>
               <transformers>
                 <transformer implementation=
                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>it.polimi.ingsw.ServerApp</mainClass>
                 </transformer>
               </transformers>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.openjfx:*</exclude>
+                </excludes>
+              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>module-info.class</exclude>
+                  </excludes>
+                </filter>
+              </filters>
             </configuration>
           </execution>
-
+          
           <execution>
-            <id>main-client</id>
+            <id>${project.artifactId}-client</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
             <configuration>
+              <finalName>${project.artifactId}-client</finalName>
               <transformers>
-                <transformer implementation=
-                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <transformer
+                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>it.polimi.ingsw.ClientApp</mainClass>
                 </transformer>
               </transformers>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>module-info.class</exclude>
+                  </excludes>
+                </filter>
+              </filters>
             </configuration>
           </execution>
-
         </executions>
       </plugin>
     </plugins>

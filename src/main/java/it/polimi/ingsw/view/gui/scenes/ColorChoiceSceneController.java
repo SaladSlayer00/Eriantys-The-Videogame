@@ -126,7 +126,7 @@ public class ColorChoiceSceneController extends ViewObservable implements BasicS
      * @return a gui student to be added to the scene
      */
     private GuiStudent addGuiStudent(Color color) {
-        Image colorImage = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color.getText() + ".png"));
+        Image colorImage = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color.getText().toLowerCase() + ".png"));
         Student student = new Student(color);
         GuiStudent studentImage = new GuiStudent(student);
         studentImage.setImage(colorImage);

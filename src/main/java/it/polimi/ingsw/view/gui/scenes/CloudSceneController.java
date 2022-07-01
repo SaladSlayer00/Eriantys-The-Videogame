@@ -128,7 +128,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         }
         if(availableClouds.get(0).getStudents().size()!=0){
                 for(int i = 0; i< numOfStudents; i++){
-                String color = availableClouds.get(0).getStudents().get(i).getColor().toString();
+                String color = availableClouds.get(0).getStudents().get(i).getColor().toString().toLowerCase();
                 Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_"+color+".png"));
                 studentsImagesZero.get(i).setImage(image);
             }
@@ -136,7 +136,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
         }
         if(availableClouds.get(1).getStudents().size()!=0) {
             for (int i = 0; i < numOfStudents; i++) {
-                String color = availableClouds.get(1).getStudents().get(i).getColor().toString();
+                String color = availableClouds.get(1).getStudents().get(i).getColor().toString().toLowerCase();
                 Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
                 studentsImagesTwo.get(i).setImage(image);
             }
@@ -144,7 +144,7 @@ public class CloudSceneController  extends ViewObservable implements BasicSceneC
 
         if(numOfStudents ==4 &&  availableClouds.get(2).getStudents().size()!=0){
             for(int i = 0; i< numOfStudents; i++) {
-            String color = availableClouds.get(2).getStudents().get(i).getColor().toString();
+            String color = availableClouds.get(2).getStudents().get(i).getColor().toString().toLowerCase();
             Image image = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + color + ".png"));
             studentsImagesOne.get(i).setImage(image);
 

@@ -218,7 +218,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
      * setter for the images of the expert deck
      */
     public void setExpertImage(){
-        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" +expertDeck.getText()+".jpg"));
+        Image image = new Image(getClass().getResourceAsStream("/images/cards/characters/CarteTOT_front_" +expertDeck.getText().toLowerCase()+".jpg"));
         chosenExpert.setImage(image);
 
     }
@@ -342,7 +342,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         //towers
         Type colorOfTower = selectedDashBoard.getTeam();
         for (int i = 0; i < numberOfTowers; i++) {
-            Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.toString() + "_tower.png"));
+            Image tower = new Image(getClass().getResourceAsStream("/images/towers/" + colorOfTower.toString().toLowerCase() + "_tower.png"));
             ImageView addedTower = new ImageView(tower);
             addedTower.setFitWidth(30);
             addedTower.setFitHeight(30);
@@ -382,35 +382,35 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
         //professors
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.GREEN)) {
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.GREEN.toString().toLowerCase() + ".png"));
             greenProfessor.setFitHeight(33);
             greenProfessor.setFitHeight(33);
             greenProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.RED)) {
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.RED.toString().toLowerCase() + ".png"));
             redProfessor.setFitHeight(33);
             redProfessor.setFitHeight(33);
             redProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.YELLOW)) {
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.YELLOW.toString().toLowerCase() + ".png"));
             yellowProfessor.setFitHeight(33);
             yellowProfessor.setFitHeight(33);
             yellowProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.PINK)) {
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.PINK.toString().toLowerCase() + ".png"));
             pinkProfessor.setFitHeight(33);
             pinkProfessor.setFitHeight(33);
             pinkProfessor.setImage(image);
 
         }
         if (getPlayer(selectedDashBoard).getProfessors().contains(Color.BLUE)) {
-            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString() + ".png"));
+            Image image = new Image(getClass().getResourceAsStream("/images/pawn/professors/teacher_" + Color.BLUE.toString().toLowerCase() + ".png"));
             blueProfessor.setFitHeight(33);
             blueProfessor.setFitHeight(33);
             blueProfessor.setImage(image);
@@ -440,7 +440,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
         }
         if(reducedGameBoard.getIslands().get(currentIslandIndex).getTower()){
             try {
-                Image image = new Image(getClass().getResourceAsStream("/images/towers/"+reducedGameBoard.getIslands().get(currentIslandIndex).getTeam().toString()+"_tower.png"));
+                Image image = new Image(getClass().getResourceAsStream("/images/towers/"+reducedGameBoard.getIslands().get(currentIslandIndex).getTeam().toString().toLowerCase()+"_tower.png"));
                 ImageView tower = new ImageView(image);
                 tower.setFitWidth(30);
                 tower.setFitHeight(30);
@@ -500,7 +500,7 @@ public class GetStudentFromCardController extends ViewObservable implements Basi
      * @return the gui student (the image on the screen)
      */
     private GuiStudent addGuiStudent(Student student) {
-        Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString() + ".png"));
+        Image studentInTheHall = new Image(getClass().getResourceAsStream("/images/pawn/students/student_" + student.getColor().toString().toLowerCase() + ".png"));
         GuiStudent studentImage = new GuiStudent(student);
         studentImage.setImage(studentInTheHall);
         studentImage.setFitWidth(30);
