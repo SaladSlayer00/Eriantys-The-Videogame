@@ -166,11 +166,19 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         vv.showGenericMessage("Initiate the game! Pick your clouds. . .");
         if(restored==0) {
+            Character cook=null;
             if (toReset.size() > 0) {
                 for (Character c : toReset) {
                     c.removeEffect();
+                    if(c.getName().equals(ExpertDeck.COOK)){
+                        cook=c;
+                    }
                 }
             }
+            if(cook!=null){
+                toReset.remove(cook);
+            }
+
         }
         else if(restored==1){
             restored = 0;

@@ -79,7 +79,6 @@ public class ProfessorControllerCard extends Character{
             gameController.getGame().getGameBoard().addProfessor(c);
         }
     }
-    //TODO rimuovere a fine turno
 
     /**
      * Method that checks if the player has enough money to play the card

@@ -798,8 +798,9 @@ public class GameController implements Serializable {
             turnController.getPrice().put(card,0);
             ExpertDeck.choose(card);
         }
+
         for(Player p : game.getPlayers()){
-            p.addCoin(10);
+            p.addCoin(1);
             game.getGameBoard().removeCoin();
         }
 
@@ -868,7 +869,7 @@ public class GameController implements Serializable {
         for(VirtualView vv : virtualViewMap.values()){
             vv.errorCommunicationAndExit(nickname + " disconnected\n");
         }
-        endGame();
+        System.exit(0);
     }
 
     /**
