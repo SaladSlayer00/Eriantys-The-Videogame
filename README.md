@@ -1,5 +1,6 @@
 
 # Prova Finale di Ingegneria del Software - AA 2021-2022
+Final Mark: 30/30
 ![alt text](src/main/resources/images/eriantys_banner_no_items.png)
 
 Implementazione del gioco da tavolo [Eriantys](http://www.craniocreations.it/prodotto/eryantis/).
